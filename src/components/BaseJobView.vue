@@ -12,19 +12,21 @@
       <div class="input-group w-full">
         <select class="select select-bordered w-full">
           <option disabled selected>จังหวัด</option>
-          <option>กรุงเทพ</option>
-          <option>กระบี่</option>
+          <option v-for="p in provinces" :key="p.idProvince" :value="p">
+          {{ p.provinceName }}
+          </option>
         </select>
       </div>
       <div class="input-group w-full">
         <select class="select select-bordered w-full">
           <option disabled selected>รูปแบบงาน</option>
-          <option>รายเดือน</option>
-          <option>พาร์ทไทม์</option>
+          <option v-for="h in typeHiring" :key="h.idHiringtype" :value="p">
+          {{ h.nameType }}
+          </option>
         </select>
       </div>
       <div class="input-group w-full">
-        <select class="select select-bordered w-full">
+        <select  @click="sorting()" class="select select-bordered w-full">
           <option disabled selected>เงินเดือน</option>
           <option>มากไปน้อย</option>
           <option>น้อยไปมาก</option>
@@ -42,6 +44,31 @@
 import BaseJob from "./BaseJob.vue";
 export default {
   components: { BaseJob },
+  data(){
+    return{
+      provinces: [],
+      typeHiring: [],
+      subDistricts: [],
+    }
+  },
+  methods:{
+      async fetch(url) {
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    sorting(){
+      console.log("sorting")
+    }
+  },
+  async created() {
+    this.provinces = await this.fetch("http://localhost:3000/main/allProvince");
+    this.typeHiring = await this.fetch("http://localhost:3000/main/allHiringType");
+  },
 };
 </script>
 

@@ -29,7 +29,7 @@
             ชื่อบริษัท
           </h2>
           <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">
-            ชื่อตำแหน่ง
+            {{ jobDetail.position?.positionName }}
           </h1>
           <div class="flex mb-4">
             <span class="flex items-center">
@@ -155,26 +155,61 @@
       </div>
     </div>
   </section>
-  <div class="flex flex-col w-full">
+  <div class="flex flex-col w-full font-sans">
     <div class="grid h-full card bg-base-300 rounded-box place-items-center">
-      <p>เพศ</p>
-      <p>อายุ</p>
-      <p>เวลาทำงาน</p>
-      <p>หน้าที่รับผิดชอบ</p>
-      <p>ประเภทค่าจ้าง</p>
-      <p>เงินเดือน</p>
-      <p>โอที</p>
-      <p>สวัสดิการ</p>
+      <p>{{ jobDetail.sex }}</p>
+      <p>{{ jobDetail.minAge }} - {{ jobDetail.maxAge }}</p>
+      <p>{{ jobDetail.startTime }} - {{ jobDetail.endTime }}</p>
+      <p>
+        วันทำงาน : 
+        <span v-for="day in jobDetail.postingHasDayList" :key="day.idPostingHasDay">
+        {{day.day.abbreviation + ''}}.  
+        </span>
+      </p>
+      <p>{{ jobDetail.workDescription }}</p>
+      <p>{{ jobDetail.hiringType?.nameType }}</p>
+      <p>{{ jobDetail.minSalary }} - {{ jobDetail.maxSalary }}</p>
+      <div v-if="jobDetail.overtimePayment !== null">
+        <p>{{ jobDetail.overtimePayment }}</p>
+      </div>
+      <div v-else>ไม่มี</div>
+      <p>{{ jobDetail.welfare }}</p>
     </div>
     <div class="divider"></div>
-    <div class="grid h-20 card bg-base-300 rounded-box place-items-center">
+    <div class="grid h-full card rounded-box place-items-center">
       content
+      <base-job></base-job>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import BaseJob from "@/components/BaseJob.vue";
+
+export default {
+  components: { BaseJob },
+  data() {
+    return {
+      jobDetail: [],
+      urlJobDetail: "http://localhost:3000/main/selectPosting",
+    };
+  },
+  methods: {
+    async fetch(url) {
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
+  async created() {
+    const id = this.$route.query.idPosting
+    this.jobDetail = await this.fetch(this.urlJobDetail+'?idPosting=' + `${id}`);
+  },
+};
 </script>
 
 <style>
