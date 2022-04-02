@@ -155,29 +155,29 @@
       </div>
     </div>
   </section>
-  <div class="flex flex-col w-full font-sans">
-    <div class="grid h-full card bg-base-300 rounded-box place-items-center">
-      <p>{{ jobDetail.sex }}</p>
-      <p>{{ jobDetail.minAge }} - {{ jobDetail.maxAge }}</p>
-      <p>{{ jobDetail.startTime }} - {{ jobDetail.endTime }}</p>
+  <div class="mx-auto flex flex-col w-1/2 font-sans-thai">
+    <div class="grid h-full place-items-start">
+      <p><span class="font-semibold">เพศ: </span> {{ jobDetail.sex }}</p>
+      <p><span class="font-semibold">อายุ: </span> {{ jobDetail.minAge }} - {{ jobDetail.maxAge }}</p>
+      <p><span class="font-semibold">เวลาทำงาน: </span> {{ jobDetail.startTime }} - {{ jobDetail.endTime }}</p>
       <p>
-        วันทำงาน : 
+        <span class="font-semibold">วันทำงาน: </span> 
         <span v-for="day in jobDetail.postingHasDayList" :key="day.idPostingHasDay">
         {{day.day.abbreviation + ''}}.  
         </span>
       </p>
-      <p>{{ jobDetail.workDescription }}</p>
-      <p>{{ jobDetail.hiringType?.nameType }}</p>
-      <p>{{ jobDetail.minSalary }} - {{ jobDetail.maxSalary }}</p>
+      <p><span class="font-semibold">รายละเอียดงาน: </span> {{ jobDetail.workDescription }}</p>
+      <p><span class="font-semibold">ประเภทการจ้างงาน: </span> {{ jobDetail.hiringType?.nameType }}</p>
+      <p><span class="font-semibold">เงินเดือน: </span> {{ jobDetail.minSalary }} - {{ jobDetail.maxSalary }} บาท</p>
       <div v-if="jobDetail.overtimePayment !== null">
-        <p>{{ jobDetail.overtimePayment }}</p>
+        <p><span class="font-semibold">ค่าล่วงเวลา: </span> {{ jobDetail.overtimePayment }}</p>
       </div>
-      <div v-else>ไม่มี</div>
-      <p>{{ jobDetail.welfare }}</p>
+      <div v-else><span class="font-semibold">ค่าล่วงเวลา: </span>ไม่มี</div>
+      <p><span class="font-semibold">สวัสดิการ: </span>{{ jobDetail.welfare }}</p>
     </div>
     <div class="divider"></div>
-    <div class="grid h-full card rounded-box place-items-center">
-      content
+    <div class="h-full place-items-center">
+      <span class="text-2xl font-semibold">งานอื่น ๆ ที่บริษัทนี้เปิดรับ</span>
       <base-job></base-job>
     </div>
   </div>
