@@ -1,10 +1,11 @@
 <template>
   <div>
-    <router-link to="/"
-      ><button class="btn btn-ghost font-sans-thai flex justify-start ml-10">
+    <!-- <router-link to="/findJob"> -->
+      <button @click="sendTrue()" class="btn btn-ghost font-sans-thai flex justify-start ml-10">
         ย้อนกลับ
       </button>
-    </router-link>
+
+    <!-- </router-link> -->
   </div>
   <!-- component -->
   <section class="text-gray-700 body-font overflow-hidden mx-auto bg-white">
@@ -26,7 +27,7 @@
           class="font-sans-thai lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0"
         >
           <h2 class="text-sm title-font text-gray-500 tracking-widest">
-            ชื่อบริษัท
+            {{estName}}
           </h2>
           <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">
             {{ jobDetail.position?.positionName }}
@@ -101,7 +102,7 @@
               <span class="text-gray-600 ml-3">4 Reviews</span>
             </span>
           </div>
-          <p class="leading-relaxed">ที่อยู่บริษัท</p>
+          <p class="leading-relaxed">{{address}}</p>
           <div
             class="flex mt-6 items-center pb-5 border-b-2 border-gray-200 mb-5"
           ></div>
@@ -167,7 +168,7 @@
         </span>
       </p>
       <p><span class="font-semibold">รายละเอียดงาน: </span> {{ jobDetail.workDescription }}</p>
-      <p><span class="font-semibold">ประเภทการจ้างงาน: </span> {{ jobDetail.hiringType?.nameType }}</p>
+      <p><span class="font-semibold">รูปแบบงาน: </span> {{ jobDetail.hiringType?.nameType }}</p>
       <p><span class="font-semibold">เงินเดือน: </span> {{ jobDetail.minSalary }} - {{ jobDetail.maxSalary }} บาท</p>
       <div v-if="jobDetail.overtimePayment !== null">
         <p><span class="font-semibold">ค่าล่วงเวลา: </span> {{ jobDetail.overtimePayment }}</p>
@@ -188,6 +189,7 @@ import BaseJob from "@/components/BaseJob.vue";
 
 export default {
   components: { BaseJob },
+  props:['estName','id','address'],
   data() {
     return {
       jobDetail: [],
@@ -204,10 +206,15 @@ export default {
         console.log(error);
       }
     },
+    sendTrue(){
+      this.$emit("setTrue", true)
+    }
   },
   async created() {
-    const id = this.$route.query.idPosting
-    this.jobDetail = await this.fetch(this.urlJobDetail+'?idPosting=' + `${id}`);
+    this.jobDetail = await this.fetch(this.urlJobDetail+'?idPosting=' + this.id);
+    // this.$router.push('/detail?idPosting=' + this.id)
+    // const id = this.$route.query.idPosting
+    // this.jobDetail = await this.fetch(this.urlJobDetail+'?idPosting=' + `${id}`);
   },
 };
 </script>
