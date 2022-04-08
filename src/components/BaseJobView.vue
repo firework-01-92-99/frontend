@@ -114,7 +114,13 @@ export default {
         const allPost = await this.fetch("http://localhost:3000/main/allPosting");
         this.$store.commit("setPosting", allPost)
         console.log("Store 2 = " + this.$store.getters.getPosting)
+        this.filter = {
+          enterEstOrPost: "",
+          enterProvince: "",
+          enterHiringType: "",
+          enterSortSalary: "",
       }
+      },
   },
 
   async created() {
