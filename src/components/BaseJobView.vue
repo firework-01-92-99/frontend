@@ -54,7 +54,9 @@
         </select>
       </div>
       <button type="submit" class="btn">ค้นหางาน</button>
-      <button @click="reset()" class="btn btn-ghost">รีเซ็ตเงื่อนไข</button>
+      <button @click="resetShowJob()" class="btn btn-ghost">
+        รีเซ็ตเงื่อนไข
+      </button>
     </form>
   </div>
   <!-- job card -->
@@ -79,7 +81,6 @@ export default {
         enterHiringType: "",
         enterSortSalary: "",
       },
-
     };
   },
   methods: {
@@ -93,34 +94,38 @@ export default {
       }
     },
     async getData() {
-        if (this.filter.enterSortSalary == "มากไปน้อย") {
-          this.filter.enterSortSalary = "DESC";
-        } else {
-          this.filter.enterSortSalary = "ASC";
-        }
-        await axios
-          .get(
-            `http://localhost:3000/main/searchPosting?establishmentName=${this.filter.enterEstOrPost}&positionName=${this.filter.enterEstOrPost}&idHiringtype=${this.filter.enterHiringType}&sortSalary=${this.filter.enterSortSalary}&idProvince=${this.filter.enterProvince}&idDistrict=&idSubdistrict=`
-          )
-          .then((response) => {
-            console.log(response.data);
-            this.$store.commit("setPosting", response.data);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-    },
-      async reset(){
-        const allPost = await this.fetch("http://localhost:3000/main/allPosting");
-        this.$store.commit("setPosting", allPost)
-        console.log("Store 2 = " + this.$store.getters.getPosting)
-        this.filter = {
-          enterEstOrPost: "",
-          enterProvince: "",
-          enterHiringType: "",
-          enterSortSalary: "",
+      if (this.filter.enterSortSalary == "มากไปน้อย") {
+        this.filter.enterSortSalary = "DESC";
+      } else {
+        this.filter.enterSortSalary = "ASC";
       }
-      },
+      await axios
+        .get(
+          `http://localhost:3000/main/searchPosting?establishmentName=${this.filter.enterEstOrPost}&positionName=${this.filter.enterEstOrPost}&idHiringtype=${this.filter.enterHiringType}&sortSalary=${this.filter.enterSortSalary}&idProvince=${this.filter.enterProvince}&idDistrict=&idSubdistrict=`
+        )
+        .then((response) => {
+          console.log(response.data);
+          this.$store.commit("setPosting", response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      this.clearSearching();
+    },
+    async resetShowJob() {
+      this.clearSearching();
+      const allPost = await this.fetch("http://localhost:3000/main/allPosting");
+      this.$store.commit("setPosting", allPost);
+      console.log("Store 2 = " + this.$store.getters.getPosting);
+    },
+    clearSearching() {
+      this.filter = {
+        enterEstOrPost: "",
+        enterProvince: "",
+        enterHiringType: "",
+        enterSortSalary: "",
+      };
+    },
   },
 
   async created() {
@@ -128,7 +133,6 @@ export default {
     this.typeHiring = await this.fetch(
       "http://localhost:3000/main/allHiringType"
     );
-    
   },
 };
 </script>
