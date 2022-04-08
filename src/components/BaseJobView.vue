@@ -110,7 +110,6 @@ export default {
         .catch((error) => {
           console.log(error);
         });
-      this.clearSearching();
     },
     async resetShowJob() {
       this.clearSearching();
