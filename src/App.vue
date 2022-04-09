@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar bg-blue-900 font-sans-thai">
+  <div class="navbar bg-dark-blue font-sans-thai">
     <div class="navbar-start">
       <div class="dropdown dropdown-hover">
         <label tabindex="0" class="btn btn-ghost btn-circle m-1 text-white">
@@ -28,17 +28,22 @@
             shadow
             bg-base-100
             rounded-box
-            w-52
+            w-56
           "
         >
-          <li><router-link to="/">หางาน</router-link></li>
-          <li><a>เมนู 2</a></li>
-          <li><a>เมนู 3</a></li>
+          <li class="hover:text-orange-1">
+            <router-link to="/">หางาน</router-link>
+          </li>
+          <li class="hover:text-orange-1">
+            <router-link to="/application">ติดตามสถานะการสมัครงาน</router-link>
+          </li>
         </ul>
       </div>
     </div>
     <div class="navbar-center">
-      <router-link to="/"><img class="h-12" src="./assets/Firework_LOGO-02.png"></router-link>
+      <router-link to="/"
+        ><img class="h-12" src="./assets/Firework_LOGO-02.png"
+      /></router-link>
     </div>
     <div class="navbar-end">
       <button class="btn btn-ghost btn-circle text-white">
@@ -78,6 +83,9 @@
       </button>
       <button class="btn btn-ghost btn-circle text-white">
         <i class="material-icons"> account_circle </i>
+      </button>
+      <button class="btn btn-ghost btn-circle text-white">
+        <i class="material-icons"> logout </i>
       </button>
     </div>
   </div>
