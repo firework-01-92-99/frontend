@@ -1,17 +1,20 @@
 <template>
   <div>
     <!-- <router-link to="/findJob"> -->
-      <button @click="sendTrue()" class="btn btn-ghost font-sans-thai flex justify-start ml-10">
-        ย้อนกลับ
-      </button>
+    <button
+      @click="sendTrue()"
+      class="btn btn-ghost font-sans-thai flex justify-start ml-10"
+    >
+      ย้อนกลับ
+    </button>
 
     <!-- </router-link> -->
   </div>
   <!-- component -->
-  <section class="text-gray-700 body-font overflow-hidden mx-auto bg-white">
+  <!-- <section class="text-gray-700 body-font overflow-hidden mx-auto bg-white">
     <div class="container px-5 py-24 mx-auto">
       <div class="lg:w-4/5 mx-auto flex flex-wrap">
-        <!-- ภาพบริษัท -->
+        ภาพบริษัท
         <img
           alt="ecommerce"
           class="
@@ -155,29 +158,85 @@
         </div>
       </div>
     </div>
-  </section>
-  <div class="mx-auto flex flex-col w-1/2 font-sans-thai">
-    <div class="grid h-full place-items-start">
+  </section> -->
+  <div class="mx-auto card card-side bg-base-100 font-sans-thai w-3/4">
+    <figure class="w-1/5">
+      <img
+      class=""
+        src="https://marquettechamber.com/wp-content/uploads/2020/07/services-In-the-city-1024x683.jpg"
+        alt="Movie"
+      />
+    </figure>
+    <div class="card-body">
+      <div class="flex justify-between">
+        <h2 class="card-title text-orange-1">
+          {{ jobDetail.position?.positionName }}
+        </h2>
+        <i class="material-icons"> bookmark_border </i>
+      </div>
+      <h2 class="card-title">
+        {{ estName }}
+      </h2>
+      <p class="font-medium">
+        <span><i class="material-icons pr-2"> place </i></span>
+        ที่อยู่: <span>{{ address }}</span>
+      </p>
+      <p class="font-medium">
+        <span><i class="material-icons pr-2"> paid </i></span>
+        เงินเดือน :
+        <span> {{ jobDetail.minSalary }} - {{ jobDetail.maxSalary }}</span>
+      </p>
+      <div class="card-actions justify-end">
+        <button class="btn border-0 bg-orange-1 hover:bg-orange-2">
+          สมัครงาน
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="mx-auto flex flex-col w-3/4 font-sans-thai mt-5">
+    <div class="card card-side bg-base-100 p-6 grid h-full place-items-start">
       <p><span class="font-semibold">เพศ: </span> {{ jobDetail.sex }}</p>
-      <p><span class="font-semibold">อายุ: </span> {{ jobDetail.minAge }} - {{ jobDetail.maxAge }}</p>
-      <p><span class="font-semibold">เวลาทำงาน: </span> {{ jobDetail.startTime }} - {{ jobDetail.endTime }}</p>
       <p>
-        <span class="font-semibold">วันทำงาน: </span> 
-        <span v-for="day in jobDetail.postingHasDayList" :key="day.idPostingHasDay">
-        {{day.day.abbreviation + ''}}.  
+        <span class="font-semibold">อายุ: </span> {{ jobDetail.minAge }} -
+        {{ jobDetail.maxAge }}
+      </p>
+      <p>
+        <span class="font-semibold">เวลาทำงาน: </span>
+        {{ jobDetail.startTime }} - {{ jobDetail.endTime }}
+      </p>
+      <p>
+        <span class="font-semibold">วันทำงาน: </span>
+        <span
+          v-for="day in jobDetail.postingHasDayList"
+          :key="day.idPostingHasDay"
+        >
+          {{ day.day.abbreviation + "" }}.
         </span>
       </p>
-      <p><span class="font-semibold">รายละเอียดงาน: </span> {{ jobDetail.workDescription }}</p>
-      <p><span class="font-semibold">รูปแบบงาน: </span> {{ jobDetail.hiringType?.nameType }}</p>
-      <p><span class="font-semibold">เงินเดือน: </span> {{ jobDetail.minSalary }} - {{ jobDetail.maxSalary }} บาท</p>
+      <p>
+        <span class="font-semibold">รายละเอียดงาน: </span>
+        {{ jobDetail.workDescription }}
+      </p>
+      <p>
+        <span class="font-semibold">รูปแบบงาน: </span>
+        {{ jobDetail.hiringType?.nameType }}
+      </p>
+      <!-- <p>
+        <span class="font-semibold">เงินเดือน: </span>
+        {{ jobDetail.minSalary }} - {{ jobDetail.maxSalary }} บาท
+      </p> -->
       <div v-if="jobDetail.overtimePayment !== null">
-        <p><span class="font-semibold">ค่าล่วงเวลา: </span> {{ jobDetail.overtimePayment }}</p>
+        <p>
+          <span class="font-semibold">ค่าล่วงเวลา: </span>
+          {{ jobDetail.overtimePayment }}
+        </p>
       </div>
       <div v-else><span class="font-semibold">ค่าล่วงเวลา: </span>ไม่มี</div>
-      <p><span class="font-semibold">สวัสดิการ: </span>{{ jobDetail.welfare }}</p>
+      <p>
+        <span class="font-semibold">สวัสดิการ: </span>{{ jobDetail.welfare }}
+      </p>
     </div>
-    <div class="divider"></div>
-    <div class="h-full place-items-center">
+    <div class="h-full place-items-center mt-6">
       <span class="text-2xl font-semibold">งานอื่น ๆ ที่บริษัทนี้เปิดรับ</span>
       <base-job></base-job>
     </div>
@@ -189,7 +248,7 @@ import BaseJob from "@/components/BaseJob.vue";
 
 export default {
   components: { BaseJob },
-  props:['estName','id','address'],
+  props: ["estName", "id", "address"],
   data() {
     return {
       jobDetail: [],
@@ -206,12 +265,14 @@ export default {
         console.log(error);
       }
     },
-    sendTrue(){
-      this.$emit("setTrue", true)
-    }
+    sendTrue() {
+      this.$emit("setTrue", true);
+    },
   },
   async created() {
-    this.jobDetail = await this.fetch(this.urlJobDetail+'?idPosting=' + this.id);
+    this.jobDetail = await this.fetch(
+      this.urlJobDetail + "?idPosting=" + this.id
+    );
     // this.$router.push('/detail?idPosting=' + this.id)
     // const id = this.$route.query.idPosting
     // this.jobDetail = await this.fetch(this.urlJobDetail+'?idPosting=' + `${id}`);

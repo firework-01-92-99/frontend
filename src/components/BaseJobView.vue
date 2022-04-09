@@ -1,11 +1,12 @@
 <template>
   <!-- search criteria -->
-  <div class="hero h-40 bg-gray-300">
+  <div class="hero h-48 bg-gray-1">
     <form
       @submit.prevent="getData()"
       class="form-control grid grid-cols-4 gap-4 w-11/12 font-sans-thai"
     >
-      <div class="input-group w-full">
+      <div class="w-full flex-col">
+        <p class="font-semibold">ค้นหาตำแหน่งงานหรือชื่อบริษัท</p>
         <input
           v-model.trim="filter.enterEstOrPost"
           type="text"
@@ -13,7 +14,8 @@
           class="input input-bordered w-full"
         />
       </div>
-      <div class="input-group w-full">
+      <div class="w-full flex-col">
+        <p class="font-semibold">จังหวัด</p>
         <select
           v-model.trim="filter.enterProvince"
           class="select select-bordered w-full"
@@ -28,7 +30,8 @@
           </option>
         </select>
       </div>
-      <div class="input-group w-full">
+      <div class="w-full flex-col">
+        <p class="font-semibold">รูปแบบงาน</p>
         <select
           v-model.trim="filter.enterHiringType"
           class="select select-bordered w-full"
@@ -43,7 +46,8 @@
           </option>
         </select>
       </div>
-      <div class="input-group w-full">
+      <div class="w-full flex-col">
+        <p class="font-semibold">เงินเดือน</p>
         <select
           v-model.trim="filter.enterSortSalary"
           class="select select-bordered w-full"
@@ -53,10 +57,23 @@
           <option>น้อยไปมาก</option>
         </select>
       </div>
-      <button type="submit" class="btn">ค้นหางาน</button>
-      <button @click="resetShowJob()" class="btn btn-ghost">
-        รีเซ็ตเงื่อนไข
-      </button>
+      <div class="w-full flex flex-row space-x-4">
+        <button
+          type="submit"
+          class="
+            btn
+            border-orange-1
+            bg-orange-1
+            hover:bg-orange-2 hover:border-orange-2
+            w-full
+          "
+        >
+          ค้นหางาน
+        </button>
+        <button @click="resetShowJob()" class="btn btn-ghost w-full">
+          รีเซ็ตเงื่อนไข
+        </button>
+      </div>
     </form>
   </div>
   <!-- job card -->
