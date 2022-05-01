@@ -2,7 +2,7 @@
   <div>
     <!-- <router-link to="/findJob"> -->
     <button
-      @click="sendTrue()"
+      @click="this.$router.push('/')"
       class="btn btn-ghost font-sans-thai flex justify-start ml-10"
     >
       ย้อนกลับ
@@ -248,7 +248,7 @@ import BaseJob from "@/components/BaseJob.vue";
 
 export default {
   components: { BaseJob },
-  props: ["estName", "id", "address"],
+  props: ["id","empId"],
   data() {
     return {
       jobDetail: [],
@@ -270,12 +270,11 @@ export default {
     },
   },
   async created() {
-    this.jobDetail = await this.fetch(
-      this.urlJobDetail + "?idPosting=" + this.id
-    );
+    // this.jobDetail = await this.fetch(this.urlJobDetail + "?idPosting=" + this.id);
     // this.$router.push('/detail?idPosting=' + this.id)
-    // const id = this.$route.query.idPosting
-    // this.jobDetail = await this.fetch(this.urlJobDetail+'?idPosting=' + `${id}`);
+    const id = this.$route.query.idPosting
+    this.jobDetail = await this.fetch(this.urlJobDetail+'?idPosting=' + `${id}`);
+    console.log(this.empId)
   },
 };
 </script>
