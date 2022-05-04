@@ -1,11 +1,22 @@
 <template>
   <!-- search criteria -->
-  <div class="hero h-48 bg-gray-1">
+  <div class="hero 2xl:h-48 xl:h-48 lg:h-48 md:h-48 bg-gray-1">
     <form
       @submit.prevent="getData()"
-      class="form-control grid grid-cols-4 gap-4 w-11/12 font-sans-thai"
+      class="
+        form-control
+        grid
+        2xl:grid-cols-4
+        xl:grid-cols-4
+        lg:grid-cols-4
+        md:grid-cols-4
+        grid-rows-4
+        gap-4
+        w-11/12
+        font-sans-thai
+      "
     >
-      <div class="w-full flex-col">
+      <div class="w-full flex-col mt-6">
         <p class="font-semibold">ค้นหาตำแหน่งงานหรือชื่อบริษัท</p>
         <input
           v-model.trim="filter.enterEstOrPost"
@@ -31,7 +42,7 @@
         </select>
       </div>
       <div class="w-full flex-col">
-        <p class="font-semibold">รูปแบบงาน</p>
+        <p class="font-semibold -mt-6">รูปแบบงาน</p>
         <select
           v-model.trim="filter.enterHiringType"
           class="select select-bordered w-full"
@@ -47,17 +58,17 @@
         </select>
       </div>
       <div class="w-full flex-col">
-        <p class="font-semibold">เงินเดือน</p>
+        <p class="font-semibold -mt-12">ค่าตอบแทน</p>
         <select
           v-model.trim="filter.enterSortSalary"
           class="select select-bordered w-full"
         >
-          <option :value="''" disabled selected>เงินเดือน</option>
+          <option :value="''" disabled selected>ค่าตอบแทน</option>
           <option>มากไปน้อย</option>
           <option>น้อยไปมาก</option>
         </select>
       </div>
-      <div class="w-full flex flex-row space-x-4">
+      <div class="w-full grid grid-rows-4 gap-4">
         <button
           type="submit"
           class="
@@ -66,25 +77,23 @@
             bg-orange-1
             hover:bg-orange-2 hover:border-orange-2
             w-full
+            -mt-16
           "
         >
           ค้นหางาน
         </button>
-        <button @click="resetShowJob()" class="btn btn-ghost w-full">
+        <button @click="resetShowJob()" class="btn btn-ghost w-full -mt-7 -mb-5">
           รีเซ็ตเงื่อนไข
         </button>
       </div>
     </form>
   </div>
-  <!-- job card -->
-  <base-job></base-job>
 </template>
 
 <script>
 import axios from "axios";
-import BaseJob from "./BaseJob.vue";
 export default {
-  components: { BaseJob },
+  // components: {  },
   data() {
     return {
       //ทำ V-model ใน input, select บลาๆ ด้วย
