@@ -15,8 +15,8 @@
         </thead>
         <tbody>
           <!-- row 1 -->
-          <tr>
-            <th>1</th>
+          <tr v-for="a in workerApp" :key="a.idApplication">
+            <th>{{ a.idApplication }}</th>
             <td>ชื่อบริษัท</td>
             <td>ชื่อตำแหน่ง</td>
             <td>ที่อยู่</td>
@@ -29,5 +29,26 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      workerApp: [],
+      urlWorkerApp: "http://localhost:3000/admin/allApplication",
+    };
+  },
+  methods: {
+    async fetch(url) {
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
+  async created() {
+    this.workerApp = await this.fetch(this.urlWorkerApp);
+  },
+};
 </script>
