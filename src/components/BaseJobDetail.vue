@@ -1,168 +1,39 @@
 <template>
   <div>
-    <!-- <router-link to="/findJob"> -->
-    <button
-      @click="this.$router.push('/')"
-      class="btn btn-ghost font-sans-thai flex justify-start ml-10"
-    >
-      ย้อนกลับ
-    </button>
-
-    <!-- </router-link> -->
-  </div>
-  <!-- component -->
-  <!-- <section class="text-gray-700 body-font overflow-hidden mx-auto bg-white">
-    <div class="container px-5 py-24 mx-auto">
-      <div class="lg:w-4/5 mx-auto flex flex-wrap">
-        ภาพบริษัท
-        <img
-          alt="ecommerce"
-          class="
-            lg:w-1/5 lg:h-1/5
-            w-full
-            object-cover object-center
-            rounded
-            border border-gray-200
-          "
-          src="https://www.whitmorerarebooks.com/pictures/medium/2465.jpg"
-        />
-        <div
-          class="font-sans-thai lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0"
+    <div v-if="success" class="mt-3 alert alert-success shadow-lg">
+      <div>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="stroke-current flex-shrink-0 h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
         >
-          <h2 class="text-sm title-font text-gray-500 tracking-widest">
-            {{estName}}
-          </h2>
-          <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">
-            {{ jobDetail.position?.positionName }}
-          </h1>
-          <div class="flex mb-4">
-            <span class="flex items-center">
-              <svg
-                fill="currentColor"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                class="w-4 h-4 text-red-500"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                ></path>
-              </svg>
-              <svg
-                fill="currentColor"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                class="w-4 h-4 text-red-500"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                ></path>
-              </svg>
-              <svg
-                fill="currentColor"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                class="w-4 h-4 text-red-500"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                ></path>
-              </svg>
-              <svg
-                fill="currentColor"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                class="w-4 h-4 text-red-500"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                ></path>
-              </svg>
-              <svg
-                fill="none"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                class="w-4 h-4 text-red-500"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                ></path>
-              </svg>
-              <span class="text-gray-600 ml-3">4 Reviews</span>
-            </span>
-          </div>
-          <p class="leading-relaxed">{{address}}</p>
-          <div
-            class="flex mt-6 items-center pb-5 border-b-2 border-gray-200 mb-5"
-          ></div>
-          <div class="flex">
-            <button
-              class="
-                flex
-                ml-auto
-                text-white
-                bg-red-500
-                border-0
-                py-2
-                px-6
-                focus:outline-none
-                hover:bg-red-600
-                rounded
-              "
-            >
-              สมัครงาน
-            </button>
-            <button
-              class="
-                rounded-full
-                w-10
-                h-10
-                bg-gray-200
-                p-0
-                border-0
-                inline-flex
-                items-center
-                justify-center
-                text-gray-500
-                ml-4
-              "
-            >
-              <svg
-                fill="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                class="w-5 h-5"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"
-                ></path>
-              </svg>
-            </button>
-          </div>
-        </div>
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <p class="font-sans-thai">ทำการสมัครเรียบร้อยแล้ว ติดตามความคืบหน้าได้ที่<span class="font-medium">เมนู
+          "ติดตามสถานะการสมัครงาน"</span></p
+        >
       </div>
     </div>
-  </section> -->
-  <div class="mx-auto card card-side bg-base-100 font-sans-thai w-3/4">
-    <figure class="w-1/5">
+    <!-- <router-link to="/findJob"> -->
+    <div>
+      <button
+        @click="this.$router.push('/')"
+        class="btn btn-ghost font-sans-thai flex justify-start ml-10"
+      >
+        ย้อนกลับ
+      </button>
+    </div>
+    <!-- </router-link> -->
+  </div>
+  <div class="mx-auto card bg-base-100 font-sans-thai w-full">
+    <figure>
       <img
-      class=""
         src="https://marquettechamber.com/wp-content/uploads/2020/07/services-In-the-city-1024x683.jpg"
         alt="Movie"
       />
@@ -175,25 +46,113 @@
         <i class="material-icons"> bookmark_border </i>
       </div>
       <h2 class="card-title">
-        {{ estName }}
+        {{ employer.establishmentName }}
       </h2>
       <p class="font-medium">
         <span><i class="material-icons pr-2"> place </i></span>
-        ที่อยู่: <span>{{ address }}</span>
+        <span>{{ employer.address }}</span>
       </p>
       <p class="font-medium">
         <span><i class="material-icons pr-2"> paid </i></span>
-        เงินเดือน :
         <span> {{ jobDetail.minSalary }} - {{ jobDetail.maxSalary }}</span>
       </p>
-      <div class="card-actions justify-end">
-        <button class="btn border-0 bg-orange-1 hover:bg-orange-2">
+      <div class="card-actions justify-center">
+        <label
+          for="my-modal-6"
+          v-if="!alreadyApp"
+          @click="(this.openForm = true), (this.closeWord = true)"
+          class="btn modal-button border-0 bg-orange-1 hover:bg-orange-2 w-full my-3"
+        >
           สมัครงาน
+        </label>
+        <!-- Put this part before </body> tag -->
+        <div v-if="openForm">
+          <input type="checkbox" id="my-modal-6" class="modal-toggle" />
+          <div class="modal font-sans-thai">
+            <div v-for="w in worker" :key="w.idWorker" class="">
+              <div v-if="w.idWorker == 1">
+                <div class="modal-box w-80 mx-auto max-w-5xl">
+                  <h3 class="font-bold text-lg mb-5">
+                    ยืนยัน<span v-if="closeWord">ข้อมูล</span>การสมัครงาน
+                  </h3>
+                  <div v-if="closeWord">
+                    <div class="w-full flex-col mb-5">
+                      <p class="font-semibold mb-2">เลขประจำตัว</p>
+                      <p
+                        class="font-normal text-sm border-2 border-gray-1 bg-slate-100 p-2 rounded-xl"
+                      >
+                        {{ w.identificationNumber }}
+                      </p>
+                    </div>
+                    <div class="w-full flex-col mb-5">
+                      <p class="font-semibold mb-2">เพศ</p>
+                      <p
+                        class="font-normal text-sm border-2 border-gray-1 bg-slate-100 p-2 rounded-xl"
+                      >
+                        ...
+                      </p>
+                    </div>
+                    <div class="w-full flex-col mb-5">
+                      <p class="font-semibold mb-2">ชื่อ</p>
+                      <p
+                        class="font-normal text-sm border-2 border-gray-1 bg-slate-100 p-2 rounded-xl"
+                      >
+                        {{
+                          w.firstName + " " + w.middleName + " " + w.lastName
+                        }}
+                      </p>
+                    </div>
+                    <div class="w-full flex-col mb-5">
+                      <p class="font-semibold mb-2">เบอร์โทรศัพท์</p>
+                      <p
+                        class="font-normal text-sm border-2 border-gray-1 bg-slate-100 p-2 rounded-xl"
+                      >
+                        {{ w.phone }}
+                      </p>
+                    </div>
+                    <div class="w-full flex-col">
+                      <p class="font-semibold mb-2">ประเภทแรงงาน</p>
+                      <p
+                        class="font-normal text-sm border-2 border-gray-1 bg-slate-100 p-2 rounded-xl"
+                      >
+                        ...
+                      </p>
+                    </div>
+                  </div>
+                  <p v-if="!closeWord">
+                    ยืนยันที่จะสมัครงานตำแหน่ง... ของบริษัท...
+                  </p>
+                  <div class="modal-action justify-between">
+                    <label
+                      @click="this.openForm = false, this.canApp = 0"
+                      class="btn btn-ghost px-12 h-11"
+                      >ยกเลิก</label
+                    >
+                    <base-button
+                      @click="
+                        (this.closeWord = false), this.canApp++, application()
+                      "
+                      class="btn border-0 bg-orange-1 hover:bg-orange-2 px-12 h-11"
+                      :txtbutt="this.closeWord == false ? 'ยืนยัน' : 'ถัดไป'"
+                    ></base-button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button
+          v-if="alreadyApp"
+          class="btn border-0 bg-orange-2 hover:bg-orange-2"
+        >
+          <i class="material-icons pr-2"> done </i>
+          สมัครงานแล้ว
         </button>
       </div>
     </div>
   </div>
-  <div class="mx-auto flex flex-col w-3/4 font-sans-thai mt-5">
+  <div class="mx-auto flex flex-col w-full font-sans-thai mt-5">
+    <!-- <div v-if="openForm"><base-application></base-application></div> -->
     <div class="card card-side bg-base-100 p-6 grid h-full place-items-start">
       <p><span class="font-semibold">เพศ: </span> {{ jobDetail.sex }}</p>
       <p>
@@ -236,23 +195,35 @@
         <span class="font-semibold">สวัสดิการ: </span>{{ jobDetail.welfare }}
       </p>
     </div>
-    <div class="h-full place-items-center mt-6">
-      <span class="text-2xl font-semibold">งานอื่น ๆ ที่บริษัทนี้เปิดรับ</span>
-      <base-job></base-job>
+    <div class="h-full place-items-center m-6">
+      <span class="text-lg font-semibold">งานอื่น ๆ ที่บริษัทนี้เปิดรับ</span>
+      <base-job class="mt-0 w-full"></base-job>
     </div>
   </div>
 </template>
 
 <script>
 import BaseJob from "@/components/BaseJob.vue";
+// import BaseApplication from "@/components/BaseApplication.vue";
 
 export default {
   components: { BaseJob },
-  props: ["id","empId"],
+  props: ["id", "empId"],
   data() {
     return {
       jobDetail: [],
       urlJobDetail: "http://localhost:3000/main/selectPosting",
+      idPosting: 0,
+      success: false,
+      allApplication: [],
+      employer: [],
+      urlEmp: "http://localhost:3000/admin/selectEmployer",
+      alreadyApp: false,
+      openForm: false,
+      worker: [],
+      urlWorker: "http://localhost:3000/admin/allWorker",
+      closeWord: true,
+      canApp: 0,
     };
   },
   methods: {
@@ -268,16 +239,46 @@ export default {
     sendTrue() {
       this.$emit("setTrue", true);
     },
+    async application() {
+      if (this.canApp % 2 == 0) {
+        for (let i = 0; i <= this.allApplication.length; i++) {
+          console.log("ก็เข้านะ");
+          console.log("id Worker = " + this.allApplication[i]?.idWorker);
+          if (this.allApplication[i]?.idWorker !== 1) {
+            try {
+              await fetch(
+                `http://localhost:3000/worker/workApp?idWorker=1&idPosting=${this.idPosting}`,
+                {
+                  method: "POST",
+                }
+              );
+              this.success = true;
+              this.alreadyApp = true;
+              this.openForm = false;
+              console.log("สมัครสำเร็จ");
+            } catch (error) {
+              console.log("สมัครไม่สำเร็จ 1");
+            }
+          } else {
+            console.log("สมัครไม่สำเร็จ");
+          }
+        }
+      } else {
+        console.log("ไม่ได้อ่า");
+      }
+    },
   },
   async created() {
     // this.jobDetail = await this.fetch(this.urlJobDetail + "?idPosting=" + this.id);
     // this.$router.push('/detail?idPosting=' + this.id)
-    const id = this.$route.query.idPosting
-    this.jobDetail = await this.fetch(this.urlJobDetail+'?idPosting=' + `${id}`);
-    console.log(this.empId)
+    const id = this.$route.query.idPosting;
+    this.jobDetail = await this.fetch(
+      this.urlJobDetail + "?idPosting=" + `${id}`
+    );
+    this.idPosting = id;
+    this.employer = await this.fetch(this.urlEmp + "?idEmployer=" + "1");
+    this.allApplication = await this.fetch("http://localhost:3000/admin/allApplication");
+    this.worker = await this.fetch(this.urlWorker);
   },
 };
 </script>
-
-<style>
-</style>

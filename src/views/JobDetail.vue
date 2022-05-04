@@ -1,5 +1,5 @@
 <template>
-  <div><base-job-detail></base-job-detail></div>
+  <div class="bg-gray-2"><base-job-detail></base-job-detail></div>
 </template>
 
 <script>
