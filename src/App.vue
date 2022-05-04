@@ -42,27 +42,11 @@
     </div>
     <div class="navbar-center">
       <router-link to="/"
-        ><img class="h-12" src="./assets/Firework_LOGO-02.png"
+        ><img class="2xl:h-12 xl:h-12 lg:h-12 md:h-12 h-9" src="./assets/Firework_LOGO-02.png"
       /></router-link>
     </div>
     <div class="navbar-end">
-      <button class="btn btn-ghost btn-circle text-white">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-          />
-        </svg>
-      </button>
-      <button class="btn btn-ghost btn-circle text-white">
+      <!-- <button class="btn btn-ghost btn-circle text-white">
         <div class="indicator">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -86,7 +70,7 @@
       </button>
       <button class="btn btn-ghost btn-circle text-white">
         <i class="material-icons"> logout </i>
-      </button>
+      </button> -->
     </div>
   </div>
   <router-view />
