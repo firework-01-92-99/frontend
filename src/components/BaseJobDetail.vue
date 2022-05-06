@@ -15,18 +15,21 @@
             d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
           />
         </svg>
-        <p class="font-sans-thai">ทำการสมัครเรียบร้อยแล้ว ติดตามความคืบหน้าได้ที่<span class="font-medium">เมนู
-          "ติดตามสถานะการสมัครงาน"</span></p
-        >
+        <p class="font-sans-thai">
+          ทำการสมัครเรียบร้อยแล้ว ติดตามความคืบหน้าได้ที่<span
+            class="font-medium"
+            >เมนู "ติดตามสถานะการสมัครงาน"</span
+          >
+        </p>
       </div>
     </div>
     <!-- <router-link to="/findJob"> -->
     <div>
       <button
         @click="this.$router.push('/')"
-        class="btn btn-ghost font-sans-thai flex justify-start ml-10"
+        class="btn btn-ghost font-sans-thai flex justify-start ml-2.5"
       >
-        ย้อนกลับ
+        <i class="material-icons"> arrow_back_ios </i>หางาน
       </button>
     </div>
     <!-- </router-link> -->
@@ -34,7 +37,7 @@
   <div class="mx-auto card bg-base-100 font-sans-thai w-full">
     <figure>
       <img
-        src="https://marquettechamber.com/wp-content/uploads/2020/07/services-In-the-city-1024x683.jpg"
+        src="https://i.ytimg.com/vi/J_oT9erINxA/maxresdefault.jpg"
         alt="Movie"
       />
     </figure>
@@ -49,19 +52,55 @@
         {{ employer.establishmentName }}
       </h2>
       <p class="font-medium">
-        <span><i class="material-icons pr-2"> place </i></span>
-        <span>{{ employer.address }}</span>
+        <span class="inline-block align-middle"
+          ><i class="material-icons pr-2"> place </i></span
+        >
+        <span class="inline-block align-middle">{{ employer.address }}</span>
       </p>
       <p class="font-medium">
-        <span><i class="material-icons pr-2"> paid </i></span>
-        <span> {{ jobDetail.minSalary }} - {{ jobDetail.maxSalary }}</span>
+        <span class="inline-block align-middle"
+          ><i class="material-icons pr-2"> paid </i></span
+        >
+        <span class="inline-block align-middle">
+          {{
+            jobDetail.minSalary
+              ?.toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          }}
+          -
+          {{
+            jobDetail.maxSalary
+              ?.toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          }}</span
+        >
+      </p>
+      <p class="font-medium">
+        <span class="inline-block align-middle"
+          ><i class="material-icons pr-2"> call </i></span
+        >
+        <span class="inline-block align-middle"> {{ employer.phone }}</span>
+      </p>
+      <p class="font-medium">
+        <span class="inline-block align-middle"
+          ><i class="material-icons pr-2"> email </i></span
+        >
+        <span class="inline-block align-middle"> {{ employer.email }}</span>
       </p>
       <div class="card-actions justify-center">
         <label
           for="my-modal-6"
           v-if="!alreadyApp"
           @click="(this.openForm = true), (this.closeWord = true)"
-          class="btn modal-button border-0 bg-orange-1 hover:bg-orange-2 w-full my-3"
+          class="
+            btn
+            modal-button
+            border-0
+            bg-orange-1
+            hover:bg-orange-2
+            w-full
+            my-3
+          "
         >
           สมัครงาน
         </label>
@@ -79,7 +118,14 @@
                     <div class="w-full flex-col mb-5">
                       <p class="font-semibold mb-2">เลขประจำตัว</p>
                       <p
-                        class="font-normal text-sm border-2 border-gray-1 bg-slate-100 p-2 rounded-xl"
+                        class="
+                          font-normal
+                          text-sm
+                          border-2 border-gray-1
+                          bg-slate-100
+                          p-2
+                          rounded-xl
+                        "
                       >
                         {{ w.identificationNumber }}
                       </p>
@@ -87,7 +133,14 @@
                     <div class="w-full flex-col mb-5">
                       <p class="font-semibold mb-2">เพศ</p>
                       <p
-                        class="font-normal text-sm border-2 border-gray-1 bg-slate-100 p-2 rounded-xl"
+                        class="
+                          font-normal
+                          text-sm
+                          border-2 border-gray-1
+                          bg-slate-100
+                          p-2
+                          rounded-xl
+                        "
                       >
                         ...
                       </p>
@@ -95,7 +148,14 @@
                     <div class="w-full flex-col mb-5">
                       <p class="font-semibold mb-2">ชื่อ</p>
                       <p
-                        class="font-normal text-sm border-2 border-gray-1 bg-slate-100 p-2 rounded-xl"
+                        class="
+                          font-normal
+                          text-sm
+                          border-2 border-gray-1
+                          bg-slate-100
+                          p-2
+                          rounded-xl
+                        "
                       >
                         {{
                           w.firstName + " " + w.middleName + " " + w.lastName
@@ -105,7 +165,14 @@
                     <div class="w-full flex-col mb-5">
                       <p class="font-semibold mb-2">เบอร์โทรศัพท์</p>
                       <p
-                        class="font-normal text-sm border-2 border-gray-1 bg-slate-100 p-2 rounded-xl"
+                        class="
+                          font-normal
+                          text-sm
+                          border-2 border-gray-1
+                          bg-slate-100
+                          p-2
+                          rounded-xl
+                        "
                       >
                         {{ w.phone }}
                       </p>
@@ -113,7 +180,14 @@
                     <div class="w-full flex-col">
                       <p class="font-semibold mb-2">ประเภทแรงงาน</p>
                       <p
-                        class="font-normal text-sm border-2 border-gray-1 bg-slate-100 p-2 rounded-xl"
+                        class="
+                          font-normal
+                          text-sm
+                          border-2 border-gray-1
+                          bg-slate-100
+                          p-2
+                          rounded-xl
+                        "
                       >
                         ...
                       </p>
@@ -124,7 +198,7 @@
                   </p>
                   <div class="modal-action justify-between">
                     <label
-                      @click="this.openForm = false, this.canApp = 0"
+                      @click="(this.openForm = false), (this.canApp = 0)"
                       class="btn btn-ghost px-12 h-11"
                       >ยกเลิก</label
                     >
@@ -132,7 +206,14 @@
                       @click="
                         (this.closeWord = false), this.canApp++, application()
                       "
-                      class="btn border-0 bg-orange-1 hover:bg-orange-2 px-12 h-11"
+                      class="
+                        btn
+                        border-0
+                        bg-orange-1
+                        hover:bg-orange-2
+                        px-12
+                        h-11
+                      "
                       :txtbutt="this.closeWord == false ? 'ยืนยัน' : 'ถัดไป'"
                     ></base-button>
                   </div>
@@ -143,7 +224,7 @@
         </div>
         <button
           v-if="alreadyApp"
-          class="btn border-0 bg-orange-2 hover:bg-orange-2"
+          class="btn border-0 bg-orange-2 hover:bg-orange-2 w-full"
         >
           <i class="material-icons pr-2"> done </i>
           สมัครงานแล้ว
@@ -180,10 +261,6 @@
         <span class="font-semibold">รูปแบบงาน: </span>
         {{ jobDetail.hiringType?.nameType }}
       </p>
-      <!-- <p>
-        <span class="font-semibold">เงินเดือน: </span>
-        {{ jobDetail.minSalary }} - {{ jobDetail.maxSalary }} บาท
-      </p> -->
       <div v-if="jobDetail.overtimePayment !== null">
         <p>
           <span class="font-semibold">ค่าล่วงเวลา: </span>
@@ -197,7 +274,7 @@
     </div>
     <div class="h-full place-items-center m-6">
       <span class="text-lg font-semibold">งานอื่น ๆ ที่บริษัทนี้เปิดรับ</span>
-      <base-job class="mt-0 w-full"></base-job>
+      <base-job class="pt-12 w-96 -ml-6"></base-job>
     </div>
   </div>
 </template>
@@ -207,10 +284,17 @@ import BaseJob from "@/components/BaseJob.vue";
 // import BaseApplication from "@/components/BaseApplication.vue";
 
 export default {
+  mounted() {
+    // update data when mounting the component
+    if ("idEmployer" in this.$route.query) {
+      this.empId = this.$route.query.idEmployer;
+    }
+  },
   components: { BaseJob },
-  props: ["id", "empId"],
+  props: ["id"],
   data() {
     return {
+      empId: null,
       jobDetail: [],
       urlJobDetail: "http://localhost:3000/main/selectPosting",
       idPosting: 0,
@@ -242,7 +326,6 @@ export default {
     async application() {
       if (this.canApp % 2 == 0) {
         for (let i = 0; i <= this.allApplication.length; i++) {
-          console.log("ก็เข้านะ");
           console.log("id Worker = " + this.allApplication[i]?.idWorker);
           if (this.allApplication[i]?.idWorker !== 1) {
             try {
@@ -276,9 +359,12 @@ export default {
       this.urlJobDetail + "?idPosting=" + `${id}`
     );
     this.idPosting = id;
-    this.employer = await this.fetch(this.urlEmp + "?idEmployer=" + "1");
-    this.allApplication = await this.fetch("http://localhost:3000/admin/allApplication");
+    this.employer = await this.fetch(this.urlEmp + "?idEmployer=" + this.empId);
+    this.allApplication = await this.fetch(
+      "http://localhost:3000/admin/allApplication"
+    );
     this.worker = await this.fetch(this.urlWorker);
+    console.log("query param ตอน created() = " + this.$route.query.idPosting);
   },
 };
 </script>
