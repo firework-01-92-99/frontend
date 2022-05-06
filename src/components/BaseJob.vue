@@ -20,11 +20,11 @@
       v-for="job in allJobs"
       :key="job.idPosting"
     >
-    <div @click="sendIdEmp(job.idEmployer)">
-      <router-link :to="'/detail?idPosting=' + parseInt(job.idPosting)">
+    <div>
+      <router-link :to="'/detail?idPosting=' + parseInt(job.idPosting) +'&idEmployer=' + job.idEmployer">
         <figure>
           <img
-            src="https://marquettechamber.com/wp-content/uploads/2020/07/services-In-the-city-1024x683.jpg"
+            src="https://i.ytimg.com/vi/J_oT9erINxA/maxresdefault.jpg"
           />
         </figure>
 
@@ -38,14 +38,14 @@
             </div>
             <h2 class="card-title text-base">{{ e.establishmentName }}</h2>
             <p>
-              <span><i class="material-icons pr-2"> paid </i></span>
+              <span class="inline-block align-middle"><i class="material-icons pr-2"> paid </i></span>
               <span class="hidden font-semibold text-base">ค่าตอบแทน : </span>
-              <span class="text-base">{{ job.minSalary }} - {{ job.maxSalary }} บาท</span>
+              <span class="text-base font-medium inline-block align-middle">{{ job.minSalary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }} - {{ job.maxSalary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }} บาท</span>
             </p>
             <p>
-              <span><i class="material-icons pr-2"> place </i></span>
+              <span class="inline-block align-middle"><i class="material-icons pr-2"> place </i></span>
               <span class="hidden font-semibold text-base">ที่อยู่ : </span>
-              <span class="text-base">{{ e.address }}</span>
+              <span class="text-base font-medium inline-block align-middle">{{ e.address }}</span>
             </p>
           </div>
         </div>
@@ -77,11 +77,6 @@ export default {
         console.log(error);
       }
     },
-    sendIdEmp(id){
-      this.empId = id
-      this.$emit("empId", this.empId)
-      console.log("empId = " + this.empId)
-    }
   },
   computed: {
     ...mapGetters({
