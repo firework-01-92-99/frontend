@@ -37,7 +37,7 @@
 
     <base-job></base-job>
     <!-- pagination  -->
-    <div class="btn-group justify-center">
+    <div class="btn-group justify-center pb-5 -mt-5">
       <button class="btn btn-ghost">
         <i class="material-icons"> chevron_left </i>
       </button>
