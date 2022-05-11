@@ -55,7 +55,7 @@
         <span class="inline-block align-middle"
           ><i class="material-icons pr-2"> place </i></span
         >
-        <span class="inline-block align-middle">{{ employer.address}}</span>
+        <span class="inline-block align-middle">{{ employer.address }}</span>
       </p>
       <p class="font-medium">
         <span class="inline-block align-middle"
@@ -113,6 +113,7 @@
                 <div class="modal-box w-80 mx-auto max-w-5xl">
                   <h3 class="font-bold text-lg mb-5">
                     ยืนยัน<span v-if="closeWord">ข้อมูล</span>การสมัครงาน
+                    <!-- แจ้งเตือน -->
                   </h3>
                   <div v-if="closeWord">
                     <div class="w-full flex-col mb-5">
@@ -142,7 +143,7 @@
                           rounded-xl
                         "
                       >
-                        ...
+                        {{ w.sex }}
                       </p>
                     </div>
                     <div class="w-full flex-col mb-5">
@@ -189,12 +190,16 @@
                           rounded-xl
                         "
                       >
-                        ...
+                        {{ w.workerType.typeName }}
                       </p>
                     </div>
                   </div>
                   <p v-if="!closeWord">
                     ยืนยันที่จะสมัครงานตำแหน่ง... ของบริษัท...
+                  </p>
+                  <p v-if="!sexNotice">
+                    ไม่สามารถสมัครงานได้
+                    เนื่องจากเพศของคุณไม่ตรงกับคุณสมบัติของตำแหน่งงานที่ได้กำหนดไว้
                   </p>
                   <div class="modal-action justify-between">
                     <label
@@ -274,10 +279,15 @@
     </div>
     <div class="h-full place-items-center m-6">
       <span class="text-lg font-semibold">งานอื่น ๆ ที่บริษัทนี้เปิดรับ</span>
-      <router-link @click="this.$router.go()" :to="'/detail?idPosting=' + this.idPosting +'&idEmployer=' + this.empId">
-      <base-job class="pt-12 w-96 -ml-6"></base-job>
+      <router-link
+        @click="this.$router.go()"
+        :to="
+          '/detail?idPosting=' + this.idPosting + '&idEmployer=' + this.empId
+        "
+      >
+        <base-job class="pt-12 w-96 -ml-6"></base-job>
       </router-link>
-      </div>
+    </div>
   </div>
 </template>
 
@@ -311,6 +321,7 @@ export default {
       closeWord: true,
       canApp: 0,
       thisWorker: [],
+      sexNotice: true,
     };
   },
   methods: {
@@ -351,7 +362,7 @@ export default {
     //         }else{
     //           console.log("เพศไม่ตรง")
     //         }
-            
+
     //       } else {
     //         console.log("สมัครไม่สำเร็จ");
     //       }
@@ -360,14 +371,18 @@ export default {
     //     console.log("ไม่ได้อ่า");
     //   }
     // },
-        async application() {
-          console.log("เลข = " + this.canApp)
+    async application() {
+      console.log("เลข = " + this.canApp);
       if (this.canApp % 2 == 0) {
-        console.log("canApp เข้านะ")
-        
-          if (!this.jobDetail.applicationList.map(a => a.idWorker).includes(this.thisWorker.idWorker)) {
-            if(this.jobDetail.sex == this.thisWorker.sex){
-              try {
+        console.log("canApp เข้านะ");
+
+        if (
+          !this.jobDetail.applicationList
+            .map((a) => a.idWorker)
+            .includes(this.thisWorker.idWorker)
+        ) {
+          if (this.jobDetail.sex == this.thisWorker.sex) {
+            try {
               await fetch(
                 `http://localhost:3000/worker/workApp?idWorker=1&idPosting=${this.idPosting}`,
                 {
@@ -381,15 +396,15 @@ export default {
             } catch (error) {
               console.log("สมัครไม่สำเร็จ เพราะ be");
             }
-            }else{
-              console.log("เพศไม่ตรง")
-            }
-            
           } else {
-            console.log("สมัครไม่สำเร็จเพราะสมัครไปแล้ว");
+            this.openForm = false;
+            this.sexNotice = false;
+            console.log(this.sexNotice);
+            console.log("เพศไม่ตรง");
           }
-
-        
+        } else {
+          console.log("สมัครไม่สำเร็จเพราะสมัครไปแล้ว");
+        }
       } else {
         console.log("สมัครไม่สำเร็จ");
       }
@@ -408,9 +423,13 @@ export default {
       "http://localhost:3000/admin/allApplication"
     );
     this.worker = await this.fetch(this.urlWorker);
-    this.thisWorker = await this.fetch("http://localhost:3000/admin/selectWorker?idWorker=1");
-    this.alreadyApp = this.jobDetail.applicationList.map(a => a.idWorker).includes(this.thisWorker.idWorker);
-    console.log(this.alreadyApp)
+    this.thisWorker = await this.fetch(
+      "http://localhost:3000/admin/selectWorker?idWorker=1"
+    );
+    this.alreadyApp = this.jobDetail.applicationList
+      .map((a) => a.idWorker)
+      .includes(this.thisWorker.idWorker);
+    console.log(this.alreadyApp);
   },
 };
 </script>
