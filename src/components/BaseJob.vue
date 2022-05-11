@@ -88,7 +88,7 @@ export default {
     console.log(allPost);
     this.$store.commit("setPosting", allPost);
     this.allEmployer = await this.fetch(
-      "http://localhost:3000/admin/allEmployer"
+      "http://localhost:3000/allrole/allEmployer"
     );
   },
 };

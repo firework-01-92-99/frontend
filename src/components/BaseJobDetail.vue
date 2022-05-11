@@ -55,7 +55,7 @@
         <span class="inline-block align-middle"
           ><i class="material-icons pr-2"> place </i></span
         >
-        <span class="inline-block align-middle">{{ employer.address }}</span>
+        <span class="inline-block align-middle">{{ employer.address}}</span>
       </p>
       <p class="font-medium">
         <span class="inline-block align-middle"
@@ -274,8 +274,10 @@
     </div>
     <div class="h-full place-items-center m-6">
       <span class="text-lg font-semibold">งานอื่น ๆ ที่บริษัทนี้เปิดรับ</span>
+      <router-link @click="this.$router.go()" :to="'/detail?idPosting=' + this.idPosting +'&idEmployer=' + this.empId">
       <base-job class="pt-12 w-96 -ml-6"></base-job>
-    </div>
+      </router-link>
+      </div>
   </div>
 </template>
 
@@ -301,13 +303,14 @@ export default {
       success: false,
       allApplication: [],
       employer: [],
-      urlEmp: "http://localhost:3000/admin/selectEmployer",
+      urlEmp: "http://localhost:3000/allrole/selectEmployer",
       alreadyApp: false,
       openForm: false,
       worker: [],
       urlWorker: "http://localhost:3000/admin/allWorker",
       closeWord: true,
       canApp: 0,
+      thisWorker: [],
     };
   },
   methods: {
@@ -323,12 +326,48 @@ export default {
     sendTrue() {
       this.$emit("setTrue", true);
     },
-    async application() {
+    //sex ของ worker แม่งต้องไม่เท่ากับ เพศที่ต้องการของโพสติ้งที่ worker จะสมัคร
+    // async application() {
+    //   if (this.canApp % 2 == 0) {
+    //     for (let i = 0; i <= this.allApplication.length; i++) {
+    //       console.log("id Worker = " + this.allApplication[i]?.idWorker);
+    //       if (this.allApplication[i]?.idWorker !== 1 && this.) {
+
+    //         if(this.jobDetail.sex == this.thisWorker.sex){
+    //           try {
+    //           await fetch(
+    //             `http://localhost:3000/worker/workApp?idWorker=1&idPosting=${this.idPosting}`,
+    //             {
+    //               method: "POST",
+    //             }
+    //           );
+    //           this.success = true;
+    //           this.alreadyApp = true;
+    //           this.openForm = false;
+    //           console.log("สมัครสำเร็จ");
+    //         } catch (error) {
+    //           console.log("สมัครไม่สำเร็จ 1");
+    //         }
+    //         }else{
+    //           console.log("เพศไม่ตรง")
+    //         }
+            
+    //       } else {
+    //         console.log("สมัครไม่สำเร็จ");
+    //       }
+    //     }
+    //   } else {
+    //     console.log("ไม่ได้อ่า");
+    //   }
+    // },
+        async application() {
+          console.log("เลข = " + this.canApp)
       if (this.canApp % 2 == 0) {
-        for (let i = 0; i <= this.allApplication.length; i++) {
-          console.log("id Worker = " + this.allApplication[i]?.idWorker);
-          if (this.allApplication[i]?.idWorker !== 1) {
-            try {
+        console.log("canApp เข้านะ")
+        
+          if (!this.jobDetail.applicationList.map(a => a.idWorker).includes(this.thisWorker.idWorker)) {
+            if(this.jobDetail.sex == this.thisWorker.sex){
+              try {
               await fetch(
                 `http://localhost:3000/worker/workApp?idWorker=1&idPosting=${this.idPosting}`,
                 {
@@ -340,14 +379,19 @@ export default {
               this.openForm = false;
               console.log("สมัครสำเร็จ");
             } catch (error) {
-              console.log("สมัครไม่สำเร็จ 1");
+              console.log("สมัครไม่สำเร็จ เพราะ be");
             }
+            }else{
+              console.log("เพศไม่ตรง")
+            }
+            
           } else {
-            console.log("สมัครไม่สำเร็จ");
+            console.log("สมัครไม่สำเร็จเพราะสมัครไปแล้ว");
           }
-        }
+
+        
       } else {
-        console.log("ไม่ได้อ่า");
+        console.log("สมัครไม่สำเร็จ");
       }
     },
   },
@@ -364,7 +408,9 @@ export default {
       "http://localhost:3000/admin/allApplication"
     );
     this.worker = await this.fetch(this.urlWorker);
-    console.log("query param ตอน created() = " + this.$route.query.idPosting);
+    this.thisWorker = await this.fetch("http://localhost:3000/admin/selectWorker?idWorker=1");
+    this.alreadyApp = this.jobDetail.applicationList.map(a => a.idWorker).includes(this.thisWorker.idWorker);
+    console.log(this.alreadyApp)
   },
 };
 </script>
