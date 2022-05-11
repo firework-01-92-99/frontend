@@ -125,9 +125,10 @@ export default {
       } else {
         this.filter.enterSortSalary = "ASC";
       }
+      console.log("enterEstOrPost = " + this.filter.enterEstOrPost)
       await axios
         .get(
-          `http://localhost:3000/main/searchPosting?establishmentName=${this.filter.enterEstOrPost}&positionName=${this.filter.enterEstOrPost}&idHiringtype=${this.filter.enterHiringType}&sortSalary=${this.filter.enterSortSalary}&idProvince=${this.filter.enterProvince}&idDistrict=&idSubdistrict=`
+          `http://localhost:3000/main/searchPosting?establishmentAndpositionName${this.filter.enterEstOrPost}&idHiringtype=${this.filter.enterHiringType}&sortSalary=${this.filter.enterSortSalary}&idProvince=${this.filter.enterProvince}&idDistrict=&idSubdistrict=`
         )
         .then((response) => {
           console.log(response.data);
