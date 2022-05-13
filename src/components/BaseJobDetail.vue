@@ -195,7 +195,7 @@
                     </div>
                   </div>
                   <p v-if="!closeWord">
-                    ยืนยันที่จะสมัครงานตำแหน่ง... ของบริษัท...
+                    ยืนยันที่จะสมัครงานตำแหน่ง <b>{{jobDetail.position?.positionName}}</b> ของบริษัท <b>{{ employer.establishmentName }}</b>
                   </p>
                   <!-- pop up valid sex -->
                   <p v-if="!sexNotice">
@@ -203,7 +203,7 @@
                     เนื่องจากเพศของคุณไม่ตรงกับคุณสมบัติของตำแหน่งงานที่ได้กำหนดไว้
                   </p>
                   <!-- pop up valid worker type -->
-                  <p>
+                  <p v-if="!typeNotice">
                     ไม่สามารถสมัครงานได้
                     เนื่องจากประเภทแรงงานของคุณไม่ตรงกับคุณสมบัติของตำแหน่งงานที่ได้กำหนดไว้
                   </p>
@@ -328,6 +328,7 @@ export default {
       canApp: 0,
       thisWorker: [],
       sexNotice: true,
+      typeNotice: true,
     };
   },
   methods: {
@@ -403,9 +404,10 @@ export default {
               console.log("สมัครไม่สำเร็จ เพราะ be");
             }
           } else {
-            this.openForm = false;
+            this.openForm = true;
+            this.closeWord = false;
             this.sexNotice = false;
-            console.log(this.sexNotice);
+            console.log("sexNotice =" + this.sexNotice);
             console.log("เพศไม่ตรง");
           }
         } else {
@@ -436,6 +438,7 @@ export default {
       .map((a) => a.idWorker)
       .includes(this.thisWorker.idWorker);
     console.log(this.alreadyApp);
+    window.scrollTo(0,0);
   },
 };
 </script>
