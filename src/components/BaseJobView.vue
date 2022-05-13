@@ -64,8 +64,8 @@
           class="select select-bordered w-full"
         >
           <option :value="''" disabled selected>ค่าตอบแทน</option>
-          <option>มากไปน้อย</option>
-          <option>น้อยไปมาก</option>
+          <option value="DESC">มากไปน้อย</option>
+          <option value="ASC">น้อยไปมาก</option>
         </select>
       </div>
       <div class="w-full grid grid-rows-4 gap-4">
@@ -120,15 +120,10 @@ export default {
       }
     },
     async getData() {
-      if (this.filter.enterSortSalary == "มากไปน้อย") {
-        this.filter.enterSortSalary = "DESC";
-      } else {
-        this.filter.enterSortSalary = "ASC";
-      }
       console.log("enterEstOrPost = " + this.filter.enterEstOrPost)
       await axios
         .get(
-          `http://localhost:3000/main/searchPosting?establishmentAndpositionName${this.filter.enterEstOrPost}&idHiringtype=${this.filter.enterHiringType}&sortSalary=${this.filter.enterSortSalary}&idProvince=${this.filter.enterProvince}&idDistrict=&idSubdistrict=`
+          `http://localhost:3000/main/searchPosting?establishmentAndpositionName=${this.filter.enterEstOrPost}&idHiringtype=${this.filter.enterHiringType}&sortSalary=${this.filter.enterSortSalary}&idProvince=${this.filter.enterProvince}&idDistrict=&idSubdistrict=`
         )
         .then((response) => {
           console.log(response.data);
