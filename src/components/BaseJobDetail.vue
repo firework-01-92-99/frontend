@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- toast -->
     <div v-if="success" class="mt-3 alert alert-success shadow-lg">
       <div>
         <svg
@@ -24,6 +25,7 @@
       </div>
     </div>
     <!-- <router-link to="/findJob"> -->
+    <!-- back btn -->
     <div>
       <button
         @click="this.$router.push('/')"
@@ -34,9 +36,11 @@
     </div>
     <!-- </router-link> -->
   </div>
-  <div class="mx-auto card bg-base-100 font-sans-thai w-full">
-    <figure>
+  <!-- card header -->
+  <div class="mx-auto card 2xl:card-side bg-base-100 font-sans-thai w-full">
+    <figure class="2xl:w-1/4">
       <img
+        class="2xl:h-full"
         src="https://i.ytimg.com/vi/J_oT9erINxA/maxresdefault.jpg"
         alt="Movie"
       />
@@ -87,7 +91,7 @@
         >
         <span class="inline-block align-middle"> {{ employer.email }}</span>
       </p>
-      <div class="card-actions justify-center">
+      <div class="card-actions justify-center 2xl:justify-end">
         <label
           for="my-modal-6"
           v-if="!alreadyApp"
@@ -99,6 +103,7 @@
             bg-orange-1
             hover:bg-orange-2
             w-full
+            2xl:w-1/6 2xl:my-0
             my-3
           "
         >
@@ -195,7 +200,9 @@
                     </div>
                   </div>
                   <p v-if="!closeWord">
-                    ยืนยันที่จะสมัครงานตำแหน่ง <b>{{jobDetail.position?.positionName}}</b> ของบริษัท <b>{{ employer.establishmentName }}</b>
+                    ยืนยันที่จะสมัครงานตำแหน่ง
+                    <b>{{ jobDetail.position?.positionName }}</b> ของบริษัท
+                    <b>{{ employer.establishmentName }}</b>
                   </p>
                   <!-- pop up valid sex -->
                   <p v-if="!sexNotice">
@@ -235,7 +242,15 @@
         </div>
         <button
           v-if="alreadyApp"
-          class="btn border-0 bg-orange-2 hover:bg-orange-2 w-full"
+          class="
+            btn
+            border-0
+            bg-orange-2
+            hover:bg-orange-2
+            w-full
+            2xl:w-1/6 2xl:my-0
+            my-3
+          "
         >
           <i class="material-icons pr-2"> done </i>
           สมัครงานแล้ว
@@ -243,17 +258,19 @@
       </div>
     </div>
   </div>
+  <!-- card description -->
   <div class="mx-auto flex flex-col w-full font-sans-thai mt-5">
     <!-- <div v-if="openForm"><base-application></base-application></div> -->
     <div class="card card-side bg-base-100 p-6 grid h-full place-items-start">
+      <p><span class="font-semibold">ประเภทแรงงาน: ...</span></p>
       <p><span class="font-semibold">เพศ: </span> {{ jobDetail.sex }}</p>
       <p>
         <span class="font-semibold">อายุ: </span> {{ jobDetail.minAge }} -
-        {{ jobDetail.maxAge }}
+        {{ jobDetail.maxAge }} ปี
       </p>
       <p>
         <span class="font-semibold">เวลาทำงาน: </span>
-        {{ jobDetail.startTime }} - {{ jobDetail.endTime }}
+        {{ jobDetail.startTime }} - {{ jobDetail.endTime }} น.
       </p>
       <p>
         <span class="font-semibold">วันทำงาน: </span>
@@ -291,7 +308,7 @@
           '/detail?idPosting=' + this.idPosting + '&idEmployer=' + this.empId
         "
       >
-        <base-job class="pt-12 w-96 -ml-6"></base-job>
+        <base-job class="pt-12 2xl:w-full md:w-full w-96 -ml-6"></base-job>
       </router-link>
     </div>
   </div>
@@ -438,7 +455,7 @@ export default {
       .map((a) => a.idWorker)
       .includes(this.thisWorker.idWorker);
     console.log(this.alreadyApp);
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
   },
 };
 </script>

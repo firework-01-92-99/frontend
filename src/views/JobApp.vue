@@ -2,20 +2,16 @@
   <div
     class="
       bg-gray-2
-      2xl:h-screen
-      xl:h-screen
-      lg:h-screen
-      md:h-screen
-      h-full
+      h-screen
       font-sans-thai
     "
   >
-    <p class="text-2xl font-semibold 2xl:p-6 xl:p-6 lg:p-6 md:p-6 p-3 ml-3.5">
+    <p class="text-2xl font-semibold 2xl:p-6 2xl:pl-12 xl:p-6 lg:p-6 md:p-6 p-3 pt-5 ml-3.5">
       ติดตามสถานะการสมัครงาน
     </p>
     <!-- table: Desktop -->
-    <div class="2xl:block xl:block lg:block md:block hidden overflow-x-auto">
-      <table class="table w-3/4 mx-auto">
+    <div class="2xl:block xl:block lg:block hidden overflow-x-auto">
+      <table class="table 2xl:w-11/12 mx-auto">
         <!-- head -->
         <thead>
           <tr>
@@ -97,15 +93,15 @@
         </tbody>
       </table>
     </div>
-    <!-- card: Mobile -->
+    <!-- card: Mobile/Tablet -->
     <div
       class="
         2xl:hidden
         xl:hidden
         lg:hidden
-        md:hidden
         flex flex-wrap
         justify-center
+        -mt-5
       "
     >
       <div
@@ -128,10 +124,6 @@
         "
       >
         <div>
-          <!-- <figure>
-            <img src="https://i.ytimg.com/vi/J_oT9erINxA/maxresdefault.jpg" />
-          </figure> -->
-
           <div>
             <div class="card-body space-y-3">
               <div class="flex justify-between">

@@ -14,22 +14,27 @@
         gap-4
         w-11/12
         font-sans-thai
+        mt-0
+        2xl:mt-6
+        xl:mt-6
+        lg:mt-6
+        md:mt-6
       "
     >
-      <div class="w-full flex-col mt-6">
-        <p class="font-semibold">ค้นหาตำแหน่งงานหรือชื่อบริษัท</p>
+      <div class="w-full flex-col mt-6 2xl:mt-0 xl:mt-0 lg:mt-0 md:mt-0">
+        <p class="font-semibold 2xl:text-base md:text-xs">ค้นหาตำแหน่งงานหรือชื่อบริษัท</p>
         <input
           v-model.trim="filter.enterEstOrPost"
           type="text"
           placeholder="ใส่ชื่อตำแหน่งงานหรือชื่อบริษัท"
-          class="input input-bordered w-full"
+          class="input input-bordered w-full 2xl:text-base md:text-xs"
         />
       </div>
       <div class="w-full flex-col">
-        <p class="font-semibold">จังหวัด</p>
+        <p class="font-semibold 2xl:text-base md:text-xs">จังหวัด</p>
         <select
           v-model.trim="filter.enterProvince"
-          class="select select-bordered w-full"
+          class="select select-bordered w-full 2xl:text-base md:text-xs"
         >
           <option :value="''" disabled selected>จังหวัด</option>
           <option
@@ -42,10 +47,12 @@
         </select>
       </div>
       <div class="w-full flex-col">
-        <p class="font-semibold -mt-6">รูปแบบงาน</p>
+        <p class="font-semibold 2xl:text-base md:text-xs -mt-6 2xl:mt-0 xl:mt-0 lg:mt-0 md:mt-0">
+          รูปแบบงาน
+        </p>
         <select
           v-model.trim="filter.enterHiringType"
-          class="select select-bordered w-full"
+          class="select select-bordered w-full 2xl:text-base md:text-xs"
         >
           <option :value="''" disabled selected>รูปแบบงาน</option>
           <option
@@ -58,17 +65,29 @@
         </select>
       </div>
       <div class="w-full flex-col">
-        <p class="font-semibold -mt-12">ค่าตอบแทน</p>
+        <p class="font-semibold 2xl:text-base md:text-xs -mt-12 2xl:mt-0 xl:mt-0 lg:mt-0 md:mt-0">
+          ค่าตอบแทน
+        </p>
         <select
           v-model.trim="filter.enterSortSalary"
-          class="select select-bordered w-full"
+          class="select select-bordered w-full 2xl:text-base md:text-xs"
         >
           <option :value="''" disabled selected>ค่าตอบแทน</option>
           <option value="DESC">มากไปน้อย</option>
           <option value="ASC">น้อยไปมาก</option>
         </select>
       </div>
-      <div class="w-full grid grid-rows-4 gap-4">
+      <div
+        class="
+          w-full
+          grid grid-rows-4
+          gap-4
+          2xl:flex 2xl:flex-row 2xl:space-x-4
+          xl:flex xl:flex-row xl:space-x-4
+          lg:flex lg:flex-row lg:space-x-4
+          md:flex md:flex-row md:space-x-4
+        "
+      >
         <button
           type="submit"
           class="
@@ -78,11 +97,31 @@
             hover:bg-orange-2 hover:border-orange-2
             w-full
             -mt-16
+            2xl:mt-0
+            xl:mt-0
+            lg:mt-0
+            md:mt-0
+            2xl:text-base
+            md:text-xs
           "
         >
           ค้นหางาน
         </button>
-        <button @click="resetShowJob()" class="btn btn-ghost w-full -mt-7 -mb-5">
+        <button
+          @click="resetShowJob()"
+          class="
+            btn btn-ghost
+            w-full
+            -mt-7
+            -mb-5
+            2xl:mt-0
+            xl:mt-0
+            lg:mt-0
+            md:mt-0
+            2xl:text-base
+            md:text-xs
+          "
+        >
           รีเซ็ตเงื่อนไข
         </button>
       </div>
@@ -120,7 +159,7 @@ export default {
       }
     },
     async getData() {
-      console.log("enterEstOrPost = " + this.filter.enterEstOrPost)
+      console.log("enterEstOrPost = " + this.filter.enterEstOrPost);
       await axios
         .get(
           `http://localhost:3000/main/searchPosting?establishmentAndpositionName=${this.filter.enterEstOrPost}&idHiringtype=${this.filter.enterHiringType}&sortSalary=${this.filter.enterSortSalary}&idProvince=${this.filter.enterProvince}&idDistrict=&idSubdistrict=`
