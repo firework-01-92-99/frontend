@@ -13,6 +13,16 @@ module.exports = {
         'gray-2': '#F4F4F4'
       }
     },
+    // screens: {
+    //   'sm': '375px',
+    //   // => @media (min-width: 375px) { ... }
+
+    //   // 'laptop': '1024px',
+    //   // => @media (min-width: 1024px) { ... }
+
+    //   // 'desktop': '1280px',
+    //   // => @media (min-width: 1280px) { ... }
+    // },
   },
   plugins: [require("daisyui")],
 }
