@@ -20,36 +20,60 @@
       v-for="job in allJobs"
       :key="job.idPosting"
     >
-    <div>
-      <router-link :to="'/detail?idPosting=' + parseInt(job.idPosting) +'&idEmployer=' + job.idEmployer">
-        <figure>
-          <img
-            src="https://i.ytimg.com/vi/J_oT9erINxA/maxresdefault.jpg"
-          />
-        </figure>
+      <div>
+        <router-link
+          :to="
+            '/detail?idPosting=' +
+            parseInt(job.idPosting) +
+            '&idEmployer=' +
+            job.idEmployer
+          "
+        >
+          <figure>
+            <img src="https://i.ytimg.com/vi/J_oT9erINxA/maxresdefault.jpg" />
+          </figure>
 
-        <div v-for="e in allEmployer" :key="e.idEmployer">
-          <div class="card-body space-y-3">
-            <div class="flex justify-between">
-              <h2 class="card-title text-orange-1 text-base">
-                {{ job.position.positionName }}
-              </h2>
-              <i class="material-icons"> bookmark_border </i>
+          <div v-for="e in allEmployer" :key="e.idEmployer">
+            <div class="card-body space-y-3">
+              <div class="flex justify-between">
+                <h2 class="card-title text-orange-1 text-base">
+                  {{ job.position.positionName }}
+                </h2>
+                <i class="material-icons"> bookmark_border </i>
+              </div>
+              <h2 class="card-title text-base">{{ e.establishmentName }}</h2>
+              <p>
+                <span class="inline-block align-middle"
+                  ><i class="material-icons pr-2"> paid </i></span
+                >
+                <span class="hidden font-semibold text-base">ค่าตอบแทน : </span>
+                <span class="text-base font-medium inline-block align-middle"
+                  >{{
+                    job.minSalary
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  }}
+                  -
+                  {{
+                    job.maxSalary
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  }}
+                  บาท</span
+                >
+              </p>
+              <p>
+                <span class="inline-block align-middle"
+                  ><i class="material-icons pr-2"> place </i></span
+                >
+                <span class="hidden font-semibold text-base">ที่อยู่ : </span>
+                <span class="text-base font-medium inline-block align-middle">{{
+                  e.address
+                }}</span>
+              </p>
             </div>
-            <h2 class="card-title text-base">{{ e.establishmentName }}</h2>
-            <p>
-              <span class="inline-block align-middle"><i class="material-icons pr-2"> paid </i></span>
-              <span class="hidden font-semibold text-base">ค่าตอบแทน : </span>
-              <span class="text-base font-medium inline-block align-middle">{{ job.minSalary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }} - {{ job.maxSalary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }} บาท</span>
-            </p>
-            <p>
-              <span class="inline-block align-middle"><i class="material-icons pr-2"> place </i></span>
-              <span class="hidden font-semibold text-base">ที่อยู่ : </span>
-              <span class="text-base font-medium inline-block align-middle">{{ e.address }}</span>
-            </p>
           </div>
-        </div>
-      </router-link>
+        </router-link>
       </div>
     </div>
   </div>
@@ -64,7 +88,7 @@ export default {
   data() {
     return {
       allEmployer: [],
-      empId: 0
+      empId: 0,
     };
   },
   methods: {
