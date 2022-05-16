@@ -2,7 +2,7 @@
   <div class="navbar bg-dark-blue font-sans-thai">
     <div class="navbar-start">
       <div class="dropdown dropdown-hover">
-        <label tabindex="0" class="btn btn-ghost btn-circle m-1 text-white">
+        <label tabindex="0" class="btn btn-ghost btn-circle m-1 text-white 2xl:ml-5">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-5 w-5"
@@ -35,7 +35,7 @@
             <router-link to="/">หางาน</router-link>
           </li>
           <li class="hover:text-orange-1">
-            <router-link to="/application">ติดตามสถานะการสมัครงาน</router-link>
+            <router-link to="/application">สถานะการสมัครงาน</router-link>
           </li>
         </ul>
       </div>
