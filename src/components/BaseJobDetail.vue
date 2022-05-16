@@ -1,27 +1,29 @@
 <template>
   <div>
     <!-- toast -->
-    <div v-if="success" class="mt-3 alert alert-success shadow-lg">
-      <div>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="stroke-current flex-shrink-0 h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-        <p class="font-sans-thai">
-          ทำการสมัครเรียบร้อยแล้ว ติดตามความคืบหน้าได้ที่<span
-            class="font-medium"
-            >เมนู "ติดตามสถานะการสมัครงาน"</span
+    <div class="flex justify-center">
+      <div v-if="success" id="toast" class="absolute z-10 w-full alert alert-success shadow-lg">
+        <div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="stroke-current flex-shrink-0 h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
           >
-        </p>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <p class="font-sans-thai">
+            ทำการสมัครเรียบร้อยแล้ว ติดตามความคืบหน้าได้ที่<span
+              class="font-medium"
+              >เมนู "สถานะการสมัครงาน"</span
+            >
+          </p>
+        </div>
       </div>
     </div>
     <!-- <router-link to="/findJob"> -->
@@ -112,7 +114,7 @@
         <!-- Put this part before </body> tag -->
         <div v-if="openForm">
           <input type="checkbox" id="my-modal-6" class="modal-toggle" />
-          <div class="modal font-sans-thai">
+          <div class="modal w-full font-sans-thai">
             <div v-for="w in worker" :key="w.idWorker" class="">
               <div v-if="w.idWorker == 1">
                 <div class="modal-box w-80 mx-auto max-w-5xl">
@@ -195,7 +197,7 @@
                           rounded-xl
                         "
                       >
-                        {{ w.workerType.typeName }}
+                        {{ workerType[w.workerType.typeName] }}
                       </p>
                     </div>
                   </div>
@@ -262,7 +264,10 @@
   <div class="mx-auto flex flex-col w-full font-sans-thai mt-5">
     <!-- <div v-if="openForm"><base-application></base-application></div> -->
     <div class="card card-side bg-base-100 p-6 grid h-full place-items-start">
-      <p><span class="font-semibold">ประเภทแรงงาน: ...</span></p>
+      <p>
+        <span class="font-semibold">แรงงานที่รับ: </span
+        >{{ workerType[jobDetail.workerType?.typeName] }}
+      </p>
       <p><span class="font-semibold">เพศ: </span> {{ jobDetail.sex }}</p>
       <p>
         <span class="font-semibold">อายุ: </span> {{ jobDetail.minAge }} -
@@ -289,13 +294,10 @@
         <span class="font-semibold">รูปแบบงาน: </span>
         {{ jobDetail.hiringType?.nameType }}
       </p>
-      <div v-if="jobDetail.overtimePayment !== null">
-        <p>
-          <span class="font-semibold">ค่าล่วงเวลา: </span>
-          {{ jobDetail.overtimePayment }}
-        </p>
-      </div>
-      <div v-else><span class="font-semibold">ค่าล่วงเวลา: </span>ไม่มี</div>
+      <p>
+        <span class="font-semibold">ค่าล่วงเวลา: </span>
+        {{ ot[jobDetail.overtimePayment] }}
+      </p>
       <p>
         <span class="font-semibold">สวัสดิการ: </span>{{ jobDetail.welfare }}
       </p>
@@ -315,6 +317,14 @@
 </template>
 
 <script>
+const workerType = Object.freeze({
+  Migrant: "แรงงานต่างด้าว",
+  Thai: "แรงงานไทย",
+});
+const ot = Object.freeze({
+  y: "มี",
+  n: "ไม่มี",
+});
 import BaseJob from "@/components/BaseJob.vue";
 // import BaseApplication from "@/components/BaseApplication.vue";
 
@@ -329,6 +339,8 @@ export default {
   props: ["id"],
   data() {
     return {
+      workerType,
+      ot,
       empId: null,
       jobDetail: [],
       urlJobDetail: "http://localhost:3000/main/selectPosting",
