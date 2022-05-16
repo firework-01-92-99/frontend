@@ -1,16 +1,26 @@
 <template>
-  <div
-    class="
-      bg-gray-2
-      h-screen
-      font-sans-thai
-    "
-  >
-    <p class="text-2xl font-semibold 2xl:p-6 2xl:pl-12 xl:p-6 lg:p-6 md:p-6 p-3 pt-5 ml-3.5">
-      ติดตามสถานะการสมัครงาน
+  <div class="bg-gray-2 h-screen font-sans-thai">
+    <p
+      class="
+        text-2xl
+        font-semibold
+        2xl:p-6 2xl:pl-12
+        xl:p-6
+        lg:p-6
+        md:p-6
+        p-3
+        pt-5
+        ml-3.5
+      "
+    >
+      สถานะการสมัครงาน
     </p>
+    <div v-if="noValue" class="text-center mb-10">ไม่มีข้อมูลการสมัครงาน</div>
     <!-- table: Desktop -->
-    <div class="2xl:block xl:block lg:block hidden overflow-x-auto">
+    <div
+      v-if="!noValue"
+      class="2xl:block xl:block lg:block hidden overflow-x-auto"
+    >
       <table class="table 2xl:w-11/12 mx-auto">
         <!-- head -->
         <thead>
@@ -24,7 +34,7 @@
           </tr>
         </thead>
         <tbody>
-          <!-- row 1 -->
+          <!-- row -->
           <tr v-for="s in status" :key="s.idApplication">
             <th>{{ s.idApplication }}</th>
             <td>{{ s.establishmentName }}</td>
@@ -41,53 +51,86 @@
               }}
             </td>
             <td>
-              <div
-                v-if="s.statusName == 'Waiting'"
-                class="
-                  font-medium
-                  badge badge-lg
-                  w-full
-                  bg-yellow-100
-                  text-yellow-500
-                  border-0
-                "
-              >
-                รอการพิจารณา
-              </div>
-              <div
-                v-if="s.statusName == 'Accept'"
-                class="
-                  font-medium
-                  badge badge-lg
-                  w-full
-                  bg-green-200
-                  text-green-600
-                  border-0
-                "
-              >
-                ผ่านการคัดเลือก
-              </div>
-              <div
-                v-if="s.statusName == 'Reject'"
-                class="
-                  font-medium
-                  badge badge-lg
-                  w-full
-                  bg-red-200
-                  text-red-600
-                  border-0
-                "
-              >
-                ไม่ผ่านการคัดเลือก
+              <div class="flex justify-center">
+                <div
+                  v-if="s.statusName == 'Waiting'"
+                  class="
+                    font-normal
+                    badge badge-md
+                    bg-yellow-100
+                    text-yellow-500
+                    border-0
+                  "
+                >
+                  รอการพิจารณา
+                </div>
+                <div
+                  v-if="s.statusName == 'Accept'"
+                  class="
+                    font-medium
+                    badge badge-md
+                    bg-green-200
+                    text-green-600
+                    border-0
+                  "
+                >
+                  ผ่านการคัดเลือก
+                </div>
+                <div
+                  v-if="s.statusName == 'Reject'"
+                  class="
+                    font-medium
+                    badge badge-md
+                    bg-red-200
+                    text-red-600
+                    border-0
+                  "
+                >
+                  ไม่ผ่านการคัดเลือก
+                </div>
               </div>
             </td>
             <td>
-              <button
-                @click="cancel()"
-                class="btn border-red-700 bg-red-700 w-full"
-              >
-                ยกเลิกการสมัคร
-              </button>
+              <div class="flex justify-center">
+                <label
+                  for="my-modal-5"
+                  @click="this.isCancel = true"
+                  class="btn border-red-700 bg-red-700"
+                >
+                  ยกเลิกการสมัคร
+                </label>
+              </div>
+              <div v-if="isCancel">
+                <input type="checkbox" id="my-modal-5" class="modal-toggle" />
+                <div class="modal">
+                  <div class="modal-box w-2/5 max-w-5xl">
+                    <h3 class="font-bold text-lg">แจ้งเตือน</h3>
+                    <p class="py-4 w-full">
+                      ยืนยันที่จะยกเลิกการสมัครงานตำแหน่ง
+                      <b>{{ s.positionName }}</b> ของบริษัท
+                      <b>{{ s.establishmentName }}</b>
+                    </p>
+                    <div class="modal-action justify-between">
+                      <label for="my-modal-5" class="btn btn-ghost px-12 h-11"
+                        >ยกเลิก</label
+                      >
+                      <label
+                        @click="cancel(s.idApplication)"
+                        for="my-modal-5"
+                        class="
+                          btn
+                          border-0
+                          bg-orange-1
+                          hover:bg-orange-2
+                          px-12
+                          h-11
+                        "
+                        >ยืนยัน</label
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -95,14 +138,7 @@
     </div>
     <!-- card: Mobile/Tablet -->
     <div
-      class="
-        2xl:hidden
-        xl:hidden
-        lg:hidden
-        flex flex-wrap
-        justify-center
-        -mt-5
-      "
+      class="2xl:hidden xl:hidden lg:hidden flex flex-wrap justify-center -mt-5"
     >
       <div
         v-for="s in status"
@@ -117,10 +153,6 @@
           transition
           duration-300
           ease-in-out
-          hover:-translate-y-1
-          hover:scale-110
-          hover:border-4
-          hover:border-orange-1
         "
       >
         <div>
@@ -186,12 +218,46 @@
               >
                 ไม่ผ่านการคัดเลือก
               </div>
-              <button
-                @click="cancel()"
+              <label
+                @click="this.isCancel = true"
+                for="my-modal-6"
                 class="btn border-red-700 bg-red-700 w-full -mt-16"
               >
                 ยกเลิกการสมัคร
-              </button>
+              </label>
+              <!-- The button to open modal -->
+              <!-- Put this part before </body> tag -->
+              <div v-if="isCancel">
+                <input type="checkbox" id="my-modal-6" class="modal-toggle" />
+                <div class="modal modal-middle sm:modal-middle">
+                  <div class="modal-box">
+                    <h3 class="font-bold text-lg">แจ้งเตือน</h3>
+                    <p class="py-4">
+                      ยืนยันที่จะยกเลิกการสมัครงานตำแหน่ง
+                      <b>{{ s.positionName }}</b> ของบริษัท
+                      <b>{{ s.establishmentName }}</b>
+                    </p>
+                    <div class="modal-action justify-between">
+                      <label for="my-modal-6" class="btn btn-ghost px-12 h-11"
+                        >ยกเลิก</label
+                      >
+                      <label
+                        @click="cancel(s.idApplication)"
+                        for="my-modal-6"
+                        class="
+                          btn
+                          border-0
+                          bg-orange-1
+                          hover:bg-orange-2
+                          px-12
+                          h-11
+                        "
+                        >ยืนยัน</label
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -206,8 +272,10 @@ export default {
     return {
       workerApp: [],
       urlWorkerApp:
-        "http://localhost:3000/admin/selectApplicationByWorker?idWorker=",
+        "http://localhost:3000/admin_worker/selectApplicationByWorker?idWorker=",
       status: [],
+      isCancel: false,
+      noValue: false,
     };
   },
   methods: {
@@ -220,8 +288,18 @@ export default {
         console.log(error);
       }
     },
-    cancel() {
-      console.log("cancel");
+    async cancel(idApp) {
+      try {
+        await fetch(
+          `http://localhost:3000/worker/workCancelApp?idApplication=${idApp}`,
+          {
+            method: "DELETE",
+          }
+        );
+        window.location.reload();
+      } catch (error) {
+        console.log("cancel fail");
+      }
     },
   },
   async created() {
@@ -230,6 +308,14 @@ export default {
       "http://localhost:3000/admin_worker/selectApplicationByWorker?idWorker=" +
         "1"
     );
+    console.log(this.noValue);
+    console.log(this.workerApp.length == 0);
+    if (this.workerApp.length == 0) {
+      this.noValue = true;
+    } else {
+      this.noValue = false;
+    }
+    console.log("After IF Condition " + this.noValue);
   },
 };
 </script>
