@@ -57,17 +57,32 @@
             v-model.trim="filter.enterEstOrPost"
             type="text"
             placeholder="ใส่ชื่อตำแหน่งงานหรือชื่อบริษัท"
-            class="input input-bordered w-full 2xl:text-base md:text-xs"
+            class="
+              input input-bordered
+              w-full
+              2xl:text-base
+              md:text-xs
+              font-normal
+              text-gray-400
+            "
           />
         </div>
         <div class="w-full flex-col">
           <p class="font-semibold 2xl:text-base md:text-xs">จังหวัด</p>
           <select
             v-model.trim="filter.enterProvince"
-            class="select select-bordered w-full 2xl:text-base md:text-xs"
+            class="
+              select select-bordered
+              w-full
+              2xl:text-base
+              md:text-xs
+              font-normal
+              text-gray-400
+            "
           >
             <option :value="''" disabled selected>จังหวัด</option>
             <option
+              class="text-black"
               v-for="p in provinces"
               :key="p.idProvince"
               :value="p.idProvince"
@@ -93,10 +108,18 @@
           </p>
           <select
             v-model.trim="filter.enterHiringType"
-            class="select select-bordered w-full 2xl:text-base md:text-xs"
+            class="
+              select select-bordered
+              w-full
+              2xl:text-base
+              md:text-xs
+              font-normal
+              text-gray-400
+            "
           >
             <option :value="''" disabled selected>รูปแบบงาน</option>
             <option
+              class="text-black"
               v-for="h in typeHiring"
               :key="h.idHiringtype"
               :value="h.idHiringtype"
@@ -122,11 +145,12 @@
           </p>
           <select
             v-model.trim="filter.enterSortSalary"
-            class="select select-bordered w-full 2xl:text-base md:text-xs"
+            class="select select-bordered w-full 2xl:text-base md:text-xs font-normal
+              text-gray-400"
           >
-            <option :value="''" disabled selected>ค่าตอบแทน</option>
-            <option value="DESC">มากไปน้อย</option>
-            <option value="ASC">น้อยไปมาก</option>
+            <option class="text-black" :value="''" disabled selected>ค่าตอบแทน</option>
+            <option class="text-black" value="DESC">มากไปน้อย</option>
+            <option class="text-black" value="ASC">น้อยไปมาก</option>
           </select>
         </div>
         <div
@@ -185,9 +209,10 @@
     <!-- <div class="flex flex-row justify-between p-6 font-sans-thai"> -->
     <!-- count posting  -->
     <div v-if="!noValue">
-    <p class="my-auto font-medium text-sm p-10">
-      1-30 จากทั้งหมด<span class="text-orange-1 text-sm"> 999 </span>ตำแหน่งงาน
-    </p>
+      <p class="my-auto font-medium text-sm p-10">
+        1-30 จากทั้งหมด<span class="text-orange-1 text-sm"> 999 </span
+        >ตำแหน่งงาน
+      </p>
     </div>
     <base-job></base-job>
     <!-- pagination  -->
@@ -260,7 +285,7 @@ export default {
           this.$store.commit("setPosting", response.data);
           if (response.data.length == 0) {
             this.noValue = true;
-          }else{
+          } else {
             this.noValue = false;
           }
         })
