@@ -68,7 +68,7 @@
                 >
                 <span class="hidden font-semibold text-base">ที่อยู่ : </span>
                 <span class="text-base font-medium inline-block align-middle">{{
-                  e.address
+                  e.address + " " + e.district.districtName + " " + e.subDistrict.subDistrict + " " + e.province.provinceName
                 }}</span>
               </p>
             </div>
@@ -108,6 +108,7 @@ export default {
     }),
   },
   async created() {
+    console.log(this.urlImage)
     const allPost = await this.fetch("http://localhost:3000/main/allPosting");
     console.log(allPost);
     this.$store.commit("setPosting", allPost);

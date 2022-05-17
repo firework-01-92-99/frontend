@@ -1,31 +1,36 @@
 <template>
   <div>
     <!-- toast -->
-    <div class="flex justify-center">
-      <div v-if="success" id="toast" class="absolute z-10 w-full alert alert-success shadow-lg">
-        <div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="stroke-current flex-shrink-0 h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          <p class="font-sans-thai">
-            ทำการสมัครเรียบร้อยแล้ว ติดตามความคืบหน้าได้ที่<span
-              class="font-medium"
-              >เมนู "สถานะการสมัครงาน"</span
+    <transition name="toast">
+      <div class="flex justify-center">
+        <div
+          v-if="success"
+          class="absolute z-10 2xl:w-2/5 w-full alert alert-success shadow-lg"
+        >
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="stroke-current flex-shrink-0 h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
             >
-          </p>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <p class="font-sans-thai">
+              ทำการสมัครเรียบร้อยแล้ว ติดตามความคืบหน้าได้ที่<span
+                class="font-medium"
+                >เมนู "สถานะการสมัครงาน"</span
+              >
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </transition>
     <!-- <router-link to="/findJob"> -->
     <!-- back btn -->
     <div>
@@ -61,7 +66,7 @@
         <span class="inline-block align-middle"
           ><i class="material-icons pr-2"> place </i></span
         >
-        <span class="inline-block align-middle">{{ employer.address }}</span>
+        <span class="inline-block align-middle">{{ employer.address + " " + employer.subDistrict?.subDistrict + " " + employer.district?.districtName + " " + employer.province?.provinceName + " " + employer.subDistrict?.postcode}}</span>
       </p>
       <p class="font-medium">
         <span class="inline-block align-middle"
@@ -118,9 +123,12 @@
             <div v-for="w in worker" :key="w.idWorker" class="">
               <div v-if="w.idWorker == 1">
                 <div class="modal-box w-80 mx-auto max-w-5xl">
-                  <h3 class="font-bold text-lg mb-5">
+                  <h3 v-if="sexNotTrue" class="font-bold text-lg mb-5">
                     ยืนยัน<span v-if="closeWord">ข้อมูล</span>การสมัครงาน
                     <!-- แจ้งเตือน -->
+                  </h3>
+                  <h3 v-else class="font-bold text-lg mb-5">
+                    แจ้งเตือน   
                   </h3>
                   <div v-if="closeWord">
                     <div class="w-full flex-col mb-5">
@@ -201,11 +209,13 @@
                       </p>
                     </div>
                   </div>
-                  <p v-if="!closeWord">
-                    ยืนยันที่จะสมัครงานตำแหน่ง
-                    <b>{{ jobDetail.position?.positionName }}</b> ของบริษัท
-                    <b>{{ employer.establishmentName }}</b>
-                  </p>
+                  <div v-if="sexNotTrue">
+                    <p v-if="!closeWord">
+                      ยืนยันที่จะสมัครงานตำแหน่ง
+                      <b>{{ jobDetail.position?.positionName }}</b> ของบริษัท
+                      <b>{{ employer.establishmentName }}</b>
+                    </p>
+                  </div>
                   <!-- pop up valid sex -->
                   <p v-if="!sexNotice">
                     ไม่สามารถสมัครงานได้
@@ -216,25 +226,18 @@
                     ไม่สามารถสมัครงานได้
                     เนื่องจากประเภทแรงงานของคุณไม่ตรงกับคุณสมบัติของตำแหน่งงานที่ได้กำหนดไว้
                   </p>
-                  <div class="modal-action justify-between">
-                    <label
-                      @click="(this.openForm = false), (this.canApp = 0)"
-                      class="btn btn-ghost px-12 h-11"
+                  <div :class="this.sexNotice == true ? 'modal-action justify-between' : 'modal-action justify-center'">
+                    <label v-if="this.sexNotice"
+                      @click="(this.openForm = false), (this.canApp = 0), this.sexNotice = true, this.typeNotice = true, this.sexNotTrue = true"
+                      class="btn btn-ghost px-12 h-11 "
                       >ยกเลิก</label
                     >
                     <base-button
                       @click="
                         (this.closeWord = false), this.canApp++, application()
                       "
-                      class="
-                        btn
-                        border-0
-                        bg-orange-1
-                        hover:bg-orange-2
-                        px-12
-                        h-11
-                      "
-                      :txtbutt="this.closeWord == false ? 'ยืนยัน' : 'ถัดไป'"
+                      :class=" this.sexNotice == true ? 'btn border-0 bg-orange-1 hover:bg-orange-2 px-12 h-11' : 'btn border-0 bg-orange-1 hover:bg-orange-2 px-12 h-11 w-full'"
+                      :txtbutt="this.closeWord == false && this.sexNotice == false ? 'ยืนยัน' : 'ถัดไป'"
                     ></base-button>
                   </div>
                 </div>
@@ -326,6 +329,7 @@ const ot = Object.freeze({
   n: "ไม่มี",
 });
 import BaseJob from "@/components/BaseJob.vue";
+import { ref } from "@vue/reactivity";
 // import BaseApplication from "@/components/BaseApplication.vue";
 
 export default {
@@ -345,7 +349,7 @@ export default {
       jobDetail: [],
       urlJobDetail: "http://localhost:3000/main/selectPosting",
       idPosting: 0,
-      success: false,
+      // success: false,
       allApplication: [],
       employer: [],
       urlEmp: "http://localhost:3000/allrole/selectEmployer",
@@ -358,6 +362,7 @@ export default {
       thisWorker: [],
       sexNotice: true,
       typeNotice: true,
+      sexNotTrue: true,
     };
   },
   methods: {
@@ -372,6 +377,16 @@ export default {
     },
     sendTrue() {
       this.$emit("setTrue", true);
+    },
+    setup() {
+      const success = ref(false);
+
+      const triggerToast = () => {
+        success.value = true;
+        setTimeout(() => (success.value = false), 3000);
+      };
+
+      return { success, triggerToast };
     },
     //sex ของ worker แม่งต้องไม่เท่ากับ เพศที่ต้องการของโพสติ้งที่ worker จะสมัคร
     // async application() {
@@ -425,17 +440,23 @@ export default {
                   method: "POST",
                 }
               );
-              this.success = true;
+
               this.alreadyApp = true;
               this.openForm = false;
               console.log("สมัครสำเร็จ");
+              this.setup();
             } catch (error) {
               console.log("สมัครไม่สำเร็จ เพราะ be");
             }
           } else {
+            if(this.sexNotice == false){
+            this.openForm = false;
+            this.closeWord = false;  
+            }
             this.openForm = true;
             this.closeWord = false;
             this.sexNotice = false;
+            this.sexNotTrue = false;
             console.log("sexNotice =" + this.sexNotice);
             console.log("เพศไม่ตรง");
           }
@@ -471,3 +492,28 @@ export default {
   },
 };
 </script>
+<style>
+.toast-app {
+  opacity: 0;
+  transform: translateY(-60px);
+}
+.toast-to {
+  opacity: 1;
+  transform: translateY(0);
+}
+.toast-active {
+  transform: all 0.3s ease;
+}
+
+.toast-leave-app {
+  opacity: 1;
+  transform: translateY(0);
+}
+.toast-leave-to {
+  opacity: 0;
+  transform: translateY(-60px);
+}
+.toast-leave-active {
+  transform: all 0.3s ease;
+}
+</style>
