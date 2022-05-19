@@ -2,9 +2,7 @@ version: "3"
 services:
    frontend:
        container_name: fireworkFE
-       build: 
-          context: .
-       image: frontend
+       image: ghcr.io/firework-01-92-99/firework:dev
        ports: 
           - "8080:80"
        networks:
