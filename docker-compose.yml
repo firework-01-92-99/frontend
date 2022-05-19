@@ -1,7 +1,7 @@
 version: "3"
 services:
    frontend:
-       container_name: ppclothesFE
+       container_name: fireworkFE
        build: 
           context: .
        image: frontend
@@ -13,6 +13,6 @@ services:
 networks:
   default:
     external:
-       name: NETWORK
+       name: firework
   NETWORK:
     external: true
