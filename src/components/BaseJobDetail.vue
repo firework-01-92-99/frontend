@@ -2,9 +2,8 @@
   <div>
     <!-- toast -->
     <transition name="toast">
-      <div class="flex justify-center">
+      <div v-if="showToast" class="flex justify-center">
         <div
-          v-if="success"
           class="absolute z-10 2xl:w-2/5 w-full alert alert-success shadow-lg"
         >
           <div>
@@ -329,7 +328,7 @@ const ot = Object.freeze({
   n: "ไม่มี",
 });
 import BaseJob from "@/components/BaseJob.vue";
-import { ref } from "@vue/reactivity";
+// import { ref } from "@vue/reactivity";
 // import BaseApplication from "@/components/BaseApplication.vue";
 
 export default {
@@ -363,6 +362,7 @@ export default {
       sexNotice: true,
       typeNotice: true,
       sexNotTrue: true,
+      showToast: false,
     };
   },
   methods: {
@@ -378,16 +378,19 @@ export default {
     sendTrue() {
       this.$emit("setTrue", true);
     },
-    setup() {
-      const success = ref(false);
+    // setup() {
+    //   const showToast = ref(false);
+    //   // console.log("triggerToast 1 = " + triggerToast())
+    //   const triggerToast = () => {
+    //     showToast.value = true;
+    //     setTimeout(() => (showToast.value = false), 3000);
+    //     // console.log("showToast 2 = " + triggerToast())
+    //   };
 
-      const triggerToast = () => {
-        success.value = true;
-        setTimeout(() => (success.value = false), 3000);
-      };
+    //   return { showToast, triggerToast };
+    // },
 
-      return { success, triggerToast };
-    },
+    
     //sex ของ worker แม่งต้องไม่เท่ากับ เพศที่ต้องการของโพสติ้งที่ worker จะสมัคร
     // async application() {
     //   if (this.canApp % 2 == 0) {
@@ -423,9 +426,7 @@ export default {
     //   }
     // },
     async application() {
-      console.log("เลข = " + this.canApp);
       if (this.canApp % 2 == 0) {
-        console.log("canApp เข้านะ");
 
         if (
           !this.jobDetail.applicationList
@@ -443,10 +444,16 @@ export default {
 
               this.alreadyApp = true;
               this.openForm = false;
+              // this.setup();
+              // this.setup().triggerToast
+              // console.log("this.setup()" + this.setup().Object)
+              // console.log("trigger toast" + this.setup().triggerToast)
+              this.showToast = true;
+               setTimeout(() => (this.showToast = false), 3000);
+              // this.setup()
               console.log("สมัครสำเร็จ");
-              this.setup();
             } catch (error) {
-              console.log("สมัครไม่สำเร็จ เพราะ be");
+              console.log("สมัครไม่สำเร็จ1");
             }
           } else {
             if(this.sexNotice == false){
