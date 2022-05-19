@@ -378,56 +378,8 @@ export default {
     sendTrue() {
       this.$emit("setTrue", true);
     },
-    // setup() {
-    //   const showToast = ref(false);
-    //   // console.log("triggerToast 1 = " + triggerToast())
-    //   const triggerToast = () => {
-    //     showToast.value = true;
-    //     setTimeout(() => (showToast.value = false), 3000);
-    //     // console.log("showToast 2 = " + triggerToast())
-    //   };
-
-    //   return { showToast, triggerToast };
-    // },
-
-    
-    //sex ของ worker แม่งต้องไม่เท่ากับ เพศที่ต้องการของโพสติ้งที่ worker จะสมัคร
-    // async application() {
-    //   if (this.canApp % 2 == 0) {
-    //     for (let i = 0; i <= this.allApplication.length; i++) {
-    //       console.log("id Worker = " + this.allApplication[i]?.idWorker);
-    //       if (this.allApplication[i]?.idWorker !== 1 && this.) {
-
-    //         if(this.jobDetail.sex == this.thisWorker.sex){
-    //           try {
-    //           await fetch(
-    //             `http://localhost:3000/worker/workApp?idWorker=1&idPosting=${this.idPosting}`,
-    //             {
-    //               method: "POST",
-    //             }
-    //           );
-    //           this.success = true;
-    //           this.alreadyApp = true;
-    //           this.openForm = false;
-    //           console.log("สมัครสำเร็จ");
-    //         } catch (error) {
-    //           console.log("สมัครไม่สำเร็จ 1");
-    //         }
-    //         }else{
-    //           console.log("เพศไม่ตรง")
-    //         }
-
-    //       } else {
-    //         console.log("สมัครไม่สำเร็จ");
-    //       }
-    //     }
-    //   } else {
-    //     console.log("ไม่ได้อ่า");
-    //   }
-    // },
     async application() {
       if (this.canApp % 2 == 0) {
-
         if (
           !this.jobDetail.applicationList
             .map((a) => a.idWorker)
@@ -444,13 +396,8 @@ export default {
 
               this.alreadyApp = true;
               this.openForm = false;
-              // this.setup();
-              // this.setup().triggerToast
-              // console.log("this.setup()" + this.setup().Object)
-              // console.log("trigger toast" + this.setup().triggerToast)
               this.showToast = true;
-               setTimeout(() => (this.showToast = false), 3000);
-              // this.setup()
+              setTimeout(() => (this.showToast = false), 3000);
               console.log("สมัครสำเร็จ");
             } catch (error) {
               console.log("สมัครไม่สำเร็จ1");
