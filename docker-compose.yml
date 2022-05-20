@@ -1,18 +1,17 @@
 version: "3"
 services:
-   frontend:
-       container_name: fireworkFE
-       build: 
-          context: .
-       image: frontend
-       ports: 
-          - "8080:80"
-       networks:
-         NETWORK:
-            ipv4_address: 172.21.0.11
+  frontend:
+    build: .
+    image: frontend
+    ports:
+      - "8080:80"
+    container_name: fireworkFE
+    networks:
+       NETWORK:
+          ipv4_address: 172.21.0.11
 networks:
   default:
     external:
-       name: firework
+       name: NETWORK
   NETWORK:
     external: true
