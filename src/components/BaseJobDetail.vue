@@ -65,7 +65,17 @@
         <span class="inline-block align-middle"
           ><i class="material-icons pr-2"> place </i></span
         >
-        <span class="inline-block align-middle">{{ employer.address + " " + employer.subDistrict?.subDistrict + " " + employer.district?.districtName + " " + employer.province?.provinceName + " " + employer.subDistrict?.postcode}}</span>
+        <span class="inline-block align-middle">{{
+          employer.address +
+          " " +
+          employer.subDistrict?.subDistrict +
+          " " +
+          employer.district?.districtName +
+          " " +
+          employer.province?.provinceName +
+          " " +
+          employer.subDistrict?.postcode
+        }}</span>
       </p>
       <p class="font-medium">
         <span class="inline-block align-middle"
@@ -126,9 +136,7 @@
                     ยืนยัน<span v-if="closeWord">ข้อมูล</span>การสมัครงาน
                     <!-- แจ้งเตือน -->
                   </h3>
-                  <h3 v-else class="font-bold text-lg mb-5">
-                    แจ้งเตือน   
-                  </h3>
+                  <h3 v-else class="font-bold text-lg mb-5">แจ้งเตือน</h3>
                   <div v-if="closeWord">
                     <div class="w-full flex-col mb-5">
                       <p class="font-semibold mb-2">เลขประจำตัว</p>
@@ -225,18 +233,32 @@
                     ไม่สามารถสมัครงานได้
                     เนื่องจากประเภทแรงงานของคุณไม่ตรงกับคุณสมบัติของตำแหน่งงานที่ได้กำหนดไว้
                   </p>
-                  <div :class="this.sexNotice == true ? 'modal-action justify-between' : 'modal-action justify-center'">
-                    <label v-if="this.sexNotice"
-                      @click="(this.openForm = false), (this.canApp = 0), this.sexNotice = true, this.typeNotice = true, this.sexNotTrue = true"
-                      class="btn btn-ghost px-12 h-11 "
+                  <div
+                    :class="
+                      this.sexNotice == true
+                        ? 'modal-action justify-between'
+                        : 'modal-action justify-center'
+                    "
+                  >
+                    <label
+                      v-if="this.sexNotice"
+                      @click="
+                        (this.openForm = false),
+                          (this.canApp = 0),
+                          (this.sexNotice = true),
+                          (this.typeNotice = true),
+                          (this.sexNotTrue = true)
+                      "
+                      class="btn btn-ghost px-12 h-11"
                       >ยกเลิก</label
                     >
                     <base-button
                       @click="
-                        (this.closeWord = false), this.canApp++, application()
-                      "
-                      :class=" this.sexNotice == true ? 'btn border-0 bg-orange-1 hover:bg-orange-2 px-12 h-11' : 'btn border-0 bg-orange-1 hover:bg-orange-2 px-12 h-11 w-full'"
-                      :txtbutt="this.closeWord == false && this.sexNotice == false ? 'ยืนยัน' : 'ถัดไป'"
+                        (this.closeWord = false), this.canApp++, application(), this.sexNotice == false || this.typeNotice == false ? this.openForm = false: 0"
+                      :class="
+                        this.sexNotice == true || this.typeNotice == true ? 'btn border-0 bg-orange-1 hover:bg-orange-2 px-12 h-11' : 'btn border-0 bg-orange-1 hover:bg-orange-2 px-12 h-11 w-full'"
+                      :txtbutt="
+                        this.closeWord == false ? (this.sexNotice == false || this.typeNotice == false ? 'ตกลง' : 'ยืนยัน') : 'ถัดไป'"
                     ></base-button>
                   </div>
                 </div>
@@ -288,10 +310,10 @@
           {{ day.day.abbreviation + "" }}.
         </span>
       </p>
-      <p>
+      <div>
         <span class="font-semibold">รายละเอียดงาน: </span>
-        {{ jobDetail.workDescription }}
-      </p>
+        <p class="ml-10" v-html="jobDetail.workDescription"></p>
+      </div>
       <p>
         <span class="font-semibold">รูปแบบงาน: </span>
         {{ jobDetail.hiringType?.nameType }}
@@ -300,9 +322,10 @@
         <span class="font-semibold">ค่าล่วงเวลา: </span>
         {{ ot[jobDetail.overtimePayment] }}
       </p>
-      <p>
-        <span class="font-semibold">สวัสดิการ: </span>{{ jobDetail.welfare }}
-      </p>
+      <div>
+        <span class="font-semibold">สวัสดิการ: </span>
+        <p class="ml-10" v-html="jobDetail.welfare"></p>
+      </div>
     </div>
     <div class="h-full place-items-center m-6">
       <span class="text-lg font-semibold">งานอื่น ๆ ที่บริษัทนี้เปิดรับ</span>
@@ -387,13 +410,13 @@ export default {
         ) {
           if (this.jobDetail.sex == this.thisWorker.sex) {
             try {
-              await fetch(
+              const response = await fetch(
                 `http://localhost:3000/worker/workApp?idWorker=1&idPosting=${this.idPosting}`,
                 {
                   method: "POST",
                 }
               );
-
+              console.log(response.json())
               this.alreadyApp = true;
               this.openForm = false;
               this.showToast = true;
@@ -403,13 +426,26 @@ export default {
               console.log("สมัครไม่สำเร็จ1");
             }
           } else {
-            if(this.sexNotice == false){
-            this.openForm = false;
-            this.closeWord = false;  
+            // if(this.jobDetail.workerType.typeName !== this.thisWorker.workerType.typeName){
+            //   console.log("Posting = " + this.jobDetail.workerType.typeName)
+            //   console.log("Worker = " + this.thisWorker.workerType.typeName)
+            //   this.openForm = false;
+            //   this.closeWord = false;
+            // }
+            if (this.jobDetail.sex !== this.thisWorker.sex) {
+              console.log("Posting Sex = " + this.jobDetail.sex)
+              console.log("Worker Sex = " + this.thisWorker.sex)
+              this.openForm = false;
+              this.closeWord = false;
+              this.sexNotice = false;
+            }else{
+              console.log("worker type ไม่ตรง")
+              this.openForm = false;
+              this.closeWord = false;
+              this.typeNotice = false;
             }
             this.openForm = true;
-            this.closeWord = false;
-            this.sexNotice = false;
+            // this.closeWord = false;
             this.sexNotTrue = false;
             console.log("sexNotice =" + this.sexNotice);
             console.log("เพศไม่ตรง");
