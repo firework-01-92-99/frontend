@@ -109,12 +109,12 @@ export default {
   },
   async created() {
     console.log(this.urlImage)
-    const allPost = await this.fetch("http://localhost:3000/main/allPosting");
+    // const allPost = await this.fetch("http://localhost:3000/main/allPosting");
+    const allPost = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allPosting`);
     console.log(allPost);
     this.$store.commit("setPosting", allPost);
-    this.allEmployer = await this.fetch(
-      "http://localhost:3000/allrole/allEmployer"
-    );
+    // this.allEmployer = await this.fetch("http://localhost:3000/allrole/allEmployer");
+    this.allEmployer = await this.fetch(`${process.env.VUE_APP_ROOT_API}allrole/allEmployer`);
   },
 };
 </script>

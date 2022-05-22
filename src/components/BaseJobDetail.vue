@@ -346,16 +346,19 @@ export default {
       ot,
       empId: null,
       jobDetail: [],
-      urlJobDetail: "http://localhost:3000/main/selectPosting",
+      // urlJobDetail: "http://localhost:3000/main/selectPosting",
+      urlJobDetail: `${process.env.VUE_APP_ROOT_API}main/selectPosting`,
       idPosting: 0,
       // success: false,
       allApplication: [],
       employer: [],
-      urlEmp: "http://localhost:3000/allrole/selectEmployer",
+      // urlEmp: "http://localhost:3000/allrole/selectEmployer",
+      urlEmp: `${process.env.VUE_APP_ROOT_API}allrole/selectEmployer`,
       alreadyApp: false,
       openForm: false,
       worker: [],
-      urlWorker: "http://localhost:3000/admin/allWorker",
+      // urlWorker: "http://localhost:3000/admin/allWorker",
+      urlWorker: `${process.env.VUE_APP_ROOT_API}admin/allWorker`,
       closeWord: true,
       canApp: 0,
       thisWorker: [],
@@ -388,7 +391,8 @@ export default {
           if (this.jobDetail.sex == this.thisWorker.sex) {
             try {
               await fetch(
-                `http://localhost:3000/worker/workApp?idWorker=1&idPosting=${this.idPosting}`,
+                // `http://localhost:3000/worker/workApp?idWorker=1&idPosting=${this.idPosting}`,
+                `${process.env.VUE_APP_ROOT_API}worker/workApp?idWorker=1&idPosting=${this.idPosting}`,
                 {
                   method: "POST",
                 }
@@ -431,13 +435,11 @@ export default {
     );
     this.idPosting = id;
     this.employer = await this.fetch(this.urlEmp + "?idEmployer=" + this.empId);
-    this.allApplication = await this.fetch(
-      "http://localhost:3000/admin/allApplication"
-    );
+    // this.allApplication = await this.fetch("http://localhost:3000/admin/allApplication");
+    this.allApplication = await this.fetch(`${process.env.VUE_APP_ROOT_API}admin/allApplication`);
     this.worker = await this.fetch(this.urlWorker);
-    this.thisWorker = await this.fetch(
-      "http://localhost:3000/admin/selectWorker?idWorker=1"
-    );
+    // this.thisWorker = await this.fetch("http://localhost:3000/admin/selectWorker?idWorker=1");
+    this.thisWorker = await this.fetch(`${process.env.VUE_APP_ROOT_API}admin/selectWorker?idWorker=1`);
     this.alreadyApp = this.jobDetail.applicationList
       .map((a) => a.idWorker)
       .includes(this.thisWorker.idWorker);

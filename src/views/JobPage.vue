@@ -278,7 +278,8 @@ export default {
       console.log("enterEstOrPost = " + this.filter.enterEstOrPost);
       await axios
         .get(
-          `http://localhost:3000/main/searchPosting?establishmentAndpositionName=${this.filter.enterEstOrPost}&idHiringtype=${this.filter.enterHiringType}&sortSalary=${this.filter.enterSortSalary}&idProvince=${this.filter.enterProvince}&idDistrict=&idSubdistrict=`
+          // `http://localhost:3000/main/searchPosting?establishmentAndpositionName=${this.filter.enterEstOrPost}&idHiringtype=${this.filter.enterHiringType}&sortSalary=${this.filter.enterSortSalary}&idProvince=${this.filter.enterProvince}&idDistrict=&idSubdistrict=`
+          `${process.env.VUE_APP_ROOT_API}main/searchPosting?establishmentAndpositionName=${this.filter.enterEstOrPost}&idHiringtype=${this.filter.enterHiringType}&sortSalary=${this.filter.enterSortSalary}&idProvince=${this.filter.enterProvince}&idDistrict=&idSubdistrict=`
         )
         .then((response) => {
           console.log(response.data);
@@ -295,7 +296,8 @@ export default {
     },
     async resetShowJob() {
       this.clearSearching();
-      const allPost = await this.fetch("http://localhost:3000/main/allPosting");
+      // const allPost = await this.fetch("http://localhost:3000/main/allPosting");
+      const allPost = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allPosting`);
       this.$store.commit("setPosting", allPost);
       console.log("Store 2 = " + this.$store.getters.getPosting);
     },
@@ -309,10 +311,10 @@ export default {
     },
   },
   async created() {
-    this.provinces = await this.fetch("http://localhost:3000/main/allProvince");
-    this.typeHiring = await this.fetch(
-      "http://localhost:3000/main/allHiringType"
-    );
+    // this.provinces = await this.fetch("http://localhost:3000/main/allProvince");
+    this.provinces = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allProvince`);
+    // this.typeHiring = await this.fetch("http://localhost:3000/main/allHiringType");
+    this.typeHiring = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allHiringType`);
   },
 };
 </script>

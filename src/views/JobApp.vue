@@ -271,8 +271,8 @@ export default {
   data() {
     return {
       workerApp: [],
-      urlWorkerApp:
-        "http://localhost:3000/admin_worker/selectApplicationByWorker?idWorker=",
+      // urlWorkerApp:"http://localhost:3000/admin_worker/selectApplicationByWorker?idWorker=",
+      urlWorkerApp:`${process.env.VUE_APP_ROOT_API}admin_worker/selectApplicationByWorker?idWorker=`,
       status: [],
       isCancel: false,
       noValue: false,
@@ -291,7 +291,8 @@ export default {
     async cancel(idApp) {
       try {
         await fetch(
-          `http://localhost:3000/worker/workCancelApp?idApplication=${idApp}`,
+          // `http://localhost:3000/worker/workCancelApp?idApplication=${idApp}`,
+          `${process.env.VUE_APP_ROOT_API}worker/workCancelApp?idApplication=${idApp}`,
           {
             method: "DELETE",
           }
@@ -305,8 +306,8 @@ export default {
   async created() {
     this.workerApp = await this.fetch(this.urlWorkerApp + "1");
     this.status = await this.fetch(
-      "http://localhost:3000/admin_worker/selectApplicationByWorker?idWorker=" +
-        "1"
+      // "http://localhost:3000/admin_worker/selectApplicationByWorker?idWorker=" + "1"
+      `${process.env.VUE_APP_ROOT_API}admin_worker/selectApplicationByWorker?idWorker=` + "1"
     );
     console.log(this.noValue);
     console.log(this.workerApp.length == 0);
