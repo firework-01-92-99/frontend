@@ -33,7 +33,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           # port: ${{ secrets.SERVERPORT }}
           script: |
-            cd ~/firework/frontend
+            cd ~/frontend
             docker-compose down
             docker-compose pull
             docker-compose up -d
