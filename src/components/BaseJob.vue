@@ -37,7 +37,7 @@
             <div class="card-body space-y-3">
               <div class="flex justify-between">
                 <h2 class="card-title text-orange-1 text-base">
-                  {{ job.position?.positionName }}
+                  {{ job.positionList?.positionName }}
                 </h2>
                 <i class="material-icons"> bookmark_border </i>
               </div>
@@ -108,7 +108,7 @@ export default {
     }),
   },
   async created() {
-    console.log(this.urlImage)
+    console.log("Test")
     // const allPost = await this.fetch("http://localhost:3000/main/allPosting");
     const allPost = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allPosting`);
     console.log(allPost);
