@@ -319,7 +319,8 @@ export default {
           console.log("ต่ำกว่าหน้า 1 ไม่ได้");
         }
         const pageBE = this.page - 1;
-        const sendBE = await this.fetch("http://localhost:3000/main/allPosting?pageNo=" + pageBE);
+        // const sendBE = await this.fetch("http://localhost:3000/main/allPosting?pageNo=" + pageBE);
+        const sendBE = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allPosting?pageNo=` + pageBE);
         this.$store.commit("setPosting", sendBE);
       }
     },

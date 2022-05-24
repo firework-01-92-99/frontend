@@ -271,8 +271,8 @@ export default {
   data() {
     return {
       workerApp: [],
-      urlWorkerApp:"http://localhost:3000/admin_worker/selectApplicationByWorker?idWorker=",
-      // urlWorkerApp:`${process.env.VUE_APP_ROOT_API}admin_worker/selectApplicationByWorker?idWorker=`,
+      // urlWorkerApp:"http://localhost:3000/admin_worker/selectApplicationByWorker?idWorker=",
+      urlWorkerApp:`${process.env.VUE_APP_ROOT_API}admin_worker/selectApplicationByWorker?idWorker=`,
       status: [],
       isCancel: false,
       noValue: false,
