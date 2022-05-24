@@ -17,7 +17,7 @@
         hover:border-4
         hover:border-orange-1
       "
-      v-for="job in allJobs"
+      v-for="job in allJobs.content"
       :key="job.idPosting"
     >
       <div>
@@ -37,7 +37,7 @@
             <div class="card-body space-y-3">
               <div class="flex justify-between">
                 <h2 class="card-title text-orange-1 text-base">
-                  {{ job.positionList?.positionName }}
+                  {{ job.position?.positionName }}
                 </h2>
                 <i class="material-icons"> bookmark_border </i>
               </div>
@@ -48,29 +48,19 @@
                 >
                 <span class="hidden font-semibold text-base">ค่าตอบแทน : </span>
                 <span class="text-base font-medium inline-block align-middle"
-                  >{{
-                    job.minSalary
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                  }}
-                  -
-                  {{
-                    job.maxSalary
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                  }}
-                  บาท</span
-                >
+                  >{{job.minSalary?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}} - {{job.maxSalary?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}} บาท</span>
               </p>
+              <div class="flex items-start">
               <p>
                 <span class="inline-block align-middle"
                   ><i class="material-icons pr-2"> place </i></span
                 >
                 <span class="hidden font-semibold text-base">ที่อยู่ : </span>
                 <span class="text-base font-medium inline-block align-middle">{{
-                  e.address + " " + e.district.districtName + " " + e.subDistrict.subDistrict + " " + e.province.provinceName
+                  e.address+ ' ' + e.district.districtName + " " + e.subDistrict.subDistrict + " " + e.province.provinceName + " " + e.subDistrict.postcode 
                 }}</span>
               </p>
+              </div>
             </div>
           </div>
         </router-link>
@@ -108,7 +98,6 @@ export default {
     }),
   },
   async created() {
-    console.log("Test")
     // const allPost = await this.fetch("http://localhost:3000/main/allPosting");
     const allPost = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allPosting`);
     console.log(allPost);

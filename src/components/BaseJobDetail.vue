@@ -92,7 +92,7 @@
             jobDetail.maxSalary
               ?.toString()
               .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          }}</span
+          }} บาท</span
         >
       </p>
       <p class="font-medium">
@@ -165,7 +165,7 @@
                           rounded-xl
                         "
                       >
-                        {{ w.sex }}
+                        {{ sex[w.sex] }}
                       </p>
                     </div>
                     <div class="w-full flex-col mb-5">
@@ -254,9 +254,9 @@
                     >
                     <base-button
                       @click="
-                        (this.closeWord = false), this.canApp++, application(), this.sexNotice == false || this.typeNotice == false ? this.openForm = false: 0"
+                        !this.closeWord && (!this.sexNotice || !this.typeNotice) ? this.openForm = false : '', (this.closeWord = false), this.canApp++, application()"
                       :class="
-                        this.sexNotice == true || this.typeNotice == true ? 'btn border-0 bg-orange-1 hover:bg-orange-2 px-12 h-11' : 'btn border-0 bg-orange-1 hover:bg-orange-2 px-12 h-11 w-full'"
+                       this.sexNotice && this.typeNotice ? 'btn border-0 bg-orange-1 hover:bg-orange-2 px-12 h-11' : 'btn border-0 bg-orange-1 hover:bg-orange-2 px-12 h-11 w-full'"
                       :txtbutt="
                         this.closeWord == false ? (this.sexNotice == false || this.typeNotice == false ? 'ตกลง' : 'ยืนยัน') : 'ถัดไป'"
                     ></base-button>
@@ -292,7 +292,7 @@
         <span class="font-semibold">แรงงานที่รับ: </span
         >{{ workerType[jobDetail.workerType?.typeName] }}
       </p>
-      <p><span class="font-semibold">เพศ: </span> {{ jobDetail.sex }}</p>
+      <p><span class="font-semibold">เพศ: </span> {{ sex[jobDetail.sex] }}</p>
       <p>
         <span class="font-semibold">อายุ: </span> {{ jobDetail.minAge }} -
         {{ jobDetail.maxAge }} ปี
@@ -342,6 +342,11 @@
 </template>
 
 <script>
+const sex = Object.freeze({
+  F: "หญิง",
+  M: "ชาย",
+  A: "ทุกเพศ"
+});
 const workerType = Object.freeze({
   Migrant: "แรงงานต่างด้าว",
   Thai: "แรงงานไทย",
@@ -365,23 +370,24 @@ export default {
   props: ["id"],
   data() {
     return {
+      sex,
       workerType,
       ot,
       empId: null,
       jobDetail: [],
-      // urlJobDetail: "http://localhost:3000/main/selectPosting",
-      urlJobDetail: `${process.env.VUE_APP_ROOT_API}main/selectPosting`,
+      urlJobDetail: "http://localhost:3000/main/selectPosting",
+      // urlJobDetail: `${process.env.VUE_APP_ROOT_API}main/selectPosting`,
       idPosting: 0,
       // success: false,
       allApplication: [],
       employer: [],
-      // urlEmp: "http://localhost:3000/allrole/selectEmployer",
-      urlEmp: `${process.env.VUE_APP_ROOT_API}allrole/selectEmployer`,
+      urlEmp: "http://localhost:3000/allrole/selectEmployer",
+      // urlEmp: `${process.env.VUE_APP_ROOT_API}allrole/selectEmployer`,
       alreadyApp: false,
       openForm: false,
       worker: [],
-      // urlWorker: "http://localhost:3000/admin/allWorker",
-      urlWorker: `${process.env.VUE_APP_ROOT_API}admin/allWorker`,
+      urlWorker: "http://localhost:3000/admin/allWorker",
+      // urlWorker: `${process.env.VUE_APP_ROOT_API}admin/allWorker`,
       closeWord: true,
       canApp: 0,
       thisWorker: [],
@@ -411,11 +417,11 @@ export default {
             .map((a) => a.idWorker)
             .includes(this.thisWorker.idWorker)
         ) {
-          if (this.jobDetail.sex == this.thisWorker.sex) {
+          if (this.jobDetail.sex == this.thisWorker.sex || this.jobDetail.sex == "A") {
             try {
               const response = await fetch(
-                // `http://localhost:3000/worker/workApp?idWorker=1&idPosting=${this.idPosting}`,
-                `${process.env.VUE_APP_ROOT_API}worker/workApp?idWorker=1&idPosting=${this.idPosting}`,
+                `http://localhost:3000/worker/workApp?idWorker=1&idPosting=${this.idPosting}`,
+                // `${process.env.VUE_APP_ROOT_API}worker/workApp?idWorker=1&idPosting=${this.idPosting}`,
                 {
                   method: "POST",
                 }

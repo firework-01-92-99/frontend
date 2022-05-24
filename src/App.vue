@@ -1,4 +1,5 @@
 <template>
+<div class="bg-gray-2 w-screen min-h-screen">
   <div class="navbar bg-dark-blue font-sans-thai">
     <div class="navbar-start">
       <div class="dropdown dropdown-hover">
@@ -45,7 +46,8 @@
         ><img class="2xl:h-12 xl:h-12 lg:h-12 md:h-12 h-9" src="./assets/Firework_LOGO-02.png"
       /></router-link>
     </div>
-    <div class="navbar-end">
+  </div>
+  <div class="navbar-end">
       <!-- <button class="btn btn-ghost btn-circle text-white">
         <div class="indicator">
           <svg
@@ -72,6 +74,7 @@
         <i class="material-icons"> logout </i>
       </button> -->
     </div>
-  </div>
+
   <router-view />
+  </div>
 </template>

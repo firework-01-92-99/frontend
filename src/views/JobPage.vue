@@ -211,21 +211,19 @@
         </div>
       </form>
     </div>
-    <div v-if="noValue">
-      <div class="text-center mt-10 mb-10">ไม่มีผลลัพธ์</div>
-    </div>
     <!-- <div class="flex flex-row justify-between p-6 font-sans-thai"> -->
     <!-- count posting  -->
-    <div v-if="!noValue">
       <p class="my-auto font-medium text-sm p-10">
-        1-30 จากทั้งหมด<span class="text-orange-1 text-sm"> 999 </span
-        >ตำแหน่งงาน
+        ทั้งหมด <span class="text-orange-1 text-sm"> {{lastPage.totalElements}} </span
+        > ผลลัพธ์
       </p>
+        <div v-if="noValue">
+      <div class="text-center mt-10 mb-10">ไม่มีผลลัพธ์</div>
     </div>
     <base-job></base-job>
     <!-- pagination  -->
     <div v-if="!noValue" class="btn-group justify-center pb-5 -mt-5">
-      <button @click="paging(pageNum--)" class="btn btn-ghost">
+      <button @click="paging((this.action = 'decrease'))" class="btn btn-ghost">
         <i class="material-icons"> chevron_left </i>
       </button>
       <button
@@ -240,9 +238,9 @@
           text-sm
         "
       >
-        หน้า <span class="text-orange-1 px-1">{{pageNum}}</span> จาก 10
+        หน้า <span class="text-orange-1 px-1">{{ page }}</span> จาก {{lastPage.totalPages}}
       </button>
-      <button @click="paging(pageNum++)" class="btn btn-ghost">
+      <button @click="paging((this.action = 'increase'))" class="btn btn-ghost">
         <i class="material-icons"> chevron_right </i>
       </button>
     </div>
@@ -252,6 +250,7 @@
 
 <script>
 // import BaseJobView from "@/components/BaseJobView.vue";
+import { mapGetters } from "vuex";
 import axios from "axios";
 import BaseJob from "@/components/BaseJob.vue";
 export default {
@@ -270,7 +269,8 @@ export default {
         enterSortSalary: "",
       },
       noValue: false,
-      pageNum:1
+      page: 1,
+      action: "",
     };
   },
   methods: {
@@ -286,14 +286,11 @@ export default {
     async resetShowJob() {
       this.clearSearching();
       // const allPost = await this.fetch("http://localhost:3000/main/allPosting");
-      const allPost = await this.fetch(
-        `${process.env.VUE_APP_ROOT_API}main/allPosting`
-      );
+      const allPost = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allPosting`);
       this.$store.commit("setPosting", allPost);
       console.log("Store 2 = " + this.$store.getters.getPosting);
     },
     async getData() {
-      console.log("enterEstOrPost = " + this.filter.enterEstOrPost);
       await axios
         .get(
           // `http://localhost:3000/main/searchPosting?establishmentAndpositionName=${this.filter.enterEstOrPost}&idHiringtype=${this.filter.enterHiringType}&sortSalary=${this.filter.enterSortSalary}&idProvince=${this.filter.enterProvince}&idDistrict=&idSubdistrict=`
@@ -302,7 +299,7 @@ export default {
         .then((response) => {
           console.log(response.data);
           this.$store.commit("setPosting", response.data);
-          if (response.data.length == 0) {
+          if (this.lastPage.totalPages == 0) {
             this.noValue = true;
           } else {
             this.noValue = false;
@@ -312,11 +309,18 @@ export default {
           console.log(error);
         });
     },
-    paging(p){
-      console.log("pageNum = " + p)
-      if(p>0){
-        let pageBE = p-1
-        console.log("willSentToBE" + pageBE)
+    async paging(action) {
+      if (this.page > 0) {
+        if (action == "decrease" && this.page !== 1) {
+          this.page--;
+        } else if (action == "increase" && this.page < this.lastPage.totalPages) {
+          this.page++;
+        } else {
+          console.log("ต่ำกว่าหน้า 1 ไม่ได้");
+        }
+        const pageBE = this.page - 1;
+        const sendBE = await this.fetch("http://localhost:3000/main/allPosting?pageNo=" + pageBE);
+        this.$store.commit("setPosting", sendBE);
       }
     },
 
@@ -329,15 +333,16 @@ export default {
       };
     },
   },
+    computed: {
+    ...mapGetters({
+      lastPage: "getPosting",
+    }),
+  },
   async created() {
     // this.provinces = await this.fetch("http://localhost:3000/main/allProvince");
-    this.provinces = await this.fetch(
-      `${process.env.VUE_APP_ROOT_API}main/allProvince`
-    );
+    this.provinces = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allProvince`);
     // this.typeHiring = await this.fetch("http://localhost:3000/main/allHiringType");
-    this.typeHiring = await this.fetch(
-      `${process.env.VUE_APP_ROOT_API}main/allHiringType`
-    );
+    this.typeHiring = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allHiringType`);
   },
 };
 </script>

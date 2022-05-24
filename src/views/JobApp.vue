@@ -271,8 +271,8 @@ export default {
   data() {
     return {
       workerApp: [],
-      // urlWorkerApp:"http://localhost:3000/admin_worker/selectApplicationByWorker?idWorker=",
-      urlWorkerApp:`${process.env.VUE_APP_ROOT_API}admin_worker/selectApplicationByWorker?idWorker=`,
+      urlWorkerApp:"http://localhost:3000/admin_worker/selectApplicationByWorker?idWorker=",
+      // urlWorkerApp:`${process.env.VUE_APP_ROOT_API}admin_worker/selectApplicationByWorker?idWorker=`,
       status: [],
       isCancel: false,
       noValue: false,
@@ -309,14 +309,12 @@ export default {
       // "http://localhost:3000/admin_worker/selectApplicationByWorker?idWorker=" + "1"
       `${process.env.VUE_APP_ROOT_API}admin_worker/selectApplicationByWorker?idWorker=` + "1"
     );
-    console.log(this.noValue);
     console.log(this.workerApp.length == 0);
     if (this.workerApp.length == 0) {
       this.noValue = true;
     } else {
       this.noValue = false;
     }
-    console.log("After IF Condition " + this.noValue);
   },
 };
 </script>
