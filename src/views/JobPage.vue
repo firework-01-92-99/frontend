@@ -145,10 +145,18 @@
           </p>
           <select
             v-model.trim="filter.enterSortSalary"
-            class="select select-bordered w-full 2xl:text-base md:text-xs font-normal
-              text-gray-400"
+            class="
+              select select-bordered
+              w-full
+              2xl:text-base
+              md:text-xs
+              font-normal
+              text-gray-400
+            "
           >
-            <option class="text-black" :value="''" disabled selected>ค่าตอบแทน</option>
+            <option class="text-black" :value="''" disabled selected>
+              ค่าตอบแทน
+            </option>
             <option class="text-black" value="DESC">มากไปน้อย</option>
             <option class="text-black" value="ASC">น้อยไปมาก</option>
           </select>
@@ -217,7 +225,7 @@
     <base-job></base-job>
     <!-- pagination  -->
     <div v-if="!noValue" class="btn-group justify-center pb-5 -mt-5">
-      <button class="btn btn-ghost">
+      <button @click="paging(pageNum--)" class="btn btn-ghost">
         <i class="material-icons"> chevron_left </i>
       </button>
       <button
@@ -232,9 +240,9 @@
           text-sm
         "
       >
-        หน้า <span class="text-orange-1 px-1">1</span> จาก 10
+        หน้า <span class="text-orange-1 px-1">{{pageNum}}</span> จาก 10
       </button>
-      <button class="btn btn-ghost">
+      <button @click="paging(pageNum++)" class="btn btn-ghost">
         <i class="material-icons"> chevron_right </i>
       </button>
     </div>
@@ -262,6 +270,7 @@ export default {
         enterSortSalary: "",
       },
       noValue: false,
+      pageNum:1
     };
   },
   methods: {
@@ -273,6 +282,15 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    async resetShowJob() {
+      this.clearSearching();
+      // const allPost = await this.fetch("http://localhost:3000/main/allPosting");
+      const allPost = await this.fetch(
+        `${process.env.VUE_APP_ROOT_API}main/allPosting`
+      );
+      this.$store.commit("setPosting", allPost);
+      console.log("Store 2 = " + this.$store.getters.getPosting);
     },
     async getData() {
       console.log("enterEstOrPost = " + this.filter.enterEstOrPost);
@@ -294,13 +312,14 @@ export default {
           console.log(error);
         });
     },
-    async resetShowJob() {
-      this.clearSearching();
-      // const allPost = await this.fetch("http://localhost:3000/main/allPosting");
-      const allPost = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allPosting`);
-      this.$store.commit("setPosting", allPost);
-      console.log("Store 2 = " + this.$store.getters.getPosting);
+    paging(p){
+      console.log("pageNum = " + p)
+      if(p>0){
+        let pageBE = p-1
+        console.log("willSentToBE" + pageBE)
+      }
     },
+
     clearSearching() {
       this.filter = {
         enterEstOrPost: "",
@@ -312,9 +331,13 @@ export default {
   },
   async created() {
     // this.provinces = await this.fetch("http://localhost:3000/main/allProvince");
-    this.provinces = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allProvince`);
+    this.provinces = await this.fetch(
+      `${process.env.VUE_APP_ROOT_API}main/allProvince`
+    );
     // this.typeHiring = await this.fetch("http://localhost:3000/main/allHiringType");
-    this.typeHiring = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allHiringType`);
+    this.typeHiring = await this.fetch(
+      `${process.env.VUE_APP_ROOT_API}main/allHiringType`
+    );
   },
 };
 </script>
