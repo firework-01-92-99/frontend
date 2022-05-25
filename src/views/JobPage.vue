@@ -344,6 +344,7 @@ export default {
     this.provinces = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allProvince`);
     // this.typeHiring = await this.fetch("http://localhost:3000/main/allHiringType");
     this.typeHiring = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allHiringType`);
+    console.log("test")
   },
 };
 </script>
