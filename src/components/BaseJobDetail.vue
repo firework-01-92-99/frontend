@@ -111,7 +111,7 @@
         <label
           for="my-modal-6"
           v-if="!alreadyApp"
-          @click="(this.openForm = true), (this.closeWord = true)"
+          @click="(this.openForm = true), (this.closeWord = true), this.sexNotice = true, this.typeNotice = true"
           class="
             btn
             modal-button
@@ -240,8 +240,9 @@
                         : 'modal-action justify-center'
                     "
                   >
+                  <!-- ถ้า sex/type ตรง ปุ่มยกเลิกจะเปิด ซึ่งมันมีเคสที่ มันจะมีอย่างใดอย่างนึงตรง ไอ ปุ่มยกเลิกเลยเปิด -->
                     <label
-                      v-if="this.sexNotice"
+                      v-if="(this.sexNotice && this.typeNotice) || (this.sexNotice) ? this.typeNotice : '' || this.typeNotice ? this.sexNotice : ''"
                       @click="
                         (this.openForm = false),
                           (this.canApp = 0),
@@ -254,10 +255,14 @@
                     >
                     <base-button
                       @click="
+                      // default closeWord, sexNotice, typeNotice = true, openForm = false
+                      //ถ้าข้อมูลอีซิ่นปิดอยู่และ sex/type ไม่ตรง ตัวpop up จะปิด //ถ้ากดปุ่มละปิดอีซิ่น //เรียก app()
                         !this.closeWord && (!this.sexNotice || !this.typeNotice) ? this.openForm = false : '', (this.closeWord = false), this.canApp++, application()"
                       :class="
+                      //sex/type ตรง ให้ปุ่มตกลงแคบ แต่ถ้า sex/type ไม่ตรง ให้ปุ่มตกลงกว้างงงงงง
                        this.sexNotice && this.typeNotice ? 'btn border-0 bg-orange-1 hover:bg-orange-2 px-12 h-11' : 'btn border-0 bg-orange-1 hover:bg-orange-2 px-12 h-11 w-full'"
                       :txtbutt="
+                      //ถ้าข้อมูลอีซิ่นปิดอยู่ให้เช็คว่า sex/type ตรงมั้ย ? ถ้าไม่ตรงให้เป็น 'ตกลง' แต่ถ้าตรง ให้เป็น 'ยืนยัน' แต่!!ถ้าข้อมูลอีซิ่นไม่ได้ปิดให้ปุ่มเป็น 'ถัดไป'
                         this.closeWord == false ? (this.sexNotice == false || this.typeNotice == false ? 'ตกลง' : 'ยืนยัน') : 'ถัดไป'"
                     ></base-button>
                   </div>
@@ -437,16 +442,8 @@ export default {
               console.log("สมัครไม่สำเร็จ1");
             }
           } else {
-            if (this.jobDetail.sex !== this.thisWorker.sex) {
-              console.log("Posting Sex = " + this.jobDetail.sex)
-              console.log("Worker Sex = " + this.thisWorker.sex)
-              this.closePopup()
-              this.sexNotice = false;
-            }else{
-              console.log("worker type ไม่ตรง1")
-              this.closePopup()
-              this.typeNotice = false;
-            }
+            this.closePopup()
+            this.sexNotice = false;
             this.openForm = true;
             // this.closeWord = false;
             this.conditionNotTrue = false;
@@ -458,6 +455,8 @@ export default {
           this.closePopup()
           this.typeNotice = false;
           this.conditionNotTrue = false;
+           this.openForm = true;
+           
         }
         } else {
           console.log("สมัครไม่สำเร็จเพราะสมัครไปแล้ว");

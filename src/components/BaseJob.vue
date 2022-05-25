@@ -17,7 +17,7 @@
         hover:border-4
         hover:border-orange-1
       "
-      v-for="job in allJobs.content"
+      v-for="job in allJobs?.content"
       :key="job.idPosting"
     >
       <div>

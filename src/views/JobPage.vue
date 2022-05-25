@@ -214,7 +214,7 @@
     <!-- <div class="flex flex-row justify-between p-6 font-sans-thai"> -->
     <!-- count posting  -->
       <p class="my-auto font-medium text-sm p-10">
-        ทั้งหมด <span class="text-orange-1 text-sm"> {{lastPage.totalElements}} </span
+        ทั้งหมด <span class="text-orange-1 text-sm"> {{lastPage?.totalElements}} </span
         > ผลลัพธ์
       </p>
         <div v-if="noValue">
@@ -238,7 +238,7 @@
           text-sm
         "
       >
-        หน้า <span class="text-orange-1 px-1">{{ page }}</span> จาก {{lastPage.totalPages}}
+        หน้า <span class="text-orange-1 px-1">{{ page }}</span> จาก {{lastPage?.totalPages}}
       </button>
       <button @click="paging((this.action = 'increase'))" class="btn btn-ghost">
         <i class="material-icons"> chevron_right </i>
@@ -299,7 +299,7 @@ export default {
         .then((response) => {
           console.log(response.data);
           this.$store.commit("setPosting", response.data);
-          if (this.lastPage.totalPages == 0) {
+          if (this.lastPage?.totalPages == 0) {
             this.noValue = true;
           } else {
             this.noValue = false;
@@ -313,7 +313,7 @@ export default {
       if (this.page > 0) {
         if (action == "decrease" && this.page !== 1) {
           this.page--;
-        } else if (action == "increase" && this.page < this.lastPage.totalPages) {
+        } else if (action == "increase" && this.page < this.lastPage?.totalPages) {
           this.page++;
         } else {
           console.log("ต่ำกว่าหน้า 1 ไม่ได้");
