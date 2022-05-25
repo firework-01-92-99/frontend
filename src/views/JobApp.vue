@@ -229,8 +229,8 @@
               <!-- Put this part before </body> tag -->
               <div v-if="isCancel">
                 <input type="checkbox" id="my-modal-6" class="modal-toggle" />
-                <div class="modal modal-middle sm:modal-middle">
-                  <div class="modal-box">
+                <div class="modal modal-middle">
+                  <div class="modal-box w-80 mx-auto max-w-5xl">
                     <h3 class="font-bold text-lg">แจ้งเตือน</h3>
                     <p class="py-4">
                       ยืนยันที่จะยกเลิกการสมัครงานตำแหน่ง

@@ -1,7 +1,7 @@
 <template>
-<div class="bg-gray-2 w-screen min-h-screen">
+<div class="bg-gray-2 w-full min-h-screen">
   <div class="navbar bg-dark-blue font-sans-thai">
-    <div class="navbar-start">
+    <div class="navbar-center">
       <div class="dropdown dropdown-hover">
         <label tabindex="0" class="btn btn-ghost btn-circle m-1 text-white 2xl:ml-5">
           <svg
@@ -41,7 +41,7 @@
         </ul>
       </div>
     </div>
-    <div class="navbar-center">
+    <div class="navbar-center mx-auto 2xl:pr-16 xl:pr-16 lg:pr-16 md:pr-16 pr-16">
       <router-link to="/"
         ><img class="2xl:h-12 xl:h-12 lg:h-12 md:h-12 h-9" src="./assets/Firework_LOGO-02.png"
       /></router-link>

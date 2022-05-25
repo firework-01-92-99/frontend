@@ -132,7 +132,7 @@
             <div v-for="w in worker" :key="w.idWorker" class="">
               <div v-if="w.idWorker == 1">
                 <div class="modal-box w-80 mx-auto max-w-5xl">
-                  <h3 v-if="sexNotTrue" class="font-bold text-lg mb-5">
+                  <h3 v-if="conditionNotTrue" class="font-bold text-lg mb-5">
                     ยืนยัน<span v-if="closeWord">ข้อมูล</span>การสมัครงาน
                     <!-- แจ้งเตือน -->
                   </h3>
@@ -216,7 +216,7 @@
                       </p>
                     </div>
                   </div>
-                  <div v-if="sexNotTrue">
+                  <div v-if="conditionNotTrue">
                     <p v-if="!closeWord">
                       ยืนยันที่จะสมัครงานตำแหน่ง
                       <b>{{ jobDetail.position?.positionName }}</b> ของบริษัท
@@ -235,7 +235,7 @@
                   </p>
                   <div
                     :class="
-                      this.sexNotice == true
+                      this.sexNotice == true || this.typeNotice == true
                         ? 'modal-action justify-between'
                         : 'modal-action justify-center'
                     "
@@ -247,7 +247,7 @@
                           (this.canApp = 0),
                           (this.sexNotice = true),
                           (this.typeNotice = true),
-                          (this.sexNotTrue = true)
+                          (this.conditionNotTrue = true)
                       "
                       class="btn btn-ghost px-12 h-11"
                       >ยกเลิก</label
@@ -393,7 +393,7 @@ export default {
       thisWorker: [],
       sexNotice: true,
       typeNotice: true,
-      sexNotTrue: true,
+      conditionNotTrue: true,
       showToast: false,
     };
   },
@@ -417,6 +417,7 @@ export default {
             .map((a) => a.idWorker)
             .includes(this.thisWorker.idWorker)
         ) {
+          if(this.jobDetail.workerType.typeName == this.thisWorker.workerType.typeName){
           if (this.jobDetail.sex == this.thisWorker.sex || this.jobDetail.sex == "A") {
             try {
               const response = await fetch(
@@ -436,30 +437,28 @@ export default {
               console.log("สมัครไม่สำเร็จ1");
             }
           } else {
-            // if(this.jobDetail.workerType.typeName !== this.thisWorker.workerType.typeName){
-            //   console.log("Posting = " + this.jobDetail.workerType.typeName)
-            //   console.log("Worker = " + this.thisWorker.workerType.typeName)
-            //   this.openForm = false;
-            //   this.closeWord = false;
-            // }
             if (this.jobDetail.sex !== this.thisWorker.sex) {
               console.log("Posting Sex = " + this.jobDetail.sex)
               console.log("Worker Sex = " + this.thisWorker.sex)
-              this.openForm = false;
-              this.closeWord = false;
+              this.closePopup()
               this.sexNotice = false;
             }else{
-              console.log("worker type ไม่ตรง")
-              this.openForm = false;
-              this.closeWord = false;
+              console.log("worker type ไม่ตรง1")
+              this.closePopup()
               this.typeNotice = false;
             }
             this.openForm = true;
             // this.closeWord = false;
-            this.sexNotTrue = false;
+            this.conditionNotTrue = false;
             console.log("sexNotice =" + this.sexNotice);
             console.log("เพศไม่ตรง");
           }
+        }else{
+          console.log("worker type ไม่ตรงงงง")
+          this.closePopup()
+          this.typeNotice = false;
+          this.conditionNotTrue = false;
+        }
         } else {
           console.log("สมัครไม่สำเร็จเพราะสมัครไปแล้ว");
         }
@@ -467,6 +466,10 @@ export default {
         console.log("สมัครไม่สำเร็จ");
       }
     },
+    closePopup(){
+      this.openForm = false;
+      this.closeWord = false;
+    }
   },
   async created() {
     // this.jobDetail = await this.fetch(this.urlJobDetail + "?idPosting=" + this.id);
