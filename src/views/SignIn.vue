@@ -158,7 +158,7 @@
                             "
                             @click.prevent="showPassword"
                           >
-                            <img class="" :src="eye" />
+                            <!-- <img class="" :src="eye" /> -->
                           </button>
                         </div>
                       </div>
@@ -166,7 +166,7 @@
                         v-if="showError"
                         class="font-prompt-regular-400 text-red-600"
                       >
-                        Username or Password not correct!
+                        Username or Password is not correct!
                       </p>
                     </div>
                   </div>
@@ -220,19 +220,20 @@ export default {
         password: "",
       },
       type: "password",
-      eye: require("../assets/icon/hide.png"),
+      // eye: require("../assets/icon/hide.png"),
       showError: false,
     };
   },
   methods: {
     showPassword() {
-      if (this.type === "password") {
-        this.type = "text";
-        this.eye = require("../assets/icon/show.png");
-      } else {
-        this.type = "password";
-        this.eye = require("../assets/icon/hide.png");
-      }
+      console.log("Show Pass")
+      // if (this.type === "password") {
+      //   this.type = "text";
+      //   this.eye = require("../assets/icon/show.png");
+      // } else {
+      //   this.type = "password";
+      //   this.eye = require("../assets/icon/hide.png");
+      // }
     },
     ...mapActions({
       signIn: "auth/signIn",
@@ -240,13 +241,7 @@ export default {
     submit() {
       this.signIn(this.form)
         .then(() => {
-          this.$router.replace(
-            this.$store.state.auth.user &&
-              (this.$store.state.auth.user.idRole.idRole == 2 ||
-                this.$store.state.auth.user.idRole.idRole == 3)
-              ? "/product/views"
-              : "/account"
-          );
+          this.$router.replace(this.$store.state.auth.user &&(this.$store.state.auth.user.role?.idRole == 3) ? "/": "/");
         })
         .catch((error) => {
           console.log(error);

@@ -53,7 +53,7 @@
       </div>
 
       <div class="navbar-end">
-        <router-link to="/signin">
+        <router-link to="/signin" v-if="!this.$store.state.auth.user">
           <button
             class="
               btn btn-outline
@@ -64,6 +64,11 @@
             เข้าสู่ระบบ
           </button>
         </router-link>
+        <div v-else>
+      <button @click="signOut()" class="btn btn-ghost btn-circle text-white">
+        <i class="material-icons"> logout </i>
+      </button>
+        </div>
         <!-- <button class="btn btn-ghost btn-circle text-white">
         <div class="indicator">
           <svg
@@ -94,3 +99,22 @@
     <router-view />
   </div>
 </template>
+<script>
+import { mapActions } from "vuex";
+export default {
+  methods: {
+        ...mapActions({
+      signOutAction: "auth/signOut",
+    }),
+    signOut() {
+      this.signOutAction().then(() => {
+        this.$router.replace({
+          name: "JobPage",
+        });
+        location.reload()
+      });
+    },
+  },
+
+}
+</script>

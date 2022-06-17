@@ -17,7 +17,7 @@
         hover:border-4
         hover:border-orange-1
       "
-      v-for="job in allJobs?.content"
+      v-for="job in allJobs?.content?.filter(j => j.idPosting != this.idPost )"
       :key="job.idPosting"
     >
       <div>
@@ -57,7 +57,7 @@
                 >
                 <span class="hidden font-semibold text-base">ที่อยู่ : </span>
                 <span class="text-base font-medium inline-block align-middle">{{
-                  e.address+ ' ' + e.district.districtName + " " + e.subDistrict.subDistrict + " " + e.province.provinceName + " " + e.subDistrict.postcode 
+                  e.address+ ' ' + e.district?.districtName + " " + e.subDistrict?.subDistrict + " " + e.province?.provinceName + " " + e.subDistrict?.postcode 
                 }}</span>
               </p>
               </div>
@@ -73,7 +73,7 @@
 // import BaseJobDetail from "@/components/BaseJobDetail.vue";
 import { mapGetters } from "vuex";
 export default {
-  props: ["searched"],
+  props: ["searched", "idPost"],
   // components: { BaseJobDetail },
   data() {
     return {
@@ -102,8 +102,8 @@ export default {
     const allPost = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allPosting`);
     console.log(allPost);
     this.$store.commit("setPosting", allPost);
-    // this.allEmployer = await this.fetch("http://localhost:3000/allrole/allEmployer");
-    this.allEmployer = await this.fetch(`${process.env.VUE_APP_ROOT_API}allrole/allEmployer`);
+    // this.allEmployer = await this.fetch("http://localhost:3000/main/allEmployer");
+    this.allEmployer = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allEmployer`);
   },
 };
 </script>
