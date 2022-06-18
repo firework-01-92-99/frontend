@@ -1,7 +1,7 @@
 <template>
   <div class="SignIn">
     <!-- component -->
-    <div class="bg-gray-extra-light h-screen w-screen">
+    <div class="font-sans-thai bg-gray-2 h-screen">
       <div
         class="
           flex flex-col
@@ -28,18 +28,14 @@
           <div
             class="hidden lg:block lg:w-1/2"
             style="
-              background: url('https://images.squarespace-cdn.com/content/v1/582abbefb3db2b4f0a63192f/1488239517608-0J3PK4TMBEN2TSGBBCB3/image-asset.jpeg');
+              background: url('https://images.unsplash.com/photo-1462206092226-f46025ffe607?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1174&q=80');
               background-size: cover;
               background-position: center center;
             "
           ></div>
           <div class="flex flex-col w-full lg:w-1/2 p-4">
             <div class="flex flex-col flex-1 justify-center mb-8">
-              <h1
-                class="font-prompt-regular-400 font-bold text-4xl text-center"
-              >
-                Sign In
-              </h1>
+              <h1 class="font-bold text-4xl text-center">เข้าสู่ระบบ</h1>
               <div class="w-full mt-4">
                 <form
                   @submit.prevent="submit"
@@ -47,15 +43,8 @@
                 >
                   <div class="flex -mx-3">
                     <div class="w-full px-3 mb-5">
-                      <label
-                        for="email"
-                        class="
-                          font-prompt-regular-400
-                          text-base
-                          font-medium
-                          px-1
-                        "
-                        >Username</label
+                      <label for="email" class="text-base font-medium px-1"
+                        >อีเมล</label
                       >
                       <div class="flex">
                         <div
@@ -80,7 +69,6 @@
                           id="email"
                           v-model="form.username"
                           class="
-                            font-prompt-regular-400
                             w-full
                             -ml-10
                             pl-10
@@ -91,22 +79,15 @@
                             outline-none
                             focus:border-indigo-500
                           "
-                          placeholder="Username"
+                          placeholder="อีเมล"
                         />
                       </div>
                     </div>
                   </div>
                   <div class="flex -mx-3">
                     <div class="w-full px-3 mb-5">
-                      <label
-                        for="password"
-                        class="
-                          font-prompt-regular-400
-                          text-base
-                          font-medium
-                          px-1
-                        "
-                        >Password</label
+                      <label for="password" class="text-base font-medium px-1"
+                        >รหัสผ่าน</label
                       >
 
                       <div class="flex">
@@ -132,7 +113,6 @@
                           id="password"
                           v-model="form.password"
                           class="
-                            font-prompt-regular-400
                             w-full
                             -ml-10
                             pl-10
@@ -143,7 +123,7 @@
                             outline-none
                             focus:border-indigo-500
                           "
-                          placeholder="Password"
+                          placeholder="รหัสผ่าน"
                         />
 
                         <div class="relative">
@@ -158,15 +138,12 @@
                             "
                             @click.prevent="showPassword"
                           >
-                            <!-- <img class="" :src="eye" /> -->
+                            <img class="" :src="eye" />
                           </button>
                         </div>
                       </div>
-                      <p
-                        v-if="showError"
-                        class="font-prompt-regular-400 text-red-600"
-                      >
-                        Username or Password is not correct!
+                      <p v-if="showError" class="text-red-600">
+                        อีเมลหรือรหัสผ่านไม่ถูกต้อง
                       </p>
                     </div>
                   </div>
@@ -174,9 +151,8 @@
                     <button
                       type="submit"
                       class="
-                        font-prompt-regular-400
-                        bg-red-light
-                        hover:bg-red-dark
+                        bg-orange-1
+                        hover:bg-orange-2
                         text-white text-base
                         font-medium
                         py-2
@@ -191,15 +167,9 @@
                 <div class="text-center mt-4">
                   <div
                     @click="this.$router.push('/signup')"
-                    class="
-                      cursor-pointer
-                      no-underline
-                      hover:underline
-                      font-prompt-regular-400
-                      text-sm
-                    "
+                    class="cursor-pointer no-underline hover:underline text-sm"
                   >
-                    Don't have an account? Sign Up
+                    คุณยังไม่มีบัญชี? ลงทะเบียน
                   </div>
                 </div>
               </div>
@@ -220,20 +190,20 @@ export default {
         password: "",
       },
       type: "password",
-      // eye: require("../assets/icon/hide.png"),
+      eye: require("../assets/hide.png"),
       showError: false,
     };
   },
   methods: {
     showPassword() {
-      console.log("Show Pass")
-      // if (this.type === "password") {
-      //   this.type = "text";
-      //   this.eye = require("../assets/icon/show.png");
-      // } else {
-      //   this.type = "password";
-      //   this.eye = require("../assets/icon/hide.png");
-      // }
+      console.log("Show Pass");
+      if (this.type === "password") {
+        this.type = "text";
+        this.eye = require("../assets/show.png");
+      } else {
+        this.type = "password";
+        this.eye = require("../assets/hide.png");
+      }
     },
     ...mapActions({
       signIn: "auth/signIn",
@@ -241,7 +211,12 @@ export default {
     submit() {
       this.signIn(this.form)
         .then(() => {
-          this.$router.replace(this.$store.state.auth.user &&(this.$store.state.auth.user.role?.idRole == 3) ? "/": "/");
+          this.$router.replace(
+            this.$store.state.auth.user &&
+              this.$store.state.auth.user.role?.idRole == 3
+              ? "/"
+              : "/"
+          );
         })
         .catch((error) => {
           console.log(error);
