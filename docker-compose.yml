@@ -1,0 +1,16 @@
+version: "3"
+services:
+  frontend:
+    image: ghcr.io/firework-01-92-99/firework:dev
+    ports:
+      - "8080:80"
+    container_name: fireworkFE
+    networks:
+       NETWORK:
+          ipv4_address: 172.21.0.11
+networks:
+  default:
+    external:
+       name: NETWORK
+  NETWORK:
+    external: true

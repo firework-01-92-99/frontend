@@ -1,23 +1,41 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import JobPage from '../views/JobPage.vue'
+import JobDetail from '../views/JobDetail.vue'
+import JobApp from '../views/JobApp.vue'
+import SignIn from '../views/SignIn.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    name: 'JobPage',
+    component: JobPage
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+    path: '/detail',
+    name: 'JobDetail',
+    component: JobDetail
+  },
+  {
+    path: '/application',
+    name: 'JobApp',
+    component: JobApp
+  },
+  {
+    path: '/signin',
+    name: 'SignIn',
+    component: SignIn
+    // beforeEnter: (to, from, next) => {
+    //   if (store.getters['auth/authenticated']) {
+    //     return next({
+    //       name: 'Home'
+    //     })
+    //   }
+    //   next()
+    // }
+  },
 ]
 
 const router = new VueRouter({
