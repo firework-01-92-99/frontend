@@ -4,6 +4,7 @@ import JobPage from '../views/JobPage.vue'
 import JobDetail from '../views/JobDetail.vue'
 import JobApp from '../views/JobApp.vue'
 import SignIn from '../views/SignIn.vue'
+import SignUp from '../views/SignUp.vue'
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,19 @@ const routes = [
     path: '/signin',
     name: 'SignIn',
     component: SignIn
+    // beforeEnter: (to, from, next) => {
+    //   if (store.getters['auth/authenticated']) {
+    //     return next({
+    //       name: 'Home'
+    //     })
+    //   }
+    //   next()
+    // }
+  },
+  {
+    path: '/signup',
+    name: 'SignUp',
+    component: SignUp,
     // beforeEnter: (to, from, next) => {
     //   if (store.getters['auth/authenticated']) {
     //     return next({

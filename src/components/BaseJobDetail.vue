@@ -47,7 +47,7 @@
     <div class="mx-auto card 2xl:card-side bg-base-100 font-sans-thai w-full">
       <figure class="2xl:w-1/4">
         <img
-          class="2xl:h-full"
+          class="2xl:h-full w-full"
           src="https://i.ytimg.com/vi/J_oT9erINxA/maxresdefault.jpg"
           alt="Movie"
         />

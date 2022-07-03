@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-2 w-full min-h-screen">
+  <div id="app" class="bg-gray-2 w-full min-h-screen">
     <div class="navbar bg-dark-blue font-sans-thai">
       <div class="navbar-center">
         <div class="dropdown dropdown-hover">
@@ -52,8 +52,8 @@
         /></router-link>
       </div>
 
-      <div class="navbar-end">
-        <div class="dropdown dropdown-end">
+      <div class="navbar-end space-x-6">
+        <!-- <div class="dropdown dropdown-end">
           <label tabindex="0" class="btn m-1"
             ><span class="material-icons"> language </span></label
           >
@@ -69,13 +69,58 @@
               w-52
             "
           >
-            <!-- <li><a>ไทย</a></li>
+            <li><a>ไทย</a></li>
             <li><a>English</a></li>
             <li><a>ខ្មែរ</a></li>
             <li><a>မြန်မာ</a></li>
-            <li><a>ລາວ</a></li> -->
+            <li><a>ລາວ</a></li>
             <Translator :countries="countries" @on-country-click="hideModal"/>
           </ul>
+        </div> -->
+        <!-- test1 -->
+        <!-- <div>
+          <div class="media-body d-lg-block">
+            <b-button
+              class="mx-1 text-white"
+              variant="success"
+              size="sm"
+              v-b-modal.translate-modal
+            >
+              Translate
+            </b-button>
+          </div>
+
+          <translate-modal id="translate-modal"></translate-modal>
+        </div> -->
+        <!-- test2 -->
+        <!-- <div>
+          <b-button v-b-modal.modal-1>Launch demo modal</b-button>
+
+          <b-modal id="modal-1" title="BootstrapVue">
+            <p class="my-4">Hello from modal!</p>
+          </b-modal>
+        </div> -->
+        <!-- The button to open modal -->
+        <label for="my-modal" class="btn modal-button"
+          ><span class="material-icons"> language </span></label
+        >
+
+        <!-- Put this part before </body> tag -->
+        <input type="checkbox" id="my-modal" class="modal-toggle" />
+        <div class="modal">
+          <div class="modal-box">
+            <!-- <h3 class="font-bold text-lg">
+              Congratulations random Internet user!
+            </h3>
+            <p class="py-4">
+              You've been selected for a chance to get one year of subscription
+              to use Wikipedia for free!
+            </p> -->
+            <Translator :countries="countries" @on-country-click="hideModal" />
+            <div class="modal-action">
+              <label for="my-modal" class="btn">Yay!</label>
+            </div>
+          </div>
         </div>
         <router-link to="/signin" v-if="!this.$store.state.auth.user">
           <button
@@ -86,6 +131,17 @@
             "
           >
             เข้าสู่ระบบ
+          </button>
+        </router-link>
+        <router-link to="/signup" v-if="!this.$store.state.auth.user">
+          <button
+            class="
+              btn btn-outline
+              text-white
+              hover:text-orange-400 hover:border-orange-1
+            "
+          >
+            ลงทะเบียน
           </button>
         </router-link>
         <div v-else>
@@ -124,6 +180,11 @@
       </div>
     </div>
     <router-view />
+    <!-- <footer class="footer footer-center p-4 bg-base-300 text-base-content">
+      <div>
+        <p>Copyright © 2022 - All right reserved by ACME Industries Ltd</p>
+      </div>
+    </footer> -->
   </div>
 </template>
 <script>
@@ -138,13 +199,13 @@ export default {
       countries: [
         {
           code: "th|th",
-          title: "ไทย",
+          title: "Thai",
         },
         {
           code: "th|en",
           title: "English",
         },
-      ]
+      ],
     };
   },
   methods: {
