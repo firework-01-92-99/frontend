@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="bg-gray-2 w-full min-h-screen">
     <div class="navbar bg-dark-blue font-sans-thai">
-      <div class="navbar-center">
+      <div class="navbar-start">
         <div class="dropdown dropdown-hover">
           <label
             tabindex="0"
@@ -41,6 +41,10 @@
             <li class="hover:text-orange-1">
               <router-link to="/application">สถานะการสมัครงาน</router-link>
             </li>
+            <!-- admin -->
+            <li class="hover:text-orange-1">
+              <router-link to="/admin">แอดมิน</router-link>
+            </li>
           </ul>
         </div>
       </div>
@@ -53,75 +57,31 @@
       </div>
 
       <div class="navbar-end space-x-6">
-        <!-- <div class="dropdown dropdown-end">
-          <label tabindex="0" class="btn m-1"
+        <div class="">
+          <!-- The button to open modal -->
+          <label for="my-modal" class="btn modal-button"
             ><span class="material-icons"> language </span></label
           >
-          <ul
-            tabindex="0"
-            class="
-              dropdown-content
-              menu
-              p-2
-              shadow
-              bg-base-100
-              rounded-box
-              w-52
-            "
-          >
-            <li><a>ไทย</a></li>
-            <li><a>English</a></li>
-            <li><a>ខ្មែរ</a></li>
-            <li><a>မြန်မာ</a></li>
-            <li><a>ລາວ</a></li>
-            <Translator :countries="countries" @on-country-click="hideModal"/>
-          </ul>
-        </div> -->
-        <!-- test1 -->
-        <!-- <div>
-          <div class="media-body d-lg-block">
-            <b-button
-              class="mx-1 text-white"
-              variant="success"
-              size="sm"
-              v-b-modal.translate-modal
-            >
-              Translate
-            </b-button>
-          </div>
-
-          <translate-modal id="translate-modal"></translate-modal>
-        </div> -->
-        <!-- test2 -->
-        <!-- <div>
-          <b-button v-b-modal.modal-1>Launch demo modal</b-button>
-
-          <b-modal id="modal-1" title="BootstrapVue">
-            <p class="my-4">Hello from modal!</p>
-          </b-modal>
-        </div> -->
-        <!-- The button to open modal -->
-        <label for="my-modal" class="btn modal-button"
-          ><span class="material-icons"> language </span></label
-        >
-
-        <!-- Put this part before </body> tag -->
-        <input type="checkbox" id="my-modal" class="modal-toggle" />
-        <div class="modal">
-          <div class="modal-box">
-            <!-- <h3 class="font-bold text-lg">
-              Congratulations random Internet user!
-            </h3>
-            <p class="py-4">
-              You've been selected for a chance to get one year of subscription
-              to use Wikipedia for free!
-            </p> -->
-            <Translator :countries="countries" @on-country-click="hideModal" />
-            <div class="modal-action">
-              <label for="my-modal" class="btn">Yay!</label>
+          <!-- Put this part before </body> tag -->
+          <input type="checkbox" id="my-modal" class="modal-toggle" />
+          <div class="modal w-full">
+            <div class="modal-box">
+              <Translator
+                :countries="countries"
+                @on-country-click="hideModal"
+              />
+              <div class="modal-action">
+                <label for="my-modal" class="btn">ตกลง</label>
+              </div>
             </div>
           </div>
         </div>
+        
+        <button v-if="$store.state.auth.user" class="btn btn-ghost btn-circle text-white">
+          <router-link to="/profile"
+            ><i class="material-icons"> account_circle </i></router-link
+          >
+        </button>
         <router-link to="/signin" v-if="!this.$store.state.auth.user">
           <button
             class="
@@ -133,17 +93,7 @@
             เข้าสู่ระบบ
           </button>
         </router-link>
-        <router-link to="/signup" v-if="!this.$store.state.auth.user">
-          <button
-            class="
-              btn btn-outline
-              text-white
-              hover:text-orange-400 hover:border-orange-1
-            "
-          >
-            ลงทะเบียน
-          </button>
-        </router-link>
+        
         <div v-else>
           <button
             @click="signOut()"
@@ -151,6 +101,34 @@
           >
             <i class="material-icons"> logout </i>
           </button>
+        </div>
+        <div v-if="!$store.state.auth.user" class="dropdown dropdown-hover dropdown-end">
+          <label
+            tabindex="0"
+            class="btn text-white hover:text-orange-400 hover:border-orange-1"
+          >
+            ลงทะเบียน
+          </label>
+          <ul
+            tabindex="0"
+            class="
+              font-medium
+              menu menu-compact
+              dropdown-content
+              p-2
+              shadow
+              bg-base-100
+              rounded-box
+              w-56
+            "
+          >
+            <li class="hover:text-orange-1">
+              <router-link to="/signup/worker">ผู้สมัครงาน</router-link>
+            </li>
+            <li class="hover:text-orange-1">
+              <router-link to="/signup/employer">ผู้ประกอบการ</router-link>
+            </li>
+          </ul>
         </div>
         <!-- <button class="btn btn-ghost btn-circle text-white">
         <div class="indicator">
@@ -170,23 +148,13 @@
           </svg>
           <span class="badge badge-xs badge-primary indicator-item"></span>
         </div>
-      </button>
-      <button class="btn btn-ghost btn-circle text-white">
-        <i class="material-icons"> account_circle </i>
-      </button>
-      <button class="btn btn-ghost btn-circle text-white">
-        <i class="material-icons"> logout </i>
       </button> -->
       </div>
     </div>
     <router-view />
-    <!-- <footer class="footer footer-center p-4 bg-base-300 text-base-content">
-      <div>
-        <p>Copyright © 2022 - All right reserved by ACME Industries Ltd</p>
-      </div>
-    </footer> -->
   </div>
 </template>
+
 <script>
 import { mapActions } from "vuex";
 import { Translator } from "vue-google-translate";
@@ -200,10 +168,27 @@ export default {
         {
           code: "th|th",
           title: "Thai",
+          flagIconUrl: "https://flagicons.lipis.dev/flags/4x3/th.svg",
         },
         {
           code: "th|en",
           title: "English",
+          flagIconUrl: "https://flagicons.lipis.dev/flags/4x3/us.svg",
+        },
+        {
+          code: "th|lo",
+          title: "Lao",
+          flagIconUrl: "https://flagicons.lipis.dev/flags/4x3/la.svg",
+        },
+        {
+          code: "th|my",
+          title: "Myanmar",
+          flagIconUrl: "https://flagicons.lipis.dev/flags/4x3/mm.svg",
+        },
+        {
+          code: "th|km",
+          title: "Khmer",
+          flagIconUrl: "https://flagicons.lipis.dev/flags/4x3/kh.svg",
         },
       ],
     };
