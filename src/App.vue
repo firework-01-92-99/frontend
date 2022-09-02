@@ -43,7 +43,10 @@
             </li>
             <!-- admin -->
             <li class="hover:text-orange-1">
-              <router-link to="/admin">แอดมิน</router-link>
+              <router-link to="/approve">อนุมัติ</router-link>
+            </li>
+            <li class="hover:text-orange-1">
+              <router-link to="/confirm">ยืนยันการรับแรงงานของนายจ้าง</router-link>
             </li>
           </ul>
         </div>
