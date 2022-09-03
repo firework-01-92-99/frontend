@@ -38,12 +38,15 @@
           ></div>
           <div class="flex flex-col w-full lg:w-1/2 p-4">
             <div class="flex flex-col flex-1 justify-center mb-8">
-              <h1 v-if="signType == 'employer'" class="font-bold text-4xl text-center">
+              <h1
+                v-if="signType == 'employer'"
+                class="font-bold text-4xl text-center"
+              >
                 ลงทะเบียนสำหรับผู้ประกอบการ
               </h1>
               <h1 v-else class="font-bold text-4xl text-center">
                 ลงทะเบียนสำหรับผู้สมัครงาน
-              </h1>              
+              </h1>
               <div class="w-full mt-10">
                 <form class="form-horizontal w-3/4 mx-auto">
                   <div>
@@ -205,10 +208,9 @@
                         </p>
                       </div>
                     </div>
-                    
-                    <div v-else class="flex -mx-3">
 
-                    <!-- <select
+                    <div v-else class="flex -mx-3">
+                      <!-- <select
                             type="text"
                             v-model.trim="person.accLname"
                             class="
@@ -311,7 +313,7 @@
                             "
                             :class="{ 'bg-red-50': businessTypeInput }"
                           >
-                          <!-- แก้ด้วย -->
+                            <!-- แก้ด้วย -->
                             <option :value="''" disabled selected>
                               กรุณาเลือกประเภทธุรกิจ
                             </option>
@@ -332,7 +334,7 @@
                       </div>
                     </div>
 
-                     <div v-else class="flex -mx-3">
+                    <div v-else class="flex -mx-3">
                       <div class="w-full px-3 mb-5">
                         <label for="" class="text-base font-medium 2xl:px-1"
                           >เลขบัตรประชาชน/เลขหนังสือเดินทาง</label
@@ -374,8 +376,57 @@
                       </div>
                     </div>
 
+                    <div class="w-full mb-5">
+                      <label for="" class="text-base font-medium 2xl:px-1"
+                        >สัญชาติ</label
+                      >
+                      <div class="flex">
+                        <div
+                          class="
+                            w-10
+                            z-10
+                            pl-1
+                            text-center
+                            pointer-events-none
+                            flex
+                            items-center
+                            justify-center
+                          "
+                        ></div>
+                        <select
+                          type="text"
+                          v-model.trim="worker.id"
+                          class="
+                          select select-bordered
+                            w-full
+                            -ml-10
+                            pl-5
+                            pr-3
+                            py-2
+                            rounded-lg
+                            border-2 border-gray-200
+                            outline-none
+                            focus:border-indigo-500
+                          "
+                          :class="{ 'bg-red-50': idenNoInput }"
+                          placeholder="สัญชาติ"
+                        >
+                          <option :value="''" disabled selected>สัญชาติ</option>
+                          <option
+                            class="text-black"
+                            v-for="p in provinces"
+                            :key="p.idProvince"
+                            :value="p.idProvince"
+                          >
+                            {{ p.provinceName }}
+                          </option>
+                        </select>
+                      </div>
+                      <p v-if="idenNoInput" class="text-red-600">
+                        กรุณากรอกเลขบัตรประชาชน/เลขหนังสือเดินทาง
+                      </p>
+                    </div>
 
-                    
                     <div class="2xl:flex 2xl:-mx-3">
                       <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                         <label for="" class="text-base font-medium px-1"
@@ -417,7 +468,10 @@
                         </p>
                       </div>
 
-                      <div v-if="signType == 'worker'" class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                      <div
+                        v-if="signType == 'worker'"
+                        class="2xl:w-1/2 w-full 2xl:px-3 mb-5"
+                      >
                         <label for="" class="text-base font-medium px-1"
                           >ชื่อกลาง</label
                         >
@@ -455,7 +509,6 @@
                           กรุณากรอกชื่อ
                         </p> -->
                       </div>
-
 
                       <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                         <label for="" class="text-base font-medium px-1"
@@ -503,285 +556,285 @@
                         </p> -->
                       </div>
                     </div>
-                    
+
                     <div v-if="signType == 'employer'">
-                    <div class="flex -mx-3">
-                      <div class="w-full px-3 mb-5">
-                        <label for="" class="text-base font-medium px-1"
-                          >ที่อยู่</label
-                        >
-                        <div class="flex">
-                          <div
-                            class="
-                              w-10
-                              z-10
-                              pl-1
-                              text-center
-                              pointer-events-none
-                              flex
-                              items-center
-                              justify-center
-                            "
+                      <div class="flex -mx-3">
+                        <div class="w-full px-3 mb-5">
+                          <label for="" class="text-base font-medium px-1"
+                            >ที่อยู่</label
                           >
-                            <i
+                          <div class="flex">
+                            <div
                               class="
-                                mdi mdi-account-outline
-                                text-gray-400 text-lg
+                                w-10
+                                z-10
+                                pl-1
+                                text-center
+                                pointer-events-none
+                                flex
+                                items-center
+                                justify-center
                               "
-                            ></i>
-                          </div>
-                          <textarea
-                            type="tel"
-                            v-model.trim="employer.address"
-                            class="
-                              textarea
-                              w-full
-                              -ml-10
-                              pl-5
-                              pr-3
-                              py-2
-                              rounded-lg
-                              border-2 border-gray-200
-                              outline-none
-                              focus:border-indigo-500
-                            "
-                            :class="{ 'bg-red-50': addressInput }"
-                            placeholder="ที่อยู่"
-                          />
-                        </div>
-                        <p v-if="addressInput" class="text-red-600">
-                          กรุณากรอกที่อยู่
-                        </p>
-                      </div>
-                    </div>
-
-                    <div class="2xl:flex 2xl:-mx-3">
-                      <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                        <label for="" class="text-base font-medium px-1"
-                          >ตำบล/แขวง</label
-                        >
-                        <div class="flex">
-                          <div
-                            class="
-                              w-10
-                              z-10
-                              pl-1
-                              text-center
-                              pointer-events-none
-                              flex
-                              items-center
-                              justify-center
-                            "
-                          >
-                            <i
-                              class="
-                                mdi mdi-account-outline
-                                text-gray-400 text-lg
-                              "
-                            ></i>
-                          </div>
-                          <select
-                            type="text"
-                            v-model.trim="employer.subdis"
-                            class="
-                              select select-bordered
-                              w-full
-                              -ml-10
-                              pl-5
-                              pr-3
-                              py-2
-                              rounded-lg
-                              border-2 border-gray-200
-                              outline-none
-                              focus:border-indigo-500
-                            "
-                            :class="{ 'bg-red-50': subdisInput }"
-                          >
-                            <option class="" :value="''" disabled selected>
-                              กรุณาเลือกตำบล/แขวง
-                            </option>
-                            <option
-                              class="text-black"
-                              v-for="p in provinces"
-                              :key="p.idProvince"
-                              :value="p.idProvince"
                             >
-                              {{ p.provinceName }}
-                            </option>
-                          </select>
+                              <i
+                                class="
+                                  mdi mdi-account-outline
+                                  text-gray-400 text-lg
+                                "
+                              ></i>
+                            </div>
+                            <textarea
+                              type="tel"
+                              v-model.trim="employer.address"
+                              class="
+                                textarea
+                                w-full
+                                -ml-10
+                                pl-5
+                                pr-3
+                                py-2
+                                rounded-lg
+                                border-2 border-gray-200
+                                outline-none
+                                focus:border-indigo-500
+                              "
+                              :class="{ 'bg-red-50': addressInput }"
+                              placeholder="ที่อยู่"
+                            />
+                          </div>
+                          <p v-if="addressInput" class="text-red-600">
+                            กรุณากรอกที่อยู่
+                          </p>
                         </div>
-                        <p v-if="subdisInput" class="text-red-600">
-                          กรุณาเลือกตำบล/แขวง
-                        </p>
                       </div>
 
-                      <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                        <label for="" class="text-base font-medium px-1"
-                          >อำเภอ/เขต</label
-                        >
-                        <div class="flex">
-                          <div
-                            class="
-                              w-10
-                              z-10
-                              pl-1
-                              text-center
-                              pointer-events-none
-                              flex
-                              items-center
-                              justify-center
-                            "
+                      <div class="2xl:flex 2xl:-mx-3">
+                        <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                          <label for="" class="text-base font-medium px-1"
+                            >ตำบล/แขวง</label
                           >
-                            <i
+                          <div class="flex">
+                            <div
                               class="
-                                mdi mdi-account-outline
-                                text-gray-400 text-lg
+                                w-10
+                                z-10
+                                pl-1
+                                text-center
+                                pointer-events-none
+                                flex
+                                items-center
+                                justify-center
                               "
-                            ></i>
-                          </div>
-                          <select
-                            type="text"
-                            v-model.trim="employer.district"
-                            class="
-                              select select-bordered
-                              w-full
-                              -ml-10
-                              pl-5
-                              pr-3
-                              py-2
-                              rounded-lg
-                              border-2 border-gray-200
-                              outline-none
-                              focus:border-indigo-500
-                            "
-                            :class="{ 'bg-red-50': districtInput }"
-                          >
-                            <option class="" :value="''" disabled selected>
-                              กรุณาเลือกอำเภอ/เขต
-                            </option>
-                            <option
-                              class="text-black"
-                              v-for="p in provinces"
-                              :key="p.idProvince"
-                              :value="p.idProvince"
                             >
-                              {{ p.provinceName }}
-                            </option>
-                          </select>
-                        </div>
-                        <p v-if="districtInput" class="text-red-600">
-                          กรุณาเลือกอำเภอ/เขต
-                        </p>
-                      </div>
-                    </div>
-
-                    <div class="2xl:flex 2xl:-mx-3">
-                      <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                        <label for="" class="text-base font-medium px-1"
-                          >จังหวัด</label
-                        >
-                        <div class="flex">
-                          <div
-                            class="
-                              w-10
-                              z-10
-                              pl-1
-                              text-center
-                              pointer-events-none
-                              flex
-                              items-center
-                              justify-center
-                            "
-                          >
-                            <i
+                              <i
+                                class="
+                                  mdi mdi-account-outline
+                                  text-gray-400 text-lg
+                                "
+                              ></i>
+                            </div>
+                            <select
+                              type="text"
+                              v-model.trim="employer.subdis"
                               class="
-                                mdi mdi-account-outline
-                                text-gray-400 text-lg
+                                select select-bordered
+                                w-full
+                                -ml-10
+                                pl-5
+                                pr-3
+                                py-2
+                                rounded-lg
+                                border-2 border-gray-200
+                                outline-none
+                                focus:border-indigo-500
                               "
-                            ></i>
-                          </div>
-                          <select
-                            type="text"
-                            v-model.trim="employer.province"
-                            class="
-                              select select-bordered
-                              w-full
-                              -ml-10
-                              pl-5
-                              pr-3
-                              py-2
-                              rounded-lg
-                              border-2 border-gray-200
-                              outline-none
-                              focus:border-indigo-500
-                            "
-                            :class="{ 'bg-red-50': provinceInput }"
-                          >
-                            <option class="" :value="''" disabled selected>
-                              กรุณาเลือกจังหวัด
-                            </option>
-                            <option
-                              class="text-black"
-                              v-for="p in provinces"
-                              :key="p.idProvince"
-                              :value="p.idProvince"
+                              :class="{ 'bg-red-50': subdisInput }"
                             >
-                              {{ p.provinceName }}
-                            </option>
-                          </select>
+                              <option class="" :value="''" disabled selected>
+                                กรุณาเลือกตำบล/แขวง
+                              </option>
+                              <option
+                                class="text-black"
+                                v-for="p in provinces"
+                                :key="p.idProvince"
+                                :value="p.idProvince"
+                              >
+                                {{ p.provinceName }}
+                              </option>
+                            </select>
+                          </div>
+                          <p v-if="subdisInput" class="text-red-600">
+                            กรุณาเลือกตำบล/แขวง
+                          </p>
                         </div>
-                        <p v-if="provinceInput" class="text-red-600">
-                          กรุณาเลือกจังหวัด
-                        </p>
+
+                        <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                          <label for="" class="text-base font-medium px-1"
+                            >อำเภอ/เขต</label
+                          >
+                          <div class="flex">
+                            <div
+                              class="
+                                w-10
+                                z-10
+                                pl-1
+                                text-center
+                                pointer-events-none
+                                flex
+                                items-center
+                                justify-center
+                              "
+                            >
+                              <i
+                                class="
+                                  mdi mdi-account-outline
+                                  text-gray-400 text-lg
+                                "
+                              ></i>
+                            </div>
+                            <select
+                              type="text"
+                              v-model.trim="employer.district"
+                              class="
+                                select select-bordered
+                                w-full
+                                -ml-10
+                                pl-5
+                                pr-3
+                                py-2
+                                rounded-lg
+                                border-2 border-gray-200
+                                outline-none
+                                focus:border-indigo-500
+                              "
+                              :class="{ 'bg-red-50': districtInput }"
+                            >
+                              <option class="" :value="''" disabled selected>
+                                กรุณาเลือกอำเภอ/เขต
+                              </option>
+                              <option
+                                class="text-black"
+                                v-for="p in provinces"
+                                :key="p.idProvince"
+                                :value="p.idProvince"
+                              >
+                                {{ p.provinceName }}
+                              </option>
+                            </select>
+                          </div>
+                          <p v-if="districtInput" class="text-red-600">
+                            กรุณาเลือกอำเภอ/เขต
+                          </p>
+                        </div>
                       </div>
 
-                      <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                        <label for="" class="text-base font-medium px-1"
-                          >เลขไปรษณีย์</label
-                        >
-                        <div class="flex">
-                          <div
-                            class="
-                              w-10
-                              z-10
-                              pl-1
-                              text-center
-                              pointer-events-none
-                              flex
-                              items-center
-                              justify-center
-                            "
+                      <div class="2xl:flex 2xl:-mx-3">
+                        <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                          <label for="" class="text-base font-medium px-1"
+                            >จังหวัด</label
                           >
-                            <i
+                          <div class="flex">
+                            <div
                               class="
-                                mdi mdi-account-outline
-                                text-gray-400 text-lg
+                                w-10
+                                z-10
+                                pl-1
+                                text-center
+                                pointer-events-none
+                                flex
+                                items-center
+                                justify-center
                               "
-                            ></i>
+                            >
+                              <i
+                                class="
+                                  mdi mdi-account-outline
+                                  text-gray-400 text-lg
+                                "
+                              ></i>
+                            </div>
+                            <select
+                              type="text"
+                              v-model.trim="employer.province"
+                              class="
+                                select select-bordered
+                                w-full
+                                -ml-10
+                                pl-5
+                                pr-3
+                                py-2
+                                rounded-lg
+                                border-2 border-gray-200
+                                outline-none
+                                focus:border-indigo-500
+                              "
+                              :class="{ 'bg-red-50': provinceInput }"
+                            >
+                              <option class="" :value="''" disabled selected>
+                                กรุณาเลือกจังหวัด
+                              </option>
+                              <option
+                                class="text-black"
+                                v-for="p in provinces"
+                                :key="p.idProvince"
+                                :value="p.idProvince"
+                              >
+                                {{ p.provinceName }}
+                              </option>
+                            </select>
                           </div>
-                          <input
-                            type="tel"
-                            v-model.trim="employer.postcode"
-                            class="
-                              w-full
-                              -ml-10
-                              pl-5
-                              pr-3
-                              py-2
-                              rounded-lg
-                              border-2 border-gray-200
-                              outline-none
-                              focus:border-indigo-500
-                            "
-                            :class="{ 'bg-red-50': postCodeInput }"
-                            placeholder="กรุณากรอกเลขไปรษณีย์"
-                          />
+                          <p v-if="provinceInput" class="text-red-600">
+                            กรุณาเลือกจังหวัด
+                          </p>
                         </div>
-                        <p v-if="postCodeInput" class="text-red-600">
-                          กรุณากรอกเลขไปรษณีย์
-                        </p>
+
+                        <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                          <label for="" class="text-base font-medium px-1"
+                            >เลขไปรษณีย์</label
+                          >
+                          <div class="flex">
+                            <div
+                              class="
+                                w-10
+                                z-10
+                                pl-1
+                                text-center
+                                pointer-events-none
+                                flex
+                                items-center
+                                justify-center
+                              "
+                            >
+                              <i
+                                class="
+                                  mdi mdi-account-outline
+                                  text-gray-400 text-lg
+                                "
+                              ></i>
+                            </div>
+                            <input
+                              type="tel"
+                              v-model.trim="employer.postcode"
+                              class="
+                                w-full
+                                -ml-10
+                                pl-5
+                                pr-3
+                                py-2
+                                rounded-lg
+                                border-2 border-gray-200
+                                outline-none
+                                focus:border-indigo-500
+                              "
+                              :class="{ 'bg-red-50': postCodeInput }"
+                              placeholder="กรุณากรอกเลขไปรษณีย์"
+                            />
+                          </div>
+                          <p v-if="postCodeInput" class="text-red-600">
+                            กรุณากรอกเลขไปรษณีย์
+                          </p>
+                        </div>
                       </div>
-                    </div>
                     </div>
 
                     <div v-if="signType == 'worker'" class="flex -mx-3">
@@ -871,10 +924,16 @@
                     </div>
                     <div class="flex -mx-3">
                       <div class="w-full px-3 mb-5">
-                        <label v-if="signType == 'employer'" for="" class="text-base font-medium px-1"
+                        <label
+                          v-if="signType == 'employer'"
+                          for=""
+                          class="text-base font-medium px-1"
                           >ภาพสถานประกอบการ</label
                         >
-                        <label v-if="signType == 'worker'" for="" class="text-base font-medium px-1"
+                        <label
+                          v-if="signType == 'worker'"
+                          for=""
+                          class="text-base font-medium px-1"
                           >ภาพยืนยันตัวตน</label
                         >
                         <div class="flex">
@@ -911,12 +970,18 @@
                             :class="{ 'bg-red-50': picInput }"
                           />
                         </div>
-                        <p v-if="picInput && signType == 'employer'" class="text-red-600">
+                        <p
+                          v-if="picInput && signType == 'employer'"
+                          class="text-red-600"
+                        >
                           กรุณาอัปโหลดภาพสถานประกอบการ
                         </p>
-                        <p v-if="picInput && signType == 'worker'" class="text-red-600">
+                        <p
+                          v-if="picInput && signType == 'worker'"
+                          class="text-red-600"
+                        >
                           กรุณาอัปโหลดภาพยืนยันตัวตน
-                        </p>                        
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -957,7 +1022,7 @@
 </template>
 <script>
 export default {
-props:["signType"],
+  props: ["signType"],
   data() {
     return {
       type: "password",
@@ -985,7 +1050,7 @@ props:["signType"],
         mname: "",
         sex: "",
       },
-      
+
       basePic: require("../assets/icon/face.svg"),
       emailInput: false,
       passwordInput: false,
@@ -1010,7 +1075,8 @@ props:["signType"],
   methods: {
     check() {
       this.basePic = require("../assets/icon/face.svg") ? true : false;
-      this.emailInput = this.haveBoth.email === "" || this.person.accUsername.length < 5;
+      this.emailInput =
+        this.haveBoth.email === "" || this.person.accUsername.length < 5;
       this.passwordInput = this.haveBoth.pass === "" ? true : false;
       this.estnameInput = this.employer.estname === "" ? true : false;
       this.workerTypeInput = this.worker.type === "" ? true : false;
@@ -1030,7 +1096,6 @@ props:["signType"],
         this.haveBoth.tel.length !== 10
           ? true
           : false;
-      
     },
     showPassword() {
       if (this.type === "password") {
@@ -1058,7 +1123,6 @@ props:["signType"],
         !this.provinceInput &&
         !this.postCodeInput &&
         !this.phoneInput
-
       ) {
         try {
           const jsonPro = await JSON.stringify(this.person);
