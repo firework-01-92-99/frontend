@@ -1,26 +1,6 @@
 <template>
   <div class="bg-gray-2 h-screen font-sans-thai">
-    <div class="tabs">
-      <p
-        :class="{ 'text-red-600': routes == 'ApproveAccPage' }"
-        class="tab tab-bordered text-black"
-        @click="$router.push('/approve')"
-      >
-        ตรวจสอบบัญชี
-      </p>
-      <a
-        class="tab tab-bordered text-black"
-        :class="{ 'text-red-600': routes == 'approve' }"
-        @click="$router.push('/approve/edit')"
-        >คำขอแก้ไขบัญชี</a
-      >
-      <a
-        class="tab tab-bordered text-black"
-        :class="{ 'text-red-600': routes == 'approve' }"
-        @click="$router.push('/approve/delete')"
-        >คำขอลบบัญชี</a
-      >
-    </div>
+    <base-tab></base-tab>
     <base-table>
       <template #header> การแก้ไขบัญชี </template>
       <template #action>
@@ -56,9 +36,10 @@
 </template>
 
 <script>
+import BaseTab from "@/components/BaseTab.vue";
 import BaseTable from "@/components/BaseTable.vue";
 export default {
-  components: { BaseTable },
+  components: { BaseTab, BaseTable },
 };
 </script>
 
