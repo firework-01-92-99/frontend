@@ -258,7 +258,7 @@
                                 >แรงงานต่างด้าว</span
                               >
                             </label>
-                          </div>
+                          </div>                          
                           <div class="form-control">
                             <label class="label cursor-pointer 2xl:space-x-2">
                               <input
@@ -414,14 +414,14 @@
                           placeholder="สัญชาติ"
                         >
                           <option :value="''" disabled selected>สัญชาติ</option>
-                          <!-- <option
+                          <option
                             class="text-black"
-                            v-for="p in provinces"
-                            :key="p.idProvince"
-                            :value="p.idProvince"
+                            v-for="nt in ntType"
+                            :key="nt.idnationality"
+                            :value="nt.idnationality"
                           >
-                            {{ p.provinceName }}
-                          </option> -->
+                            {{ ntTypeFreeze[nt.nationality_name] }}
+                          </option>
                         </select>
                       </div>
                       <p v-if="idenNoInput" class="text-red-600">
@@ -1026,10 +1026,18 @@
   </div>
 </template>
 <script>
+const ntTypeFreeze = Object.freeze({
+  Laos: "ลาว",
+  Thai: "ไทย",
+  Myanmar: "เมียนมาร์",
+  Cambodia: "กัมพูชา",
+});
+
 export default {
   props: ["signType"],
   data() {
     return {
+      ntTypeFreeze,
       type: "password",
       eye: require("../assets/hide.png"),
       haveBoth: {
@@ -1080,8 +1088,7 @@ export default {
       subdisForm: [],
       disForm: [],
       provinceForm: [],
-      // wType: [],
-
+      ntType: [],
     };
   },
   methods: {
@@ -1119,9 +1126,9 @@ export default {
       }
     },
     async signUp() {
-      console.log("signupkrub")
-      console.log("worker" + this.worker)
-      console.log(this.haveBoth)
+      console.log("signupkrub");
+      console.log(this.worker);
+      console.log(this.haveBoth);
       this.showError = false;
       this.check();
       if (
@@ -1139,7 +1146,7 @@ export default {
         !this.postCodeInput &&
         !this.phoneInput
       ) {
-        console.log("signup")
+        console.log("signup");
         try {
           const jsonPro = await JSON.stringify(this.haveBoth, this.worker);
           // const response = await fetch("http://localhost:3000/main/register", {
@@ -1163,7 +1170,7 @@ export default {
             this.$router.push("/signin");
           }
         } catch (error) {
-          console.log("cannot signup")
+          console.log("cannot signup");
           console.log(`Could not save! ${error}`);
         }
       }
@@ -1198,7 +1205,7 @@ export default {
     this.disForm = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allDistrict`);
     // this.provinceForm = await this.fetch("http://localhost:3000/main/allProvince");
     this.provinceForm = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allProvince`);
-    // this.wType = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allworkerType`);
+    this.ntType = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allNationality`);
   },
 };
 </script>

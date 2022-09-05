@@ -523,6 +523,55 @@
                       </div>
                     </div>
 
+                                          <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                        <label for="" class="text-base font-medium px-1"
+                          >สัญชาติ</label
+                        >
+                        <div class="flex">
+                          <div
+                            class="
+                              w-10
+                              z-10
+                              pl-1
+                              text-center
+                              pointer-events-none
+                              flex
+                              items-center
+                              justify-center
+                            "
+                          >
+                            <i
+                              class="
+                                mdi mdi-account-outline
+                                text-gray-400 text-lg
+                              "
+                            ></i>
+                          </div>
+                          <input
+                            type="text"
+                            class="
+                              w-full
+                              -ml-10
+                              pl-5
+                              pr-3
+                              py-2
+                              rounded-lg
+                              border-2 border-gray-200
+                              outline-none
+                              placeholder-black
+                              placeholder-opacity-100
+                            "
+                            :placeholder="
+                              nationality[$store.state.auth.user.worker.nationality.nationality_name]
+                            "
+                            disabled
+                          />
+                        </div>
+                      </div>
+
+
+
+
                     <div v-if="$store.state.auth.user.role.idRole == '2'">
                       <div class="flex -mx-3">
                         <div class="w-full px-3 mb-5">
@@ -889,10 +938,13 @@
                               focus:border-indigo-500
                             "
                           />
-                        </div>
-                      </div>
+                        </div>                      
+                      </div>                     
                     </div>
                   </div>
+                    <button class="button" @click.prevent="test()">
+                          ขอลบบัญชี
+                        </button>   
 
                   <!-- <div class="flex flex-col mt-8">
                     <button
@@ -931,13 +983,26 @@ const workerType = Object.freeze({
   Migrant: "แรงงานต่างด้าว",
   Thai: "แรงงานไทย",
 });
+const nationality = Object.freeze({
+  Laos: "ลาว",
+  Thai: "ไทย",
+  Myanmar: "เมียนมาร์",
+  Cambodia: "กัมพูชา"
+});
+
 
 export default {
   data() {
     return {
       sex,
       workerType,
+      nationality,
     };
+  },
+  methods:{
+    test(){
+      console.log("test")
+    }
   },
 };
 </script>
