@@ -1,6 +1,5 @@
 <template>
   <div v-if="$store.state.auth.user" class="Profile">
-    <!-- {{$store.state.auth.user}} -->
     <div class="font-sans-thai bg-gray-2 h-full w-screen">
       <div
         class="
@@ -198,7 +197,7 @@
                       </div>
                     </div>
                     <div
-                      v-if="$store.state.auth.user.worker.idWorker == '1'"
+                      v-if="$store.state.auth.user.role.idRole == '2'"
                       class="flex -mx-3"
                     >
                       <div class="w-full px-3 mb-5">
@@ -304,7 +303,7 @@
                               placeholder-opacity-100
                             "
                             :placeholder="
-                              $store.state.auth.user.worker.workerType.typeName
+                              workerType[$store.state.auth.user.worker.workerType.typeName]
                             "
                             disabled
                           />
@@ -313,7 +312,7 @@
                     </div>
 
                     <div
-                      v-if="$store.state.auth.user.worker.idWorker == '1'"
+                      v-if="$store.state.auth.user.role.idRole == '2'"
                       class="flex -mx-3"
                     >
                       <div class="w-full px-3 mb-5">
@@ -436,7 +435,7 @@
                       </div>
 
                       <div
-                        v-if="$store.state.auth.user.worker.idWorker == '2'"
+                        v-if="$store.state.auth.user.role.idRole == '3'"
                         class="2xl:w-1/2 w-full 2xl:px-3 mb-5"
                       >
                         <label for="" class="text-base font-medium px-1"
@@ -524,7 +523,7 @@
                       </div>
                     </div>
 
-                    <div v-if="$store.state.auth.user.worker.idWorker == '1'">
+                    <div v-if="$store.state.auth.user.role.idRole == '2'">
                       <div class="flex -mx-3">
                         <div class="w-full px-3 mb-5">
                           <label for="" class="text-base font-medium px-1"
@@ -754,7 +753,7 @@
                     </div>
 
                     <div
-                      v-if="$store.state.auth.user.worker.idWorker == '2'"
+                      v-if="$store.state.auth.user.role.idRole == '3'"
                       class="flex -mx-3"
                     >
                       <div class="w-full px-3 mb-5">
@@ -847,13 +846,13 @@
                     <div class="flex -mx-3">
                       <div class="w-full px-3 mb-5">
                         <label
-                          v-if="$store.state.auth.user.worker.idWorker == '1'"
+                          v-if="$store.state.auth.user.role.idRole == '2'"
                           for=""
                           class="text-base font-medium px-1"
                           >ภาพสถานประกอบการ</label
                         >
                         <label
-                          v-if="$store.state.auth.user.worker.idWorker == '2'"
+                          v-if="$store.state.auth.user.role.idRole == '3'"
                           for=""
                           class="text-base font-medium px-1"
                           >ภาพยืนยันตัวตน</label

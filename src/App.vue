@@ -38,16 +38,21 @@
             <li class="hover:text-orange-1">
               <router-link to="/">หางาน</router-link>
             </li>
-            <li class="hover:text-orange-1">
+            <div v-if="$store.state.auth.user">
+            <li v-if="$store.state.auth.user.role.idRole == '3'" class="hover:text-orange-1">
               <router-link to="/application">สถานะการสมัครงาน</router-link>
             </li>
+            
             <!-- admin -->
+            <div v-if="$store.state.auth.user.role.idRole == '1'">
             <li class="hover:text-orange-1">
               <router-link to="/approve">อนุมัติ</router-link>
             </li>
             <li class="hover:text-orange-1">
               <router-link to="/confirm">ยืนยันการรับแรงงานของนายจ้าง</router-link>
             </li>
+            </div>
+          </div>
           </ul>
         </div>
       </div>
