@@ -250,8 +250,9 @@
                               <input
                                 type="radio"
                                 v-model.trim="worker.type"
-                                name="radio-6"
+                                name="radio-5"
                                 class="radio checked:bg-blue-500"
+                                value="แรงงานต่างด้าว"
                               />
                               <span class="label-text 2xl:pr-0 pr-24"
                                 >แรงงานต่างด้าว</span
@@ -263,8 +264,9 @@
                               <input
                                 type="radio"
                                 v-model.trim="worker.type"
-                                name="radio-6"
+                                name="radio-5"
                                 class="radio checked:bg-red-500"
+                                value="แรงงานไทย"
                               />
                               <span class="label-text 2xl:pr-0 pr-28"
                                 >แรงงานไทย</span
@@ -319,11 +321,11 @@
                             </option>
                             <option
                               class="text-black"
-                              v-for="p in provinces"
-                              :key="p.idProvince"
-                              :value="p.idProvince"
+                              v-for="b in businesstype"
+                              :key="b.idBusinessType"
+                              :value="b.idBusinessType"
                             >
-                              {{ p.provinceName }}
+                              {{ b.nameType }}
                             </option>
                             <!-- แก้ด้วย -->
                           </select>
@@ -412,14 +414,14 @@
                           placeholder="สัญชาติ"
                         >
                           <option :value="''" disabled selected>สัญชาติ</option>
-                          <option
+                          <!-- <option
                             class="text-black"
                             v-for="p in provinces"
                             :key="p.idProvince"
                             :value="p.idProvince"
                           >
                             {{ p.provinceName }}
-                          </option>
+                          </option> -->
                         </select>
                       </div>
                       <p v-if="idenNoInput" class="text-red-600">
@@ -655,11 +657,11 @@
                               </option>
                               <option
                                 class="text-black"
-                                v-for="p in provinces"
-                                :key="p.idProvince"
-                                :value="p.idProvince"
+                                v-for="sd in subdisForm"
+                                :key="sd.idSubdistrict"
+                                :value="sd.idSubdistrict"
                               >
-                                {{ p.provinceName }}
+                                {{ sd.subDistrict }}
                               </option>
                             </select>
                           </div>
@@ -714,11 +716,11 @@
                               </option>
                               <option
                                 class="text-black"
-                                v-for="p in provinces"
-                                :key="p.idProvince"
-                                :value="p.idProvince"
+                                v-for="d in disForm"
+                                :key="d.idDistrict"
+                                :value="d.idDistrict"
                               >
-                                {{ p.provinceName }}
+                                {{ d.districtName }}
                               </option>
                             </select>
                           </div>
@@ -775,7 +777,7 @@
                               </option>
                               <option
                                 class="text-black"
-                                v-for="p in provinces"
+                                v-for="p in provinceForm"
                                 :key="p.idProvince"
                                 :value="p.idProvince"
                               >
@@ -844,23 +846,25 @@
                         >
                         <div class="flex space-x-5">
                           <div class="form-control">
-                            <label class="label cursor-pointer space-x-2">
+                            <label for="radio-6" class="label cursor-pointer space-x-2">
                               <input
                                 type="radio"
                                 v-model.trim="worker.sex"
                                 name="radio-6"
                                 class="radio checked:bg-blue-500"
+                                value="ชาย"
                               />
                               <span class="label-text">ชาย</span>
                             </label>
                           </div>
                           <div class="form-control">
-                            <label class="label cursor-pointer space-x-2">
+                            <label for="radio-7" class="label cursor-pointer space-x-2">
                               <input
                                 type="radio"
                                 v-model.trim="worker.sex"
-                                name="radio-6"
+                                name="radio-7"
                                 class="radio checked:bg-red-500"
+                                value="หญิง"
                               />
                               <span class="label-text">หญิง</span>
                             </label>
@@ -967,6 +971,7 @@
                               outline-none
                               focus:border-indigo-500
                             "
+                            @change="uploadImg()"
                             :class="{ 'bg-red-50': picInput }"
                           />
                         </div>
@@ -1049,8 +1054,8 @@ export default {
         id: "",
         mname: "",
         sex: "",
+        role: { idRole: 3, role: "ROLE_WORKER" },
       },
-
       basePic: require("../assets/icon/face.svg"),
       emailInput: false,
       passwordInput: false,
@@ -1070,13 +1075,20 @@ export default {
       error: "",
       showError: false,
       errorMessage: "",
+      picInput: false,
+      businesstype: [],
+      subdisForm: [],
+      disForm: [],
+      provinceForm: [],
+      // wType: [],
+
     };
   },
   methods: {
     check() {
       this.basePic = require("../assets/icon/face.svg") ? true : false;
       this.emailInput =
-        this.haveBoth.email === "" || this.person.accUsername.length < 5;
+        this.haveBoth.email === "" || this.haveBoth.email.length < 5;
       this.passwordInput = this.haveBoth.pass === "" ? true : false;
       this.estnameInput = this.employer.estname === "" ? true : false;
       this.workerTypeInput = this.worker.type === "" ? true : false;
@@ -1107,6 +1119,9 @@ export default {
       }
     },
     async signUp() {
+      console.log("signupkrub")
+      console.log("worker" + this.worker)
+      console.log(this.haveBoth)
       this.showError = false;
       this.check();
       if (
@@ -1124,11 +1139,12 @@ export default {
         !this.postCodeInput &&
         !this.phoneInput
       ) {
+        console.log("signup")
         try {
-          const jsonPro = await JSON.stringify(this.person);
-          // const response = await fetch("http://localhost:3000/main/registaccount", {
+          const jsonPro = await JSON.stringify(this.haveBoth, this.worker);
+          // const response = await fetch("http://localhost:3000/main/register", {
           const response = await fetch(
-            `${process.env.VUE_APP_ROOT_API}main/registaccount`,
+            `${process.env.VUE_APP_ROOT_API}main/register`,
             {
               method: "POST",
               body: jsonPro,
@@ -1147,6 +1163,7 @@ export default {
             this.$router.push("/signin");
           }
         } catch (error) {
+          console.log("cannot signup")
           console.log(`Could not save! ${error}`);
         }
       }
@@ -1159,7 +1176,7 @@ export default {
         accLname: "",
         accPhone: "",
         accAddress: "",
-        idRole: { idRole: 3, role: "ROLE_MEMBER" },
+        role: { idRole: 3, role: "ROLE_WORKER" },
       };
     },
     async fetch(url) {
@@ -1171,6 +1188,17 @@ export default {
         console.log(error);
       }
     },
+  },
+  async created() {
+    // this.businesstype = await this.fetch("http://localhost:3000/main/allBusinesstype");
+    this.businesstype = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allBusinesstype`);
+    // this.subdisForm = await this.fetch("http://localhost:3000/main/allSubDistrict");
+    this.subdisForm = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allSubDistrict`);
+    // this.disForm = await this.fetch("http://localhost:3000/main/allDistrict");
+    this.disForm = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allDistrict`);
+    // this.provinceForm = await this.fetch("http://localhost:3000/main/allProvince");
+    this.provinceForm = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allProvince`);
+    // this.wType = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allworkerType`);
   },
 };
 </script>
