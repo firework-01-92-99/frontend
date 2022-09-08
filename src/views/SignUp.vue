@@ -397,7 +397,7 @@
                         ></div>
                         <select
                           type="text"
-                          v-model.trim="worker.id"
+                          v-model.trim="worker.bindNation"
                           class="
                           select select-bordered
                             w-full
@@ -425,7 +425,7 @@
                         </select>
                       </div>
                       <p v-if="idenNoInput" class="text-red-600">
-                        กรุณากรอกเลขบัตรประชาชน/เลขหนังสือเดินทาง
+                        กรุณาเลือกสัญชาติ
                       </p>
                     </div>
 
@@ -852,7 +852,7 @@
                                 v-model.trim="worker.sex"
                                 name="radio-6"
                                 class="radio checked:bg-blue-500"
-                                value="ชาย"
+                                value="M"
                               />
                               <span class="label-text">ชาย</span>
                             </label>
@@ -864,7 +864,7 @@
                                 v-model.trim="worker.sex"
                                 name="radio-7"
                                 class="radio checked:bg-red-500"
-                                value="หญิง"
+                                value="F"
                               />
                               <span class="label-text">หญิง</span>
                             </label>
@@ -971,7 +971,7 @@
                               outline-none
                               focus:border-indigo-500
                             "
-                            @change="uploadImg()"
+                            
                             :class="{ 'bg-red-50': picInput }"
                           />
                         </div>
@@ -1062,6 +1062,21 @@ export default {
         id: "",
         mname: "",
         sex: "",
+        bindNation: "",
+        role: { idRole: 3, role: "ROLE_WORKER" },
+      },
+      workerone: {
+        email: "supitchayakanaraksanti@gmail.com",
+        pass: "123",
+        fname: "jojo",
+        lname: "hoho",
+        tel: "0131111111",
+        picFile: null,
+        type: "2",
+        id: "3124214214",
+        mname: "ee",
+        sex: "M",
+        bindNation: "1",
         role: { idRole: 3, role: "ROLE_WORKER" },
       },
       basePic: require("../assets/icon/face.svg"),
@@ -1071,6 +1086,7 @@ export default {
       workerTypeInput: false,
       businessTypeInput: false,
       idenNoInput: false,
+      nationInput: false,
       firstnameInput: false,
       lastnameInput: false,
       addressInput: false,
@@ -1101,6 +1117,7 @@ export default {
       this.workerTypeInput = this.worker.type === "" ? true : false;
       this.businessTypeInput = this.employer.busstype === "" ? true : false;
       this.idenNoInput = this.worker.id === "" ? true : false;
+      this.nationInput = this.worker.bindNation === "" ? true : false;
       this.firstnameInput = this.haveBoth.fname === "" ? true : false;
       this.middlenameInput = this.worker.mname === "" ? true : false;
       this.lastnameInput = this.haveBoth.lname === "" ? true : false;
@@ -1129,8 +1146,9 @@ export default {
       console.log("signupkrub");
       console.log(this.worker);
       console.log(this.haveBoth);
+      console.log(this.workerone);
       this.showError = false;
-      this.check();
+      // this.check();
       if (
         !this.emailInput &&
         !this.passwordInput &&
@@ -1138,6 +1156,7 @@ export default {
         !this.workerTypeInput &&
         !this.businessTypeInput &&
         !this.idenNoInput &&
+        !this.nationInput &&
         !this.lastnameInput &&
         !this.addressInput &&
         !this.subdisInput &&
@@ -1148,7 +1167,7 @@ export default {
       ) {
         console.log("signup");
         try {
-          const jsonPro = await JSON.stringify(this.haveBoth, this.worker);
+          const jsonPro = await JSON.stringify(this.workerone);
           // const response = await fetch("http://localhost:3000/main/register", {
           const response = await fetch(
             `${process.env.VUE_APP_ROOT_API}main/register`,
@@ -1166,7 +1185,7 @@ export default {
             this.errorMessage = "this username is already taken.";
           } else {
             alert("Finish Sign up");
-            this.clear();
+            // this.clear();
             this.$router.push("/signin");
           }
         } catch (error) {
@@ -1176,15 +1195,31 @@ export default {
       }
     },
     clear() {
-      this.person = {
-        accUsername: "",
-        accPass: "",
-        accFname: "",
-        accLname: "",
-        accPhone: "",
-        accAddress: "",
+      this.worker = {
+        type: "",
+        id: "",
+        mname: "",
+        sex: "",
+        bindNation: "",
         role: { idRole: 3, role: "ROLE_WORKER" },
-      };
+      },
+      this.haveBoth = {
+        email: "",
+        pass: "",
+        fname: "",
+        lname: "",
+        tel: "",
+        picFile: null,
+      },
+      this.employer = {
+        estname: "",
+        busstype: "",
+        address: "",
+        subdis: "",
+        district: "",
+        province: "",
+        postcode: "",
+      }
     },
     async fetch(url) {
       try {
