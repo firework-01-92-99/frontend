@@ -1252,7 +1252,7 @@ export default {
         };
         reader.readAsDataURL(file);
         this.imgFile = file;
-        this.registWorker.worker.verifyPic = this.imgFile.name;
+        this.registWorker.worker.verifyPic = this.imgFile.name
         // filename.split('.').slice(0, -1).join('.')
         console.log(this.registWorker.worker.verifyPic)
         // this.img = file.name;
