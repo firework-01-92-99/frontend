@@ -77,7 +77,7 @@
                           </div>
                           <input
                             type="text"
-                            v-model.trim="haveBoth.email"
+                            v-model.trim="registWorker.username"
                             class="
                               w-full
                               -ml-10
@@ -131,7 +131,7 @@
                           </div>
                           <input
                             :type="type"
-                            v-model.trim="haveBoth.pass"
+                            v-model.trim="registWorker.password"
                             class="
                               w-full
                               -ml-10
@@ -249,10 +249,10 @@
                             <label class="label cursor-pointer 2xl:space-x-2">
                               <input
                                 type="radio"
-                                v-model.trim="worker.type"
+                                v-model.trim="registWorker.worker.workerType.idWorkerType"
                                 name="radio-5"
                                 class="radio checked:bg-blue-500"
-                                value="แรงงานต่างด้าว"
+                                value="1"
                               />
                               <span class="label-text 2xl:pr-0 pr-24"
                                 >แรงงานต่างด้าว</span
@@ -263,10 +263,10 @@
                             <label class="label cursor-pointer 2xl:space-x-2">
                               <input
                                 type="radio"
-                                v-model.trim="worker.type"
+                                v-model.trim="registWorker.worker.workerType.idWorkerType"
                                 name="radio-5"
                                 class="radio checked:bg-red-500"
-                                value="แรงงานไทย"
+                                value="2"
                               />
                               <span class="label-text 2xl:pr-0 pr-28"
                                 >แรงงานไทย</span
@@ -356,7 +356,7 @@
                           ></div>
                           <input
                             type="text"
-                            v-model.trim="worker.id"
+                            v-model.trim="registWorker.worker.identificationNumber"
                             class="
                               w-full
                               -ml-10
@@ -397,7 +397,7 @@
                         ></div>
                         <select
                           type="text"
-                          v-model.trim="worker.bindNation"
+                          v-model.trim="registWorker.worker.nationality.idnationality"
                           class="
                           select select-bordered
                             w-full
@@ -449,7 +449,7 @@
                           ></div>
                           <input
                             type="text"
-                            v-model.trim="haveBoth.fname"
+                            v-model.trim="registWorker.worker.firstName"
                             class="
                               w-full
                               -ml-10
@@ -492,7 +492,7 @@
                           ></div>
                           <input
                             type="text"
-                            v-model.trim="worker.mname"
+                            v-model.trim="registWorker.worker.middleName"
                             class="
                               w-full
                               -ml-10
@@ -538,7 +538,7 @@
                           </div>
                           <input
                             type="text"
-                            v-model.trim="haveBoth.lname"
+                            v-model.trim="registWorker.worker.lastName"
                             class="
                               w-full
                               -ml-10
@@ -849,7 +849,7 @@
                             <label for="radio-6" class="label cursor-pointer space-x-2">
                               <input
                                 type="radio"
-                                v-model.trim="worker.sex"
+                                v-model.trim="registWorker.worker.sex"
                                 name="radio-6"
                                 class="radio checked:bg-blue-500"
                                 value="M"
@@ -861,7 +861,7 @@
                             <label for="radio-7" class="label cursor-pointer space-x-2">
                               <input
                                 type="radio"
-                                v-model.trim="worker.sex"
+                                v-model.trim="registWorker.worker.sex"
                                 name="radio-7"
                                 class="radio checked:bg-red-500"
                                 value="F"
@@ -903,7 +903,7 @@
                           </div>
                           <input
                             type="tel"
-                            v-model.trim="haveBoth.tel"
+                            v-model.trim="registWorker.worker.phone"
                             maxlength="10"
                             class="
                               w-full
@@ -960,6 +960,10 @@
                               "
                             ></i>
                           </div>
+                          <img
+                          :src="image"
+                          class="2xl:w-2/5 lg:w-2/5 md:w-2/5 w-5/6 mx-auto"
+                          />                              
                           <input
                             type="file"
                             class="
@@ -971,7 +975,7 @@
                               outline-none
                               focus:border-indigo-500
                             "
-                            
+                            @change="uploadImg"
                             :class="{ 'bg-red-50': picInput }"
                           />
                         </div>
@@ -1032,7 +1036,6 @@ const ntTypeFreeze = Object.freeze({
   Myanmar: "เมียนมาร์",
   Cambodia: "กัมพูชา",
 });
-
 export default {
   props: ["signType"],
   data() {
@@ -1040,6 +1043,31 @@ export default {
       ntTypeFreeze,
       type: "password",
       eye: require("../assets/hide.png"),
+      registWorker: {
+        username: "",
+        password: "",
+        role: { idRole: 3, role: "ROLE_WORKER" },
+        worker: {
+          identificationNumber: "",
+          verifyPic: null,
+          sex: "",
+          firstName: "",
+          middleName: "",
+          lastName: "",
+          phone: "",
+          nationality: {
+            idnationality: "",
+            nationality_name: "",
+          },
+          workerType: {
+            idWorkerType: "",
+            typeName: "",
+          }
+        },
+
+
+
+      },
       haveBoth: {
         email: "",
         pass: "",
@@ -1093,7 +1121,7 @@ export default {
         bindNation: "",
         role: { idRole: 3, role: "ROLE_WORKER" },
       },
-      basePic: require("../assets/icon/face.svg"),
+      image: require("../assets/icon/face.svg"),
       emailInput: false,
       passwordInput: false,
       estnameInput: false,
@@ -1123,7 +1151,7 @@ export default {
   },
   methods: {
     check() {
-      this.basePic = require("../assets/icon/face.svg") ? true : false;
+      this.image = require("../assets/icon/face.svg") ? true : false;
       this.emailInput =
         this.haveBoth.email === "" || this.haveBoth.email.length < 5;
       this.passwordInput = this.haveBoth.pass === "" ? true : false;
@@ -1161,6 +1189,7 @@ export default {
       console.log(this.worker);
       console.log(this.haveBoth);
       console.log(this.workerone);
+      console.log(this.workertwo);
       this.showError = false;
       // this.check();
       if (
@@ -1181,7 +1210,9 @@ export default {
       ) {
         console.log("signup");
         try {
-          const jsonPro = await JSON.stringify(this.workertwo);
+          console.log(this.workerone)
+          const jsonPro = await JSON.stringify(this.registWorker);
+          console.log(jsonPro)
           // const response = await fetch("http://localhost:3000/main/register", {
           const response = await fetch(
             `${process.env.VUE_APP_ROOT_API}main/register`,
@@ -1207,6 +1238,43 @@ export default {
           console.log(`Could not save! ${error}`);
         }
       }
+    },
+    async uploadImg(event){
+      const file = event.target.files[0];
+      if (this.isImage(file.name)) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          this.image = event.target.result;
+          this.UpPic =
+            this.image == require("../assets/icon/face.svg")
+              ? true
+              : false;
+        };
+        reader.readAsDataURL(file);
+        this.imgFile = file;
+        this.registWorker.worker.verifyPic = this.imgFile.name;
+        // filename.split('.').slice(0, -1).join('.')
+        console.log(this.registWorker.worker.verifyPic)
+        // this.img = file.name;
+      } else {
+        return "Please upload only picture.";
+      }
+    },
+      checkName(picFile) {
+      var checkWords = picFile.split(".");
+      return checkWords[checkWords.length - 1];
+    },
+      isImage(picFile) {
+      var realCheckName = this.checkName(picFile);
+      switch (realCheckName.toLowerCase()) {
+        case "jpg":
+        case "gif":
+        case "bmp":
+        case "png":
+        case "jpeg":
+          return true;
+      }
+      return false;
     },
     // clear() {
     //   this.worker = {
