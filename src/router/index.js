@@ -10,6 +10,7 @@ import ApproveAccPage from '../views/ApproveAccPage.vue'
 import ConfirmPage from '../views/ConfirmPage.vue'
 import DelAccPage from '../views/DelAccPage.vue'
 import EditAccPage from '../views/EditAccPage.vue'
+import PostingPage from '../views/PostingPage.vue'
 
 Vue.use(VueRouter)
 
@@ -80,6 +81,11 @@ const routes = [
     path: '/confirm',
     name: 'ConfirmPage',
     component: ConfirmPage
+  },
+  {
+    path: '/posting',
+    name: 'PostingPage',
+    component: PostingPage
   },
 ]
 

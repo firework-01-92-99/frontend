@@ -1079,6 +1079,20 @@ export default {
         bindNation: "1",
         role: { idRole: 3, role: "ROLE_WORKER" },
       },
+      workertwo: {
+        email: "",
+        pass: "",
+        fname: "",
+        lname: "",
+        tel: "",
+        picFile: null,
+        type: "",
+        id: "",
+        mname: "",
+        sex: "",
+        bindNation: "",
+        role: { idRole: 3, role: "ROLE_WORKER" },
+      },
       basePic: require("../assets/icon/face.svg"),
       emailInput: false,
       passwordInput: false,
@@ -1167,7 +1181,7 @@ export default {
       ) {
         console.log("signup");
         try {
-          const jsonPro = await JSON.stringify(this.workerone);
+          const jsonPro = await JSON.stringify(this.workertwo);
           // const response = await fetch("http://localhost:3000/main/register", {
           const response = await fetch(
             `${process.env.VUE_APP_ROOT_API}main/register`,
@@ -1194,33 +1208,33 @@ export default {
         }
       }
     },
-    clear() {
-      this.worker = {
-        type: "",
-        id: "",
-        mname: "",
-        sex: "",
-        bindNation: "",
-        role: { idRole: 3, role: "ROLE_WORKER" },
-      },
-      this.haveBoth = {
-        email: "",
-        pass: "",
-        fname: "",
-        lname: "",
-        tel: "",
-        picFile: null,
-      },
-      this.employer = {
-        estname: "",
-        busstype: "",
-        address: "",
-        subdis: "",
-        district: "",
-        province: "",
-        postcode: "",
-      }
-    },
+    // clear() {
+    //   this.worker = {
+    //     type: "",
+    //     id: "",
+    //     mname: "",
+    //     sex: "",
+    //     bindNation: "",
+    //     role: { idRole: 3, role: "ROLE_WORKER" },
+    //   },
+    //   this.haveBoth = {
+    //     email: "",
+    //     pass: "",
+    //     fname: "",
+    //     lname: "",
+    //     tel: "",
+    //     picFile: null,
+    //   },
+    //   this.employer = {
+    //     estname: "",
+    //     busstype: "",
+    //     address: "",
+    //     subdis: "",
+    //     district: "",
+    //     province: "",
+    //     postcode: "",
+    //   }
+    // },
     async fetch(url) {
       try {
         const res = await fetch(url);
