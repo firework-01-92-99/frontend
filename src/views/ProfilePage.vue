@@ -1,5 +1,6 @@
 <template>
   <div v-if="$store.state.auth.user" class="Profile">
+    {{$store.state.auth.user}}
     <div class="font-sans-thai bg-gray-2 h-full w-screen">
       <div
         class="
@@ -395,7 +396,7 @@
                     </div>
 
                     <div class="2xl:flex 2xl:-mx-3">
-                      <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                      <div v-if="$store.state.auth.user.role.idRole == '2'" class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                         <label for="" class="text-base font-medium px-1"
                           >ชื่อ</label
                         >
@@ -426,9 +427,7 @@
                             placeholder-black
                               placeholder-opacity-100
                             "
-                            :placeholder="
-                              $store.state.auth.user.worker.firstName
-                            "
+                            :placeholder="firstname"
                             disabled
                           />
                         </div>
@@ -476,7 +475,7 @@
                         </div>
                       </div>
 
-                      <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                      <div v-if="$store.state.auth.user.role.idRole == '2'" class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                         <label for="" class="text-base font-medium px-1"
                           >นามสกุล</label
                         >
@@ -515,7 +514,7 @@
                               placeholder-opacity-100
                             "
                             :placeholder="
-                              $store.state.auth.user.worker.lastName
+                             lastName
                             "
                             disabled
                           />
@@ -562,7 +561,7 @@
                               placeholder-opacity-100
                             "
                             :placeholder="
-                              nationality[$store.state.auth.user.worker.nationality.nationality_name]
+                              nationality
                             "
                             disabled
                           />
@@ -983,12 +982,6 @@ const workerType = Object.freeze({
   Migrant: "แรงงานต่างด้าว",
   Thai: "แรงงานไทย",
 });
-const nationality = Object.freeze({
-  Laos: "ลาว",
-  Thai: "ไทย",
-  Myanmar: "เมียนมาร์",
-  Cambodia: "กัมพูชา"
-});
 
 
 export default {
@@ -996,12 +989,21 @@ export default {
     return {
       sex,
       workerType,
-      nationality,
+      firstname: "",
+      lastname: "",
+      nationality: "",
     };
   },
   methods:{
     test(){
       console.log("test")
+    },
+    showValue(){
+      if(this.$store.state.auth.user.role.idRole == '2') {
+        this.firstname = this.$store.state.auth.user.employer.entrepreneurfName
+        this.lastname = "Pinitsupol"
+        this.nationality = "Thai"
+      }
     }
   },
 };
