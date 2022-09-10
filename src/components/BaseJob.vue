@@ -44,7 +44,7 @@
               <h2 class="card-title text-orange-1 text-base">
                 {{ job.position.positionName }}
               </h2>
-              <i class="material-icons"> bookmark_border </i>
+              <!-- <i class="material-icons"> bookmark_border </i> -->
             </div>
             <h2 class="card-title text-base">{{ e.establishmentName }}</h2>
             <p>

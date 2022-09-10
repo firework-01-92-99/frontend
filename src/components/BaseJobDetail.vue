@@ -57,7 +57,7 @@
           <h2 class="card-title text-orange-1">
             {{ jobDetail.position.positionName }}
           </h2>
-          <i class="material-icons"> bookmark_border </i>
+          <!-- <i class="material-icons"> bookmark_border </i> -->
         </div>
         <h2 class="card-title">
           {{ employer.establishmentName }}

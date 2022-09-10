@@ -1,6 +1,8 @@
 <template>
   <div v-if="$store.state.auth.user" class="bg-gray-2 h-screen font-sans-thai">
-    <base-tab></base-tab>
+    <div class="2xl:p-6 2xl:pl-32 xl:p-6 lg:p-6 md:p-6 p-3 pt-5">
+      <base-tab></base-tab>
+    </div>
     <div class="overflow-x-auto w-10/12 mx-auto font-sans-thai">
       <p
         class="
@@ -30,12 +32,12 @@
         </thead>
         <tbody v-for="a in listApprove" :key="a.idApprove">
           <!-- row 1 -->
-          {{a}}
+          <!-- {{a}} -->
           <tr>
             <th>{{ a.count }}</th>
             <td>
               <div class="flex items-center space-x-3">
-                <div class="font-bold">{{ a.name }}</div>
+                <div class="">{{ a.name }}</div>
                 <!-- <div class="text-sm opacity-50">United States</div> -->
               </div>
             </td>
@@ -47,19 +49,23 @@
             <td>{{ a.nationlity }}</td>
             <th>
               <!-- detail -->
-              <label @click="data(a)" for="my-modal-5" class="btn btn-ghost btn-xs"
+              <label
+                @click="data(a)"
+                for="my-modal-5"
+                class="btn btn-ghost btn-xs"
                 >รายละเอียด</label
               >
               <input type="checkbox" id="my-modal-5" class="modal-toggle" />
               <div class="modal modal-bottom">
-                <div class="modal-box w-11/12 max-w-5xl">
+                <div class="modal-box w-11/12 2xl:max-w-xl md:max-w-sm">
                   <h3 class="font-bold text-lg">รายละเอียด</h3>
-                  <p class="py-4">รอดึง</p>
-                  <div class="flex flex-col w-full lg:w-1/2 p-4">
-                    <div class="flex flex-col flex-1 justify-center mb-8">
-                      
-                      <div class="w-full mt-10">
-                        <form class="form-horizontal w-3/4 mx-auto">
+                  <!-- <h4 class="py-4">รอดึง</h4> -->
+                  <div class="flex flex-col 2xl:w-full mt-4">
+                    <div
+                      class="flex flex-col w-full flex-1 justify-between mb-8"
+                    >
+                      <div class="w-full">
+                        <form class="form-horizontal 2xl:w-full md:w-full">
                           <div>
                             <div
                               v-if="a.workOrEmp == 'Employer'"
@@ -168,7 +174,55 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="ntTypeFreeze[info.workerType.typeName]"
+                                    :placeholder="
+                                      workerType[info.workerType.typeName]
+                                    "
+                                    disabled
+                                  />
+                                </div>
+                              </div>
+                              <div class="w-full px-3 mb-5">
+                                <label for="" class="text-base font-medium px-1"
+                                  >สัญชาติ</label
+                                >
+                                <div class="flex">
+                                  <div
+                                    class="
+                                      w-10
+                                      z-10
+                                      pl-1
+                                      text-center
+                                      pointer-events-none
+                                      flex
+                                      items-center
+                                      justify-center
+                                    "
+                                  >
+                                    <i
+                                      class="
+                                        mdi mdi-account-outline
+                                        text-gray-400 text-lg
+                                      "
+                                    ></i>
+                                  </div>
+                                  <input
+                                    type="text"
+                                    class="
+                                      w-full
+                                      -ml-10
+                                      pl-5
+                                      pr-3
+                                      py-2
+                                      rounded-lg
+                                      border-2 border-gray-200
+                                      outline-none
+                                      placeholder-black placeholder-opacity-100
+                                    "
+                                    :placeholder="
+                                      ntTypeFreeze[
+                                        info.nationality.nationality_name
+                                      ]
+                                    "
                                     disabled
                                   />
                                 </div>
@@ -251,10 +305,7 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="
-                                      info.identificationNumber
-
-                                    "
+                                    :placeholder="info.identificationNumber"
                                     disabled
                                   />
                                 </div>
@@ -262,10 +313,7 @@
                             </div>
 
                             <div class="2xl:flex 2xl:-mx-3">
-                              <div
-                               
-                                class="2xl:w-1/2 w-full 2xl:px-3 mb-5"
-                              >
+                              <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                                 <label for="" class="text-base font-medium px-1"
                                   >ชื่อ</label
                                 >
@@ -334,17 +382,13 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="
-                                      info.middleName
-                                    "
+                                    :placeholder="info.middleName"
                                     disabled
                                   />
                                 </div>
                               </div>
 
-                              <div
-                                class="2xl:w-1/2 w-full 2xl:px-3 mb-5"
-                              >
+                              <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                                 <label for="" class="text-base font-medium px-1"
                                   >นามสกุล</label
                                 >
@@ -388,52 +432,7 @@
                               </div>
                             </div>
 
-                            <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                              <label for="" class="text-base font-medium px-1"
-                                >สัญชาติ</label
-                              >
-                              <div class="flex">
-                                <div
-                                  class="
-                                    w-10
-                                    z-10
-                                    pl-1
-                                    text-center
-                                    pointer-events-none
-                                    flex
-                                    items-center
-                                    justify-center
-                                  "
-                                >
-                                  <i
-                                    class="
-                                      mdi mdi-account-outline
-                                      text-gray-400 text-lg
-                                    "
-                                  ></i>
-                                </div>
-                                <input
-                                  type="text"
-                                  class="
-                                    w-full
-                                    -ml-10
-                                    pl-5
-                                    pr-3
-                                    py-2
-                                    rounded-lg
-                                    border-2 border-gray-200
-                                    outline-none
-                                    placeholder-black placeholder-opacity-100
-                                  "
-                                  :placeholder="ntTypeFreeze[info.nationality.nationality_name]"
-                                  disabled
-                                />
-                              </div>
-                            </div>
-
-                            <div
-                              v-if="a.workOrEmp == 'Employer'"
-                            >
+                            <div v-if="a.workOrEmp == 'Employer'">
                               <div class="flex -mx-3">
                                 <div class="w-full px-3 mb-5">
                                   <label
@@ -759,9 +758,7 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="
-                                      info.phone
-                                    "
+                                    :placeholder="info.phone"
                                     disabled
                                   />
                                 </div>
@@ -774,22 +771,18 @@
                             <div class="flex -mx-3">
                               <div class="w-full px-3 mb-5">
                                 <label
-                                  v-if="
-                                    a.workOrEmp == 'Employer'
-                                  "
+                                  v-if="a.workOrEmp == 'Employer'"
                                   for=""
                                   class="text-base font-medium px-1"
                                   >ภาพสถานประกอบการ</label
                                 >
                                 <label
-                                  v-if="
-                                    a.workOrEmp == 'Worker'
-                                  "
+                                  v-if="a.workOrEmp == 'Worker'"
                                   for=""
                                   class="text-base font-medium px-1"
                                   >ภาพยืนยันตัวตน</label
                                 >
-                                  <img :src="image" />
+                                <img :src="image" />
                               </div>
                             </div>
                           </div>
@@ -824,7 +817,7 @@
                             name="radio-6"
                             class="radio checked:bg-blue-500"
                           />
-                          <span class="label-text 2xl:pr-0 pr-24">อนุมัติ</span>
+                          <span class="label-text 2xl:pr-0 md:pr-56">อนุมัติ</span>
                         </label>
                       </div>
                       <div class="form-control">
@@ -834,7 +827,7 @@
                             name="radio-6"
                             class="radio checked:bg-red-500"
                           />
-                          <span class="label-text 2xl:pr-0 pr-28"
+                          <span class="label-text 2xl:pr-0 md:pr-52"
                             >ไม่อนุมัติ</span
                           >
                         </label>
@@ -854,7 +847,7 @@
           </tr>
         </tbody>
         <!-- foot -->
-        <tfoot>
+        <!-- <tfoot>
           <tr>
             <th></th>
             <th>ชื่อ</th>
@@ -862,7 +855,7 @@
             <th>สัญชาติ</th>
             <th></th>
           </tr>
-        </tfoot>
+        </tfoot> -->
       </table>
     </div>
   </div>
@@ -898,17 +891,23 @@ export default {
       lastname: "",
       nationality: "",
       image: "",
-      info: {nationality:{}, workerType:{},},
+      info: { nationality: {}, workerType: {} },
     };
   },
   methods: {
-    async data(data){
-      console.log(data.idEmpOrWork, data.workOrEmp)
-      if(data.workOrEmp == 'Worker'){
-          await axios.get(`${process.env.VUE_APP_ROOT_API}admin/selectWorker?idWorker=${data.idEmpOrWork}`).then((response) => {
-            this.info = response.data
-            this.image = `${process.env.VUE_APP_ROOT_API}main/image/` + this.info.verifyPic;
-          })
+    async data(data) {
+      console.log(data.idEmpOrWork, data.workOrEmp);
+      if (data.workOrEmp == "Worker") {
+        await axios
+          .get(
+            `${process.env.VUE_APP_ROOT_API}admin/selectWorker?idWorker=${data.idEmpOrWork}`
+          )
+          .then((response) => {
+            this.info = response.data;
+            this.image =
+              `${process.env.VUE_APP_ROOT_API}main/image/` +
+              this.info.verifyPic;
+          });
       }
     },
     async fetch(url) {
@@ -922,7 +921,9 @@ export default {
     },
   },
   async created() {
-    this.listApprove = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getAllApproveByIdStatusAndIdRole?idStatus=6&idRole=0`);
+    this.listApprove = await this.fetch(
+      `${process.env.VUE_APP_ROOT_API}main/getAllApproveByIdStatusAndIdRole?idStatus=6&idRole=0`
+    );
   },
 };
 </script>

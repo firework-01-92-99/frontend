@@ -35,29 +35,88 @@
               w-56
             "
           >
-          <div>
-            <li class="hover:text-orange-1">
-              <router-link to="/">หางาน</router-link>
-            </li>
-            <li class="hover:text-orange-1">
-              <router-link to="/posting">ประกาศหางาน</router-link>
-            </li>
-          </div>
-            <div v-if="$store.state.auth.user">
-            <li v-if="$store.state.auth.user.role.idRole == '3'" class="hover:text-orange-1">
-              <router-link to="/application">สถานะการสมัครงาน</router-link>
-            </li>
-            
-            <!-- admin -->
-            <div v-if="$store.state.auth.user.role.idRole == '1'">
-            <li class="hover:text-orange-1">
-              <router-link to="/approve">อนุมัติ</router-link>
-            </li>
-            <li class="hover:text-orange-1">
-              <router-link to="/confirm">ยืนยันการรับแรงงานของนายจ้าง</router-link>
-            </li>
+            <div>
+              <li
+                v-if="!this.$store.state.auth.user"
+                class="
+                  hover:text-orange-1
+                  block
+                  2xl:hidden
+                  xl:hidden
+                  lg:hidden
+                  md:hidden
+                "
+              >
+                <router-link to="/signin">เข้าสู่ระบบ</router-link>
+              </li>
+              <li
+                v-if="!this.$store.state.auth.user"
+                class="
+                  hover:text-orange-1
+                  block
+                  2xl:hidden
+                  xl:hidden
+                  lg:hidden
+                  md:hidden
+                "
+              >
+                <router-link to="/signup/worker"
+                  >ลงทะเบียนสำหรับผู้สมัครงาน</router-link
+                >
+              </li>
+              <li
+                v-if="!this.$store.state.auth.user"
+                class="
+                  hover:text-orange-1
+                  block
+                  2xl:hidden
+                  xl:hidden
+                  lg:hidden
+                  md:hidden
+                "
+              >
+                <router-link to="/signup/employer"
+                  >ลงทะเบียนสำหรับผู้ประกอบการ</router-link
+                >
+              </li>
+              <li class="hover:text-orange-1">
+                <router-link to="/">หางาน</router-link>
+              </li>
+              <!-- <li class="hover:text-orange-1">
+                <router-link to="/posting">ประกาศหางาน</router-link>
+              </li> -->
             </div>
-          </div>
+            <div v-if="$store.state.auth.user">
+              <li
+                v-if="$store.state.auth.user.role.idRole == '3'"
+                class="hover:text-orange-1"
+              >
+                <router-link to="/application">สถานะการสมัครงาน</router-link>
+              </li>
+              <li
+                class="
+                  hover:text-orange-1
+                  block
+                  2xl:hidden
+                  xl:hidden
+                  lg:hidden
+                  md:hidden
+                "
+              >
+                <router-link to="/profile">โปรไฟล์</router-link>
+              </li>
+              <!-- admin -->
+              <div v-if="$store.state.auth.user.role.idRole == '1'">
+                <li class="hover:text-orange-1">
+                  <router-link to="/approve">อนุมัติ</router-link>
+                </li>
+                <!-- <li class="hover:text-orange-1">
+                  <router-link to="/confirm"
+                    >ยืนยันการรับแรงงานของนายจ้าง</router-link
+                  >
+                </li> -->
+              </div>
+            </div>
           </ul>
         </div>
       </div>
@@ -72,9 +131,12 @@
       <div class="navbar-end space-x-6">
         <div class="">
           <!-- The button to open modal -->
-          <label for="my-modal" class="btn modal-button"
-            ><span class="material-icons"> language </span></label
+          <label
+            for="my-modal"
+            class="btn modal-button"
           >
+            <span class="material-icons"> translate </span>
+          </label>
           <!-- Put this part before </body> tag -->
           <input type="checkbox" id="my-modal" class="modal-toggle" />
           <div class="modal w-full">
@@ -89,13 +151,20 @@
             </div>
           </div>
         </div>
-        
-        <button v-if="$store.state.auth.user" class="btn btn-ghost btn-circle text-white">
+
+        <button
+          v-if="$store.state.auth.user"
+          class="btn btn-ghost btn-circle text-white hidden 2xl:block xl:block lg:block md:block"
+        >
           <router-link to="/profile"
             ><i class="material-icons"> account_circle </i></router-link
           >
         </button>
-        <router-link to="/signin" v-if="!this.$store.state.auth.user">
+        <router-link
+          class="hidden 2xl:block xl:block lg:block md:block"
+          to="/signin"
+          v-if="!this.$store.state.auth.user"
+        >
           <button
             class="
               btn btn-outline
@@ -106,22 +175,41 @@
             เข้าสู่ระบบ
           </button>
         </router-link>
-        
+
         <div v-else>
           <button
             @click="signOut()"
-            class="2xl:inline xl:inline lg:inline inline btn btn-ghost btn-circle text-white"
+            class="
+              2xl:inline
+              xl:inline
+              lg:inline
+              inline
+              btn btn-ghost btn-circle
+              text-white
+            "
           >
             <i class="material-icons"> logout </i>
           </button>
         </div>
-        <div v-if="!$store.state.auth.user" class="dropdown dropdown-hover dropdown-end">
-          <label
+        <div
+          v-if="!$store.state.auth.user"
+          class="dropdown dropdown-hover dropdown-end"
+        >
+          <button
             tabindex="0"
-            class="btn text-white hover:text-orange-400 hover:border-orange-1"
+            class="
+              btn
+              text-white
+              hover:text-orange-400 hover:border-orange-1
+              hidden
+              2xl:block
+              xl:block
+              lg:block
+              md:block
+            "
           >
             ลงทะเบียน
-          </label>
+          </button>
           <ul
             tabindex="0"
             class="
@@ -212,10 +300,9 @@ export default {
     }),
     signOut() {
       this.signOutAction().then(() => {
-          this.$router.replace({
-            name: 'JobPage'
-          } 
-          );
+        this.$router.replace({
+          name: "JobPage",
+        });
         location.reload();
       });
     },

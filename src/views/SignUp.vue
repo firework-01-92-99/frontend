@@ -979,7 +979,7 @@
                           </div>
                           <img
                             :src="image"
-                            class="2xl:w-2/5 lg:w-2/5 md:w-2/5 w-5/6 mx-auto"
+                            class="2xl:w-5 lg:w-2/5 md:w-2/5 w-5/6 mx-auto"
                           />
                           <input
                             type="file"

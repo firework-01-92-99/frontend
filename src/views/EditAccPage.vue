@@ -1,6 +1,8 @@
 <template>
   <div class="bg-gray-2 h-screen font-sans-thai">
-    <base-tab></base-tab>
+    <div class="2xl:p-6 2xl:pl-32 xl:p-6 lg:p-6 md:p-6 p-3 pt-5">
+      <base-tab></base-tab>
+    </div>
     <div class="overflow-x-auto w-10/12 mx-auto font-sans-thai">
       <p
         class="
