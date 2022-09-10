@@ -11,12 +11,14 @@
       class="tab tab-bordered text-black"
       :class="{ 'tab-active': routes == 'EditAccPage' }"
       @click="$router.push('/approve/edit')"
+      style="pointer-events: none"
       >คำขอแก้ไขบัญชี</a
     >
     <a
       class="tab tab-bordered text-black"
       :class="{ 'tab-active': routes == 'DelAccPage' }"
       @click="$router.push('/approve/delete')"
+      style="pointer-events: none"
       >คำขอลบบัญชี</a
     >
   </div>

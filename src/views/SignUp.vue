@@ -5,8 +5,8 @@
         class="
           2xl:pt-0
           lg:pt-4
-          md:pt-0
-          pt-36
+          md:pt-4
+          pt-3
           flex flex-col
           items-center
           flex-1
@@ -40,11 +40,11 @@
             <div class="flex flex-col flex-1 justify-center mb-8">
               <h1
                 v-if="signType == 'employer'"
-                class="font-bold text-4xl text-center"
+                class="font-bold 2xl:text-4xl md:text-4xl text-xl text-center"
               >
                 ลงทะเบียนสำหรับผู้ประกอบการ
               </h1>
-              <h1 v-else class="font-bold text-4xl text-center">
+              <h1 v-else class="font-bold 2xl:text-4xl md:text-4xl text-2xl text-center">
                 ลงทะเบียนสำหรับผู้สมัครงาน
               </h1>
               <div class="w-full mt-10">
@@ -52,7 +52,7 @@
                   <div>
                     <div class="2xl:flex 2xl:-mx-3">
                       <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                        <label for="" class="text-base font-medium px-1"
+                        <label for="" class="2xl:text-base md:text-base text-sm  font-medium px-1"
                           >อีเมล</label
                         >
                         <div class="flex">
@@ -108,7 +108,7 @@
                       </div>
 
                       <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                        <label for="" class="text-base font-medium px-1"
+                        <label for="" class="2xl:text-base md:text-base text-sm  font-medium px-1"
                           >รหัสผ่าน</label
                         >
                         <div class="flex">
@@ -243,10 +243,10 @@
                           </select> -->
 
                       <div class="w-full px-3 mb-5">
-                        <label for="" class="text-base font-medium px-1"
+                        <label for="" class="2xl:text-base md:text-base text-sm font-medium px-1"
                           >ประเภทแรงงาน</label
                         >
-                        <div class="2xl:flex 2xl:space-x-5">
+                        <div class="flex 2xl:space-x-5">
                           <div class="form-control">
                             <label class="label cursor-pointer 2xl:space-x-2">
                               <input
@@ -258,7 +258,7 @@
                                 class="radio checked:bg-blue-500"
                                 value="1"
                               />
-                              <span class="label-text 2xl:pr-0 pr-24"
+                              <span class="label-text 2xl:pr-0 md:pl-2 md:pr-4"
                                 >แรงงานต่างด้าว</span
                               >
                             </label>
@@ -274,7 +274,7 @@
                                 class="radio checked:bg-red-500"
                                 value="2"
                               />
-                              <span class="label-text 2xl:pr-0 pr-28"
+                              <span class="label-text 2xl:pr-0 md:pl-2 md:pr-4"
                                 >แรงงานไทย</span
                               >
                             </label>
@@ -344,7 +344,7 @@
 
                     <div v-else class="flex -mx-3">
                       <div class="w-full px-3 mb-5">
-                        <label for="" class="text-base font-medium 2xl:px-1"
+                        <label for="" class="2xl:text-base md:text-base text-sm font-medium 2xl:px-1"
                           >เลขบัตรประชาชน/เลขหนังสือเดินทาง</label
                         >
                         <div class="flex">
@@ -391,7 +391,7 @@
                     </div>
 
                     <div class="w-full mb-5">
-                      <label for="" class="text-base font-medium 2xl:px-1"
+                      <label for="" class="2xl:text-base md:text-base text-sm font-medium 2xl:px-1"
                         >สัญชาติ</label
                       >
                       <div class="flex">
@@ -446,7 +446,7 @@
 
                     <div class="2xl:flex 2xl:-mx-3">
                       <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                        <label for="" class="text-base font-medium px-1"
+                        <label for="" class="2xl:text-base md:text-base text-sm font-medium px-1"
                           >ชื่อ</label
                         >
                         <div class="flex">
@@ -489,7 +489,7 @@
                         v-if="signType == 'worker'"
                         class="2xl:w-1/2 w-full 2xl:px-3 mb-5"
                       >
-                        <label for="" class="text-base font-medium px-1"
+                        <label for="" class="2xl:text-base md:text-base text-sm font-medium px-1"
                           >ชื่อกลาง</label
                         >
                         <div class="flex">
@@ -528,7 +528,7 @@
                       </div>
 
                       <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                        <label for="" class="text-base font-medium px-1"
+                        <label for="" class="2xl:text-base md:text-base text-sm font-medium px-1"
                           >นามสกุล</label
                         >
                         <div class="flex">
@@ -856,7 +856,7 @@
 
                     <div v-if="signType == 'worker'" class="flex -mx-3">
                       <div class="w-1/2 px-3 mb-5">
-                        <label for="" class="text-base font-medium px-1"
+                        <label for="" class="2xl:text-base md:text-base text-sm font-medium px-1"
                           >เพศ</label
                         >
                         <div class="flex space-x-5">
@@ -899,7 +899,7 @@
 
                     <div class="flex -mx-3">
                       <div class="w-full px-3 mb-5">
-                        <label for="" class="text-base font-medium px-1"
+                        <label for="" class="2xl:text-base md:text-base text-sm font-medium px-1"
                           >เบอร์โทรศัพท์</label
                         >
                         <div class="flex">
@@ -958,7 +958,7 @@
                         <label
                           v-if="signType == 'worker'"
                           for=""
-                          class="text-base font-medium px-1"
+                          class="2xl:text-base md:text-base text-sm font-medium px-1"
                           >ภาพยืนยันตัวตน</label
                         >
                         <div class="flex">
@@ -981,11 +981,12 @@
                               "
                             ></i>
                           </div>
-                          <img
+                          <div class="flex flex-col w-full">
+                            <img
                             :src="image"
-                            class="2xl:w-2/5 lg:w-2/5 md:w-2/5 w-5/6 mx-auto"
-                          />
-                          <input
+                            class="mt-2 mb-3 2xl:w-1/5 lg:w-2/5 md:w-2/5 w-5/6 mx-auto"
+                            />
+                            <input
                             type="file"
                             class="
                               w-full
@@ -999,6 +1000,7 @@
                             @change="uploadImg"
                             :class="{ 'bg-red-50': picInput }"
                           />
+                          </div>
                         </div>
                         <p
                           v-if="UpPic && signType == 'employer'"
@@ -1287,7 +1289,7 @@ export default {
         reader.onload = (event) => {
           this.image = event.target.result;
           this.UpPic =
-            this.image == require("../assets/icon/face.svg") ? true : false;
+            this.image == require("../assets/icon/face-2.png") ? true : false;
         };
         reader.readAsDataURL(file);
         this.imgFile = file;
