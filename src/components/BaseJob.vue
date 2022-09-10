@@ -115,12 +115,17 @@ export default {
       }
     },
     linkTo(idPost, idEmp) {
-      if ((!this.$store.state.auth.user || this.$store.state.auth.user.role.idRole == "3") &&
-          (!this.$store.state.auth.user.role.idRole == "2" || !this.$store.state.auth.user.role.idRole == "1")) {
+      console.log(idPost)
+      console.log(idEmp)
+      if (!this.$store.state.auth.user || this.$store.state.auth.user.role.idRole == "3") {
           
-        this.$router.push('/detail?idPosting=' + idPost + '&idEmployer=' + idEmp);
+          this.$router.push('/detail?idPosting=' + idPost + '&idEmployer=' + idEmp);
+        
         } else {
-        this.$router.push("/viewworkapp");
+
+          if(this.$store.state.auth.user.role.idRole == "2"){
+              this.$router.push("/viewworkapp");
+          }
       }
     },
   },

@@ -1,6 +1,5 @@
 <template>
   <div v-if="$store.state.auth.user" class="Profile">
-    {{$store.state.auth.user}}
     <div class="font-sans-thai bg-gray-2 h-full w-screen">
       <div
         class="
@@ -39,7 +38,7 @@
                       ring ring-orange-1 ring-offset-base-100 ring-offset-2
                     "
                   >
-                    <img src="https://placeimg.com/192/192/people" />
+                    <img :src="image" />
                   </div>
                 </div>
               </div>
@@ -347,7 +346,7 @@
                               placeholder-black
                               placeholder-opacity-100
                             "
-                            :placeholder="$store.state.auth.employer"
+                            :placeholder="$store.state.auth.user.employer.businesstype.nameType"
                             disabled
                           />
                         </div>
@@ -396,7 +395,7 @@
                     </div>
 
                     <div class="2xl:flex 2xl:-mx-3">
-                      <div v-if="$store.state.auth.user.role.idRole == '2'" class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                      <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                         <label for="" class="text-base font-medium px-1"
                           >ชื่อ</label
                         >
@@ -467,15 +466,13 @@
                              placeholder-black
                               placeholder-opacity-100
                             "
-                            :placeholder="
-                              $store.state.auth.user.worker.middleName
-                            "
+                            :placeholder="middlename"
                             disabled
                           />
                         </div>
                       </div>
 
-                      <div v-if="$store.state.auth.user.role.idRole == '2'" class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                      <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                         <label for="" class="text-base font-medium px-1"
                           >นามสกุล</label
                         >
@@ -513,16 +510,14 @@
                               placeholder-black
                               placeholder-opacity-100
                             "
-                            :placeholder="
-                             lastName
-                            "
+                            :placeholder="lastname"
                             disabled
                           />
                         </div>
                       </div>
                     </div>
 
-                                          <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                        <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                         <label for="" class="text-base font-medium px-1"
                           >สัญชาติ</label
                         >
@@ -561,7 +556,7 @@
                               placeholder-opacity-100
                             "
                             :placeholder="
-                              nationality
+                              nationFreeze[nationality]
                             "
                             disabled
                           />
@@ -612,7 +607,7 @@
                                placeholder-black
                               placeholder-opacity-100
                               "
-                              :placeholder="$store.state.auth.user.employer"
+                              :placeholder="$store.state.auth.user.employer.address"
                               disabled
                             />
                           </div>
@@ -658,7 +653,7 @@
                                 placeholder-black
                               placeholder-opacity-100
                               "
-                              :placeholder="$store.state.auth.user.employer"
+                              :placeholder="$store.state.auth.user.employer.subDistrict.subDistrict"
                               disabled
                             />
                           </div>
@@ -702,7 +697,7 @@
                                 placeholder-black
                               placeholder-opacity-100
                               "
-                              :placeholder="$store.state.auth.user.employer"
+                              :placeholder="$store.state.auth.user.employer.district.districtName"
                               disabled
                             />
                           </div>
@@ -748,7 +743,7 @@
                                 placeholder-black
                               placeholder-opacity-100
                               "
-                              :placeholder="$store.state.auth.user.employer"
+                              :placeholder="$store.state.auth.user.employer.province.provinceName"
                               disabled
                             />
                           </div>
@@ -792,7 +787,7 @@
                                placeholder-black
                               placeholder-opacity-100
                               "
-                              :placeholder="$store.state.auth.user.employer"
+                              :placeholder="$store.state.auth.user.employer.subDistrict.postcode"
                               disabled
                             />
                           </div>
@@ -801,10 +796,9 @@
                     </div>
 
                     <div
-                      v-if="$store.state.auth.user.role.idRole == '3'"
                       class="flex -mx-3"
                     >
-                      <div class="w-full px-3 mb-5">
+                      <div v-if="$store.state.auth.user.role.idRole == '3'" class="w-full px-3 mb-5">
                         <label for="" class="text-base font-medium px-1"
                           >เพศ</label
                         >
@@ -881,7 +875,7 @@
                               placeholder-black
                               placeholder-opacity-100
                             "
-                            :placeholder="$store.state.auth.user.worker.phone"
+                            :placeholder="tel"
                             disabled
                           />
                         </div>
@@ -898,46 +892,7 @@
                           for=""
                           class="text-base font-medium px-1"
                           >ภาพสถานประกอบการ</label
-                        >
-                        <label
-                          v-if="$store.state.auth.user.role.idRole == '3'"
-                          for=""
-                          class="text-base font-medium px-1"
-                          >ภาพยืนยันตัวตน</label
-                        >
-                        <div class="flex">
-                          <div
-                            class="
-                              w-10
-                              z-10
-                              pl-1
-                              text-center
-                              pointer-events-none
-                              flex
-                              items-center
-                              justify-center
-                            "
-                          >
-                            <i
-                              class="
-                                mdi mdi-account-outline
-                                text-gray-400 text-lg
-                              "
-                            ></i>
-                          </div>
-                          <input
-                            type="file"
-                            class="
-                              w-full
-                              -ml-10
-                              pr-3
-                              py-2
-                              rounded-lg
-                              outline-none
-                              focus:border-indigo-500
-                            "
-                          />
-                        </div>                      
+                        >                    
                       </div>                     
                     </div>
                   </div>
@@ -982,29 +937,58 @@ const workerType = Object.freeze({
   Migrant: "แรงงานต่างด้าว",
   Thai: "แรงงานไทย",
 });
-
+const nationFreeze = Object.freeze({
+  Laos: "ลาว",
+  Thai: "ไทย",
+  Myanmar: "เมียนมาร์",
+  Cambodia: "กัมพูชา",
+});
 
 export default {
   data() {
     return {
       sex,
       workerType,
+      nationFreeze,
       firstname: "",
+      middlename: "",
       lastname: "",
       nationality: "",
+      tel: "",
+      image: "",
     };
   },
   methods:{
     test(){
       console.log("test")
     },
-    showValue(){
-      if(this.$store.state.auth.user.role.idRole == '2') {
-        this.firstname = this.$store.state.auth.user.employer.entrepreneurfName
-        this.lastname = "Pinitsupol"
-        this.nationality = "Thai"
+    async fetch(url) {
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        return data;
+      } catch (error) {
+        console.log(error);
       }
-    }
+    },    
   },
+  async created(){
+    if(this.$store.state.auth.user.role.idRole == '2'){
+      this.firstname = this.$store.state.auth.user.employer.entrepreneurfName
+      this.lastname = this.$store.state.auth.user.employer.entrepreneurlName
+      this.nationality = this.$store.state.auth.user.employer.nationality.nationality_name
+      this.tel = this.$store.state.auth.user.employer.tel
+      this.image = "1"
+      }else{
+          if(this.$store.state.auth.user.role.idRole == '3'){
+            this.firstname = this.$store.state.auth.user.worker.firstName
+            this.middlename = this.$store.state.auth.user.worker.middleName
+            this.lastname = this.$store.state.auth.user.worker.lastName
+            this.nationality = this.$store.state.auth.user.worker.nationality.nationality_name
+            this.tel = this.$store.state.auth.user.worker.phone
+            this.image = await `${process.env.VUE_APP_ROOT_API}main/image/` + this.$store.state.auth.user.worker.verifyPic;
+    }
+    }
+  }
 };
 </script>

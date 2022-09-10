@@ -11,6 +11,8 @@ import ConfirmPage from '../views/ConfirmPage.vue'
 import DelAccPage from '../views/DelAccPage.vue'
 import EditAccPage from '../views/EditAccPage.vue'
 import PostingPage from '../views/PostingPage.vue'
+import ViewWorkApp from '../views/ViewWorkApp.vue'
+import store from '@/store'
 
 Vue.use(VueRouter)
 
@@ -65,7 +67,15 @@ const routes = [
   {
     path: '/approve',
     name: 'ApproveAccPage',
-    component: ApproveAccPage
+    component: ApproveAccPage,
+   beforeEnter: (to, from, next) => {
+      if (store.getters['auth/authenticated']) {
+        return next({
+          name: 'JobPage'
+        })
+      }
+      next()
+    }
   },
   {
     path: '/approve/delete',
@@ -86,6 +96,11 @@ const routes = [
     path: '/posting',
     name: 'PostingPage',
     component: PostingPage
+  },
+  {
+    path: '/viewworkapp',
+    name: 'ViewWorkApp',
+    component: ViewWorkApp
   },
 ]
 

@@ -213,10 +213,9 @@ export default {
       this.signIn(this.form)
         .then(() => {
           this.$router.replace(
-            this.$store.state.auth.user &&
-              this.$store.state.auth.user.role?.idRole == 3
+            this.$store.state.auth.user && this.$store.state.auth.user.role?.idRole == 3 || this.$store.state.auth.user.role?.idRole == 2
               ? "/"
-              : "/"
+              : "/approve"
           );
         })
         .catch((error) => {

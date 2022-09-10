@@ -30,20 +30,20 @@
         </thead>
         <tbody v-for="a in listDel" :key="a.idApprove">
           <!-- row 1 -->
-          <tr v-if="a.status.statusName == 'Waiting_Delete'">
-            <th>{{a.idApprove}}</th>
+          <tr>
+            <th>{{a.count}}</th>
             <td>
               <div class="flex items-center space-x-3">
-                <div class="font-bold">ชื่อแซ่</div>
+                <div class="font-bold">{{a.name}}</div>
                 <!-- <div class="text-sm opacity-50">United States</div> -->
               </div>
             </td>
             <td>
-              WORKER/EMP
+              {{a.workOrEmp}}
               <!-- <br>
           <span class="badge badge-ghost badge-sm">Desktop Support Technician</span> -->
             </td>
-            <td>ประเทศ</td>
+            <td>{{a.nationlity}}</td>
             <th>
               <!-- detail -->
               <label for="my-modal-5" class="btn btn-ghost btn-xs"
@@ -129,7 +129,7 @@ export default {
     },    
   },
   async created() {
-    this.listDel = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allApprove`);
+    this.listDel = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getAllApproveByIdStatus?idStatus=8`);
   },  
 };
 </script>

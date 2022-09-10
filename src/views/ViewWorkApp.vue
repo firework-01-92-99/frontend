@@ -1,6 +1,5 @@
 <template>
-  <div v-if="$store.state.auth.user" class="bg-gray-2 h-screen font-sans-thai">
-    <base-tab></base-tab>
+  <div class="bg-gray-2 h-screen font-sans-thai">
     <div class="overflow-x-auto w-10/12 mx-auto font-sans-thai">
       <p
         class="
@@ -15,7 +14,7 @@
           ml-3.5
         "
       >
-        การตรวจสอบบัญชี
+        รายการผู้สมัคร
       </p>
       <table class="table w-full">
         <!-- head -->
@@ -30,7 +29,6 @@
         </thead>
         <tbody v-for="a in listApprove" :key="a.idApprove">
           <!-- row 1 -->
-          {{a}}
           <tr>
             <th>{{ a.count }}</th>
             <td>
@@ -47,22 +45,118 @@
             <td>{{ a.nationlity }}</td>
             <th>
               <!-- detail -->
-              <label @click="data(a)" for="my-modal-5" class="btn btn-ghost btn-xs"
+              <label for="my-modal-5" class="btn btn-ghost btn-xs"
                 >รายละเอียด</label
               >
               <input type="checkbox" id="my-modal-5" class="modal-toggle" />
-              <div class="modal modal-bottom">
-                <div class="modal-box w-11/12 max-w-5xl">
+              <div class="modal modal-bottom sm:modal-middle">
+                <div class="modal-box">
                   <h3 class="font-bold text-lg">รายละเอียด</h3>
                   <p class="py-4">รอดึง</p>
                   <div class="flex flex-col w-full lg:w-1/2 p-4">
                     <div class="flex flex-col flex-1 justify-center mb-8">
-                      
+                      <h1 class="font-bold text-4xl text-center">ประวัติ</h1>
                       <div class="w-full mt-10">
                         <form class="form-horizontal w-3/4 mx-auto">
                           <div>
+                            <div class="2xl:flex 2xl:-mx-3">
+                              <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                                <label for="" class="text-base font-medium px-1"
+                                  >อีเมล</label
+                                >
+                                <div class="flex">
+                                  <div
+                                    class="
+                                      w-10
+                                      z-10
+                                      pl-1
+                                      text-center
+                                      pointer-events-none
+                                      flex
+                                      items-center
+                                      justify-center
+                                    "
+                                  ></div>
+                                  <input
+                                    type="text"
+                                    class="
+                                      w-full
+                                      -ml-10
+                                      pl-5
+                                      pr-3
+                                      py-2
+                                      rounded-lg
+                                      border-2 border-gray-200
+                                      outline-none
+                                      placeholder-black placeholder-opacity-100
+                                    "
+                                    :placeholder="
+                                      $store.state.auth.user.username
+                                    "
+                                    disabled
+                                  />
+                                </div>
+                              </div>
+                              <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                                <label for="" class="text-base font-medium px-1"
+                                  >รหัสผ่าน</label
+                                >
+                                <div class="flex">
+                                  <div
+                                    class="
+                                      w-10
+                                      z-10
+                                      pl-1
+                                      text-center
+                                      pointer-events-none
+                                      flex
+                                      items-center
+                                      justify-center
+                                    "
+                                  ></div>
+                                  <input
+                                    type="password"
+                                    class="
+                                      w-full
+                                      -ml-10
+                                      pl-5
+                                      pr-3
+                                      py-2
+                                      rounded-lg
+                                      border-2 border-gray-200
+                                      outline-none
+                                      placeholder-black placeholder-opacity-100
+                                    "
+                                    :placeholder="
+                                      $store.state.auth.user.password
+                                    "
+                                    disabled
+                                  />
+                                  <!-- <input
+                            type="password"
+                            :placeholder="$store.state.auth.user.password"
+                            disabled
+                          /> -->
+                                  <!-- <div class="relative">
+                            <button
+                              class="
+                                absolute
+                                inset-y-0
+                                right-0
+                                w-8
+                                border-2 border-gray-200
+                                rounded-r-lg
+                              "
+                              @click.prevent="showPassword"
+                            >
+                              <img class="" :src="eye" />
+                            </button>
+                          </div> -->
+                                </div>
+                              </div>
+                            </div>
                             <div
-                              v-if="a.workOrEmp == 'Employer'"
+                              v-if="$store.state.auth.user.role.idRole == '2'"
                               class="flex -mx-3"
                             >
                               <div class="w-full px-3 mb-5">
@@ -168,7 +262,12 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="ntTypeFreeze[info.workerType.typeName]"
+                                    :placeholder="
+                                      workerType[
+                                        $store.state.auth.user.worker.workerType
+                                          .typeName
+                                      ]
+                                    "
                                     disabled
                                   />
                                 </div>
@@ -176,7 +275,7 @@
                             </div>
 
                             <div
-                              v-if="a.workOrEmp == 'Employer'"
+                              v-if="$store.state.auth.user.role.idRole == '2'"
                               class="flex -mx-3"
                             >
                               <div class="w-full px-3 mb-5">
@@ -252,8 +351,8 @@
                                       placeholder-black placeholder-opacity-100
                                     "
                                     :placeholder="
-                                      info.identificationNumber
-
+                                      $store.state.auth.user.worker
+                                        .identificationNumber
                                     "
                                     disabled
                                   />
@@ -263,7 +362,7 @@
 
                             <div class="2xl:flex 2xl:-mx-3">
                               <div
-                               
+                                v-if="$store.state.auth.user.role.idRole == '2'"
                                 class="2xl:w-1/2 w-full 2xl:px-3 mb-5"
                               >
                                 <label for="" class="text-base font-medium px-1"
@@ -295,14 +394,14 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="info.firstName"
+                                    :placeholder="firstname"
                                     disabled
                                   />
                                 </div>
                               </div>
 
                               <div
-                                v-if="a.workOrEmp == 'Worker'"
+                                v-if="$store.state.auth.user.role.idRole == '3'"
                                 class="2xl:w-1/2 w-full 2xl:px-3 mb-5"
                               >
                                 <label for="" class="text-base font-medium px-1"
@@ -335,7 +434,7 @@
                                       placeholder-black placeholder-opacity-100
                                     "
                                     :placeholder="
-                                      info.middleName
+                                      $store.state.auth.user.worker.middleName
                                     "
                                     disabled
                                   />
@@ -343,6 +442,7 @@
                               </div>
 
                               <div
+                                v-if="$store.state.auth.user.role.idRole == '2'"
                                 class="2xl:w-1/2 w-full 2xl:px-3 mb-5"
                               >
                                 <label for="" class="text-base font-medium px-1"
@@ -381,7 +481,7 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="info.lastName"
+                                    :placeholder="lastName"
                                     disabled
                                   />
                                 </div>
@@ -425,14 +525,14 @@
                                     outline-none
                                     placeholder-black placeholder-opacity-100
                                   "
-                                  :placeholder="ntTypeFreeze[info.nationality.nationality_name]"
+                                  :placeholder="nationality"
                                   disabled
                                 />
                               </div>
                             </div>
 
                             <div
-                              v-if="a.workOrEmp == 'Employer'"
+                              v-if="$store.state.auth.user.role.idRole == '2'"
                             >
                               <div class="flex -mx-3">
                                 <div class="w-full px-3 mb-5">
@@ -683,7 +783,7 @@
                             </div>
 
                             <div
-                              v-if="a.workOrEmp == 'Worker'"
+                              v-if="$store.state.auth.user.role.idRole == '3'"
                               class="flex -mx-3"
                             >
                               <div class="w-full px-3 mb-5">
@@ -716,7 +816,9 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="sexFreeze[info.sex]"
+                                    :placeholder="
+                                      sex[$store.state.auth.user.worker.sex]
+                                    "
                                     disabled
                                   />
                                 </div>
@@ -760,7 +862,7 @@
                                       placeholder-black placeholder-opacity-100
                                     "
                                     :placeholder="
-                                      info.phone
+                                      $store.state.auth.user.worker.phone
                                     "
                                     disabled
                                   />
@@ -775,7 +877,7 @@
                               <div class="w-full px-3 mb-5">
                                 <label
                                   v-if="
-                                    a.workOrEmp == 'Employer'
+                                    $store.state.auth.user.role.idRole == '2'
                                   "
                                   for=""
                                   class="text-base font-medium px-1"
@@ -783,16 +885,51 @@
                                 >
                                 <label
                                   v-if="
-                                    a.workOrEmp == 'Worker'
+                                    $store.state.auth.user.role.idRole == '3'
                                   "
                                   for=""
                                   class="text-base font-medium px-1"
                                   >ภาพยืนยันตัวตน</label
                                 >
-                                  <img :src="image" />
+                                <div class="flex">
+                                  <div
+                                    class="
+                                      w-10
+                                      z-10
+                                      pl-1
+                                      text-center
+                                      pointer-events-none
+                                      flex
+                                      items-center
+                                      justify-center
+                                    "
+                                  >
+                                    <i
+                                      class="
+                                        mdi mdi-account-outline
+                                        text-gray-400 text-lg
+                                      "
+                                    ></i>
+                                  </div>
+                                  <input
+                                    type="file"
+                                    class="
+                                      w-full
+                                      -ml-10
+                                      pr-3
+                                      py-2
+                                      rounded-lg
+                                      outline-none
+                                      focus:border-indigo-500
+                                    "
+                                  />
+                                </div>
                               </div>
                             </div>
                           </div>
+                          <button class="button" @click.prevent="test()">
+                            ขอลบบัญชี
+                          </button>
 
                           <!-- <div class="flex flex-col mt-8">
                     <button
@@ -869,63 +1006,11 @@
 </template>
 
 <script>
-const sexFreeze = Object.freeze({
-  F: "หญิง",
-  M: "ชาย",
-});
-const workerType = Object.freeze({
-  Migrant: "แรงงานต่างด้าว",
-  Thai: "แรงงานไทย",
-});
-const ntTypeFreeze = Object.freeze({
-  Laos: "ลาว",
-  Thai: "ไทย",
-  Myanmar: "เมียนมาร์",
-  Cambodia: "กัมพูชา",
-});
-
-import BaseTab from "@/components/BaseTab.vue";
-import axios from "axios";
 export default {
-  components: { BaseTab },
-  data() {
-    return {
-      listApprove: [],
-      sexFreeze,
-      workerType,
-      ntTypeFreeze,
-      firstname: "",
-      lastname: "",
-      nationality: "",
-      image: "",
-      info: {nationality:{}, workerType:{},},
-    };
-  },
-  methods: {
-    async data(data){
-      console.log(data.idEmpOrWork, data.workOrEmp)
-      if(data.workOrEmp == 'Worker'){
-          await axios.get(`${process.env.VUE_APP_ROOT_API}admin/selectWorker?idWorker=${data.idEmpOrWork}`).then((response) => {
-            this.info = response.data
-            this.image = `${process.env.VUE_APP_ROOT_API}main/image/` + this.info.verifyPic;
-          })
-      }
-    },
-    async fetch(url) {
-      try {
-        const res = await fetch(url);
-        const data = await res.json();
-        return data;
-      } catch (error) {
-        console.log(error);
-      }
-    },
-  },
-  async created() {
-    this.listApprove = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getAllApproveByIdStatusAndIdRole?idStatus=6&idRole=0`);
-  },
-};
+
+}
 </script>
 
 <style>
+
 </style>

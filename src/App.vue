@@ -35,12 +35,14 @@
               w-56
             "
           >
+          <div>
             <li class="hover:text-orange-1">
               <router-link to="/">หางาน</router-link>
             </li>
             <li class="hover:text-orange-1">
               <router-link to="/posting">ประกาศหางาน</router-link>
             </li>
+          </div>
             <div v-if="$store.state.auth.user">
             <li v-if="$store.state.auth.user.role.idRole == '3'" class="hover:text-orange-1">
               <router-link to="/application">สถานะการสมัครงาน</router-link>
@@ -108,7 +110,7 @@
         <div v-else>
           <button
             @click="signOut()"
-            class="btn btn-ghost btn-circle text-white"
+            class="2xl:inline xl:inline lg:inline inline btn btn-ghost btn-circle text-white"
           >
             <i class="material-icons"> logout </i>
           </button>
@@ -210,9 +212,10 @@ export default {
     }),
     signOut() {
       this.signOutAction().then(() => {
-        this.$router.replace({
-          name: "JobPage",
-        });
+          this.$router.replace({
+            name: 'JobPage'
+          } 
+          );
         location.reload();
       });
     },

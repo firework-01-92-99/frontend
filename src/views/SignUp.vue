@@ -76,7 +76,8 @@
                             ></i>
                           </div>
                           <input
-                            type="text"
+                            @keyup="ValidateEmail"
+                            type="email"
                             v-model.trim="registWorker.username"
                             class="
                               w-full
@@ -94,6 +95,8 @@
                               { 'bg-red-50': showError },
                             ]"
                             placeholder="อีเมล"
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                            required
                           />
                         </div>
                         <p v-if="emailInput" class="text-red-600">
@@ -249,7 +252,9 @@
                             <label class="label cursor-pointer 2xl:space-x-2">
                               <input
                                 type="radio"
-                                v-model.trim="registWorker.worker.workerType.idWorkerType"
+                                v-model.trim="
+                                  registWorker.worker.workerType.idWorkerType
+                                "
                                 name="radio-5"
                                 class="radio checked:bg-blue-500"
                                 value="1"
@@ -258,12 +263,14 @@
                                 >แรงงานต่างด้าว</span
                               >
                             </label>
-                          </div>                          
+                          </div>
                           <div class="form-control">
                             <label class="label cursor-pointer 2xl:space-x-2">
                               <input
                                 type="radio"
-                                v-model.trim="registWorker.worker.workerType.idWorkerType"
+                                v-model.trim="
+                                  registWorker.worker.workerType.idWorkerType
+                                "
                                 name="radio-5"
                                 class="radio checked:bg-red-500"
                                 value="2"
@@ -356,7 +363,9 @@
                           ></div>
                           <input
                             type="text"
-                            v-model.trim="registWorker.worker.identificationNumber"
+                            v-model.trim="
+                              registWorker.worker.identificationNumber
+                            "
                             class="
                               w-full
                               -ml-10
@@ -397,9 +406,11 @@
                         ></div>
                         <select
                           type="text"
-                          v-model.trim="registWorker.worker.nationality.idnationality"
+                          v-model.trim="
+                            registWorker.worker.nationality.idnationality
+                          "
                           class="
-                          select select-bordered
+                            select select-bordered
                             w-full
                             -ml-10
                             pl-5
@@ -846,7 +857,10 @@
                         >
                         <div class="flex space-x-5">
                           <div class="form-control">
-                            <label for="radio-6" class="label cursor-pointer space-x-2">
+                            <label
+                              for="radio-6"
+                              class="label cursor-pointer space-x-2"
+                            >
                               <input
                                 type="radio"
                                 v-model.trim="registWorker.worker.sex"
@@ -858,7 +872,10 @@
                             </label>
                           </div>
                           <div class="form-control">
-                            <label for="radio-7" class="label cursor-pointer space-x-2">
+                            <label
+                              for="radio-7"
+                              class="label cursor-pointer space-x-2"
+                            >
                               <input
                                 type="radio"
                                 v-model.trim="registWorker.worker.sex"
@@ -961,9 +978,9 @@
                             ></i>
                           </div>
                           <img
-                          :src="image"
-                          class="2xl:w-2/5 lg:w-2/5 md:w-2/5 w-5/6 mx-auto"
-                          />                              
+                            :src="image"
+                            class="2xl:w-2/5 lg:w-2/5 md:w-2/5 w-5/6 mx-auto"
+                          />
                           <input
                             type="file"
                             class="
@@ -1062,11 +1079,8 @@ export default {
           workerType: {
             idWorkerType: "",
             typeName: "",
-          }
+          },
         },
-
-
-
       },
       haveBoth: {
         email: "",
@@ -1210,9 +1224,9 @@ export default {
       ) {
         console.log("signup");
         try {
-          console.log(this.workerone)
+          console.log(this.workerone);
           const jsonPro = await JSON.stringify(this.registWorker);
-          console.log(jsonPro)
+          console.log(jsonPro);
           // const response = await fetch("http://localhost:3000/main/register", {
           const response = await fetch(
             `${process.env.VUE_APP_ROOT_API}main/register`,
@@ -1239,32 +1253,30 @@ export default {
         }
       }
     },
-    async uploadImg(event){
+    async uploadImg(event) {
       const file = event.target.files[0];
       if (this.isImage(file.name)) {
         const reader = new FileReader();
         reader.onload = (event) => {
           this.image = event.target.result;
           this.UpPic =
-            this.image == require("../assets/icon/face.svg")
-              ? true
-              : false;
+            this.image == require("../assets/icon/face.svg") ? true : false;
         };
         reader.readAsDataURL(file);
         this.imgFile = file;
-        this.registWorker.worker.verifyPic = this.imgFile.name
+        this.registWorker.worker.verifyPic = this.imgFile.name;
         // filename.split('.').slice(0, -1).join('.')
-        console.log(this.registWorker.worker.verifyPic)
+        console.log(this.registWorker.worker.verifyPic);
         // this.img = file.name;
       } else {
         return "Please upload only picture.";
       }
     },
-      checkName(picFile) {
+    checkName(picFile) {
       var checkWords = picFile.split(".");
       return checkWords[checkWords.length - 1];
     },
-      isImage(picFile) {
+    isImage(picFile) {
       var realCheckName = this.checkName(picFile);
       switch (realCheckName.toLowerCase()) {
         case "jpg":
@@ -1312,17 +1324,39 @@ export default {
         console.log(error);
       }
     },
+    //ValidateEmail(inputText) {
+    //  var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+     // if (inputText.value.match(mailformat)) {
+     //   alert("Valid email address!");
+     //   document.form1.text1.focus();
+     //   return true;
+     // } else {
+     //   alert("You have entered an invalid email address!");
+     //  document.form1.text1.focus();
+     //  return false;
+     //  }
+    // },
   },
   async created() {
     // this.businesstype = await this.fetch("http://localhost:3000/main/allBusinesstype");
-    this.businesstype = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allBusinesstype`);
+    this.businesstype = await this.fetch(
+      `${process.env.VUE_APP_ROOT_API}main/allBusinesstype`
+    );
     // this.subdisForm = await this.fetch("http://localhost:3000/main/allSubDistrict");
-    this.subdisForm = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allSubDistrict`);
+    this.subdisForm = await this.fetch(
+      `${process.env.VUE_APP_ROOT_API}main/allSubDistrict`
+    );
     // this.disForm = await this.fetch("http://localhost:3000/main/allDistrict");
-    this.disForm = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allDistrict`);
+    this.disForm = await this.fetch(
+      `${process.env.VUE_APP_ROOT_API}main/allDistrict`
+    );
     // this.provinceForm = await this.fetch("http://localhost:3000/main/allProvince");
-    this.provinceForm = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allProvince`);
-    this.ntType = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allNationality`);
+    this.provinceForm = await this.fetch(
+      `${process.env.VUE_APP_ROOT_API}main/allProvince`
+    );
+    this.ntType = await this.fetch(
+      `${process.env.VUE_APP_ROOT_API}main/allNationality`
+    );
   },
 };
 </script>
