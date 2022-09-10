@@ -340,13 +340,11 @@ export default {
     }),
   },
   async created() {
-    if(!this.$store.state.auth.user.role.idRole == '1'){
     // this.provinces = await this.fetch("http://localhost:3000/main/allProvince");
     this.provinces = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allProvince`);
     // this.typeHiring = await this.fetch("http://localhost:3000/main/allHiringType");
     this.typeHiring = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allHiringType`);
     console.log("test")      
-    }
   },
 };
 </script>

@@ -450,7 +450,7 @@ export default {
       // urlWorker: `${process.env.VUE_APP_ROOT_API}main/allWorker`,
       closeWord: true,
       canApp: 0,
-      thisWorker: {workerType:{}},
+      // thisWorker: {workerType:{}},
       sexNotice: true,
       typeNotice: true,
       conditionNotTrue: true,
@@ -485,20 +485,19 @@ export default {
     this.application()
     },
     async application() {
-      console.log("itim")
       this.defNext = true;
       if (this.canApp % 2 == 0) {
         if (
           !this.jobDetail.applicationList
             .map((a) => a.idWorker)
-            .includes(this.thisWorker.idWorker)
+            .includes(this.$store.state.auth.user.worker.idWorker)
         ) {
           if (
             this.jobDetail.workerType.typeName ==
-            this.thisWorker.workerType.typeName
+            this.$store.state.auth.user.worker.workerType.typeName
           ) {
             if (
-              this.jobDetail.sex == this.thisWorker.sex ||
+              this.jobDetail.sex == this.$store.state.auth.user.worker.sex ||
               this.jobDetail.sex == "A"
             ) {
               try {
@@ -517,7 +516,7 @@ export default {
                 setTimeout(() => (this.showToast = false), 3000);
                 console.log("สมัครสำเร็จ");
               } catch (error) {
-                console.log("สมัครไม่สำเร็จ1");
+                console.log(error);
               }
             } else {
               this.closePopup();
@@ -561,15 +560,14 @@ export default {
     // this.worker1 = await axios(this.urlWorker);
     // this.worker = this.worker1.data
     // this.thisWorker = await this.fetch("http://localhost:3000/admin/selectWorker?idWorker=1");
-    this.thisWorker1 = await axios.get(
-      `${process.env.VUE_APP_ROOT_API}main/selectWorker?idWorker=` + this.$store.state.auth.user.worker.idWorker
-    );
-    this.thisWorker = this.thisWorker1.data
-    console.log(this.$store.state.auth.user)
+    // this.thisWorker1 = await axios.get(
+    //   `${process.env.VUE_APP_ROOT_API}main/selectWorker?idWorker=` + this.$store.state.auth.user.worker.idWorker
+    // );
+    // this.thisWorker = this.thisWorker1.data
     // console.log("this.thisWorker = " + this.thisWorker)
     this.alreadyApp = this.jobDetail.applicationList
       .map((a) => a.idWorker)
-      .includes(this.thisWorker.idWorker);
+      .includes(this.$store.state.auth.user.worker.idWorker);
     console.log(this.alreadyApp);
     window.scrollTo(0, 0);
   },

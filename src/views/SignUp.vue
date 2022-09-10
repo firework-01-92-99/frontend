@@ -76,7 +76,7 @@
                             ></i>
                           </div>
                           <input
-                            @keyup="ValidateEmail"
+                            @keydown="checkMail"
                             type="email"
                             v-model.trim="registWorker.username"
                             class="
@@ -100,8 +100,7 @@
                           />
                         </div>
                         <p v-if="emailInput" class="text-red-600">
-                          Please enter your username and username can not less
-                          than 5 letters!
+                          กรุณากรอกอีเมลของคุณ
                         </p>
                         <p v-if="showError" class="text-red-600">
                           {{ errorMessage }}
@@ -366,6 +365,7 @@
                             v-model.trim="
                               registWorker.worker.identificationNumber
                             "
+                            :maxlength="chaLength"
                             class="
                               w-full
                               -ml-10
@@ -383,6 +383,9 @@
                         </div>
                         <p v-if="idenNoInput" class="text-red-600">
                           กรุณากรอกเลขบัตรประชาชน/เลขหนังสือเดินทาง
+                        </p>
+                         <p v-if="errIden" class="text-red-600">
+                          {{ errorMessage }}
                         </p>
                       </div>
                     </div>
@@ -405,6 +408,7 @@
                           "
                         ></div>
                         <select
+                          @click="whenselectNation"
                           type="text"
                           v-model.trim="
                             registWorker.worker.nationality.idnationality
@@ -518,9 +522,9 @@
                             placeholder="ชื่อกลาง"
                           />
                         </div>
-                        <!-- <p v-if="middlenameInput" class="text-red-600">
+                        <p v-if="middlenameInput" class="text-red-600">
                           กรุณากรอกชื่อ
-                        </p> -->
+                        </p>
                       </div>
 
                       <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
@@ -997,13 +1001,13 @@
                           />
                         </div>
                         <p
-                          v-if="picInput && signType == 'employer'"
+                          v-if="UpPic && signType == 'employer'"
                           class="text-red-600"
                         >
                           กรุณาอัปโหลดภาพสถานประกอบการ
                         </p>
                         <p
-                          v-if="picInput && signType == 'worker'"
+                          v-if="UpPic && signType == 'worker'"
                           class="text-red-600"
                         >
                           กรุณาอัปโหลดภาพยืนยันตัวตน
@@ -1060,28 +1064,6 @@ export default {
       ntTypeFreeze,
       type: "password",
       eye: require("../assets/hide.png"),
-      registWorker: {
-        username: "",
-        password: "",
-        role: { idRole: 3, role: "ROLE_WORKER" },
-        worker: {
-          identificationNumber: "",
-          verifyPic: null,
-          sex: "",
-          firstName: "",
-          middleName: "",
-          lastName: "",
-          phone: "",
-          nationality: {
-            idnationality: "",
-            nationality_name: "",
-          },
-          workerType: {
-            idWorkerType: "",
-            typeName: "",
-          },
-        },
-      },
       haveBoth: {
         email: "",
         pass: "",
@@ -1121,20 +1103,6 @@ export default {
         bindNation: "1",
         role: { idRole: 3, role: "ROLE_WORKER" },
       },
-      workertwo: {
-        email: "",
-        pass: "",
-        fname: "",
-        lname: "",
-        tel: "",
-        picFile: null,
-        type: "",
-        id: "",
-        mname: "",
-        sex: "",
-        bindNation: "",
-        role: { idRole: 3, role: "ROLE_WORKER" },
-      },
       image: require("../assets/icon/face.svg"),
       emailInput: false,
       passwordInput: false,
@@ -1144,6 +1112,7 @@ export default {
       idenNoInput: false,
       nationInput: false,
       firstnameInput: false,
+      middlenameInput: false,
       lastnameInput: false,
       addressInput: false,
       subdisInput: false,
@@ -1155,39 +1124,97 @@ export default {
       error: "",
       showError: false,
       errorMessage: "",
-      picInput: false,
       businesstype: [],
       subdisForm: [],
       disForm: [],
       provinceForm: [],
       ntType: [],
+      errIden: false,
+      chaLength: "",
+      UpPic: false,
+      
+      registWorker: {
+        username: "",
+        password: "",
+        role: { idRole: 3, role: "ROLE_WORKER" },
+        worker: {
+          identificationNumber: "",
+          verifyPic: null,
+          sex: "",
+          firstName: "",
+          middleName: "",
+          lastName: "",
+          phone: "",
+          nationality: {
+            idnationality: "",
+            nationality_name: "",
+          },
+          workerType: {
+            idWorkerType: "",
+            typeName: "",
+          },
+        },
+      },
     };
   },
   methods: {
     check() {
-      this.image = require("../assets/icon/face.svg") ? true : false;
-      this.emailInput =
-        this.haveBoth.email === "" || this.haveBoth.email.length < 5;
-      this.passwordInput = this.haveBoth.pass === "" ? true : false;
-      this.estnameInput = this.employer.estname === "" ? true : false;
-      this.workerTypeInput = this.worker.type === "" ? true : false;
-      this.businessTypeInput = this.employer.busstype === "" ? true : false;
-      this.idenNoInput = this.worker.id === "" ? true : false;
-      this.nationInput = this.worker.bindNation === "" ? true : false;
-      this.firstnameInput = this.haveBoth.fname === "" ? true : false;
-      this.middlenameInput = this.worker.mname === "" ? true : false;
-      this.lastnameInput = this.haveBoth.lname === "" ? true : false;
-      this.addressInput = this.employer.address === "" ? true : false;
-      this.subdisInput = this.employer.subdis === "" ? true : false;
-      this.districtInput = this.employer.district === "" ? true : false;
-      this.provinceInput = this.employer.province === "" ? true : false;
-      this.postCodeInput = this.employer.postcode === "" ? true : false;
-      this.sexInput = this.worker.sex === "" ? true : false;
-      this.phoneInput =
-        (this.haveBoth.tel === "" || this.haveBoth.tel !== "") &&
-        this.haveBoth.tel.length !== 10
-          ? true
-          : false;
+      this.UpPic = this.image == require("../assets/icon/face.svg") ? true : false;
+      this.emailInput = this.registWorker.username === "" ? true : false;
+      this.passwordInput = this.registWorker.password === "" || this.registWorker.password.length < 7 ? true : false;
+      // this.estnameInput = this.employer.estname === "" ? true : false;
+      this.workerTypeInput = this.registWorker.worker.workerType.idWorkerType === "" ? true : false;
+      // this.businessTypeInput = this.employer.busstype === "" ? true : false;
+      this.idenNoInput = this.registWorker.worker.identificationNumber === "" ? true : false;
+      this.nationInput = this.registWorker.worker.nationality.idnationality === "" ? true : false;
+      this.firstnameInput = this.registWorker.worker.firstName === "" ? true : false;
+      // this.middlenameInput = this.registWorker.worker.middleName === "" ? true : false;
+      this.lastnameInput = this.registWorker.worker.lastName === "" ? true : false;
+      // this.addressInput = this.employer.address === "" ? true : false;
+      // this.subdisInput = this.employer.subdis === "" ? true : false;
+      // this.districtInput = this.employer.district === "" ? true : false;
+      // this.provinceInput = this.employer.province === "" ? true : false;
+      // this.postCodeInput = this.employer.postcode === "" ? true : false;
+      this.sexInput = this.registWorker.worker.sex === "" ? true : false;
+      this.phoneInput = (this.registWorker.worker.phone === "" || this.registWorker.worker.phone !== "") && this.registWorker.worker.phone.length !== 10 ? true : false;
+    },
+    checknation(){
+      if(this.registWorker.worker.nationality.idnationality == 1){
+        console.log("Thai")
+        this.middlenameInput = false;
+      }else if(this.registWorker.worker.nationality.idnationality == 2){
+        console.log("Laos")
+        this.middlenameInput = false;
+      }else if(this.registWorker.worker.nationality.idnationality == 3){
+        console.log("Myanmar")
+        this.middlenameInput = this.registWorker.worker.middleName === ""
+      }else{
+        if(this.registWorker.worker.nationality.idnationality == 4){
+          console.log("Cambodia")
+          this.middlenameInput = false;
+        }
+      }
+    },
+    checkIdenAndPass(){
+      if(this.registWorker.worker.identificationNumber.length < 13 && this.registWorker.worker.nationality.idnationality == 1) {
+        this.errIden = true
+        this.errorMessage = 'กรุณากรอกรหัสบัตรประจำตัวประชาชนให้ครบ 13 หลัก'
+      }
+      else if(!/^[a-zA-Z0-9]+$/.test(this.registWorker.worker.identificationNumber) && this.registWorker.worker.nationality.idnationality !== 1) {
+        this.errIden = true
+        this.errorMessage = 'กรุณากรอกเลขหนังสือเดินทางให้ถูกต้องตามหลักเช่น "A111111" '
+      }
+    },
+    whenselectNation(){
+      if(this.registWorker.worker.nationality.idnationality == 1){
+        this.chaLength = 13
+      }else{
+        // if(!/^[a-z]/i.test(this.registWorker.worker.identificationNumber) && this.registWorker.worker.nationality.idnationality !== 1 ){
+        //   this.errIden = true
+        //   this.errorMessage = 'กรุณากรอกเลข Passport ให้ถูกต้องตามหลักเช่น "A111111 ahhhhhh" '
+        // }
+        this.chaLength = 6
+      }
     },
     showPassword() {
       if (this.type === "password") {
@@ -1200,13 +1227,12 @@ export default {
     },
     async signUp() {
       console.log("signupkrub");
-      console.log(this.worker);
-      console.log(this.haveBoth);
-      console.log(this.workerone);
-      console.log(this.workertwo);
       this.showError = false;
-      // this.check();
+      this.checknation();
+      this.checkIdenAndPass();
+      this.check();
       if (
+        !this.UpPic &&
         !this.emailInput &&
         !this.passwordInput &&
         !this.estnameInput &&
@@ -1241,10 +1267,11 @@ export default {
           this.error = await response.json();
           if (this.error.errorCode == "USERNAME_HAVE_ALREADY") {
             this.showError = true;
-            this.errorMessage = "this username is already taken.";
+            this.errorMessage = "อีเมลนี้ถูกใช้แล้ว";
           } else {
             alert("Finish Sign up");
-            // this.clear();
+            this.errIden = false
+            this.clear();
             this.$router.push("/signin");
           }
         } catch (error) {
@@ -1288,33 +1315,30 @@ export default {
       }
       return false;
     },
-    // clear() {
-    //   this.worker = {
-    //     type: "",
-    //     id: "",
-    //     mname: "",
-    //     sex: "",
-    //     bindNation: "",
-    //     role: { idRole: 3, role: "ROLE_WORKER" },
-    //   },
-    //   this.haveBoth = {
-    //     email: "",
-    //     pass: "",
-    //     fname: "",
-    //     lname: "",
-    //     tel: "",
-    //     picFile: null,
-    //   },
-    //   this.employer = {
-    //     estname: "",
-    //     busstype: "",
-    //     address: "",
-    //     subdis: "",
-    //     district: "",
-    //     province: "",
-    //     postcode: "",
-    //   }
-    // },
+    clear() {
+        this.registWorker = {
+        username: "",
+        password: "",
+        role: { idRole: 3, role: "ROLE_WORKER" },
+        worker: {
+          identificationNumber: "",
+          verifyPic: null,
+          sex: "",
+          firstName: "",
+          middleName: "",
+          lastName: "",
+          phone: "",
+          nationality: {
+            idnationality: "",
+            nationality_name: "",
+          },
+          workerType: {
+            idWorkerType: "",
+            typeName: "",
+          },
+        },
+      }
+    },
     async fetch(url) {
       try {
         const res = await fetch(url);
@@ -1324,18 +1348,16 @@ export default {
         console.log(error);
       }
     },
-    //ValidateEmail(inputText) {
-    //  var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-     // if (inputText.value.match(mailformat)) {
-     //   alert("Valid email address!");
-     //   document.form1.text1.focus();
-     //   return true;
-     // } else {
-     //   alert("You have entered an invalid email address!");
-     //  document.form1.text1.focus();
-     //  return false;
-     //  }
-    // },
+    checkMail(){
+      this.emailInput = false
+      this.showError = !this.validateEmail(this.registWorker.username)
+      this.errorMessage = "กรุณากรอกอีเมลให้ถูกต้อง"
+    },
+    validateEmail(email) {
+      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      console.log(re.test(String(email).toLowerCase()))
+      return re.test(String(email).toLowerCase());
+    }
   },
   async created() {
     // this.businesstype = await this.fetch("http://localhost:3000/main/allBusinesstype");
