@@ -278,12 +278,12 @@ export default {
         },
         {
           code: "th|lo",
-          title: "Lao",
+          title: "Laotian",
           flagIconUrl: "https://flagicons.lipis.dev/flags/4x3/la.svg",
         },
         {
           code: "th|my",
-          title: "Myanmar",
+          title: "Burmese",
           flagIconUrl: "https://flagicons.lipis.dev/flags/4x3/mm.svg",
         },
         {
