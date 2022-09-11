@@ -1137,7 +1137,7 @@
                 </form>
                 <div class="text-center mt-4">
                   <div
-                    @click="this.$router.push('/signin')"
+                    @click="$router.push('/signin')"
                     class="cursor-pointer no-underline hover:underline text-sm"
                   >
                     มีบัญชีอยู่แล้ว? เข้าสู่ระบบ

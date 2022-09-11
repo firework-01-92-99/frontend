@@ -165,14 +165,14 @@
                     </button>
                   </div>
                 </form>
-                <div class="text-center mt-4">
+                <!-- <div class="text-center mt-4">
                   <div
-                    @click="this.$router.push('/signup')"
+                    @click="$router.push('/signup')"
                     class="cursor-pointer no-underline hover:underline text-sm"
                   >
                     คุณยังไม่มีบัญชี? ลงทะเบียน
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>

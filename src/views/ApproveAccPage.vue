@@ -22,7 +22,7 @@
       <table class="table w-full">
         <!-- head -->
         <thead>
-          <tr>
+          <tr v-if="!noValue">
             <th></th>
             <th>ชื่อ</th>
             <th>ประเภทบัญชี</th>
@@ -32,7 +32,9 @@
         </thead>
         <tbody v-for="a in listApprove" :key="a.idApprove">
           <!-- row 1 -->
-          <!-- {{a}} -->
+                    <!-- <div v-if="listApprove.lenght == null">
+            ไม่มีรายการที่ต้องทำ
+          </div> -->
           <tr>
             <th>{{ a.count }}</th>
             <td>
@@ -852,6 +854,7 @@
             </th>
           </tr>
         </tbody>
+        
         <!-- foot -->
         <!-- <tfoot>
           <tr>
@@ -864,7 +867,11 @@
         </tfoot> -->
       </table>
     </div>
+          <div v-if="noValue" class="text-center mt-10">
+            ไม่มีรายการที่ต้องทำ
+          </div>
   </div>
+  
 </template>
 
 <script>
@@ -902,6 +909,7 @@ export default {
       statusId: '',
       // myAcc: [],
       idAdmin: '',
+      noValue: false,
     };
   },
   methods: {
@@ -949,6 +957,11 @@ export default {
   async created() {
     this.listApprove = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getAllApproveByIdStatusAndIdRole?idStatus=6&idRole=0`);
     this.status = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allStatus`);
+    if (this.listApprove.length == 0) {
+      this.noValue = true;
+    } else {
+      this.noValue = false;
+    }    
     // this.myAcc = await this.fetch(`${process.env.VUE_APP_ROOT_API}allroles/me`);
     // console.log(this.myAcc)
   },
