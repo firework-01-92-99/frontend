@@ -816,6 +816,7 @@
                             type="radio"
                             name="radio-6"
                             class="radio checked:bg-blue-500"
+                            
                           />
                           <span class="label-text 2xl:pr-0 md:pr-56">อนุมัติ</span>
                         </label>

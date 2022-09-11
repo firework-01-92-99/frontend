@@ -256,7 +256,7 @@
                                 "
                                 name="radio-5"
                                 class="radio checked:bg-blue-500"
-                                value="1"
+                                value=1
                               />
                               <span class="label-text 2xl:pr-0 md:pl-2 md:pr-4"
                                 >แรงงานต่างด้าว</span
@@ -272,7 +272,7 @@
                                 "
                                 name="radio-5"
                                 class="radio checked:bg-red-500"
-                                value="2"
+                                value=2
                               />
                               <span class="label-text 2xl:pr-0 md:pl-2 md:pr-4"
                                 >แรงงานไทย</span
@@ -343,54 +343,8 @@
                     </div>
 
                     <div v-else class="flex -mx-3">
-                      <div class="w-full px-3 mb-5">
-                        <label for="" class="2xl:text-base md:text-base text-sm font-medium 2xl:px-1"
-                          >เลขบัตรประชาชน/เลขหนังสือเดินทาง</label
-                        >
-                        <div class="flex">
-                          <div
-                            class="
-                              w-10
-                              z-10
-                              pl-1
-                              text-center
-                              pointer-events-none
-                              flex
-                              items-center
-                              justify-center
-                            "
-                          ></div>
-                          <input
-                            type="text"
-                            v-model.trim="
-                              registWorker.worker.identificationNumber
-                            "
-                            :maxlength="chaLength"
-                            class="
-                              w-full
-                              -ml-10
-                              pl-5
-                              pr-3
-                              py-2
-                              rounded-lg
-                              border-2 border-gray-200
-                              outline-none
-                              focus:border-indigo-500
-                            "
-                            :class="{ 'bg-red-50': idenNoInput }"
-                            placeholder="เลขบัตรประชาชน/เลขหนังสือเดินทาง"
-                          />
-                        </div>
-                        <p v-if="idenNoInput" class="text-red-600">
-                          กรุณากรอกเลขบัตรประชาชน/เลขหนังสือเดินทาง
-                        </p>
-                         <p v-if="errIden" class="text-red-600">
-                          {{ errorMessage }}
-                        </p>
-                      </div>
-                    </div>
 
-                    <div class="w-full mb-5">
+                     <div class="w-full mb-5">
                       <label for="" class="2xl:text-base md:text-base text-sm font-medium 2xl:px-1"
                         >สัญชาติ</label
                       >
@@ -443,9 +397,58 @@
                         กรุณาเลือกสัญชาติ
                       </p>
                     </div>
+                    </div>
+
 
                     <div class="2xl:flex 2xl:-mx-3">
                       <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                          <!-- <div class="w-full px-3 mb-5"> -->
+                        <label for="" class="2xl:text-base md:text-base text-sm font-medium 2xl:px-1"
+                          >เลขบัตรประชาชน/เลขหนังสือเดินทาง</label
+                        >
+                        <div class="flex">
+                          <div
+                            class="
+                              w-10
+                              z-10
+                              pl-1
+                              text-center
+                              pointer-events-none
+                              flex
+                              items-center
+                              justify-center
+                            "
+                          ></div>
+                          <input
+                            type="text"
+                            v-model.trim="
+                              registWorker.worker.identificationNumber
+                            "
+                            :maxlength="chaLength"
+                            class="
+                              w-full
+                              -ml-10
+                              pl-5
+                              pr-3
+                              py-2
+                              rounded-lg
+                              border-2 border-gray-200
+                              outline-none
+                              focus:border-indigo-500
+                            "
+                            :class="{ 'bg-red-50': idenNoInput }"
+                            placeholder="เลขบัตรประชาชน/เลขหนังสือเดินทาง"
+                          />
+                        </div>
+                        <p v-if="idenNoInput" class="text-red-600">
+                          กรุณากรอกเลขบัตรประชาชน/เลขหนังสือเดินทาง
+                        </p>
+                         <p v-if="errIden" class="text-red-600">
+                          {{ errorMessage }}
+                        </p>
+                      <!-- </div> -->
+
+
                         <label for="" class="2xl:text-base md:text-base text-sm font-medium px-1"
                           >ชื่อ</label
                         >
@@ -998,7 +1001,7 @@
                               focus:border-indigo-500
                             "
                             @change="uploadImg"
-                            :class="{ 'bg-red-50': picInput }"
+                            :class="{ 'bg-red-50': UpPic }"
                           />
                           </div>
                         </div>
@@ -1252,7 +1255,6 @@ export default {
       ) {
         console.log("signup");
         try {
-          console.log(this.workerone);
           const jsonPro = await JSON.stringify(this.registWorker);
           console.log(jsonPro);
           // const response = await fetch("http://localhost:3000/main/register", {
@@ -1265,17 +1267,25 @@ export default {
                 "Content-Type": "application/json",
               },
             }
+
           );
-          this.error = await response.json();
-          if (this.error.errorCode == "USERNAME_HAVE_ALREADY") {
-            this.showError = true;
-            this.errorMessage = "อีเมลนี้ถูกใช้แล้ว";
-          } else {
+          console.log(response)
             alert("Finish Sign up");
             this.errIden = false
             this.clear();
             this.$router.push("/signin");
-          }
+          // this.error = await response.json();
+          // console.log(this.error);
+          // if (this.error.errorCode == "USERNAME_HAVE_ALREADY") {
+          //   console.log("username")
+          //   this.showError = true;
+          //   this.errorMessage = "อีเมลนี้ถูกใช้แล้ว";
+          // } else {
+          //   alert("Finish Sign up");
+          //   this.errIden = false
+          //   this.clear();
+          //   this.$router.push("/signin");
+          // }
         } catch (error) {
           console.log("cannot signup");
           console.log(`Could not save! ${error}`);
