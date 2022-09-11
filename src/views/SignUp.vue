@@ -44,7 +44,10 @@
               >
                 ลงทะเบียนสำหรับผู้ประกอบการ
               </h1>
-              <h1 v-else class="font-bold 2xl:text-4xl md:text-4xl text-2xl text-center">
+              <h1
+                v-else
+                class="font-bold 2xl:text-4xl md:text-4xl text-2xl text-center"
+              >
                 ลงทะเบียนสำหรับผู้สมัครงาน
               </h1>
               <div class="w-full mt-10">
@@ -52,7 +55,15 @@
                   <div>
                     <div class="2xl:flex 2xl:-mx-3">
                       <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                        <label for="" class="2xl:text-base md:text-base text-sm  font-medium px-1"
+                        <label
+                          for=""
+                          class="
+                            2xl:text-base
+                            md:text-base
+                            text-sm
+                            font-medium
+                            px-1
+                          "
                           >อีเมล</label
                         >
                         <div class="flex">
@@ -108,7 +119,15 @@
                       </div>
 
                       <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                        <label for="" class="2xl:text-base md:text-base text-sm  font-medium px-1"
+                        <label
+                          for=""
+                          class="
+                            2xl:text-base
+                            md:text-base
+                            text-sm
+                            font-medium
+                            px-1
+                          "
                           >รหัสผ่าน</label
                         >
                         <div class="flex">
@@ -243,7 +262,15 @@
                           </select> -->
 
                       <div class="w-full px-3 mb-5">
-                        <label for="" class="2xl:text-base md:text-base text-sm font-medium px-1"
+                        <label
+                          for=""
+                          class="
+                            2xl:text-base
+                            md:text-base
+                            text-sm
+                            font-medium
+                            px-1
+                          "
                           >ประเภทแรงงาน</label
                         >
                         <div class="flex 2xl:space-x-5">
@@ -256,7 +283,7 @@
                                 "
                                 name="radio-5"
                                 class="radio checked:bg-blue-500"
-                                value=1
+                                value="1"
                               />
                               <span class="label-text 2xl:pr-0 md:pl-2 md:pr-4"
                                 >แรงงานต่างด้าว</span
@@ -272,7 +299,7 @@
                                 "
                                 name="radio-5"
                                 class="radio checked:bg-red-500"
-                                value=2
+                                value="2"
                               />
                               <span class="label-text 2xl:pr-0 md:pl-2 md:pr-4"
                                 >แรงงานไทย</span
@@ -342,69 +369,18 @@
                       </div>
                     </div>
 
-                    <div v-else class="flex -mx-3">
-
-                     <div class="w-full mb-5">
-                      <label for="" class="2xl:text-base md:text-base text-sm font-medium 2xl:px-1"
-                        >สัญชาติ</label
-                      >
-                      <div class="flex">
-                        <div
+                    <div v-else class="flex">
+                      <div class="w-full mb-5">
+                        <label
+                          for=""
                           class="
-                            w-10
-                            z-10
-                            pl-1
-                            text-center
-                            pointer-events-none
-                            flex
-                            items-center
-                            justify-center
+                            2xl:text-base
+                            md:text-base
+                            text-sm
+                            font-medium
+                            2xl:px-1
                           "
-                        ></div>
-                        <select
-                          @click="whenselectNation"
-                          type="text"
-                          v-model.trim="
-                            registWorker.worker.nationality.idnationality
-                          "
-                          class="
-                            select select-bordered
-                            w-full
-                            -ml-10
-                            pl-5
-                            pr-3
-                            py-2
-                            rounded-lg
-                            border-2 border-gray-200
-                            outline-none
-                            focus:border-indigo-500
-                          "
-                          :class="{ 'bg-red-50': idenNoInput }"
-                          placeholder="สัญชาติ"
-                        >
-                          <option :value="''" disabled selected>สัญชาติ</option>
-                          <option
-                            class="text-black"
-                            v-for="nt in ntType"
-                            :key="nt.idnationality"
-                            :value="nt.idnationality"
-                          >
-                            {{ ntTypeFreeze[nt.nationality_name] }}
-                          </option>
-                        </select>
-                      </div>
-                      <p v-if="idenNoInput" class="text-red-600">
-                        กรุณาเลือกสัญชาติ
-                      </p>
-                    </div>
-                    </div>
-
-
-                    <div class="2xl:flex 2xl:-mx-3">
-                      <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                          <!-- <div class="w-full px-3 mb-5"> -->
-                        <label for="" class="2xl:text-base md:text-base text-sm font-medium 2xl:px-1"
-                          >เลขบัตรประชาชน/เลขหนังสือเดินทาง</label
+                          >สัญชาติ</label
                         >
                         <div class="flex">
                           <div
@@ -419,13 +395,14 @@
                               justify-center
                             "
                           ></div>
-                          <input
+                          <select
+                            @click="whenselectNation"
                             type="text"
                             v-model.trim="
-                              registWorker.worker.identificationNumber
+                              registWorker.worker.nationality.idnationality
                             "
-                            :maxlength="chaLength"
                             class="
+                              select select-bordered
                               w-full
                               -ml-10
                               pl-5
@@ -437,19 +414,92 @@
                               focus:border-indigo-500
                             "
                             :class="{ 'bg-red-50': idenNoInput }"
-                            placeholder="เลขบัตรประชาชน/เลขหนังสือเดินทาง"
-                          />
+                            placeholder="สัญชาติ"
+                          >
+                            <option :value="''" disabled selected>
+                              สัญชาติ
+                            </option>
+                            <option
+                              class="text-black"
+                              v-for="nt in ntType"
+                              :key="nt.idnationality"
+                              :value="nt.idnationality"
+                            >
+                              {{ ntTypeFreeze[nt.nationality_name] }}
+                            </option>
+                          </select>
                         </div>
                         <p v-if="idenNoInput" class="text-red-600">
-                          กรุณากรอกเลขบัตรประชาชน/เลขหนังสือเดินทาง
+                          กรุณาเลือกสัญชาติ
                         </p>
-                         <p v-if="errIden" class="text-red-600">
-                          {{ errorMessage }}
-                        </p>
-                      <!-- </div> -->
+                      </div>
+                    </div>
 
+                    <div class="w-full mb-5">
+                      <label
+                        for=""
+                        class="
+                          2xl:text-base
+                          md:text-base
+                          text-sm
+                          font-medium
+                          2xl:px-1
+                        "
+                        >เลขบัตรประชาชน/เลขหนังสือเดินทาง</label
+                      >
+                      <div class="flex">
+                        <div
+                          class="
+                            w-10
+                            z-10
+                            pl-1
+                            text-center
+                            pointer-events-none
+                            flex
+                            items-center
+                            justify-center
+                          "
+                        ></div>
+                        <input
+                          type="text"
+                          v-model.trim="
+                            registWorker.worker.identificationNumber
+                          "
+                          :maxlength="chaLength"
+                          class="
+                            w-full
+                            -ml-10
+                            pl-5
+                            pr-3
+                            py-2
+                            rounded-lg
+                            border-2 border-gray-200
+                            outline-none
+                            focus:border-indigo-500
+                          "
+                          :class="{ 'bg-red-50': idenNoInput }"
+                          placeholder="เลขบัตรประชาชน/เลขหนังสือเดินทาง"
+                        />
+                      </div>
+                      <p v-if="idenNoInput" class="text-red-600">
+                        กรุณากรอกเลขบัตรประชาชน/เลขหนังสือเดินทาง
+                      </p>
+                      <p v-if="errIden" class="text-red-600">
+                        {{ errorMessage }}
+                      </p>
+                    </div>
 
-                        <label for="" class="2xl:text-base md:text-base text-sm font-medium px-1"
+                    <div class="2xl:flex 2xl:-mx-3">
+                      <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                        <label
+                          for=""
+                          class="
+                            2xl:text-base
+                            md:text-base
+                            text-sm
+                            font-medium
+                            px-1
+                          "
                           >ชื่อ</label
                         >
                         <div class="flex">
@@ -492,7 +542,15 @@
                         v-if="signType == 'worker'"
                         class="2xl:w-1/2 w-full 2xl:px-3 mb-5"
                       >
-                        <label for="" class="2xl:text-base md:text-base text-sm font-medium px-1"
+                        <label
+                          for=""
+                          class="
+                            2xl:text-base
+                            md:text-base
+                            text-sm
+                            font-medium
+                            px-1
+                          "
                           >ชื่อกลาง</label
                         >
                         <div class="flex">
@@ -531,7 +589,15 @@
                       </div>
 
                       <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                        <label for="" class="2xl:text-base md:text-base text-sm font-medium px-1"
+                        <label
+                          for=""
+                          class="
+                            2xl:text-base
+                            md:text-base
+                            text-sm
+                            font-medium
+                            px-1
+                          "
                           >นามสกุล</label
                         >
                         <div class="flex">
@@ -859,7 +925,15 @@
 
                     <div v-if="signType == 'worker'" class="flex -mx-3">
                       <div class="w-1/2 px-3 mb-5">
-                        <label for="" class="2xl:text-base md:text-base text-sm font-medium px-1"
+                        <label
+                          for=""
+                          class="
+                            2xl:text-base
+                            md:text-base
+                            text-sm
+                            font-medium
+                            px-1
+                          "
                           >เพศ</label
                         >
                         <div class="flex space-x-5">
@@ -902,7 +976,15 @@
 
                     <div class="flex -mx-3">
                       <div class="w-full px-3 mb-5">
-                        <label for="" class="2xl:text-base md:text-base text-sm font-medium px-1"
+                        <label
+                          for=""
+                          class="
+                            2xl:text-base
+                            md:text-base
+                            text-sm
+                            font-medium
+                            px-1
+                          "
                           >เบอร์โทรศัพท์</label
                         >
                         <div class="flex">
@@ -961,7 +1043,13 @@
                         <label
                           v-if="signType == 'worker'"
                           for=""
-                          class="2xl:text-base md:text-base text-sm font-medium px-1"
+                          class="
+                            2xl:text-base
+                            md:text-base
+                            text-sm
+                            font-medium
+                            px-1
+                          "
                           >ภาพยืนยันตัวตน</label
                         >
                         <div class="flex">
@@ -986,23 +1074,31 @@
                           </div>
                           <div class="flex flex-col w-full">
                             <img
-                            :src="image"
-                            class="mt-2 mb-3 2xl:w-1/5 lg:w-2/5 md:w-2/5 w-5/6 mx-auto"
+                              :src="image"
+                              class="
+                                mt-2
+                                mb-3
+                                2xl:w-1/5
+                                lg:w-2/5
+                                md:w-2/5
+                                w-5/6
+                                mx-auto
+                              "
                             />
                             <input
-                            type="file"
-                            class="
-                              w-full
-                              -ml-10
-                              pr-3
-                              py-2
-                              rounded-lg
-                              outline-none
-                              focus:border-indigo-500
-                            "
-                            @change="uploadImg"
-                            :class="{ 'bg-red-50': UpPic }"
-                          />
+                              type="file"
+                              class="
+                                w-full
+                                -ml-10
+                                pr-3
+                                py-2
+                                rounded-lg
+                                outline-none
+                                focus:border-indigo-500
+                              "
+                              @change="uploadImg"
+                              :class="{ 'bg-red-50': UpPic }"
+                            />
                           </div>
                         </div>
                         <p
@@ -1137,7 +1233,7 @@ export default {
       errIden: false,
       chaLength: "",
       UpPic: false,
-      
+
       registWorker: {
         username: "",
         password: "",
@@ -1164,61 +1260,84 @@ export default {
   },
   methods: {
     check() {
-      this.UpPic = this.image == require("../assets/icon/face-2.png") ? true : false;
+      this.UpPic =
+        this.image == require("../assets/icon/face-2.png") ? true : false;
       this.emailInput = this.registWorker.username === "" ? true : false;
-      this.passwordInput = this.registWorker.password === "" || this.registWorker.password.length < 7 ? true : false;
+      this.passwordInput =
+        this.registWorker.password === "" ||
+        this.registWorker.password.length < 7
+          ? true
+          : false;
       // this.estnameInput = this.employer.estname === "" ? true : false;
-      this.workerTypeInput = this.registWorker.worker.workerType.idWorkerType === "" ? true : false;
+      this.workerTypeInput =
+        this.registWorker.worker.workerType.idWorkerType === "" ? true : false;
       // this.businessTypeInput = this.employer.busstype === "" ? true : false;
-      this.idenNoInput = this.registWorker.worker.identificationNumber === "" ? true : false;
-      this.nationInput = this.registWorker.worker.nationality.idnationality === "" ? true : false;
-      this.firstnameInput = this.registWorker.worker.firstName === "" ? true : false;
+      this.idenNoInput =
+        this.registWorker.worker.identificationNumber === "" ? true : false;
+      this.nationInput =
+        this.registWorker.worker.nationality.idnationality === ""
+          ? true
+          : false;
+      this.firstnameInput =
+        this.registWorker.worker.firstName === "" ? true : false;
       // this.middlenameInput = this.registWorker.worker.middleName === "" ? true : false;
-      this.lastnameInput = this.registWorker.worker.lastName === "" ? true : false;
+      this.lastnameInput =
+        this.registWorker.worker.lastName === "" ? true : false;
       // this.addressInput = this.employer.address === "" ? true : false;
       // this.subdisInput = this.employer.subdis === "" ? true : false;
       // this.districtInput = this.employer.district === "" ? true : false;
       // this.provinceInput = this.employer.province === "" ? true : false;
       // this.postCodeInput = this.employer.postcode === "" ? true : false;
       this.sexInput = this.registWorker.worker.sex === "" ? true : false;
-      this.phoneInput = (this.registWorker.worker.phone === "" || this.registWorker.worker.phone !== "") && this.registWorker.worker.phone.length !== 10 ? true : false;
+      this.phoneInput =
+        (this.registWorker.worker.phone === "" ||
+          this.registWorker.worker.phone !== "") &&
+        this.registWorker.worker.phone.length !== 10
+          ? true
+          : false;
     },
-    checknation(){
-      if(this.registWorker.worker.nationality.idnationality == 1){
-        console.log("Thai")
+    checknation() {
+      if (this.registWorker.worker.nationality.idnationality == 1) {
+        console.log("Thai");
         this.middlenameInput = false;
-      }else if(this.registWorker.worker.nationality.idnationality == 2){
-        console.log("Laos")
+      } else if (this.registWorker.worker.nationality.idnationality == 2) {
+        console.log("Laos");
         this.middlenameInput = false;
-      }else if(this.registWorker.worker.nationality.idnationality == 3){
-        console.log("Myanmar")
-        this.middlenameInput = this.registWorker.worker.middleName === ""
-      }else{
-        if(this.registWorker.worker.nationality.idnationality == 4){
-          console.log("Cambodia")
+      } else if (this.registWorker.worker.nationality.idnationality == 3) {
+        console.log("Myanmar");
+        this.middlenameInput = this.registWorker.worker.middleName === "";
+      } else {
+        if (this.registWorker.worker.nationality.idnationality == 4) {
+          console.log("Cambodia");
           this.middlenameInput = false;
         }
       }
     },
-    checkIdenAndPass(){
-      if(this.registWorker.worker.identificationNumber.length < 13 && this.registWorker.worker.nationality.idnationality == 1) {
-        this.errIden = true
-        this.errorMessage = 'กรุณากรอกรหัสบัตรประจำตัวประชาชนให้ครบ 13 หลัก'
-      }
-      else if(!/^[a-zA-Z0-9]+$/.test(this.registWorker.worker.identificationNumber) && this.registWorker.worker.nationality.idnationality !== 1) {
-        this.errIden = true
-        this.errorMessage = 'กรุณากรอกเลขหนังสือเดินทางให้ถูกต้องตามหลักเช่น "A111111" '
+    checkIdenAndPass() {
+      if (
+        this.registWorker.worker.identificationNumber.length < 13 &&
+        this.registWorker.worker.nationality.idnationality == 1
+      ) {
+        this.errIden = true;
+        this.errorMessage = "กรุณากรอกรหัสบัตรประจำตัวประชาชนให้ครบ 13 หลัก";
+      } else if (
+        !/^[a-zA-Z0-9]+$/.test(this.registWorker.worker.identificationNumber) &&
+        this.registWorker.worker.nationality.idnationality !== 1
+      ) {
+        this.errIden = true;
+        this.errorMessage =
+          'กรุณากรอกเลขหนังสือเดินทางให้ถูกต้องตามหลักเช่น "A111111" ';
       }
     },
-    whenselectNation(){
-      if(this.registWorker.worker.nationality.idnationality == 1){
-        this.chaLength = 13
-      }else{
+    whenselectNation() {
+      if (this.registWorker.worker.nationality.idnationality == 1) {
+        this.chaLength = 13;
+      } else {
         // if(!/^[a-z]/i.test(this.registWorker.worker.identificationNumber) && this.registWorker.worker.nationality.idnationality !== 1 ){
         //   this.errIden = true
         //   this.errorMessage = 'กรุณากรอกเลข Passport ให้ถูกต้องตามหลักเช่น "A111111 ahhhhhh" '
         // }
-        this.chaLength = 6
+        this.chaLength = 6;
       }
     },
     showPassword() {
@@ -1267,13 +1386,12 @@ export default {
                 "Content-Type": "application/json",
               },
             }
-
           );
-          console.log(response)
-            alert("Finish Sign up");
-            this.errIden = false
-            this.clear();
-            this.$router.push("/signin");
+          console.log(response);
+          alert("Finish Sign up");
+          this.errIden = false;
+          this.clear();
+          this.$router.push("/signin");
           // this.error = await response.json();
           // console.log(this.error);
           // if (this.error.errorCode == "USERNAME_HAVE_ALREADY") {
@@ -1328,7 +1446,7 @@ export default {
       return false;
     },
     clear() {
-        this.registWorker = {
+      this.registWorker = {
         username: "",
         password: "",
         role: { idRole: 3, role: "ROLE_WORKER" },
@@ -1349,7 +1467,7 @@ export default {
             typeName: "",
           },
         },
-      }
+      };
     },
     async fetch(url) {
       try {
@@ -1360,16 +1478,17 @@ export default {
         console.log(error);
       }
     },
-    checkMail(){
-      this.emailInput = false
-      this.showError = !this.validateEmail(this.registWorker.username)
-      this.errorMessage = "กรุณากรอกอีเมลให้ถูกต้อง"
+    checkMail() {
+      this.emailInput = false;
+      this.showError = !this.validateEmail(this.registWorker.username);
+      this.errorMessage = "กรุณากรอกอีเมลให้ถูกต้อง";
     },
     validateEmail(email) {
-      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      console.log(re.test(String(email).toLowerCase()))
+      const re =
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      console.log(re.test(String(email).toLowerCase()));
       return re.test(String(email).toLowerCase());
-    }
+    },
   },
   async created() {
     // this.businesstype = await this.fetch("http://localhost:3000/main/allBusinesstype");
