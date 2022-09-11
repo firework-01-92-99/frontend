@@ -1105,7 +1105,7 @@ export default {
         bindNation: "1",
         role: { idRole: 3, role: "ROLE_WORKER" },
       },
-      image: require("../assets/icon/face.svg"),
+      image: require("../assets/icon/face-2.png"),
       emailInput: false,
       passwordInput: false,
       estnameInput: false,
@@ -1161,7 +1161,7 @@ export default {
   },
   methods: {
     check() {
-      this.UpPic = this.image == require("../assets/icon/face.svg") ? true : false;
+      this.UpPic = this.image == require("../assets/icon/face-2.png") ? true : false;
       this.emailInput = this.registWorker.username === "" ? true : false;
       this.passwordInput = this.registWorker.password === "" || this.registWorker.password.length < 7 ? true : false;
       // this.estnameInput = this.employer.estname === "" ? true : false;
