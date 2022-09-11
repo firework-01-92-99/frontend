@@ -812,21 +812,24 @@
                     <div class="2xl:flex 2xl:space-x-5">
                       <div class="form-control">
                         <label class="label cursor-pointer 2xl:space-x-2">
-                          <input
+                          <input   
                             type="radio"
-                            name="radio-6"
+                            v-model.trim="statusId"
+                            name="radio-1"
                             class="radio checked:bg-blue-500"
-                            
+                            value=4
                           />
                           <span class="label-text 2xl:pr-0 md:pr-56">อนุมัติ</span>
                         </label>
                       </div>
                       <div class="form-control">
                         <label class="label cursor-pointer 2xl:space-x-2">
-                          <input
+                          <input      
                             type="radio"
-                            name="radio-6"
+                            v-model.trim="statusId"
+                            name="radio-2"
                             class="radio checked:bg-red-500"
+                            value=5
                           />
                           <span class="label-text 2xl:pr-0 md:pr-52"
                             >ไม่อนุมัติ</span
@@ -839,8 +842,10 @@
                       placeholder="หมายเหตุที่ไม่อนุมัติ"
                     ></textarea>
                   </div>
+                  
                   <div class="modal-action">
-                    <label for="my-modal-5" class="btn">ปิด</label>
+                    <button @click="sendApprove(a)" class="btn w-1/2 bg-orange-1 hover:bg-orange-2">ยืนยัน</button>
+                    <label for="my-modal-5" class="btn w-1/2">ปิด</label>
                   </div>
                 </div>
               </div>
@@ -893,6 +898,10 @@ export default {
       nationality: "",
       image: "",
       info: { nationality: {}, workerType: {} },
+      status: [],
+      statusId: '',
+      // myAcc: [],
+      idAdmin: '',
     };
   },
   methods: {
@@ -906,10 +915,26 @@ export default {
           .then((response) => {
             this.info = response.data;
             this.image =
-              `${process.env.VUE_APP_ROOT_API}main/image/` +
-              this.info.verifyPic;
+              `${process.env.VUE_APP_ROOT_API}main/image/` + "image2.jpg"
           });
       }
+    },
+    async sendApprove(idApprove){
+      if(confirm("ต้องการจะส่งฟอร์มอนุมัติบัญชีหรือไม่")){
+              try {
+                 await axios.put(
+                  `${process.env.VUE_APP_ROOT_API}main/approveAccount?idApprove=${idApprove.idApprove}&idAdmin=1&idStatus=${this.statusId}`
+                  // ,
+                  // {
+                  //   method: "PUT",
+                  // }
+                ).data;
+              window.location.reload();
+              } catch (error) {
+                console.log(error);
+              }             
+      } 
+  
     },
     async fetch(url) {
       try {
@@ -922,9 +947,10 @@ export default {
     },
   },
   async created() {
-    this.listApprove = await this.fetch(
-      `${process.env.VUE_APP_ROOT_API}main/getAllApproveByIdStatusAndIdRole?idStatus=6&idRole=0`
-    );
+    this.listApprove = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getAllApproveByIdStatusAndIdRole?idStatus=6&idRole=0`);
+    this.status = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allStatus`);
+    // this.myAcc = await this.fetch(`${process.env.VUE_APP_ROOT_API}allroles/me`);
+    // console.log(this.myAcc)
   },
 };
 </script>
