@@ -28,7 +28,7 @@
             justify-center
           "
         >
-          <!-- <div class="lg:w-1/2">
+          <div class="lg:w-1/2">
             <div class="flex-col space-y-5">
               <div class="flex justify-center">
                 <div class="avatar w-1/3 mt-5">
@@ -42,9 +42,9 @@
                     <img :src="image" />
                   </div>
                 </div>
-              </div> -->
+              </div>
 
-          <!-- <div class="collapse">
+          <div class="collapse">
                 <input class="w-1/3" type="checkbox" />
                 <div class="collapse-title flex justify-center">
                   <div class="stats bg-orange-1 shadow w-1/3">
@@ -92,10 +92,10 @@
                     </div>
                   </div>
                 </div>
-              </div> -->
-          <!-- </div>
-          </div> -->
-          <!-- <div class="divider lg:divider-horizontal"></div> -->
+              </div>
+          </div>
+          </div>
+          <div class="divider lg:divider-horizontal"></div>
           <!-- worker -->
           <div class="flex flex-col w-full lg:w-1/2 p-4">
             <div class="flex flex-col flex-1 justify-center mb-8">
@@ -150,7 +150,7 @@
                               outline-none
                               placeholder-black placeholder-opacity-100
                             "
-                            :placeholder="$store.state.auth.user.username"
+                            :placeholder="$store.state.auth.user.email"
                             disabled
                           />
                         </div>

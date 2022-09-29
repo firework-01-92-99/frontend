@@ -60,7 +60,6 @@
                   md:hidden
                 "
               >
-              <!--dev-->
                 <router-link to="/signup/worker"
                   >ลงทะเบียนสำหรับผู้สมัครงาน</router-link
                 >
@@ -83,9 +82,9 @@
               <li class="hover:text-orange-1">
                 <router-link to="/">หางาน</router-link>
               </li>
-              <!-- <li class="hover:text-orange-1">
+              <li class="hover:text-orange-1">
                 <router-link to="/posting">ประกาศหางาน</router-link>
-              </li> -->
+              </li>
             </div>
             <div v-if="$store.state.auth.user">
               <li

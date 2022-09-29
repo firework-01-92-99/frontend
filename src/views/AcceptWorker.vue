@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-2 h-screen font-sans-thai">
+   <div class="bg-gray-2 h-screen font-sans-thai">
   <div class="2xl:p-6 2xl:pl-32 xl:p-6 lg:p-6 md:p-6 p-3 pt-5">
       <base-tab><template><a
       :class="{ 'tab-active': routes == 'ApproveAccPage' }"
@@ -499,31 +499,8 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
-  
-  data(){
-    return{
-      allworker: [],
 
-    }
-  },
-  methods: {
-        async fetch(url) {
-      try {
-        const res = await fetch(url);
-        const data = await res.json();
-        return data;
-      } catch (error) {
-        console.log(error);
-      }
-    },
-  },
-  async created() {
-    this.allworker = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorker?idPosting=` + this.$route.query.idPost);
-    console.log(this.allworker)
-
-  },
 }
 </script>
 

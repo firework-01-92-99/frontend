@@ -1,7 +1,29 @@
 <template>
   <div v-if="$store.state.auth.user" class="bg-gray-2 h-screen font-sans-thai">
     <div class="2xl:p-6 2xl:pl-32 xl:p-6 lg:p-6 md:p-6 p-3 pt-5">
-      <base-tab></base-tab>
+      <base-tab>
+      <template><a
+      :class="{ 'tab-active': routes == 'ApproveAccPage' }"
+      class="tab tab-bordered text-black"
+      @click="$router.push('/approve')"
+    >
+      ตรวจสอบบัญชี
+    </a>
+    <a
+      class="tab tab-bordered text-black"
+      :class="{ 'tab-active': routes == 'EditAccPage' }"
+      @click="$router.push('/approve/edit')"
+      
+      >คำขอแก้ไขบัญชี</a
+    >
+    <a
+      class="tab tab-bordered text-black"
+      :class="{ 'tab-active': routes == 'DelAccPage' }"
+      @click="$router.push('/approve/delete')"
+      
+      >คำขอลบบัญชี</a
+    ></template>
+      </base-tab>
     </div>
     <div class="overflow-x-auto w-10/12 mx-auto font-sans-thai">
       <p
@@ -30,7 +52,7 @@
             <th></th>
           </tr>
         </thead>
-        <tbody v-for="a in listApprove" :key="a.idApprove">
+        <tbody v-for="a in listApprove.data" :key="a.idApprove">
           <!-- row 1 -->
                     <!-- <div v-if="listApprove.lenght == null">
             ไม่มีรายการที่ต้องทำ
@@ -907,9 +929,10 @@ export default {
       info: { nationality: {}, workerType: {} },
       status: [],
       statusId: '',
-      // myAcc: [],
-      idAdmin: '',
+      myAcc: [],
       noValue: false,
+      routes:'',
+      idAdmin: 0,
     };
   },
   methods: {
@@ -931,7 +954,7 @@ export default {
       if(confirm("ต้องการจะส่งฟอร์มอนุมัติบัญชีหรือไม่")){
               try {
                  await axios.put(
-                  `${process.env.VUE_APP_ROOT_API}main/approveAccount?idApprove=${idApprove.idApprove}&idAdmin=1&idStatus=${this.statusId}`
+                  `${process.env.VUE_APP_ROOT_API}admin/approveAccount?idApprove=${idApprove.idApprove}&idAdmin=${this.idAdmin}&idStatus=${this.statusId}`
                   // ,
                   // {
                   //   method: "PUT",
@@ -955,15 +978,17 @@ export default {
     },
   },
   async created() {
-    this.listApprove = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getAllApproveByIdStatusAndIdRole?idStatus=6&idRole=0`);
+    this.listApprove = await axios.get(`${process.env.VUE_APP_ROOT_API}admin/getAllApproveByIdStatusAndIdRole?idStatus=6&idRole=0`);
+    console.log(this.listApprove.data)
     this.status = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allStatus`);
-    if (this.listApprove.length == 0) {
+       this.myAcc = await axios.get(`${process.env.VUE_APP_ROOT_API}admin/meAdmin`)
+       this.idAdmin = this.myAcc.data.idAdmin
+       console.log("length = " + this.listApprove.data.length)
+    if (this.listApprove.data.length == 0) {
       this.noValue = true;
     } else {
       this.noValue = false;
-    }    
-    // this.myAcc = await this.fetch(`${process.env.VUE_APP_ROOT_API}allroles/me`);
-    // console.log(this.myAcc)
+    }
   },
 };
 </script>

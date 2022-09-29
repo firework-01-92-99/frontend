@@ -89,7 +89,7 @@
                           <input
                             @keydown="checkMail"
                             type="email"
-                            v-model.trim="registWorker.username"
+                            v-model.trim="registWorker.email"
                             class="
                               w-full
                               -ml-10
@@ -1152,6 +1152,7 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 const ntTypeFreeze = Object.freeze({
   Laos: "ลาว",
   Thai: "ไทย",
@@ -1235,9 +1236,9 @@ export default {
       UpPic: false,
 
       registWorker: {
-        username: "",
+        email: "",
         password: "",
-        role: { idRole: 3, role: "ROLE_WORKER" },
+        role: { idRole: 3, roleName: "ROLE_WORKER" },
         worker: {
           identificationNumber: "",
           verifyPic: null,
@@ -1262,7 +1263,7 @@ export default {
     check() {
       this.UpPic =
         this.image == require("../assets/icon/face-2.png") ? true : false;
-      this.emailInput = this.registWorker.username === "" ? true : false;
+      this.emailInput = this.registWorker.email === "" ? true : false;
       this.passwordInput =
         this.registWorker.password === "" ||
         this.registWorker.password.length < 7
@@ -1374,18 +1375,18 @@ export default {
       ) {
         console.log("signup");
         try {
-          const jsonPro = await JSON.stringify(this.registWorker);
-          console.log(jsonPro);
+          // const jsonPro = await JSON.stringify(this.registWorker);
+          // console.log(jsonPro);
           // const response = await fetch("http://localhost:3000/main/register", {
-          const response = await fetch(
-            `${process.env.VUE_APP_ROOT_API}main/register`,
-            {
-              method: "POST",
-              body: jsonPro,
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
+          const response = await axios.post(
+            `${process.env.VUE_APP_ROOT_API}main/register`, this.registWorker
+            // {
+            //   method: "POST",
+            //   body: jsonPro,
+            //   headers: {
+            //     "Content-Type": "application/json",
+            //   },
+            // }
           );
           console.log(response);
           alert("Finish Sign up");
@@ -1447,7 +1448,7 @@ export default {
     },
     clear() {
       this.registWorker = {
-        username: "",
+        email: "",
         password: "",
         role: { idRole: 3, role: "ROLE_WORKER" },
         worker: {
@@ -1480,7 +1481,7 @@ export default {
     },
     checkMail() {
       this.emailInput = false;
-      this.showError = !this.validateEmail(this.registWorker.username);
+      this.showError = !this.validateEmail(this.registWorker.email);
       this.errorMessage = "กรุณากรอกอีเมลให้ถูกต้อง";
     },
     validateEmail(email) {

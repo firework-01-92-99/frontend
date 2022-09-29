@@ -96,12 +96,14 @@
 // import BaseJobDetail from "@/components/BaseJobDetail.vue";
 import { mapGetters } from "vuex";
 export default {
+  emits: ['idPost'],
   props: ["searched", "idPost"],
   // components: { BaseJobDetail },
   data() {
     return {
       allEmployer: [],
       empId: 0,
+      storeIdPost: '',
     };
   },
   methods: {
@@ -124,7 +126,8 @@ export default {
         } else {
 
           if(this.$store.state.auth.user.role.idRole == "2"){
-              this.$router.push("/viewworkapp");
+              this.$router.push("/viewworkapp" + '?idPost=' + idPost);
+              // localStorage.storeIdPost
           }
       }
     },

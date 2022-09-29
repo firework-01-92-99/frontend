@@ -1,7 +1,27 @@
 <template>
   <div class="bg-gray-2 h-screen font-sans-thai">
     <div class="2xl:p-6 2xl:pl-32 xl:p-6 lg:p-6 md:p-6 p-3 pt-5">
-      <base-tab></base-tab>
+      <base-tab><template><a
+      :class="{ 'tab-active': routes == 'ApproveAccPage' }"
+      class="tab tab-bordered text-black"
+      @click="$router.push('/approve')"
+    >
+      ตรวจสอบบัญชี
+    </a>
+    <a
+      class="tab tab-bordered text-black"
+      :class="{ 'tab-active': routes == 'EditAccPage' }"
+      @click="$router.push('/approve/edit')"
+      
+      >คำขอแก้ไขบัญชี</a
+    >
+    <a
+      class="tab tab-bordered text-black"
+      :class="{ 'tab-active': routes == 'DelAccPage' }"
+      @click="$router.push('/approve/delete')"
+      
+      >คำขอลบบัญชี</a
+    ></template></base-tab>
     </div>
     <div class="overflow-x-auto w-10/12 mx-auto font-sans-thai">
       <p
