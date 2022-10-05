@@ -937,6 +937,8 @@ export default {
   },
   methods: {
     async data(data) {
+      console.log("data: ")
+      console.log(data)
       console.log(data.idEmpOrWork, data.workOrEmp);
       if (data.workOrEmp == "Worker") {
         await axios
@@ -945,8 +947,9 @@ export default {
           )
           .then((response) => {
             this.info = response.data;
+            console.log(this.info)
             this.image =
-              `${process.env.VUE_APP_ROOT_API}main/image/` + "image2.jpg"
+              `${process.env.VUE_APP_ROOT_API}main/image/` + this.info.verifyPic
           });
       }
     },
@@ -983,7 +986,6 @@ export default {
     this.status = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allStatus`);
        this.myAcc = await axios.get(`${process.env.VUE_APP_ROOT_API}admin/meAdmin`)
        this.idAdmin = this.myAcc.data.idAdmin
-       console.log("length = " + this.listApprove.data.length)
     if (this.listApprove.data.length == 0) {
       this.noValue = true;
     } else {

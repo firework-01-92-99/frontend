@@ -87,6 +87,7 @@
                             ></i>
                           </div>
                           <input
+                          @click="onFocus('อีเมล')"
                             @keydown="checkMail"
                             type="email"
                             v-model.trim="registWorker.email"
@@ -104,6 +105,8 @@
                             :class="[
                               { 'bg-red-50': emailInput },
                               { 'bg-red-50': showError },
+                              { 'bg-red-50': errorMail },
+
                             ]"
                             placeholder="อีเมล"
                             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
@@ -113,7 +116,7 @@
                         <p v-if="emailInput" class="text-red-600">
                           กรุณากรอกอีเมลของคุณ
                         </p>
-                        <p v-if="showError" class="text-red-600">
+                        <p v-if="showError || errorMail" class="text-red-600">
                           {{ errorMessage }}
                         </p>
                       </div>
@@ -151,6 +154,8 @@
                             ></i>
                           </div>
                           <input
+                            @click="onFocus('รหัสผ่าน')"
+                            maxlength = 15
                             :type="type"
                             v-model.trim="registWorker.password"
                             class="
@@ -184,9 +189,82 @@
                           </div>
                         </div>
                         <p v-if="passwordInput" class="text-red-600">
-                          กรุณากรอกรหัสผ่าน
+                          กรุณากรอกรหัสผ่านและรหัสผ่านจำเป็นต้องมีอย่างน้อย 8 ตัว
                         </p>
                       </div>
+
+                      <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                        <label
+                          for=""
+                          class="
+                            2xl:text-base
+                            md:text-base
+                            text-sm
+                            font-medium
+                            px-1
+                          "
+                          >รหัสผ่าน</label
+                        >
+                        <div class="flex">
+                          <div
+                            class="
+                              w-10
+                              z-10
+                              pl-1
+                              text-center
+                              pointer-events-none
+                              flex
+                              items-center
+                              justify-center
+                            "
+                          >
+                            <i
+                              class="
+                                mdi mdi-account-outline
+                                text-gray-400 text-lg
+                              "
+                            ></i>
+                          </div>
+                          <input
+                            @click="onFocus('รหัสผ่าน')"
+                            maxlength = 15
+                            :type="type"
+                            v-model.trim="secondPass"
+                            class="
+                              w-full
+                              -ml-10
+                              pl-5
+                              pr-3
+                              py-2
+                              rounded-lg
+                              border-2 border-gray-200
+                              outline-none
+                              focus:border-indigo-500
+                            "
+                            :class="{ 'bg-red-50': secPassInput }"
+                            placeholder="รหัสผ่าน"
+                          />
+                          <div class="relative">
+                            <button
+                              class="
+                                absolute
+                                inset-y-0
+                                right-0
+                                w-8
+                                border-2 border-gray-200
+                                rounded-r-lg
+                              "
+                              @click.prevent="showPassword"
+                            >
+                              <img class="" :src="eye" />
+                            </button>
+                          </div>
+                        </div>
+                        <p v-if="secPassInput" class="text-red-600">
+                          กรุณากรอกช่องยืนยันรหัสผ่านให้ตรงกับช่องรหัสผ่าน
+                        </p>
+                      </div>
+
                     </div>
                     <div v-if="signType == 'employer'" class="flex -mx-3">
                       <div class="w-full px-3 mb-5">
@@ -273,9 +351,9 @@
                           "
                           >ประเภทแรงงาน</label
                         >
-                        <div class="flex 2xl:space-x-5">
-                          <div class="form-control">
-                            <label class="label cursor-pointer 2xl:space-x-2">
+                        <div @click="clearIdenNum(),onFocus('ประเภทแรงงาน')" class="flex 2xl:space-x-5">
+                          <div class="form-control" @click="whenselectNation('migrant')" >
+                            <label @click="registWorker.worker.nationality.idnationality = ''" class="label cursor-pointer 2xl:space-x-2">
                               <input
                                 type="radio"
                                 v-model.trim="
@@ -283,6 +361,7 @@
                                 "
                                 name="radio-5"
                                 class="radio checked:bg-blue-500"
+                                :class="{ 'bg-red-50': workerTypeInput }"
                                 value="1"
                               />
                               <span class="label-text 2xl:pr-0 md:pl-2 md:pr-4"
@@ -290,8 +369,8 @@
                               >
                             </label>
                           </div>
-                          <div class="form-control">
-                            <label class="label cursor-pointer 2xl:space-x-2">
+                          <div class="form-control" @click="whenselectNation('Thai')">
+                            <label @click="registWorker.worker.nationality.idnationality = 1" class="label cursor-pointer 2xl:space-x-2">
                               <input
                                 type="radio"
                                 v-model.trim="
@@ -299,6 +378,7 @@
                                 "
                                 name="radio-5"
                                 class="radio checked:bg-red-500"
+                                :class="{ 'bg-red-50': workerTypeInput }"
                                 value="2"
                               />
                               <span class="label-text 2xl:pr-0 md:pl-2 md:pr-4"
@@ -371,7 +451,7 @@
 
                     <div v-else class="flex">
                       <div class="w-full mb-5">
-                        <label
+                        <label v-if="registWorker.worker.workerType.idWorkerType !== ''"
                           for=""
                           class="
                             2xl:text-base
@@ -395,8 +475,8 @@
                               justify-center
                             "
                           ></div>
-                          <select
-                            @click="whenselectNation"
+                          <select v-if="registWorker.worker.workerType.idWorkerType == 1"
+                            
                             type="text"
                             v-model.trim="
                               registWorker.worker.nationality.idnationality
@@ -413,7 +493,7 @@
                               outline-none
                               focus:border-indigo-500
                             "
-                            :class="{ 'bg-red-50': idenNoInput }"
+                            :class="{ 'bg-red-50': nationInput }"
                             placeholder="สัญชาติ"
                           >
                             <option :value="''" disabled selected>
@@ -421,15 +501,45 @@
                             </option>
                             <option
                               class="text-black"
-                              v-for="nt in ntType"
+                              v-for="nt in ntType.filter((nt) => {
+                                return nt.nationality_name != 'Thai'
+                              })"
                               :key="nt.idnationality"
                               :value="nt.idnationality"
                             >
                               {{ ntTypeFreeze[nt.nationality_name] }}
                             </option>
                           </select>
+                          <select v-if="registWorker.worker.workerType.idWorkerType == 2"
+                          
+                            type="text"
+                            v-model.trim="
+                              registWorker.worker.nationality.idnationality
+                            "
+                            class="
+                              select select-bordered
+                              w-full
+                              -ml-10
+                              pl-5
+                              pr-3
+                              py-2
+                              rounded-lg
+                              border-2 border-gray-200
+                              outline-none
+                              focus:border-indigo-500
+                            "
+                            :class="{ 'bg-red-50': nationInput }"
+                            placeholder="สัญชาติ">
+                            <option selected
+                              class="text-black"
+                              :value="1"
+                            >
+                              ไทย
+                            </option>                            
+                            
+                          </select>
                         </div>
-                        <p v-if="idenNoInput" class="text-red-600">
+                        <p v-if="nationInput" class="text-red-600">
                           กรุณาเลือกสัญชาติ
                         </p>
                       </div>
@@ -461,6 +571,7 @@
                           "
                         ></div>
                         <input
+                        @click="onFocus('เลข')"
                           type="text"
                           v-model.trim="
                             registWorker.worker.identificationNumber
@@ -516,6 +627,7 @@
                             "
                           ></div>
                           <input
+                          @click="onFocus('ชื่อจริง')"
                             type="text"
                             v-model.trim="registWorker.worker.firstName"
                             class="
@@ -567,6 +679,7 @@
                             "
                           ></div>
                           <input
+                          @click="onFocus('ชื่อกลาง')"
                             type="text"
                             v-model.trim="registWorker.worker.middleName"
                             class="
@@ -580,6 +693,7 @@
                               outline-none
                               focus:border-indigo-500
                             "
+                            :class="{ 'bg-red-50': middlenameInput }"
                             placeholder="ชื่อกลาง"
                           />
                         </div>
@@ -621,6 +735,7 @@
                             ></i>
                           </div>
                           <input
+                          @click="onFocus('นามสกุล')"
                             type="text"
                             v-model.trim="registWorker.worker.lastName"
                             class="
@@ -924,7 +1039,7 @@
                     </div>
 
                     <div v-if="signType == 'worker'" class="flex -mx-3">
-                      <div class="w-1/2 px-3 mb-5">
+                      <div @click="onFocus('เพศ')" class="w-1/2 px-3 mb-5">
                         <label
                           for=""
                           class="
@@ -947,6 +1062,7 @@
                                 v-model.trim="registWorker.worker.sex"
                                 name="radio-6"
                                 class="radio checked:bg-blue-500"
+                                :class="{ 'bg-red-50': sexInput }"
                                 value="M"
                               />
                               <span class="label-text">ชาย</span>
@@ -962,6 +1078,7 @@
                                 v-model.trim="registWorker.worker.sex"
                                 name="radio-7"
                                 class="radio checked:bg-red-500"
+                                :class="{ 'bg-red-50': sexInput }"
                                 value="F"
                               />
                               <span class="label-text">หญิง</span>
@@ -1008,6 +1125,7 @@
                             ></i>
                           </div>
                           <input
+                            @click="onFocus('เบอร์')"
                             type="tel"
                             v-model.trim="registWorker.worker.phone"
                             maxlength="10"
@@ -1225,6 +1343,8 @@ export default {
       phoneInput: false,
       error: "",
       showError: false,
+      errorMail: false,
+      errorSignUp: '',
       errorMessage: "",
       businesstype: [],
       subdisForm: [],
@@ -1234,6 +1354,8 @@ export default {
       errIden: false,
       chaLength: "",
       UpPic: false,
+      secondPass: '',
+      secPassInput: false,
 
       registWorker: {
         email: "",
@@ -1266,9 +1388,10 @@ export default {
       this.emailInput = this.registWorker.email === "" ? true : false;
       this.passwordInput =
         this.registWorker.password === "" ||
-        this.registWorker.password.length < 7
+        this.registWorker.password.length < 8
           ? true
           : false;
+      this.secPassInput = this.secondPass === "" || this.secondPass !== this.registWorker.password
       // this.estnameInput = this.employer.estname === "" ? true : false;
       this.workerTypeInput =
         this.registWorker.worker.workerType.idWorkerType === "" ? true : false;
@@ -1307,11 +1430,12 @@ export default {
       } else if (this.registWorker.worker.nationality.idnationality == 3) {
         console.log("Myanmar");
         this.middlenameInput = this.registWorker.worker.middleName === "";
-      } else {
-        if (this.registWorker.worker.nationality.idnationality == 4) {
+      } else if(this.registWorker.worker.nationality.idnationality == 4){
           console.log("Cambodia");
-          this.middlenameInput = false;
-        }
+          this.middlenameInput = false;    
+      }else{
+        console.log("this.nationInput = false;")
+        this.nationInput = false;
       }
     },
     checkIdenAndPass() {
@@ -1327,18 +1451,14 @@ export default {
       ) {
         this.errIden = true;
         this.errorMessage =
-          'กรุณากรอกเลขหนังสือเดินทางให้ถูกต้องตามหลักเช่น "A111111" ';
+          'กรุณากรอกเลขหนังสือเดินทางให้ถูกต้องตามหลักเช่น "A11111" ';
       }
     },
-    whenselectNation() {
-      if (this.registWorker.worker.nationality.idnationality == 1) {
-        this.chaLength = 13;
-      } else {
-        // if(!/^[a-z]/i.test(this.registWorker.worker.identificationNumber) && this.registWorker.worker.nationality.idnationality !== 1 ){
-        //   this.errIden = true
-        //   this.errorMessage = 'กรุณากรอกเลข Passport ให้ถูกต้องตามหลักเช่น "A111111 ahhhhhh" '
-        // }
+    whenselectNation(type) {
+      if (type == 'migrant') {
         this.chaLength = 6;
+      } else {
+        this.chaLength = 13;
       }
     },
     showPassword() {
@@ -1353,9 +1473,10 @@ export default {
     async signUp() {
       console.log("signupkrub");
       this.showError = false;
-      this.checknation();
+      this.errIden = false;
       this.checkIdenAndPass();
       this.check();
+      this.checknation();
       if (
         !this.UpPic &&
         !this.emailInput &&
@@ -1374,41 +1495,26 @@ export default {
         !this.phoneInput
       ) {
         console.log("signup");
-        try {
-          // const jsonPro = await JSON.stringify(this.registWorker);
-          // console.log(jsonPro);
-          // const response = await fetch("http://localhost:3000/main/register", {
-          const response = await axios.post(
+          let errorResponse
+          await axios.post(
             `${process.env.VUE_APP_ROOT_API}main/register`, this.registWorker
-            // {
-            //   method: "POST",
-            //   body: jsonPro,
-            //   headers: {
-            //     "Content-Type": "application/json",
-            //   },
-            // }
-          );
-          console.log(response);
-          alert("Finish Sign up");
-          this.errIden = false;
-          this.clear();
-          this.$router.push("/signin");
-          // this.error = await response.json();
-          // console.log(this.error);
-          // if (this.error.errorCode == "USERNAME_HAVE_ALREADY") {
-          //   console.log("username")
-          //   this.showError = true;
-          //   this.errorMessage = "อีเมลนี้ถูกใช้แล้ว";
-          // } else {
-          //   alert("Finish Sign up");
-          //   this.errIden = false
-          //   this.clear();
-          //   this.$router.push("/signin");
-          // }
-        } catch (error) {
-          console.log("cannot signup");
-          console.log(`Could not save! ${error}`);
-        }
+
+          ).then(function (response) {
+            console.log(response);
+            alert("Finish Sign up");
+            this.errIden = false
+            this.clear();
+            this.$router.push("/signin");            
+          })
+          .catch(function (error) {
+            errorResponse = error.response.data.errorCode
+          });
+            console.log("errorResponse = " + errorResponse);
+            if (errorResponse == "ACCOUNT_EMAIL_HAVE_ALREADY") {
+            this.errIden = false
+            this.errorMail = true;
+            this.errorMessage = "อีเมลนี้ถูกใช้แล้ว";
+          }         
       }
     },
     async uploadImg(event) {
@@ -1446,6 +1552,9 @@ export default {
       }
       return false;
     },
+    clearIdenNum(){
+      this.registWorker.worker.identificationNumber = ''
+    },
     clear() {
       this.registWorker = {
         email: "",
@@ -1477,6 +1586,32 @@ export default {
         return data;
       } catch (error) {
         console.log(error);
+      }
+    },
+    onFocus(t){
+      console.log(t)
+      if(t == 'อีเมล'){
+        this.emailInput = false
+      }
+      else if(t == 'ประเภทแรงงาน'){
+        this.workerTypeInput = false
+      }else if(t== 'รหัสผ่าน'){
+        this.passwordInput = false
+      }else if(t == 'เลข'){
+        this.idenNoInput = false
+        this.errIden = false
+      }else if(t == 'ชื่อจริง'){
+        this.firstnameInput = false
+      }else if(t == 'ชื่อกลาง'){
+        this.middlenameInput = false
+      }else if(t == 'นามสกุล'){
+        this.lastnameInput = false
+      }else if(t == 'เพศ'){
+        this.sexInput = false
+      }else if(t == 'เบอร์'){
+        this.phoneInput = false
+      }else{
+        console.log("nothing")
       }
     },
     checkMail() {
