@@ -954,6 +954,7 @@ export default {
       }
     },
     async sendApprove(idApprove){
+      if(this.statusId != ''){      
       if(confirm("ต้องการจะส่งฟอร์มอนุมัติบัญชีหรือไม่")){
               try {
                  await axios.put(
@@ -967,7 +968,10 @@ export default {
               } catch (error) {
                 console.log(error);
               }             
-      } 
+      }
+      }else{
+        console.log("เลือกก่อนว่าอนุมัติไม่อนุมัติ")
+      }       
   
     },
     async fetch(url) {

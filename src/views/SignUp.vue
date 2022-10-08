@@ -87,10 +87,10 @@
                             ></i>
                           </div>
                           <input
-                          @click="onFocus('อีเมล')"
+                            @click="onFocus('อีเมล')"
                             @keydown="checkMail"
                             type="email"
-                            v-model.trim="registWorker.email"
+                            v-model.trim="bindEmail"
                             class="
                               w-full
                               -ml-10
@@ -106,7 +106,6 @@
                               { 'bg-red-50': emailInput },
                               { 'bg-red-50': showError },
                               { 'bg-red-50': errorMail },
-
                             ]"
                             placeholder="อีเมล"
                             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
@@ -155,9 +154,9 @@
                           </div>
                           <input
                             @click="onFocus('รหัสผ่าน')"
-                            maxlength = 15
+                            maxlength="15"
                             :type="type"
-                            v-model.trim="registWorker.password"
+                            v-model.trim="bindPass"
                             class="
                               w-full
                               -ml-10
@@ -189,7 +188,8 @@
                           </div>
                         </div>
                         <p v-if="passwordInput" class="text-red-600">
-                          กรุณากรอกรหัสผ่านและรหัสผ่านจำเป็นต้องมีอย่างน้อย 8 ตัว
+                          กรุณากรอกรหัสผ่านและรหัสผ่านจำเป็นต้องมีอย่างน้อย 8
+                          ตัว
                         </p>
                       </div>
 
@@ -227,7 +227,7 @@
                           </div>
                           <input
                             @click="onFocus('รหัสผ่าน')"
-                            maxlength = 15
+                            maxlength="15"
                             :type="type"
                             v-model.trim="secondPass"
                             class="
@@ -264,7 +264,6 @@
                           กรุณากรอกช่องยืนยันรหัสผ่านให้ตรงกับช่องรหัสผ่าน
                         </p>
                       </div>
-
                     </div>
                     <div v-if="signType == 'employer'" class="flex -mx-3">
                       <div class="w-full px-3 mb-5">
@@ -286,7 +285,7 @@
                           ></div>
                           <input
                             type="text"
-                            v-model.trim="employer.estname"
+                            v-model.trim="registEmp.employer.establishmentName"
                             class="
                               w-full
                               -ml-10
@@ -351,9 +350,21 @@
                           "
                           >ประเภทแรงงาน</label
                         >
-                        <div @click="clearIdenNum(),onFocus('ประเภทแรงงาน')" class="flex 2xl:space-x-5">
-                          <div class="form-control" @click="whenselectNation('migrant')" >
-                            <label @click="registWorker.worker.nationality.idnationality = ''" class="label cursor-pointer 2xl:space-x-2">
+                        <div
+                          @click="clearIdenNum(), onFocus('ประเภทแรงงาน')"
+                          class="flex 2xl:space-x-5"
+                        >
+                          <div
+                            class="form-control"
+                            @click="whenselectNation('migrant')"
+                          >
+                            <label
+                              @click="
+                                registWorker.worker.nationality.idnationality =
+                                  ''
+                              "
+                              class="label cursor-pointer 2xl:space-x-2"
+                            >
                               <input
                                 type="radio"
                                 v-model.trim="
@@ -369,8 +380,16 @@
                               >
                             </label>
                           </div>
-                          <div class="form-control" @click="whenselectNation('Thai')">
-                            <label @click="registWorker.worker.nationality.idnationality = 1" class="label cursor-pointer 2xl:space-x-2">
+                          <div
+                            class="form-control"
+                            @click="whenselectNation('Thai')"
+                          >
+                            <label
+                              @click="
+                                registWorker.worker.nationality.idnationality = 1
+                              "
+                              class="label cursor-pointer 2xl:space-x-2"
+                            >
                               <input
                                 type="radio"
                                 v-model.trim="
@@ -413,7 +432,7 @@
                           ></div>
                           <select
                             type="text"
-                            v-model.trim="employer.busstype"
+                            v-model.trim="registEmp.employer.businesstype.idBusinessType"
                             class="
                               select select-bordered
                               w-full
@@ -451,7 +470,10 @@
 
                     <div v-else class="flex">
                       <div class="w-full mb-5">
-                        <label v-if="registWorker.worker.workerType.idWorkerType !== ''"
+                        <label
+                          v-if="
+                            registWorker.worker.workerType.idWorkerType !== ''
+                          "
                           for=""
                           class="
                             2xl:text-base
@@ -475,8 +497,10 @@
                               justify-center
                             "
                           ></div>
-                          <select v-if="registWorker.worker.workerType.idWorkerType == 1"
-                            
+                          <select
+                            v-if="
+                              registWorker.worker.workerType.idWorkerType == 1
+                            "
                             type="text"
                             v-model.trim="
                               registWorker.worker.nationality.idnationality
@@ -502,7 +526,7 @@
                             <option
                               class="text-black"
                               v-for="nt in ntType.filter((nt) => {
-                                return nt.nationality_name != 'Thai'
+                                return nt.nationality_name != 'Thai';
                               })"
                               :key="nt.idnationality"
                               :value="nt.idnationality"
@@ -510,8 +534,10 @@
                               {{ ntTypeFreeze[nt.nationality_name] }}
                             </option>
                           </select>
-                          <select v-if="registWorker.worker.workerType.idWorkerType == 2"
-                          
+                          <select
+                            v-if="
+                              registWorker.worker.workerType.idWorkerType == 2
+                            "
                             type="text"
                             v-model.trim="
                               registWorker.worker.nationality.idnationality
@@ -529,14 +555,11 @@
                               focus:border-indigo-500
                             "
                             :class="{ 'bg-red-50': nationInput }"
-                            placeholder="สัญชาติ">
-                            <option selected
-                              class="text-black"
-                              :value="1"
-                            >
+                            placeholder="สัญชาติ"
+                          >
+                            <option selected class="text-black" :value="1">
                               ไทย
-                            </option>                            
-                            
+                            </option>
                           </select>
                         </div>
                         <p v-if="nationInput" class="text-red-600">
@@ -545,7 +568,7 @@
                       </div>
                     </div>
 
-                    <div class="w-full mb-5">
+                    <div v-if="signType == 'worker'" class="w-full mb-5">
                       <label
                         for=""
                         class="
@@ -571,7 +594,7 @@
                           "
                         ></div>
                         <input
-                        @click="onFocus('เลข')"
+                          @click="onFocus('เลข')"
                           type="text"
                           v-model.trim="
                             registWorker.worker.identificationNumber
@@ -627,9 +650,9 @@
                             "
                           ></div>
                           <input
-                          @click="onFocus('ชื่อจริง')"
+                            @click="onFocus('ชื่อจริง')"
                             type="text"
-                            v-model.trim="registWorker.worker.firstName"
+                            v-model.trim="bindFname"
                             class="
                               w-full
                               -ml-10
@@ -679,7 +702,7 @@
                             "
                           ></div>
                           <input
-                          @click="onFocus('ชื่อกลาง')"
+                            @click="onFocus('ชื่อกลาง')"
                             type="text"
                             v-model.trim="registWorker.worker.middleName"
                             class="
@@ -735,9 +758,9 @@
                             ></i>
                           </div>
                           <input
-                          @click="onFocus('นามสกุล')"
+                            @click="onFocus('นามสกุล')"
                             type="text"
-                            v-model.trim="registWorker.worker.lastName"
+                            v-model.trim="bindLname"
                             class="
                               w-full
                               -ml-10
@@ -786,7 +809,7 @@
                             </div>
                             <textarea
                               type="tel"
-                              v-model.trim="employer.address"
+                              v-model.trim="registEmp.employer.address"
                               class="
                                 textarea
                                 w-full
@@ -836,7 +859,7 @@
                             </div>
                             <select
                               type="text"
-                              v-model.trim="employer.subdis"
+                              v-model.trim="registEmp.employer.subDistrict.idSubdistrict"
                               class="
                                 select select-bordered
                                 w-full
@@ -895,7 +918,7 @@
                             </div>
                             <select
                               type="text"
-                              v-model.trim="employer.district"
+                              v-model.trim="registEmp.employer.district.idDistrict"
                               class="
                                 select select-bordered
                                 w-full
@@ -956,7 +979,7 @@
                             </div>
                             <select
                               type="text"
-                              v-model.trim="employer.province"
+                              v-model.trim="registEmp.employer.province.idProvince"
                               class="
                                 select select-bordered
                                 w-full
@@ -1015,7 +1038,7 @@
                             </div>
                             <input
                               type="tel"
-                              v-model.trim="employer.postcode"
+                              v-model.trim="registEmp.employer.subDistrict.postcode"
                               class="
                                 w-full
                                 -ml-10
@@ -1127,7 +1150,7 @@
                           <input
                             @click="onFocus('เบอร์')"
                             type="tel"
-                            v-model.trim="registWorker.worker.phone"
+                            v-model.trim="bindPhone"
                             maxlength="10"
                             class="
                               w-full
@@ -1284,45 +1307,7 @@ export default {
       ntTypeFreeze,
       type: "password",
       eye: require("../assets/hide.png"),
-      haveBoth: {
-        email: "",
-        pass: "",
-        fname: "",
-        lname: "",
-        tel: "",
-        picFile: null,
-      },
-      employer: {
-        estname: "",
-        busstype: "",
-        address: "",
-        subdis: "",
-        district: "",
-        province: "",
-        postcode: "",
-      },
-      worker: {
-        type: "",
-        id: "",
-        mname: "",
-        sex: "",
-        bindNation: "",
-        role: { idRole: 3, role: "ROLE_WORKER" },
-      },
-      workerone: {
-        email: "supitchayakanaraksanti@gmail.com",
-        pass: "123",
-        fname: "jojo",
-        lname: "hoho",
-        tel: "0131111111",
-        picFile: null,
-        type: "2",
-        id: "3124214214",
-        mname: "ee",
-        sex: "M",
-        bindNation: "1",
-        role: { idRole: 3, role: "ROLE_WORKER" },
-      },
+
       image: require("../assets/icon/face-2.png"),
       emailInput: false,
       passwordInput: false,
@@ -1344,7 +1329,7 @@ export default {
       error: "",
       showError: false,
       errorMail: false,
-      errorSignUp: '',
+      errorSignUp: "",
       errorMessage: "",
       businesstype: [],
       subdisForm: [],
@@ -1354,8 +1339,9 @@ export default {
       errIden: false,
       chaLength: "",
       UpPic: false,
-      secondPass: '',
+      secondPass: "",
       secPassInput: false,
+      whoRegist: {},
 
       registWorker: {
         email: "",
@@ -1379,23 +1365,68 @@ export default {
           },
         },
       },
+      registEmp: {
+        email: "",
+        password: "",
+        role: { idRole: 2, roleName: "ROLE_EMP" },
+        employer: {
+          establishmentName: "",
+          entrepreneurfName: "",
+          entrepreneurlName: "",
+          address: "",
+          tel: "",
+          phone: "",
+          email: "",
+          lineId: "",
+          verifyCert: null,
+          businesstype: {
+            idBusinessType: "",
+            nameType: "",
+          },
+          province: {
+            idProvince: "",
+            provinceName: "",
+          },
+          district: {
+            idDistrict: "",
+            districtName: "",
+          },
+          subDistrict: {
+            idSubdistrict: "",
+            subDistrict: "",
+            postcode: "",
+          },
+          nationality: {
+            idnationality: 1,
+            nationality_name: "",
+          },
+        },
+      },
+      bindEmail: "",
+      bindPass: "",
+      bindFname: "",
+      bindLname: "",
+      bindPhone: "",
+      picture: null,
     };
   },
   methods: {
     check() {
       this.UpPic =
         this.image == require("../assets/icon/face-2.png") ? true : false;
-      this.emailInput = this.registWorker.email === "" ? true : false;
+      this.emailInput = this.bindEmail === "" ? true : false;
       this.passwordInput =
-        this.registWorker.password === "" ||
-        this.registWorker.password.length < 8
+        this.bindPass === "" ||
+        this.bindPass.length < 8
           ? true
           : false;
-      this.secPassInput = this.secondPass === "" || this.secondPass !== this.registWorker.password
-      // this.estnameInput = this.employer.estname === "" ? true : false;
+      this.secPassInput =
+        this.secondPass === "" ||
+        this.secondPass !== this.bindPass;
+      this.estnameInput = this.registEmp.employer.establishmentName === "" ? true : false;
       this.workerTypeInput =
         this.registWorker.worker.workerType.idWorkerType === "" ? true : false;
-      // this.businessTypeInput = this.employer.busstype === "" ? true : false;
+      this.businessTypeInput = this.registEmp.employer.businesstype.idBusinessType === "" ? true : false;
       this.idenNoInput =
         this.registWorker.worker.identificationNumber === "" ? true : false;
       this.nationInput =
@@ -1403,20 +1434,20 @@ export default {
           ? true
           : false;
       this.firstnameInput =
-        this.registWorker.worker.firstName === "" ? true : false;
+        this.bindFname === "" ? true : false;
       // this.middlenameInput = this.registWorker.worker.middleName === "" ? true : false;
       this.lastnameInput =
-        this.registWorker.worker.lastName === "" ? true : false;
-      // this.addressInput = this.employer.address === "" ? true : false;
-      // this.subdisInput = this.employer.subdis === "" ? true : false;
-      // this.districtInput = this.employer.district === "" ? true : false;
-      // this.provinceInput = this.employer.province === "" ? true : false;
-      // this.postCodeInput = this.employer.postcode === "" ? true : false;
+        this.bindLname === "" ? true : false;
+      this.addressInput = this.registEmp.employer.address === "" ? true : false;
+      this.subdisInput = this.registEmp.employer.subDistrict.idSubdistrict === "" ? true : false;
+      this.districtInput = this.registEmp.employer.district.idDistrict === "" ? true : false;
+      this.provinceInput = this.registEmp.employer.province.idProvince === "" ? true : false;
+      // this.postCodeInput = this.registEmp.employer.subDistrict.postcode === "" ? true : false;
       this.sexInput = this.registWorker.worker.sex === "" ? true : false;
       this.phoneInput =
-        (this.registWorker.worker.phone === "" ||
-          this.registWorker.worker.phone !== "") &&
-        this.registWorker.worker.phone.length !== 10
+        (this.bindPhone === "" ||
+          this.bindPhone !== "") &&
+        this.bindPhone.length !== 10
           ? true
           : false;
     },
@@ -1430,11 +1461,11 @@ export default {
       } else if (this.registWorker.worker.nationality.idnationality == 3) {
         console.log("Myanmar");
         this.middlenameInput = this.registWorker.worker.middleName === "";
-      } else if(this.registWorker.worker.nationality.idnationality == 4){
-          console.log("Cambodia");
-          this.middlenameInput = false;    
-      }else{
-        console.log("this.nationInput = false;")
+      } else if (this.registWorker.worker.nationality.idnationality == 4) {
+        console.log("Cambodia");
+        this.middlenameInput = false;
+      } else {
+        console.log("this.nationInput = false;");
         this.nationInput = false;
       }
     },
@@ -1455,7 +1486,7 @@ export default {
       }
     },
     whenselectNation(type) {
-      if (type == 'migrant') {
+      if (type == "migrant") {
         this.chaLength = 6;
       } else {
         this.chaLength = 13;
@@ -1470,6 +1501,20 @@ export default {
         this.eye = require("../assets/hide.png");
       }
     },
+    // test(){
+    //   console.log("method Test")
+    //     console.log("this.signType = " + this.signType)
+    //     if (this.signType == 'worker') {
+    //       this.registWorker.email = this.bindEmail
+    //       this.whoRegist = this.registWorker;
+    //       console.log(this.whoRegist);
+    //     }
+    //     if (this.signType == 'employer') {
+    //       this.registEmp.email = this.bindEmail
+    //       this.whoRegist = this.registEmp;
+    //       console.log(this.whoRegist);
+    //     }
+    // },
     async signUp() {
       console.log("signupkrub");
       this.showError = false;
@@ -1478,14 +1523,37 @@ export default {
       this.check();
       this.checknation();
       if (
+        this.signType == 'worker' &&
         !this.UpPic &&
         !this.emailInput &&
         !this.passwordInput &&
-        !this.estnameInput &&
+        !this.secPassInput &&
         !this.workerTypeInput &&
-        !this.businessTypeInput &&
         !this.idenNoInput &&
         !this.nationInput &&
+        !this.firstnameInput &&
+        !this.sexInput &&
+        !this.phoneInput
+
+      ) {
+          this.registWorker.email = this.bindEmail
+          this.registWorker.password = this.bindPass
+          this.registWorker.worker.firstName = this.bindFname
+          this.registWorker.worker.lastName = this.bindLname
+          this.registWorker.worker.phone = this.bindPhone
+
+          this.whoRegist = this.registWorker;
+          console.log(this.whoRegist);
+          this.signUpAxios();
+      }
+      if(this.signType == 'employer' &&
+        !this.UpPic &&
+        !this.emailInput &&
+        !this.passwordInput &&
+        !this.secPassInput &&
+        !this.estnameInput &&
+        !this.businessTypeInput &&
+        !this.firstnameInput &&
         !this.lastnameInput &&
         !this.addressInput &&
         !this.subdisInput &&
@@ -1493,29 +1561,39 @@ export default {
         !this.provinceInput &&
         !this.postCodeInput &&
         !this.phoneInput
-      ) {
-        console.log("signup");
-          let errorResponse
-          await axios.post(
-            `${process.env.VUE_APP_ROOT_API}main/register`, this.registWorker
+        ){
+          this.registEmp.email = this.bindEmail
+          this.registEmp.password = this.bindPass
+          this.registEmp.employer.entrepreneurfName = this.bindFname
+          this.registEmp.employer.entrepreneurlName = this.bindLname
+          this.registEmp.employer.phone = this.bindPhone
 
-          ).then(function (response) {
+          this.whoRegist = this.registEmp;
+          console.log(this.whoRegist);
+          this.signUpAxios();
+      }
+    },
+    async signUpAxios(){
+      console.log("signup");
+      let errorResponse;
+        await axios
+          .post(`${process.env.VUE_APP_ROOT_API}main/register`, this.whoRegist)
+          .then(function (response) {
             console.log(response);
+            this.errIden = false;
             alert("Finish Sign up");
-            this.errIden = false
             this.clear();
-            this.$router.push("/signin");            
+            this.$router.push("/signin");
           })
           .catch(function (error) {
-            errorResponse = error.response.data.errorCode
+            errorResponse = error.response.data.errorCode;
           });
-            console.log("errorResponse = " + errorResponse);
-            if (errorResponse == "ACCOUNT_EMAIL_HAVE_ALREADY") {
-            this.errIden = false
-            this.errorMail = true;
-            this.errorMessage = "อีเมลนี้ถูกใช้แล้ว";
-          }         
-      }
+        console.log("errorResponse = " + errorResponse);
+        if (errorResponse == "ACCOUNT_EMAIL_HAVE_ALREADY") {
+          this.errIden = false;
+          this.errorMail = true;
+          this.errorMessage = "อีเมลนี้ถูกใช้แล้ว";
+        }      
     },
     async uploadImg(event) {
       const file = event.target.files[0];
@@ -1528,9 +1606,17 @@ export default {
         };
         reader.readAsDataURL(file);
         this.imgFile = file;
-        this.registWorker.worker.verifyPic = this.imgFile.name;
+        this.picture = this.imgFile.name;
+
+        if (this.signType == 'worker') {
+        this.registWorker.worker.verifyPic = this.picture
+        console.log(this.registWorker.worker.verifyPic);          
+        }
+        if (this.signType == 'employer') {
+        this.registEmp.employer.verifyCert = this.picture
+        console.log(this.registEmp.employer.verifyCert);       
+        }         
         // filename.split('.').slice(0, -1).join('.')
-        console.log(this.registWorker.worker.verifyPic);
         // this.img = file.name;
       } else {
         return "Please upload only picture.";
@@ -1552,8 +1638,8 @@ export default {
       }
       return false;
     },
-    clearIdenNum(){
-      this.registWorker.worker.identificationNumber = ''
+    clearIdenNum() {
+      this.registWorker.worker.identificationNumber = "";
     },
     clear() {
       this.registWorker = {
@@ -1577,7 +1663,44 @@ export default {
             typeName: "",
           },
         },
-      };
+      },
+      this.registEmp = {
+        email: "",
+        password: "",
+        role: { idRole: 2, roleName: "ROLE_EMP" },
+        employer: {
+          establishmentName: "",
+          entrepreneurfName: "",
+          entrepreneurlName: "",
+          address: "",
+          tel: "",
+          phone: "",
+          email: "",
+          lineId: "",
+          verifyCert: null,
+          businesstype: {
+            idBusinessType: "",
+            nameType: "",
+          },
+          province: {
+            idProvince: "",
+            provinceName: "",
+          },
+          district: {
+            idDistrict: "",
+            districtName: "",
+          },
+          subDistrict: {
+            idSubdistrict: "",
+            subDistrict: "",
+            postcode: "",
+          },
+          nationality: {
+            idnationality: "",
+            nationality_name: "",
+          },
+        },
+      }
     },
     async fetch(url) {
       try {
@@ -1588,35 +1711,34 @@ export default {
         console.log(error);
       }
     },
-    onFocus(t){
-      console.log(t)
-      if(t == 'อีเมล'){
-        this.emailInput = false
-      }
-      else if(t == 'ประเภทแรงงาน'){
-        this.workerTypeInput = false
-      }else if(t== 'รหัสผ่าน'){
-        this.passwordInput = false
-      }else if(t == 'เลข'){
-        this.idenNoInput = false
-        this.errIden = false
-      }else if(t == 'ชื่อจริง'){
-        this.firstnameInput = false
-      }else if(t == 'ชื่อกลาง'){
-        this.middlenameInput = false
-      }else if(t == 'นามสกุล'){
-        this.lastnameInput = false
-      }else if(t == 'เพศ'){
-        this.sexInput = false
-      }else if(t == 'เบอร์'){
-        this.phoneInput = false
-      }else{
-        console.log("nothing")
+    onFocus(t) {
+      console.log(t);
+      if (t == "อีเมล") {
+        this.emailInput = false;
+      } else if (t == "ประเภทแรงงาน") {
+        this.workerTypeInput = false;
+      } else if (t == "รหัสผ่าน") {
+        this.passwordInput = false;
+      } else if (t == "เลข") {
+        this.idenNoInput = false;
+        this.errIden = false;
+      } else if (t == "ชื่อจริง") {
+        this.firstnameInput = false;
+      } else if (t == "ชื่อกลาง") {
+        this.middlenameInput = false;
+      } else if (t == "นามสกุล") {
+        this.lastnameInput = false;
+      } else if (t == "เพศ") {
+        this.sexInput = false;
+      } else if (t == "เบอร์") {
+        this.phoneInput = false;
+      } else {
+        console.log("nothing");
       }
     },
     checkMail() {
       this.emailInput = false;
-      this.showError = !this.validateEmail(this.registWorker.email);
+      this.showError = !this.validateEmail(this.bindEmail);
       this.errorMessage = "กรุณากรอกอีเมลให้ถูกต้อง";
     },
     validateEmail(email) {
@@ -1627,19 +1749,15 @@ export default {
     },
   },
   async created() {
-    // this.businesstype = await this.fetch("http://localhost:3000/main/allBusinesstype");
     this.businesstype = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/allBusinesstype`
     );
-    // this.subdisForm = await this.fetch("http://localhost:3000/main/allSubDistrict");
     this.subdisForm = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/allSubDistrict`
     );
-    // this.disForm = await this.fetch("http://localhost:3000/main/allDistrict");
     this.disForm = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/allDistrict`
     );
-    // this.provinceForm = await this.fetch("http://localhost:3000/main/allProvince");
     this.provinceForm = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/allProvince`
     );

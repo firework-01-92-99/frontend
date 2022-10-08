@@ -852,9 +852,9 @@
                       </div>
                     </div>
                   </div>
-                  <!-- <button class="button" @click.prevent="test()">
+                  <button class="button" @click.prevent="sendDelete()">
                           ขอลบบัญชี
-                        </button>    -->
+                        </button>   
 
                   <!-- <div class="flex flex-col mt-8">
                     <button
@@ -885,6 +885,7 @@
 
 
 <script>
+import axios from "axios";
 const sex = Object.freeze({
   F: "หญิง",
   M: "ชาย",
@@ -915,8 +916,11 @@ export default {
     };
   },
   methods: {
-    test() {
-      console.log("test");
+    async sendDelete() {
+      if(confirm('คุณต้องการจะลบบัญชีใช่หรือไม่')){
+      console.log("idAccount = " + this.$store.state.auth.user.idAccount)
+      await axios.put(`${process.env.VUE_APP_ROOT_API}worker/deleteMyWorker?idWorker=` + this.$store.state.auth.user.worker.idWorker).data        
+      }
     },
     async fetch(url) {
       try {
