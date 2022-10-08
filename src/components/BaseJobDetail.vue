@@ -110,6 +110,7 @@
           <span class="inline-block align-middle"> {{ employer.email }}</span>
         </p>
         <div class="card-actions justify-center 2xl:justify-end">
+          <div v-if="this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == '3'">
           <label
             for="my-modal-6"
             v-if="!alreadyApp"
@@ -132,6 +133,7 @@
           >
             สมัครงาน
           </label>
+          </div>
           <!-- Put this part before </body> tag -->
           <div v-if="openForm">
             <input type="checkbox" id="my-modal-6" class="modal-toggle" />
