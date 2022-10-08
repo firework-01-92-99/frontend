@@ -841,7 +841,7 @@
                             v-model.trim="statusId"
                             name="radio-1"
                             class="radio checked:bg-blue-500"
-                            value=4
+                            value=9
                           />
                           <span class="label-text 2xl:pr-0 md:pr-56">อนุมัติ</span>
                         </label>

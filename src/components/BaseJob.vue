@@ -1,27 +1,37 @@
 <template>
   <!-- job card -->
   <div class="flex flex-wrap justify-center p-6 -mt-12">
-    <div
-      class="
-        cursor-pointer
-        font-sans-thai
-        card
-        w-96
-        bg-base-100
-        m-6
-        transition
-        duration-300
-        ease-in-out
-        hover:-translate-y-1
-        hover:scale-110
-        hover:border-4
-        hover:border-orange-1
-      "
+  <!--  <div
       v-for="job in allJobs.content.filter((j) => j.idPosting != this.idPost)"
-      :key="job.idPosting"
+      :key="job.idEmployer"
+    > -->
+    <div
+      v-for="emp in allJobs"
+      :key="emp.idEmployer"
     >
-      <div @click="linkTo(job.idPosting, job.idEmployer)">
-        <!-- <router-link
+  <!--   <div  v-for="job in allJobs.postingList"
+      :key="job.idPosting"> -->
+      <div
+        class="
+          cursor-pointer
+          font-sans-thai
+          card
+          w-96
+          bg-base-100
+          m-6
+          transition
+          duration-300
+          ease-in-out
+          hover:-translate-y-1
+          hover:scale-110
+          hover:border-4
+          hover:border-orange-1
+        "
+      v-for="a in allPost.postingList"
+      :key="a.idPosting"        
+      >
+        <div @click="linkTo(a.idPosting, a.idEmployer)">
+          <!-- <router-link
           v-if="(!$store.state.auth.user || $store.state.auth.user.role.idRole == '3') && ($store.state.auth.user.role.idRole !== '2' || $store.state.auth.user.role.idRole !== '1')"
           :to="
             '/detail?idPosting=' +
@@ -30,36 +40,32 @@
             job.idEmployer
           "
         > -->
-        <!-- <router-link
+          <!-- <router-link
             v-if="$store.state.auth.user.role.idRole == '2'"
             to="/viewworkapp"
           > -->
-        <figure>
-          <img src="https://i.ytimg.com/vi/J_oT9erINxA/maxresdefault.jpg" />
-        </figure>
+          <figure>
+            <img src="https://i.ytimg.com/vi/J_oT9erINxA/maxresdefault.jpg" />
+          </figure>
 
-        <div v-for="e in allEmployer" :key="e.idEmployer">
+          <!-- <div v-for="e in allEmployer" :key="e.idEmployer"> -->
           <div class="card-body space-y-3">
             <div class="flex justify-between">
               <h2 class="card-title text-orange-1 text-base">
-                {{ job.position.positionName }}
+                {{ a.position.positionName }}
               </h2>
               <!-- <i class="material-icons"> bookmark_border </i> -->
             </div>
-            <h2 class="card-title text-base">{{ e.establishmentName }}</h2>
+            <h2 class="card-title text-base">{{ emp.establishmentName }}</h2>
             <p>
               <span class="inline-block align-middle"
                 ><i class="material-icons pr-2"> paid </i></span
               >
               <span class="hidden font-semibold text-base">ค่าตอบแทน : </span>
               <span class="text-base font-medium inline-block align-middle"
-                >{{
-                  job.minSalary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                }}
+                >0
                 -
-                {{
-                  job.maxSalary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                }}
+0
                 บาท</span
               >
             </p>
@@ -70,24 +76,26 @@
                 >
                 <span class="hidden font-semibold text-base">ที่อยู่ : </span>
                 <span class="text-base font-medium inline-block align-middle">{{
-                  e.address +
+                  emp.address +
                   " " +
-                  e.district.districtName +
+                  emp.district.districtName +
                   " " +
-                  e.subDistrict.subDistrict +
+                  emp.subDistrict.subDistrict +
                   " " +
-                  e.province.provinceName +
+                  emp.province.provinceName +
                   " " +
-                  e.subDistrict.postcode
+                  emp.subDistrict.postcode
                 }}</span>
               </p>
             </div>
             <slot></slot>
           </div>
+          <!-- </div> -->
+          <!-- </router-link> -->
+          <!-- </router-link> -->
         </div>
-        <!-- </router-link> -->
-        <!-- </router-link> -->
       </div>
+     <!--  </div>-->
     </div>
   </div>
 </template>
@@ -96,14 +104,15 @@
 // import BaseJobDetail from "@/components/BaseJobDetail.vue";
 import { mapGetters } from "vuex";
 export default {
-  emits: ['idPost'],
+  emits: ["idPost"],
   props: ["searched", "idPost"],
   // components: { BaseJobDetail },
   data() {
     return {
       allEmployer: [],
       empId: 0,
-      storeIdPost: '',
+      storeIdPost: "",
+      allPost: [],
     };
   },
   methods: {
@@ -117,18 +126,20 @@ export default {
       }
     },
     linkTo(idPost, idEmp) {
-      console.log(idPost)
-      console.log(idEmp)
-      if (!this.$store.state.auth.user || this.$store.state.auth.user.role.idRole == "3") {
-          
-          this.$router.push('/detail?idPosting=' + idPost + '&idEmployer=' + idEmp);
-        
-        } else {
-
-          if(this.$store.state.auth.user.role.idRole == "2"){
-              this.$router.push("/viewworkapp" + '?idPost=' + idPost);
-              // localStorage.storeIdPost
-          }
+      console.log(idPost);
+      console.log(idEmp);
+      if (
+        !this.$store.state.auth.user ||
+        this.$store.state.auth.user.role.idRole == "3"
+      ) {
+        this.$router.push(
+          "/detail?idPosting=" + idPost + "&idEmployer=" + idEmp
+        );
+      } else {
+        if (this.$store.state.auth.user.role.idRole == "2") {
+          this.$router.push("/viewworkapp" + "?idPost=" + idPost);
+          // localStorage.storeIdPost
+        }
       }
     },
   },
@@ -138,12 +149,13 @@ export default {
     }),
   },
   async created() {
-    // const allPost = await this.fetch("http://localhost:3000/main/allPosting");
     const allPost = await this.fetch(
-      `${process.env.VUE_APP_ROOT_API}main/allPosting`
+      `${process.env.VUE_APP_ROOT_API}main/allEmployer`
     );
     console.log(allPost);
     this.$store.commit("setPosting", allPost);
+    console.log(this.allJobs)
+    console.log(this.allJobs.postingList)
     // this.allEmployer = await this.fetch("http://localhost:3000/main/allEmployer");
     this.allEmployer = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/allEmployer`
