@@ -860,6 +860,9 @@
                           >
                         </label>
                       </div>
+                        <p v-if="confirmInput" class="text-red-600">
+                          กรุณาเลือกรูปแบบการอนุมัติ
+                        </p>                       
                     </div>
                     <textarea
                       class="textarea textarea-bordered w-full h-36"
@@ -933,6 +936,7 @@ export default {
       noValue: false,
       routes:'',
       idAdmin: 0,
+      confirmInput: false,
     };
   },
   methods: {
@@ -940,6 +944,8 @@ export default {
       console.log("data: ")
       console.log(data)
       console.log(data.idEmpOrWork, data.workOrEmp);
+      this.confirmInput = false;
+      this.statusId = ''
       if (data.workOrEmp == "Worker") {
         await axios
           .get(
@@ -970,6 +976,7 @@ export default {
               }             
       }
       }else{
+        this.confirmInput = true;
         console.log("เลือกก่อนว่าอนุมัติไม่อนุมัติ")
       }       
   
