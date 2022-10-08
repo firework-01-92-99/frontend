@@ -1607,11 +1607,17 @@ export default {
         !this.phoneInput
 
       ) {
+
           this.registWorker.email = this.bindEmail
           this.registWorker.password = this.bindPass
           this.registWorker.worker.firstName = this.bindFname
           this.registWorker.worker.lastName = this.bindLname
           this.registWorker.worker.phone = this.bindPhone
+
+          if(this.registWorker.worker.middleName == '' || this.registWorker.worker.lastName == ''){
+            this.registWorker.worker.middleName = '-'
+            this.registWorker.worker.lastName = '-'
+          }
 
           this.whoRegist = this.registWorker;
           console.log(this.whoRegist);
