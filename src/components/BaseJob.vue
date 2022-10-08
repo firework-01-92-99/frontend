@@ -1,16 +1,10 @@
 <template>
   <!-- job card -->
   <div class="flex flex-wrap justify-center p-6 -mt-12">
-  <!--  <div
-      v-for="job in allJobs.content.filter((j) => j.idPosting != this.idPost)"
-      :key="job.idEmployer"
-    > -->
     <div
-      v-for="emp in allJobs"
-      :key="emp.idEmployer"
+      v-for="job in allJobs.content.filter((j) => j.idPosting != this.idPost)"
+      :key="job.idPosting"
     >
-  <!--   <div  v-for="job in allJobs.postingList"
-      :key="job.idPosting"> -->
       <div
         class="
           cursor-pointer
@@ -27,10 +21,10 @@
           hover:border-4
           hover:border-orange-1
         "
-      v-for="a in allPost.postingList"
-      :key="a.idPosting"        
+        
       >
-        <div @click="linkTo(a.idPosting, a.idEmployer)">
+
+        <div @click="linkTo(job.idPosting, job.idEmployer)">
           <!-- <router-link
           v-if="(!$store.state.auth.user || $store.state.auth.user.role.idRole == '3') && ($store.state.auth.user.role.idRole !== '2' || $store.state.auth.user.role.idRole !== '1')"
           :to="
@@ -52,20 +46,24 @@
           <div class="card-body space-y-3">
             <div class="flex justify-between">
               <h2 class="card-title text-orange-1 text-base">
-                {{ a.position.positionName }}
+                {{ job.position.positionName }}
               </h2>
               <!-- <i class="material-icons"> bookmark_border </i> -->
             </div>
-            <h2 class="card-title text-base">{{ emp.establishmentName }}</h2>
+            <h2 class="card-title text-base">{{getPostbyEmp(job.idEmployer).establishmentName}}</h2>
             <p>
               <span class="inline-block align-middle"
                 ><i class="material-icons pr-2"> paid </i></span
               >
               <span class="hidden font-semibold text-base">ค่าตอบแทน : </span>
               <span class="text-base font-medium inline-block align-middle"
-                >0
+                >{{
+                  job.minSalary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }}
                 -
-0
+                {{
+                  job.maxSalary.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }}
                 บาท</span
               >
             </p>
@@ -76,15 +74,15 @@
                 >
                 <span class="hidden font-semibold text-base">ที่อยู่ : </span>
                 <span class="text-base font-medium inline-block align-middle">{{
-                  emp.address +
+                  getPostbyEmp(job.idEmployer).address +
                   " " +
-                  emp.district.districtName +
+                  getPostbyEmp(job.idEmployer).district.districtName +
                   " " +
-                  emp.subDistrict.subDistrict +
+                  getPostbyEmp(job.idEmployer).subDistrict.subDistrict +
                   " " +
-                  emp.province.provinceName +
+                  getPostbyEmp(job.idEmployer).province.provinceName +
                   " " +
-                  emp.subDistrict.postcode
+                  getPostbyEmp(job.idEmployer).subDistrict.postcode
                 }}</span>
               </p>
             </div>
@@ -95,7 +93,6 @@
           <!-- </router-link> -->
         </div>
       </div>
-     <!--  </div>-->
     </div>
   </div>
 </template>
@@ -112,7 +109,6 @@ export default {
       allEmployer: [],
       empId: 0,
       storeIdPost: "",
-      allPost: [],
     };
   },
   methods: {
@@ -142,6 +138,9 @@ export default {
         }
       }
     },
+    getPostbyEmp(idofEmp){
+      return this.allEmployer.find((j) => j.idEmployer == idofEmp)
+    }
   },
   computed: {
     ...mapGetters({
@@ -150,12 +149,14 @@ export default {
   },
   async created() {
     const allPost = await this.fetch(
-      `${process.env.VUE_APP_ROOT_API}main/allEmployer`
+      `${process.env.VUE_APP_ROOT_API}main/allPosting`
     );
+    // const allPost = await this.fetch(
+    //   `${process.env.VUE_APP_ROOT_API}main/allEmployer`
+    // );
     console.log(allPost);
     this.$store.commit("setPosting", allPost);
     console.log(this.allJobs)
-    console.log(this.allJobs.postingList)
     // this.allEmployer = await this.fetch("http://localhost:3000/main/allEmployer");
     this.allEmployer = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/allEmployer`

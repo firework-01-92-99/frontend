@@ -945,6 +945,7 @@ export default {
       console.log(data)
       console.log(data.idEmpOrWork, data.workOrEmp);
       this.confirmInput = false;
+      this.statusId = ''
       if (data.workOrEmp == "Worker") {
         await axios
           .get(

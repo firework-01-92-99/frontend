@@ -859,7 +859,7 @@
                             </div>
                             <select
                               type="text"
-                              v-model.trim="registEmp.employer.subDistrict.idSubdistrict"
+                              v-model.trim="registEmp.employer.subDistrict"
                               class="
                                 select select-bordered
                                 w-full
@@ -879,9 +879,9 @@
                               </option>
                               <option
                                 class="text-black"
-                                v-for="sd in subdisForm"
+                                v-for="sd in registEmp.employer.district.subDistrictList"
                                 :key="sd.idSubdistrict"
-                                :value="sd.idSubdistrict"
+                                :value="sd"
                               >
                                 {{ sd.subDistrict }}
                               </option>
@@ -918,7 +918,7 @@
                             </div>
                             <select
                               type="text"
-                              v-model.trim="registEmp.employer.district.idDistrict"
+                              v-model.trim="registEmp.employer.district"
                               class="
                                 select select-bordered
                                 w-full
@@ -938,9 +938,9 @@
                               </option>
                               <option
                                 class="text-black"
-                                v-for="d in disForm"
+                                v-for="d in this.registEmp.employer.province.districtList"
                                 :key="d.idDistrict"
-                                :value="d.idDistrict"
+                                :value="d"
                               >
                                 {{ d.districtName }}
                               </option>
@@ -979,7 +979,7 @@
                             </div>
                             <select
                               type="text"
-                              v-model.trim="registEmp.employer.province.idProvince"
+                              v-model.trim="registEmp.employer.province"
                               class="
                                 select select-bordered
                                 w-full
@@ -994,14 +994,14 @@
                               "
                               :class="{ 'bg-red-50': provinceInput }"
                             >
-                              <option class="" :value="''" disabled selected>
+                              <option class="" value="''" disabled selected>
                                 กรุณาเลือกจังหวัด
                               </option>
                               <option
                                 class="text-black"
                                 v-for="p in provinceForm"
                                 :key="p.idProvince"
-                                :value="p.idProvince"
+                                :value="p"
                               >
                                 {{ p.provinceName }}
                               </option>
@@ -1014,7 +1014,7 @@
 
                         <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                           <label for="" class="text-base font-medium px-1"
-                            >เลขไปรษณีย์</label
+                            >รหัสไปรษณีย์</label
                           >
                           <div class="flex">
                             <div
@@ -1039,6 +1039,7 @@
                             <input
                               type="tel"
                               v-model.trim="registEmp.employer.subDistrict.postcode"
+                              onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                               class="
                                 w-full
                                 -ml-10
@@ -1055,7 +1056,7 @@
                             />
                           </div>
                           <p v-if="postCodeInput" class="text-red-600">
-                            กรุณากรอกเลขไปรษณีย์
+                            กรุณากรอกเลขไปรษณีย์หรือกรอกให้ครบ 5 หลัก
                           </p>
                         </div>
                       </div>
@@ -1173,6 +1174,90 @@
                         </p>
                       </div>
                     </div>
+                    <div class="flex -mx-3">
+                      <div class="w-full px-3 mb-5">
+                        <label
+                          v-if="signType == 'employer'"
+                          for=""
+                          class="text-base font-medium px-1"
+                          >ภาพสถานประกอบการ</label
+                        >
+                        <label
+                          v-if="signType == 'worker'"
+                          for=""
+                          class="
+                            2xl:text-base
+                            md:text-base
+                            text-sm
+                            font-medium
+                            px-1
+                          "
+                          >ภาพยืนยันตัวตน</label
+                        >
+                        <div class="flex">
+                          <div
+                            class="
+                              w-10
+                              z-10
+                              pl-1
+                              text-center
+                              pointer-events-none
+                              flex
+                              items-center
+                              justify-center
+                            "
+                          >
+                            <i
+                              class="
+                                mdi mdi-account-outline
+                                text-gray-400 text-lg
+                              "
+                            ></i>
+                          </div>
+                          <div class="flex flex-col w-full">
+                            <img
+                              :src="image"
+                              class="
+                                mt-2
+                                mb-3
+                                2xl:w-1/5
+                                lg:w-2/5
+                                md:w-2/5
+                                w-5/6
+                                mx-auto
+                              "
+                            />
+                            <input
+                              type="file"
+                              class="
+                                w-full
+                                -ml-10
+                                pr-3
+                                py-2
+                                rounded-lg
+                                outline-none
+                                focus:border-indigo-500
+                              "
+                              @change="uploadImg"
+                              :class="{ 'bg-red-50': UpPic }"
+                            />
+                          </div>
+                        </div>
+                        <p
+                          v-if="UpPic && signType == 'employer'"
+                          class="text-red-600"
+                        >
+                          กรุณาอัปโหลดภาพสถานประกอบการ
+                        </p>
+                        <p
+                          v-if="UpPic && signType == 'worker'"
+                          class="text-red-600"
+                        >
+                          กรุณาอัปโหลดภาพยืนยันตัวตน
+                        </p>
+                      </div>
+                    </div>
+
                     <div class="flex -mx-3">
                       <div class="w-full px-3 mb-5">
                         <label
@@ -1442,7 +1527,7 @@ export default {
       this.subdisInput = this.registEmp.employer.subDistrict.idSubdistrict === "" ? true : false;
       this.districtInput = this.registEmp.employer.district.idDistrict === "" ? true : false;
       this.provinceInput = this.registEmp.employer.province.idProvince === "" ? true : false;
-      // this.postCodeInput = this.registEmp.employer.subDistrict.postcode === "" ? true : false;
+      this.postCodeInput = this.registEmp.employer.subDistrict.postcode === "" || this.registEmp.employer.subDistrict.postcode.length != 5 ? true : false;
       this.sexInput = this.registWorker.worker.sex === "" ? true : false;
       this.phoneInput =
         (this.bindPhone === "" ||
@@ -1501,20 +1586,6 @@ export default {
         this.eye = require("../assets/hide.png");
       }
     },
-    // test(){
-    //   console.log("method Test")
-    //     console.log("this.signType = " + this.signType)
-    //     if (this.signType == 'worker') {
-    //       this.registWorker.email = this.bindEmail
-    //       this.whoRegist = this.registWorker;
-    //       console.log(this.whoRegist);
-    //     }
-    //     if (this.signType == 'employer') {
-    //       this.registEmp.email = this.bindEmail
-    //       this.whoRegist = this.registEmp;
-    //       console.log(this.whoRegist);
-    //     }
-    // },
     async signUp() {
       console.log("signupkrub");
       this.showError = false;
@@ -1751,12 +1822,6 @@ export default {
   async created() {
     this.businesstype = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/allBusinesstype`
-    );
-    this.subdisForm = await this.fetch(
-      `${process.env.VUE_APP_ROOT_API}main/allSubDistrict`
-    );
-    this.disForm = await this.fetch(
-      `${process.env.VUE_APP_ROOT_API}main/allDistrict`
     );
     this.provinceForm = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/allProvince`

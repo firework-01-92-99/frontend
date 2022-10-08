@@ -383,18 +383,17 @@
       <div class="h-full place-items-center m-6">
         <span class="text-lg font-semibold">งานอื่น ๆ ที่บริษัทนี้เปิดรับ</span>
         <div @click="$router.go()">
-          <router-link 
-            :to="
-            '/detail?idPosting=' + idPosting + '&idEmployer=' + empId
-            "
-          >
+
           <!-- <div v-if="jobDetail.idPosting"> -->
             <base-job
               :idPost="idPosting"
               class="pt-12 2xl:w-full md:w-full w-96 -ml-6"
-            ></base-job>
+            >
+            
+            </base-job>
+          </div>
+          
           <!-- </div> -->
-          </router-link></div>
       </div>
     </div>
   </div>
