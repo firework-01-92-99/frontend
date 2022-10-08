@@ -192,8 +192,9 @@
                           ตัว
                         </p>
                       </div>
-
-                      <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                    </div>
+                    <div class="2xl:flex 2xl:-mx-3">
+                      <div class="w-full 2xl:px-3 mb-5">
                         <label
                           for=""
                           class="
@@ -203,7 +204,7 @@
                             font-medium
                             px-1
                           "
-                          >รหัสผ่าน</label
+                          >ยืนยันรหัสผ่าน</label
                         >
                         <div class="flex">
                           <div
@@ -432,7 +433,9 @@
                           ></div>
                           <select
                             type="text"
-                            v-model.trim="registEmp.employer.businesstype.idBusinessType"
+                            v-model.trim="
+                              registEmp.employer.businesstype.idBusinessType
+                            "
                             class="
                               select select-bordered
                               w-full
@@ -835,126 +838,6 @@
                       <div class="2xl:flex 2xl:-mx-3">
                         <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                           <label for="" class="text-base font-medium px-1"
-                            >ตำบล/แขวง</label
-                          >
-                          <div class="flex">
-                            <div
-                              class="
-                                w-10
-                                z-10
-                                pl-1
-                                text-center
-                                pointer-events-none
-                                flex
-                                items-center
-                                justify-center
-                              "
-                            >
-                              <i
-                                class="
-                                  mdi mdi-account-outline
-                                  text-gray-400 text-lg
-                                "
-                              ></i>
-                            </div>
-                            <select
-                              type="text"
-                              v-model.trim="registEmp.employer.subDistrict"
-                              class="
-                                select select-bordered
-                                w-full
-                                -ml-10
-                                pl-5
-                                pr-3
-                                py-2
-                                rounded-lg
-                                border-2 border-gray-200
-                                outline-none
-                                focus:border-indigo-500
-                              "
-                              :class="{ 'bg-red-50': subdisInput }"
-                            >
-                              <option class="" :value="''" disabled selected>
-                                กรุณาเลือกตำบล/แขวง
-                              </option>
-                              <option
-                                class="text-black"
-                                v-for="sd in registEmp.employer.district.subDistrictList"
-                                :key="sd.idSubdistrict"
-                                :value="sd"
-                              >
-                                {{ sd.subDistrict }}
-                              </option>
-                            </select>
-                          </div>
-                          <p v-if="subdisInput" class="text-red-600">
-                            กรุณาเลือกตำบล/แขวง
-                          </p>
-                        </div>
-
-                        <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                          <label for="" class="text-base font-medium px-1"
-                            >อำเภอ/เขต</label
-                          >
-                          <div class="flex">
-                            <div
-                              class="
-                                w-10
-                                z-10
-                                pl-1
-                                text-center
-                                pointer-events-none
-                                flex
-                                items-center
-                                justify-center
-                              "
-                            >
-                              <i
-                                class="
-                                  mdi mdi-account-outline
-                                  text-gray-400 text-lg
-                                "
-                              ></i>
-                            </div>
-                            <select
-                              type="text"
-                              v-model.trim="registEmp.employer.district"
-                              class="
-                                select select-bordered
-                                w-full
-                                -ml-10
-                                pl-5
-                                pr-3
-                                py-2
-                                rounded-lg
-                                border-2 border-gray-200
-                                outline-none
-                                focus:border-indigo-500
-                              "
-                              :class="{ 'bg-red-50': districtInput }"
-                            >
-                              <option class="" :value="''" disabled selected>
-                                กรุณาเลือกอำเภอ/เขต
-                              </option>
-                              <option
-                                class="text-black"
-                                v-for="d in this.registEmp.employer.province.districtList"
-                                :key="d.idDistrict"
-                                :value="d"
-                              >
-                                {{ d.districtName }}
-                              </option>
-                            </select>
-                          </div>
-                          <p v-if="districtInput" class="text-red-600">
-                            กรุณาเลือกอำเภอ/เขต
-                          </p>
-                        </div>
-                      </div>
-
-                      <div class="2xl:flex 2xl:-mx-3">
-                        <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                          <label for="" class="text-base font-medium px-1"
                             >จังหวัด</label
                           >
                           <div class="flex">
@@ -1014,6 +897,128 @@
 
                         <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                           <label for="" class="text-base font-medium px-1"
+                            >อำเภอ/เขต</label
+                          >
+                          <div class="flex">
+                            <div
+                              class="
+                                w-10
+                                z-10
+                                pl-1
+                                text-center
+                                pointer-events-none
+                                flex
+                                items-center
+                                justify-center
+                              "
+                            >
+                              <i
+                                class="
+                                  mdi mdi-account-outline
+                                  text-gray-400 text-lg
+                                "
+                              ></i>
+                            </div>
+                            <select
+                              type="text"
+                              v-model.trim="registEmp.employer.district"
+                              class="
+                                select select-bordered
+                                w-full
+                                -ml-10
+                                pl-5
+                                pr-3
+                                py-2
+                                rounded-lg
+                                border-2 border-gray-200
+                                outline-none
+                                focus:border-indigo-500
+                              "
+                              :class="{ 'bg-red-50': districtInput }"
+                            >
+                              <option class="" :value="''" disabled selected>
+                                กรุณาเลือกอำเภอ/เขต
+                              </option>
+                              <option
+                                class="text-black"
+                                v-for="d in this.registEmp.employer.province
+                                  .districtList"
+                                :key="d.idDistrict"
+                                :value="d"
+                              >
+                                {{ d.districtName }}
+                              </option>
+                            </select>
+                          </div>
+                          <p v-if="districtInput" class="text-red-600">
+                            กรุณาเลือกอำเภอ/เขต
+                          </p>
+                        </div>
+                      </div>
+
+                      <div class="2xl:flex 2xl:-mx-3">
+                        <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                          <label for="" class="text-base font-medium px-1"
+                            >ตำบล/แขวง</label
+                          >
+                          <div class="flex">
+                            <div
+                              class="
+                                w-10
+                                z-10
+                                pl-1
+                                text-center
+                                pointer-events-none
+                                flex
+                                items-center
+                                justify-center
+                              "
+                            >
+                              <i
+                                class="
+                                  mdi mdi-account-outline
+                                  text-gray-400 text-lg
+                                "
+                              ></i>
+                            </div>
+                            <select
+                              type="text"
+                              v-model.trim="registEmp.employer.subDistrict"
+                              class="
+                                select select-bordered
+                                w-full
+                                -ml-10
+                                pl-5
+                                pr-3
+                                py-2
+                                rounded-lg
+                                border-2 border-gray-200
+                                outline-none
+                                focus:border-indigo-500
+                              "
+                              :class="{ 'bg-red-50': subdisInput }"
+                            >
+                              <option class="" :value="''" disabled selected>
+                                กรุณาเลือกตำบล/แขวง
+                              </option>
+                              <option
+                                class="text-black"
+                                v-for="sd in registEmp.employer.district
+                                  .subDistrictList"
+                                :key="sd.idSubdistrict"
+                                :value="sd"
+                              >
+                                {{ sd.subDistrict }}
+                              </option>
+                            </select>
+                          </div>
+                          <p v-if="subdisInput" class="text-red-600">
+                            กรุณาเลือกตำบล/แขวง
+                          </p>
+                        </div>
+
+                        <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                          <label for="" class="text-base font-medium px-1"
                             >รหัสไปรษณีย์</label
                           >
                           <div class="flex">
@@ -1038,7 +1043,9 @@
                             </div>
                             <input
                               type="tel"
-                              v-model.trim="registEmp.employer.subDistrict.postcode"
+                              v-model.trim="
+                                registEmp.employer.subDistrict.postcode
+                              "
                               onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                               class="
                                 w-full
@@ -1174,6 +1181,7 @@
                         </p>
                       </div>
                     </div>
+
                     <div class="flex -mx-3">
                       <div class="w-full px-3 mb-5">
                         <label
@@ -1264,7 +1272,7 @@
                           v-if="signType == 'employer'"
                           for=""
                           class="text-base font-medium px-1"
-                          >ภาพสถานประกอบการ</label
+                          >ใบทะเบียนภาษีมูลค่าเพิ่ม</label
                         >
                         <label
                           v-if="signType == 'worker'"
@@ -1501,37 +1509,41 @@ export default {
         this.image == require("../assets/icon/face-2.png") ? true : false;
       this.emailInput = this.bindEmail === "" ? true : false;
       this.passwordInput =
-        this.bindPass === "" ||
-        this.bindPass.length < 8
-          ? true
-          : false;
+        this.bindPass === "" || this.bindPass.length < 8 ? true : false;
       this.secPassInput =
-        this.secondPass === "" ||
-        this.secondPass !== this.bindPass;
-      this.estnameInput = this.registEmp.employer.establishmentName === "" ? true : false;
+        this.secondPass === "" || this.secondPass !== this.bindPass;
+      this.estnameInput =
+        this.registEmp.employer.establishmentName === "" ? true : false;
       this.workerTypeInput =
         this.registWorker.worker.workerType.idWorkerType === "" ? true : false;
-      this.businessTypeInput = this.registEmp.employer.businesstype.idBusinessType === "" ? true : false;
+      this.businessTypeInput =
+        this.registEmp.employer.businesstype.idBusinessType === ""
+          ? true
+          : false;
       this.idenNoInput =
         this.registWorker.worker.identificationNumber === "" ? true : false;
       this.nationInput =
         this.registWorker.worker.nationality.idnationality === ""
           ? true
           : false;
-      this.firstnameInput =
-        this.bindFname === "" ? true : false;
+      this.firstnameInput = this.bindFname === "" ? true : false;
       // this.middlenameInput = this.registWorker.worker.middleName === "" ? true : false;
-      this.lastnameInput =
-        this.bindLname === "" ? true : false;
+      this.lastnameInput = this.bindLname === "" ? true : false;
       this.addressInput = this.registEmp.employer.address === "" ? true : false;
-      this.subdisInput = this.registEmp.employer.subDistrict.idSubdistrict === "" ? true : false;
-      this.districtInput = this.registEmp.employer.district.idDistrict === "" ? true : false;
-      this.provinceInput = this.registEmp.employer.province.idProvince === "" ? true : false;
-      this.postCodeInput = this.registEmp.employer.subDistrict.postcode === "" || this.registEmp.employer.subDistrict.postcode.length != 5 ? true : false;
+      this.subdisInput =
+        this.registEmp.employer.subDistrict.idSubdistrict === "" ? true : false;
+      this.districtInput =
+        this.registEmp.employer.district.idDistrict === "" ? true : false;
+      this.provinceInput =
+        this.registEmp.employer.province.idProvince === "" ? true : false;
+      this.postCodeInput =
+        this.registEmp.employer.subDistrict.postcode === "" ||
+        this.registEmp.employer.subDistrict.postcode.length != 5
+          ? true
+          : false;
       this.sexInput = this.registWorker.worker.sex === "" ? true : false;
       this.phoneInput =
-        (this.bindPhone === "" ||
-          this.bindPhone !== "") &&
+        (this.bindPhone === "" || this.bindPhone !== "") &&
         this.bindPhone.length !== 10
           ? true
           : false;
@@ -1594,7 +1606,7 @@ export default {
       this.check();
       this.checknation();
       if (
-        this.signType == 'worker' &&
+        this.signType == "worker" &&
         !this.UpPic &&
         !this.emailInput &&
         !this.passwordInput &&
@@ -1605,7 +1617,6 @@ export default {
         !this.firstnameInput &&
         !this.sexInput &&
         !this.phoneInput
-
       ) {
 
           this.registWorker.email = this.bindEmail
@@ -1623,7 +1634,8 @@ export default {
           console.log(this.whoRegist);
           this.signUpAxios();
       }
-      if(this.signType == 'employer' &&
+      if (
+        this.signType == "employer" &&
         !this.UpPic &&
         !this.emailInput &&
         !this.passwordInput &&
@@ -1638,39 +1650,39 @@ export default {
         !this.provinceInput &&
         !this.postCodeInput &&
         !this.phoneInput
-        ){
-          this.registEmp.email = this.bindEmail
-          this.registEmp.password = this.bindPass
-          this.registEmp.employer.entrepreneurfName = this.bindFname
-          this.registEmp.employer.entrepreneurlName = this.bindLname
-          this.registEmp.employer.phone = this.bindPhone
+      ) {
+        this.registEmp.email = this.bindEmail;
+        this.registEmp.password = this.bindPass;
+        this.registEmp.employer.entrepreneurfName = this.bindFname;
+        this.registEmp.employer.entrepreneurlName = this.bindLname;
+        this.registEmp.employer.phone = this.bindPhone;
 
-          this.whoRegist = this.registEmp;
-          console.log(this.whoRegist);
-          this.signUpAxios();
+        this.whoRegist = this.registEmp;
+        console.log(this.whoRegist);
+        this.signUpAxios();
       }
     },
-    async signUpAxios(){
+    async signUpAxios() {
       console.log("signup");
       let errorResponse;
-        await axios
-          .post(`${process.env.VUE_APP_ROOT_API}main/register`, this.whoRegist)
-          .then(function (response) {
-            console.log(response);
-            this.errIden = false;
-            alert("Finish Sign up");
-            this.clear();
-            this.$router.push("/signin");
-          })
-          .catch(function (error) {
-            errorResponse = error.response.data.errorCode;
-          });
-        console.log("errorResponse = " + errorResponse);
-        if (errorResponse == "ACCOUNT_EMAIL_HAVE_ALREADY") {
+      await axios
+        .post(`${process.env.VUE_APP_ROOT_API}main/register`, this.whoRegist)
+        .then(function (response) {
+          console.log(response);
           this.errIden = false;
-          this.errorMail = true;
-          this.errorMessage = "อีเมลนี้ถูกใช้แล้ว";
-        }      
+          alert("Finish Sign up");
+          this.clear();
+          this.$router.push("/signin");
+        })
+        .catch(function (error) {
+          errorResponse = error.response.data.errorCode;
+        });
+      console.log("errorResponse = " + errorResponse);
+      if (errorResponse == "ACCOUNT_EMAIL_HAVE_ALREADY") {
+        this.errIden = false;
+        this.errorMail = true;
+        this.errorMessage = "อีเมลนี้ถูกใช้แล้ว";
+      }
     },
     async uploadImg(event) {
       const file = event.target.files[0];
@@ -1685,14 +1697,14 @@ export default {
         this.imgFile = file;
         this.picture = this.imgFile.name;
 
-        if (this.signType == 'worker') {
-        this.registWorker.worker.verifyPic = this.picture
-        console.log(this.registWorker.worker.verifyPic);          
+        if (this.signType == "worker") {
+          this.registWorker.worker.verifyPic = this.picture;
+          console.log(this.registWorker.worker.verifyPic);
         }
-        if (this.signType == 'employer') {
-        this.registEmp.employer.verifyCert = this.picture
-        console.log(this.registEmp.employer.verifyCert);       
-        }         
+        if (this.signType == "employer") {
+          this.registEmp.employer.verifyCert = this.picture;
+          console.log(this.registEmp.employer.verifyCert);
+        }
         // filename.split('.').slice(0, -1).join('.')
         // this.img = file.name;
       } else {
@@ -1719,7 +1731,7 @@ export default {
       this.registWorker.worker.identificationNumber = "";
     },
     clear() {
-      this.registWorker = {
+      (this.registWorker = {
         email: "",
         password: "",
         role: { idRole: 3, role: "ROLE_WORKER" },
@@ -1740,44 +1752,44 @@ export default {
             typeName: "",
           },
         },
-      },
-      this.registEmp = {
-        email: "",
-        password: "",
-        role: { idRole: 2, roleName: "ROLE_EMP" },
-        employer: {
-          establishmentName: "",
-          entrepreneurfName: "",
-          entrepreneurlName: "",
-          address: "",
-          tel: "",
-          phone: "",
+      }),
+        (this.registEmp = {
           email: "",
-          lineId: "",
-          verifyCert: null,
-          businesstype: {
-            idBusinessType: "",
-            nameType: "",
+          password: "",
+          role: { idRole: 2, roleName: "ROLE_EMP" },
+          employer: {
+            establishmentName: "",
+            entrepreneurfName: "",
+            entrepreneurlName: "",
+            address: "",
+            tel: "",
+            phone: "",
+            email: "",
+            lineId: "",
+            verifyCert: null,
+            businesstype: {
+              idBusinessType: "",
+              nameType: "",
+            },
+            province: {
+              idProvince: "",
+              provinceName: "",
+            },
+            district: {
+              idDistrict: "",
+              districtName: "",
+            },
+            subDistrict: {
+              idSubdistrict: "",
+              subDistrict: "",
+              postcode: "",
+            },
+            nationality: {
+              idnationality: "",
+              nationality_name: "",
+            },
           },
-          province: {
-            idProvince: "",
-            provinceName: "",
-          },
-          district: {
-            idDistrict: "",
-            districtName: "",
-          },
-          subDistrict: {
-            idSubdistrict: "",
-            subDistrict: "",
-            postcode: "",
-          },
-          nationality: {
-            idnationality: "",
-            nationality_name: "",
-          },
-        },
-      }
+        });
     },
     async fetch(url) {
       try {
