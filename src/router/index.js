@@ -13,6 +13,7 @@ import EditAccPage from '../views/EditAccPage.vue'
 import PostingPage from '../views/PostingPage.vue'
 import ViewWorkApp from '../views/ViewWorkApp.vue'
 import AcceptWorker from '../views/AcceptWorker.vue'
+import AddPosting from '../views/AddPosting.vue'
 // import store from '@/store'
 
 Vue.use(VueRouter)
@@ -107,6 +108,11 @@ const routes = [
     path: '/viewworkapp/accept',
     name: 'AcceptWorker',
     component: AcceptWorker
+  },
+  {
+    path: '/addPost',
+    name: 'AddPosting',
+    component: AddPosting
   },
 ]
 

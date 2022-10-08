@@ -211,17 +211,44 @@
     </div>
     <!-- <div class="flex flex-row justify-between p-6 font-sans-thai"> -->
     <!-- count posting  -->
-    <p class="my-auto font-medium text-sm p-10">
-      ทั้งหมด
-      <span class="text-orange-1 text-sm"> {{ lastPage.totalElements }} </span>
-      ผลลัพธ์
-    </p>
+    <div class="flex flex-row justify-between">
+      <div class="flex">
+        <p class="my-auto font-medium text-sm p-10">
+          ทั้งหมด
+          <span class="text-orange-1 text-sm">
+            {{ lastPage.totalElements }}
+          </span>
+          ผลลัพธ์
+        </p>
+      </div>
+      <div class="flex p-10">
+        <button
+        @click="$router.push('/addPost')"
+          class="
+            btn
+            border-dark-blue
+            bg-dark-blue
+            hover:bg-orange-2 hover:border-orange-2
+            w-full
+            -mt-16
+            2xl:mt-0
+            xl:mt-0
+            lg:mt-0
+            md:mt-0
+            2xl:text-base
+            md:text-xs
+          "
+        >
+          สร้างประกาศรับสมัครงาน
+        </button>
+      </div>
+    </div>
     <div v-if="noValue">
       <div class="text-center mt-10 mb-10">ไม่มีผลลัพธ์</div>
     </div>
     <base-job>
-      <!-- <template
-        ><div class="card-actions justify-end">
+      <template
+        ><div class="card-actions">
           <button
             @click="$router.push('/viewworkapp')"
             class="
@@ -234,8 +261,20 @@
           >
             ดูผู้สมัคร
           </button>
+          <button
+            @click="$router.push('/viewworkapp')"
+            class="
+              btn
+              border-orange-1
+              bg-orange-1
+              hover:bg-orange-2 hover:border-orange-2
+              w-full
+            "
+          >
+            แก้ไขประกาศรับสมัคร
+          </button>
         </div></template
-      > -->
+      >
     </base-job>
     <!-- pagination  -->
     <div v-if="!noValue" class="btn-group justify-center pb-5 -mt-5">
