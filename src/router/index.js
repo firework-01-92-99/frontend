@@ -14,6 +14,8 @@ import PostingPage from '../views/PostingPage.vue'
 import ViewWorkApp from '../views/ViewWorkApp.vue'
 import AcceptWorker from '../views/AcceptWorker.vue'
 import AddPosting from '../views/AddPosting.vue'
+import OtpPage from '../views/OtpPage.vue'
+import PageNotFound from '../views/PageNotFound.vue'
 // import store from '@/store'
 
 Vue.use(VueRouter)
@@ -114,6 +116,16 @@ const routes = [
     name: 'AddPosting',
     component: AddPosting
   },
+  {
+    path: '/otp',
+    name: 'OtpPage',
+    component: OtpPage,
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'PageNotFound',
+    component: PageNotFound,
+  }
 ]
 
 const router = new VueRouter({

@@ -80,6 +80,9 @@
                 >
               </li>
               <li class="hover:text-orange-1">
+                <router-link to="/otp">OTP</router-link>
+              </li>
+              <li class="hover:text-orange-1">
                 <router-link to="/">หางาน</router-link>
               </li>
               <li class="hover:text-orange-1">
@@ -110,11 +113,11 @@
                 <li class="hover:text-orange-1">
                   <router-link to="/approve">อนุมัติ</router-link>
                 </li>
-                <!-- <li class="hover:text-orange-1">
+                <li class="hover:text-orange-1">
                   <router-link to="/confirm"
                     >ยืนยันการรับแรงงานของนายจ้าง</router-link
                   >
-                </li> -->
+                </li>
               </div>
             </div>
           </ul>
