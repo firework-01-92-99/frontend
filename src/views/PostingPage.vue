@@ -247,10 +247,9 @@
       <div class="text-center mt-10 mb-10">ไม่มีผลลัพธ์</div>
     </div>
     <base-job>
-      <template
+      <!-- <template
         ><div class="card-actions">
           <button
-            @click="$router.push('/viewworkapp')"
             class="
               btn
               border-orange-1
@@ -274,7 +273,7 @@
             แก้ไขประกาศรับสมัคร
           </button>
         </div></template
-      >
+      > -->
     </base-job>
     <!-- pagination  -->
     <div v-if="!noValue" class="btn-group justify-center pb-5 -mt-5">
@@ -310,6 +309,7 @@ import { mapGetters } from "vuex";
 import axios from "axios";
 import BaseJob from "@/components/BaseJob.vue";
 export default {
+  props: ["idPost"],  
   components: { BaseJob },
   data() {
     return {
@@ -327,6 +327,7 @@ export default {
       noValue: false,
       page: 1,
       action: "",
+      idPostToUse: '',
     };
   },
   methods: {
@@ -339,6 +340,12 @@ export default {
         console.log(error);
       }
     },
+    // sendId(idPost){
+    //   //ถ้าอยากใช้ idPost หน้านี้ก็เปิด method นี้ แล้วเรียก @idPost="sendId" ใน component base-job ด้านบน
+    //   console.log("idPost Posting page = " + idPost)      
+    //   this.idPostToUse = idPost
+
+    // },
     async resetShowJob() {
       this.clearSearching();
       // const allPost = await this.fetch("http://localhost:3000/main/allPosting");
@@ -403,6 +410,7 @@ export default {
     }),
   },
   async created() {
+  if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == '2'){
     // this.provinces = await this.fetch("http://localhost:3000/main/allProvince");
     this.provinces = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/allProvince`
@@ -411,7 +419,10 @@ export default {
     this.typeHiring = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/allHiringType`
     );
-    console.log("test");
+  }else{
+    this.$router.push('/')
+  }
+
   },
 };
 </script>

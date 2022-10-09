@@ -86,7 +86,33 @@
                 }}</span>
               </p>
             </div>
-            <slot></slot>
+            <!-- <slot></slot> -->
+          <div v-if="$store.state.auth.user && $store.state.auth.user.role.idRole == '2'" class="card-actions">
+          <button
+            @click="emitIdPostToPostingPage(job.idPosting)"
+            class="
+              btn
+              border-orange-1
+              bg-orange-1
+              hover:bg-orange-2 hover:border-orange-2
+              w-full
+            "
+          >
+            ดูผู้สมัคร
+          </button>
+          <button
+            @click="$router.push('/viewworkapp')"
+            class="
+              btn
+              border-orange-1
+              bg-orange-1
+              hover:bg-orange-2 hover:border-orange-2
+              w-full
+            "
+          >
+            แก้ไขประกาศรับสมัคร
+          </button>
+        </div>
           </div>
           <!-- </div> -->
           <!-- </router-link> -->
@@ -122,8 +148,6 @@ export default {
       }
     },
     linkTo(idPost, idEmp) {
-      console.log(idPost);
-      console.log(idEmp);
       if (
         !this.$store.state.auth.user ||
         this.$store.state.auth.user.role.idRole == "3"
@@ -131,16 +155,27 @@ export default {
         this.$router.push(
           "/detail?idPosting=" + idPost + "&idEmployer=" + idEmp
         );
-      } else {
+      } 
+      // else {
+        // if (this.$store.state.auth.user.role.idRole == "2") {
+        //   this.$emit("idPost", idPost)
+        //   // this.$router.push("/viewworkapp" + "?idPost=" + idPost);
+        //   // localStorage.storeIdPost
+        // }
+      // }
+    },
+    emitIdPostToPostingPage(idPost){
         if (this.$store.state.auth.user.role.idRole == "2") {
+          this.$emit("idPost", idPost)
           this.$router.push("/viewworkapp" + "?idPost=" + idPost);
-          // localStorage.storeIdPost
         }
-      }
     },
     getPostbyEmp(idofEmp){
+      console.log(idofEmp)
       return this.allEmployer.find((j) => j.idEmployer == idofEmp)
-    }
+      
+    },
+
   },
   computed: {
     ...mapGetters({
@@ -161,6 +196,7 @@ export default {
     this.allEmployer = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/allEmployer`
     );
+
   },
 };
 </script>

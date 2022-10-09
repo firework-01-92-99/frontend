@@ -4,7 +4,7 @@
       <base-tab><template><a
       :class="{ 'tab-active': routes == 'ViewWorkApp' }"
       class="tab tab-bordered text-black"
-      @click="$router.push('/viewworkapp')"
+      @click="$router.push('/viewworkapp' + '?idPost=' + idPosting)"
     >
       รอรับ
     </a>
@@ -32,8 +32,9 @@
       >
         รายการผู้สมัคร
       </p>
-      <!-- <div v-for="aw in allworker" :key="v.">
-      </div> -->
+      <div v-for="who in whoApplication.data" :key="who.idPosting">
+        {{who}}
+      </div>
       <table class="table w-full">
         <!-- head -->
         <thead>
@@ -501,11 +502,11 @@
 <script>
 import axios from "axios";
 export default {
-  
+  props: ["idPost"],
   data(){
     return{
-      allworker: [],
-
+      whoApplication: [],
+      idPosting: '',
     }
   },
   methods: {
@@ -520,8 +521,15 @@ export default {
     },
   },
   async created() {
-    this.allworker = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorker?idPosting=` + this.$route.query.idPost);
-    console.log(this.allworker)
+    if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == "2"){
+      console.log("this.$route.query.idPost ViewWorkApp page = " + this.$route.query.idPost)
+      this.idPosting = this.$route.query.idPost
+      //  console.log(this.idPost + "ถ้าส่ง query(param) url มาได้ก็เรียก whoApp บ้างได้แล้ว")
+    this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorker?idPosting=` + this.$route.query.idPost);
+    console.log(this.whoApplication)
+    }else{
+      this.$router.push('/')      
+    }
 
   },
 }
