@@ -660,7 +660,21 @@
 </template>
 
 <script>
-export default {};
+export default {
+
+
+
+
+
+async created() {
+  if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == "2"){
+    console.log("หน้าAdd Posting")
+
+  }else {
+    this.$router.push('/')  
+    }
+  },  
+};
 </script>
 
 <style>

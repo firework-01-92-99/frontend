@@ -993,6 +993,7 @@ export default {
     },
   },
   async created() {
+if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == "1"){
     this.listApprove = await axios.get(`${process.env.VUE_APP_ROOT_API}admin/getAllApproveByIdStatusAndIdRole?idStatus=8&idRole=0`);
     console.log(this.listApprove.data)
     this.status = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allStatus`);
@@ -1003,6 +1004,9 @@ export default {
     } else {
       this.noValue = false;
     }
+  }else{
+        this.$router.push('/')  
+  }
   },
 };
 </script>

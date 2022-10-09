@@ -82,10 +82,10 @@
               <li class="hover:text-orange-1">
                 <router-link to="/otp">OTP</router-link>
               </li>
-              <li class="hover:text-orange-1">
+              <li v-if="!$store.state.auth.user || $store.state.auth.user.role.idRole == '3'" class="hover:text-orange-1">
                 <router-link to="/">หางาน</router-link>
               </li>
-              <li class="hover:text-orange-1">
+              <li v-if="$store.state.auth.user && $store.state.auth.user.role.idRole == '2'" class="hover:text-orange-1">
                 <router-link to="/posting">ประกาศหางาน</router-link>
               </li>
             </div>
@@ -96,7 +96,7 @@
               >
                 <router-link to="/application">สถานะการสมัครงาน</router-link>
               </li>
-              <li
+              <li v-if="$store.state.auth.user && $store.state.auth.user.role.idRole != '1'"
                 class="
                   hover:text-orange-1
                   block
@@ -156,7 +156,7 @@
         </div>
 
         <button
-          v-if="$store.state.auth.user"
+          v-if="$store.state.auth.user && $store.state.auth.user.role.idRole != '1'"
           class="btn btn-ghost btn-circle text-white hidden 2xl:block xl:block lg:block md:block"
         >
           <router-link to="/profile"

@@ -1255,24 +1255,12 @@
                     </div>
 
                     <div class="flex -mx-3">
-                      <div class="w-full px-3 mb-5">
+                      <div v-if="signType == 'employer'" class="w-full px-3 mb-5">
                         <label
-                          v-if="signType == 'employer'"
+                          
                           for=""
                           class="text-base font-medium px-1"
                           >ใบทะเบียนภาษีมูลค่าเพิ่ม</label
-                        >
-                        <label
-                          v-if="signType == 'worker'"
-                          for=""
-                          class="
-                            2xl:text-base
-                            md:text-base
-                            text-sm
-                            font-medium
-                            px-1
-                          "
-                          >ภาพยืนยันตัวตน</label
                         >
                         <div class="flex">
                           <div
@@ -1329,12 +1317,6 @@
                         >
                           กรุณาอัปโหลดภาพสถานประกอบการ
                         </p>
-                        <p
-                          v-if="UpPic && signType == 'worker'"
-                          class="text-red-600"
-                        >
-                          กรุณาอัปโหลดภาพยืนยันตัวตน
-                        </p>
                       </div>
                     </div>
                   </div>
@@ -1342,8 +1324,9 @@
                   <label class="label cursor-pointer space-x-2">
                     <input
                       type="checkbox"
-                      checked="checked"
+                      v-model.trim="selectPolicy"
                       class="checkbox checkbox-sm"
+                      value="T"                      
                     />
                     <span class="label-text"
                       >ฉันยอมรับ
@@ -1371,8 +1354,11 @@
                           </div>
                         </div>
                       </div>
-                      การเป็นสมาชิกผู้ประกอบการทุกประการ</span
-                    >
+                      การเป็นสมาชิกผู้ประกอบการทุกประการ
+                      </span>
+                        <p v-if="tickPolicy" class="text-red-600">
+                          กรุณายอมรับนโยบายความเป็นส่วนตัวของ Firework
+                        </p>                    
                   </label>
 
                   <div class="flex flex-col mt-8">
@@ -1459,6 +1445,8 @@ export default {
       secondPass: "",
       secPassInput: false,
       whoRegist: {},
+      selectPolicy: "",
+      tickPolicy: false,
 
       registWorker: {
         email: "",
@@ -1571,6 +1559,7 @@ export default {
         this.bindPhone.length !== 10
           ? true
           : false;
+      this.tickPolicy = this.selectPolicy === "" ? true : false;
     },
     checknation() {
       if (this.registWorker.worker.nationality.idnationality == 1) {
@@ -1624,6 +1613,8 @@ export default {
     },
     async signUp() {
       console.log("signupkrub");
+            console.log(this.selectPolicy)
+            // console.log(this.registWorker.worker.sex)
       this.showError = false;
       this.errIden = false;
       this.checkIdenAndPass();
@@ -1640,7 +1631,8 @@ export default {
         !this.nationInput &&
         !this.firstnameInput &&
         !this.sexInput &&
-        !this.phoneInput
+        !this.phoneInput &&
+        !this.tickPolicy
       ) {
         this.registWorker.email = this.bindEmail;
         this.registWorker.password = this.bindPass;
@@ -1675,7 +1667,8 @@ export default {
         !this.districtInput &&
         !this.provinceInput &&
         !this.postCodeInput &&
-        !this.phoneInput
+        !this.phoneInput &&
+        !this.tickPolicy
       ) {
         this.registEmp.email = this.bindEmail;
         this.registEmp.password = this.bindPass;
@@ -1864,7 +1857,15 @@ export default {
     },
   },
   async created() {
-    this.businesstype = await this.fetch(
+    if (this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == "1") {
+      this.$router.push("/approve");
+    } else if (this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == "2") {
+      this.$router.push("/posting");
+    } else{
+      if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == "3"){
+        this.$router.push("/");
+      }else{
+      this.businesstype = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/allBusinesstype`
     );
     this.provinceForm = await this.fetch(
@@ -1872,7 +1873,9 @@ export default {
     );
     this.ntType = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/allNationality`
-    );
+    );  
+      }
+      }     
   },
 };
 </script>

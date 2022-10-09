@@ -501,6 +501,19 @@
 <script>
 export default {
 
+
+
+
+
+  async created() {
+    if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == "2"){
+      console.log("หน้าAccept Worker")
+
+    }else{
+      this.$router.push('/')  
+      }
+  },  
+
 }
 </script>
 

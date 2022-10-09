@@ -38,7 +38,7 @@
               <h1 class="font-bold text-4xl text-center">เข้าสู่ระบบ</h1>
               <div class="w-full mt-4">
                 <form
-                autocomplete="off"
+                  autocomplete="off"
                   @submit.prevent="submit"
                   class="form-horizontal w-3/4 mx-auto"
                 >
@@ -166,11 +166,19 @@
                   </div>
                 </form>
                 <div class="text-center mt-4">
-                  <div
-                    @click="$router.push('/signup/worker')"
-                    class="text-sm"
-                  >
-                    คุณยังไม่มีบัญชี? <span @click="$router.push('/signup/worker')" class="cursor-pointer no-underline hover:underline">ลงทะเบียนสำหรับผู้สมัครงาน</span> หรือ <span @click="$router.push('/signup/employer')" class="cursor-pointer no-underline hover:underline">ลงทะเบียนสำหรับผู้ประกอบการ</span>
+                  <div @click="$router.push('/signup/worker')" class="text-sm">
+                    คุณยังไม่มีบัญชี?
+                    <span
+                      @click="$router.push('/signup/worker')"
+                      class="cursor-pointer no-underline hover:underline"
+                      >ลงทะเบียนสำหรับผู้สมัครงาน</span
+                    >
+                    หรือ
+                    <span
+                      @click="$router.push('/signup/employer')"
+                      class="cursor-pointer no-underline hover:underline"
+                      >ลงทะเบียนสำหรับผู้ประกอบการ</span
+                    >
                   </div>
                 </div>
               </div>
@@ -213,7 +221,9 @@ export default {
       this.signIn(this.form)
         .then(() => {
           this.$router.replace(
-            this.$store.state.auth.user && this.$store.state.auth.user.role?.idRole == 3 || this.$store.state.auth.user.role?.idRole == 2
+            (this.$store.state.auth.user &&
+              this.$store.state.auth.user.role?.idRole == 3) ||
+              this.$store.state.auth.user.role?.idRole == 2
               ? "/"
               : "/approve"
           );
@@ -223,6 +233,17 @@ export default {
           this.showError = true;
         });
     },
+  },
+  created() {
+    if (this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == "1") {
+      this.$router.push("/approve");
+    } else if (this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == "2") {
+      this.$router.push("/posting");
+    } else{
+      if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == "3"){
+        this.$router.push("/");
+      }
+    } 
   },
 };
 </script>

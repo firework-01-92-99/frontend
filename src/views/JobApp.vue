@@ -302,6 +302,7 @@ export default {
     },
   },
   async created() {
+    if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == '3'){
     const res = await axios.get(this.urlWorkerApp + this.$store.state.auth.user.worker.idWorker);
     this.workerApp = res.data
     // console.log("jopApp" + this.workerApp)
@@ -316,6 +317,13 @@ export default {
     } else {
       this.noValue = false;
     }
+    }else if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == '2'){
+      this.$router.push('/posting')
+      }else if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == '1'){
+        this.$router.push('/approve')
+      }else{
+        this.$router.push('/')
+      }    
   },
 };
 </script>

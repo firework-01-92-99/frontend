@@ -102,6 +102,15 @@
 <script>
 export default {
   components: {  },
+
+  async created() {
+    if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == "2"){
+      console.log("หน้ารับแรงงานของผู้ประกอบการ")
+
+    }else{
+      this.$router.push('/')  
+      }
+  },  
 };
 </script>
 

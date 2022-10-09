@@ -1,5 +1,31 @@
 <template>
   <div v-if="$store.state.auth.user" class="bg-gray-2 h-screen font-sans-thai">
+    <div
+      class="hero 2xl:h-64 xl:h-64 lg:h-64 md:h-64 h-32"
+      style="
+        background-image: url(https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80);
+      "
+    >
+      <div class="hero-overlay bg-opacity-60"></div>
+      <div class="hero-content text-center text-neutral-content">
+        <div class="max-w-md">
+          <h1
+            class="
+              mb-5
+              2xl:text-5xl
+              xl:text-5xl
+              lg:text-5xl
+              md:text-5xl
+              text-2xl
+              font-bold
+            "
+          >
+            สวัสดีท่านผู้เจริญ {{ this.myAcc.data.firstName + ' ' + this.myAcc.data.lastName}}
+          </h1>
+          <p class="mb-5">ขยันทำงานด้วยนะไอสัส อย่าอู้ ขอบใจ จากเจ้านายพวกมึง ด้วยรักและห่วงใย</p>
+        </div>
+      </div>
+    </div>
     <div class="2xl:p-6 2xl:pl-32 xl:p-6 lg:p-6 md:p-6 p-3 pt-5">
       <base-tab>
       <template><a
@@ -992,15 +1018,20 @@ export default {
     },
   },
   async created() {
+    if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == "1"){
     this.listApprove = await axios.get(`${process.env.VUE_APP_ROOT_API}admin/getAllApproveByIdStatusAndIdRole?idStatus=6&idRole=0`);
     console.log(this.listApprove.data)
     this.status = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allStatus`);
        this.myAcc = await axios.get(`${process.env.VUE_APP_ROOT_API}admin/meAdmin`)
        this.idAdmin = this.myAcc.data.idAdmin
+       console.log(this.myAcc.data)
     if (this.listApprove.data.length == 0) {
       this.noValue = true;
     } else {
       this.noValue = false;
+    }
+    }else{
+      this.$router.push("/");
     }
   },
 };

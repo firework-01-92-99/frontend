@@ -1,16 +1,18 @@
 <template>
   <div>
-    <OTP></OTP>
+    <otp-input
+      :isValid="isCodeValid"
+      @on-complete="onCompleteHandler"
+      @on-changed="onChangedHandler"
+      @on-paste="onPasteHandler"
+    >
+      <template #errorMessage> There is an error </template>
+    </otp-input>
   </div>
 </template>
 
-	<script>
-import OTP from "@/components/OTP.vue";
-
+<script>
 export default {
-  components: {
-    OTP
-  },
   data() {
     return {
       isCodeValid: true,

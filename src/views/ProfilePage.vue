@@ -933,6 +933,7 @@ export default {
     },
   },
   async created() {
+    if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole != "1"){
     if (this.$store.state.auth.user.role.idRole == "2") {
       this.firstname = this.$store.state.auth.user.employer.entrepreneurfName;
       this.lastname = this.$store.state.auth.user.employer.entrepreneurlName;
@@ -951,6 +952,13 @@ export default {
         this.image =
           (await `${process.env.VUE_APP_ROOT_API}main/image/`) +
           this.$store.state.auth.user.worker.verifyPic;
+      }
+    }
+    }else{
+      if(this.$store.state.auth.user.role.idRole == '1'){
+        this.$router.push("/approve");
+      }else{
+        this.$router.push("/");
       }
     }
   },
