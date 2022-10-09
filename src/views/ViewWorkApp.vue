@@ -2,7 +2,7 @@
   <div class="bg-gray-2 h-screen font-sans-thai">
   <div class="2xl:p-6 2xl:pl-32 xl:p-6 lg:p-6 md:p-6 p-3 pt-5">
       <base-tab><template><a
-      :class="{ 'tab-active': routes == 'ApproveAccPage' }"
+      :class="{ 'tab-active': routes == 'ViewWorkApp' }"
       class="tab tab-bordered text-black"
       @click="$router.push('/viewworkapp')"
     >
@@ -10,7 +10,7 @@
     </a>
     <a
       class="tab tab-bordered text-black"
-      :class="{ 'tab-active': routes == 'EditAccPage' }"
+      :class="{ 'tab-active': routes == 'AcceptWorker' }"
       @click="$router.push('/viewworkapp/accept')"
       
       >รับแล้ว</a
