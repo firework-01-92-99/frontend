@@ -54,7 +54,7 @@
                 <form class="form-horizontal w-3/4 mx-auto">
                   <div>
                     <div class="2xl:flex 2xl:-mx-3">
-                      <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                      <div class="w-full 2xl:px-3 mb-5">
                         <label
                           for=""
                           class="
@@ -119,8 +119,10 @@
                           {{ errorMessage }}
                         </p>
                       </div>
+                    </div>
 
-                      <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                    <div class="2xl:flex 2xl:-mx-3">
+                      <div class="w-full 2xl:px-3 mb-5">
                         <label
                           for=""
                           class="
@@ -171,21 +173,6 @@
                             :class="{ 'bg-red-50': passwordInput }"
                             placeholder="รหัสผ่าน"
                           />
-                          <div class="relative">
-                            <button
-                              class="
-                                absolute
-                                inset-y-0
-                                right-0
-                                w-8
-                                border-2 border-gray-200
-                                rounded-r-lg
-                              "
-                              @click.prevent="showPassword"
-                            >
-                              <img class="" :src="eye" />
-                            </button>
-                          </div>
                         </div>
                         <p v-if="passwordInput" class="text-red-600">
                           กรุณากรอกรหัสผ่านและรหัสผ่านจำเป็นต้องมีอย่างน้อย 8
@@ -193,6 +180,7 @@
                         </p>
                       </div>
                     </div>
+
                     <div class="2xl:flex 2xl:-mx-3">
                       <div class="w-full 2xl:px-3 mb-5">
                         <label
@@ -243,7 +231,7 @@
                               focus:border-indigo-500
                             "
                             :class="{ 'bg-red-50': secPassInput }"
-                            placeholder="รหัสผ่าน"
+                            placeholder="ยืนยันรหัสผ่าน"
                           />
                           <div class="relative">
                             <button
@@ -1351,6 +1339,42 @@
                     </div>
                   </div>
 
+                  <label class="label cursor-pointer space-x-2">
+                    <input
+                      type="checkbox"
+                      checked="checked"
+                      class="checkbox checkbox-sm"
+                    />
+                    <span class="label-text"
+                      >ฉันยอมรับ
+                      <label
+                        for="my-modal-5"
+                        class="cursor-pointer no-underline hover:underline"
+                        >นโยบายความเป็นส่วนตัว</label
+                      >
+                      <input
+                        type="checkbox"
+                        id="my-modal-5"
+                        class="modal-toggle"
+                      />
+                      <div class="modal">
+                        <div class="modal-box w-11/12 max-w-5xl">
+                          <h3 class="font-bold text-lg">
+                            Congratulations random Internet user!
+                          </h3>
+                          <p class="py-4">
+                            You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!
+                          </p>
+                          <div class="modal-action">
+                            <label for="my-modal-5" class="btn">Yay!</label>
+                          </div>
+                        </div>
+                      </div>
+                      การเป็นสมาชิกผู้ประกอบการทุกประการ</span
+                    >
+                  </label>
+
                   <div class="flex flex-col mt-8">
                     <button
                       @click.prevent="signUp()"
@@ -1618,21 +1642,23 @@ export default {
         !this.sexInput &&
         !this.phoneInput
       ) {
+        this.registWorker.email = this.bindEmail;
+        this.registWorker.password = this.bindPass;
+        this.registWorker.worker.firstName = this.bindFname;
+        this.registWorker.worker.lastName = this.bindLname;
+        this.registWorker.worker.phone = this.bindPhone;
 
-          this.registWorker.email = this.bindEmail
-          this.registWorker.password = this.bindPass
-          this.registWorker.worker.firstName = this.bindFname
-          this.registWorker.worker.lastName = this.bindLname
-          this.registWorker.worker.phone = this.bindPhone
+        if (
+          this.registWorker.worker.middleName == "" ||
+          this.registWorker.worker.lastName == ""
+        ) {
+          this.registWorker.worker.middleName = "-";
+          this.registWorker.worker.lastName = "-";
+        }
 
-          if(this.registWorker.worker.middleName == '' || this.registWorker.worker.lastName == ''){
-            this.registWorker.worker.middleName = '-'
-            this.registWorker.worker.lastName = '-'
-          }
-
-          this.whoRegist = this.registWorker;
-          console.log(this.whoRegist);
-          this.signUpAxios();
+        this.whoRegist = this.registWorker;
+        console.log(this.whoRegist);
+        this.signUpAxios();
       }
       if (
         this.signType == "employer" &&
