@@ -1253,7 +1253,6 @@
                         </p>
                       </div>
                     </div>
-
                   </div>
 
                   <label class="label cursor-pointer space-x-2">
@@ -1267,7 +1266,12 @@
                       >ฉันยอมรับ
                       <label
                         for="my-modal-5"
-                        class="text-blue-700 cursor-pointer underline hover:text-blue-800"
+                        class="
+                          text-blue-700
+                          cursor-pointer
+                          underline
+                          hover:text-blue-800
+                        "
                         >ข้อกำหนดและเงื่อนไข</label
                       >
                       <input
@@ -1280,113 +1284,131 @@
                           <h3 class="font-bold text-lg">
                             ข้อกำหนดและเงื่อนไขของ Firework
                           </h3>
-                          <p class="py-4">
-                            You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free! You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free! You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free! You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free! You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free! You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free! You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
-                            subscription to use Wikipedia for free!
+                          <h6 class="font-semibold py-4">
+                            1. ข้อตกลงกับเงื่อนไข
+                          </h6>
+                          <p class="indent-8 text-justify">
+                            ข้อกำหนดการใช้งานเหล่านี้เป็นข้อตกลงที่มีผลผูกพันทางกฎหมายระหว่างคุณ
+                            ไม่ว่าจะเป็นส่วนบุคคลหรือในนามของนิติบุคคล
+                            <span class="font-bold">("คุณ")</span> และ Firework
+                            <span class="font-bold"
+                              >("บริษัท", "เรา", "เรา" หรือ "ของเรา")</span
+                            >
+                            เกี่ยวกับการเข้าถึงและการใช้งาน
+                            <span class="text-blue-700"
+                              >https://fireworku.ddns.net</span
+                            >
+                            เว็บไซต์และรูปแบบสื่ออื่น ๆ ช่องทางสื่อ
+                            เว็บไซต์มือถือหรือแอพพลิเคชั่นมือถือที่เกี่ยวข้อง
+                            เชื่อมโยงหรืออื่น ๆ เชื่อมต่อกับมัน (รวมกันคือ
+                            "ไซต์") เราลงทะเบียนในประเทศไทย
+                            และมีสำนักงานที่ลงทะเบียนที่ประเทศไทย
+                            คุณเห็นด้วยว่าด้วยการเข้าถึงเว็บไซต์ คุณได้อ่าน
+                            เข้าใจ
+                            และตกลงที่จะผูกพันกับทั้งหมดนี้เงื่อนไขการใช้งาน
+                            ถ้าคุณไม่เห็นด้วยกับเงื่อนไขเหล่านี้ทั้งหมด
+                            คุณจะได้รับอย่างชัดเจน
+                            ห้ามใช้เว็บไซต์และคุณต้องหยุดใช้ทันที
+                            ข้อกำหนดและเงื่อนไขเพิ่มเติมหรือเอกสารที่อาจถูกโพสต์บนเว็บไซต์เป็นครั้งคราวได้รับการระบุไว้อย่างชัดเจน
+                            รวมไว้ในนี้โดยอ้างอิง
+                            เราขอสงวนสิทธิ์ในการเปลี่ยนแปลงหรือแก้ไขสิ่งเหล่านี้โดยดุลยพินิจของเราแต่เพียงผู้เดียว
+                            เงื่อนไขการใช้งานตลอดเวลาและด้วยเหตุผลใดก็ตาม
+                            เราจะเตือนคุณเกี่ยวกับการเปลี่ยนแปลงใด ๆ
+                            โดยการอัปเดตวันที่ "อัปเดตล่าสุด"
+                            ของข้อกำหนดการใช้งานเหล่านี้
+                            และคุณสละสิทธิ์ที่จะได้รับแจ้งการเปลี่ยนแปลงดังกล่าวอย่างเฉพาะเจาะจง
+                            โปรดตรวจสอบให้แน่ใจว่าคุณตรวจสอบ
+                            เงื่อนไขที่เกี่ยวข้องทุกครั้งที่คุณใช้เว็บไซต์ของเราเพื่อให้คุณเข้าใจว่าเงื่อนไขใดที่ใช้ได้
+                            คุณจะต้องอยู่ภายใต้บังคับบัญชาและจะถือว่าได้รับการแจ้งให้ทราบและยอมรับ
+                            การเปลี่ยนแปลงเงื่อนไขการใช้งานที่แก้ไขโดยที่คุณดำเนินการต่อการใช้เว็บไซต์หลังจากวันที่ประกาศข้อกำหนดการใช้งานที่แก้ไขแล้วข้อมูลที่ให้ไว้ในเว็บไซต์ไม่ได้มีวัตถุประสงค์เพื่อการแจกจ่ายหรือใช้โดยบุคคลหรือหน่วยงานใด
+                            ๆ ในเขตอำนาจศาลใด ๆ
+                            หรือประเทศที่การแจกจ่ายหรือการใช้ดังกล่าวขัดกับกฎหมายหรือกฎระเบียบหรือที่จะทำให้เราได้รับการจดทะเบียนใด
+                            ๆ ข้อกำหนดภายในเขตอำนาจหรือประเทศดังกล่าว ดังนั้น
+                            บุคคลเหล่านั้นที่เลือกเข้าถึงเว็บไซต์จากผู้อื่น
+                            สถานที่ดำเนินการตามความคิดริเริ่มของตนเองและมีความรับผิดชอบเพียงอย่างเดียวในการปฏิบัติตามกฎหมายท้องถิ่น
+                            หากและในระดับท้องถิ่นกฎหมายมีผลบังคับใช้เว็บไซต์นี้มีไว้สำหรับผู้ใช้ที่มีอายุไม่ต่ำกว่า
+                            18 ปี บุคคลที่มีอายุต่ำกว่า 18
+                            ปีไม่ได้รับอนุญาตให้ใช้หรือลงทะเบียนสำหรับเว็บไซต์
+                          </p>
+
+                          <h6 class="font-semibold py-4">
+                            2. สิทธิในทรัพย์สินทางปัญญา
+                          </h6>
+                          <p class="indent-8 text-justify">
+                            เว้นแต่จะมีการระบุอย่างอื่น
+                            เว็บไซต์เป็นทรัพย์สินที่เป็นกรรมสิทธิ์ของเรา
+                            และซอร์สโค้ดทั้งหมด ฐานข้อมูล ฟังก์ชั่น
+                            ซอฟต์แวร์การออกแบบเว็บไซต์, เสียง, วิดีโอ, ข้อความ,
+                            ภาพถ่าย, และกราฟิกบนเว็บไซต์ (รวม, "เนื้อหา")
+                            และเครื่องหมายการค้า,
+                            เครื่องหมายบริการและโลโก้ที่มีอยู่ในนั้น
+                            (เครื่องหมาย")
+                            เป็นเจ้าของหรือควบคุมโดยเราหรือได้รับอนุญาตจากเรา
+                            และได้รับการคุ้มครองโดยกฎหมายลิขสิทธิ์และตราสัญลักษณ์และสิทธิทรัพย์สินทางปัญญาอื่น
+                            ๆ และกฎหมายการแข่งขันที่ไม่เป็นธรรมของสหประชาชาติรัฐ
+                            กฎหมายลิขสิทธิ์ระหว่างประเทศ และการประชุมนานาชาติ.
+                            เนื้อหาและเครื่องหมายถูกจัดเตรียมไว้บนไซต์ "ASIS"
+                            สำหรับข้อมูลและการใช้งานส่วนตัวของคุณเท่านั้น
+                            เว้นแต่ที่ระบุไว้อย่างชัดเจนในเงื่อนไขการใช้งานเหล่านี้
+                            ไม่มีส่วนใดของเว็บไซต์และไม่สามารถคัดลอก ทำซ้ำ รวม
+                            เผยแพร่ อัพโหลด โพสต์ แสดงต่อสาธารณะ รหัสแปล, ส่ง,
+                            แจกจ่าย, ขาย, ใบอนุญาต,
+                            หรือใช้ประโยชน์อย่างอื่นเพื่อวัตถุประสงค์ทางการค้าใด
+                            ๆ ก็ตาม,
+                            โดยไม่มีเราได้รับอนุญาตเป็นลายลักษณ์อักษรอย่างชัดเจน
+                          </p>
+                          <p class="indent-8 text-justify">
+                            หากคุณมีสิทธิ์ที่จะใช้เว็บไซต์
+                            คุณจะได้รับใบอนุญาตที่จำกัดในการเข้าถึงและใช้เว็บไซต์และดาวน์โหลดหรือพิมพ์สำเนาของส่วนใด
+                            ๆ
+                            ของเนื้อหาที่คุณได้รับสิทธิ์อย่างเหมาะสมสำหรับส่วนตัวของคุณเท่านั้น
+                            ไม่ใช่ของคุณการใช้ในเชิงพาณิชย์
+                            เราขอสงวนสิทธิ์ทั้งหมดที่ไม่ได้มอบให้คุณอย่างชัดเจนในเว็บไซต์
+                            เนื้อหา และเครื่องหมาย
+                          </p>
+
+                          <h6 class="font-semibold py-4">
+                            3. การแสดงตัวของผู้ใช้
+                          </h6>
+                          <p class="indent-8 text-justify">
+                            ด้วยการใช้เว็บไซต์ คุณเป็นตัวแทนและรับรองว่า: (1)
+                            ข้อมูลการลงทะเบียนทั้งหมดที่คุณส่งจะเป็นความจริง,
+                            ถูกต้อง, และเสร็จสมบูรณ์ (2)
+                            คุณจะรักษาความถูกต้องของข้อมูลดังกล่าวและอัปเดตข้อมูลการลงทะเบียนดังกล่าวอย่างรวดเร็วเช่นจำเป็น;
+                            (3)
+                            คุณมีความสามารถทางกฎหมายและคุณตกลงที่จะปฏิบัติตามเงื่อนไขการใช้งานเหล่านี้;
+                            (4) คุณไม่ได้เป็นเยาวชนในเขตอำนาจศาลที่คุณอาศัยอยู่
+                            (5)
+                            คุณจะไม่เข้าถึงเว็บไซต์โดยอัตโนมัติหรือไม่ใช่มนุษย์
+                            ไม่ว่าผ่านทางบอท สคริปต์ หรืออย่างอื่น; (6)
+                            คุณจะไม่ใช้เว็บไซต์เพื่อวัตถุประสงค์ที่ผิดกฎหมายหรือไม่ได้รับอนุญาต;
+                            และ (7)
+                            การใช้เว็บไซต์ของคุณจะไม่ละเมิดกฎหมายหรือกฎระเบียบที่เกี่ยวข้อง
+                          </p>
+                          <p class="indent-8 text-justify">
+                            หากคุณให้ข้อมูลที่ไม่จริง ไม่ถูกต้อง ไม่ใช่ปัจจุบัน
+                            หรือไม่สมบูรณ์
+                            เรามีสิทธิที่จะระงับหรือยุติบัญชีของคุณและปฏิเสธการใช้เว็บไซต์ในปัจจุบันหรือในอนาคตทั้งหมด
+                            (หรือส่วนใดส่วนหนึ่งของเว็บไซต์)
+                          </p>
+
+                          <h6 class="font-semibold py-4">
+                            4. การลงทะเบียนผู้ใช้
+                          </h6>
+                          <p class="indent-8 text-justify">
+                            คุณอาจต้องลงทะเบียนกับเว็บไซต์
+                            คุณตกลงที่จะเก็บรหัสผ่านของคุณเป็นความลับและจะรับผิดชอบการใช้บัญชีและรหัสผ่านของคุณ
+                            เราขอสงวนสิทธิ์ในการลบ เรียกคืน
+                            หรือเปลี่ยนชื่อผู้ใช้ที่คุณเลือกถ้าเรากำหนดโดยดุลยพินิจของเราเพียงอย่างเดียวว่าชื่อผู้ใช้ดังกล่าวไม่เหมาะสม,
+                            ดูหมิ่น, หรือคัดค้านอย่างอื่น
                           </p>
                           <div class="modal-action">
                             <label for="my-modal-5" class="btn">ปิด</label>
                           </div>
                         </div>
                       </div>
-                      การเป็นสมาชิก<span v-if="signType == 'worker'">ผู้สมัครงาน</span
+                      การเป็นสมาชิก<span v-if="signType == 'worker'"
+                        >ผู้สมัครงาน</span
                       ><span v-else>ผู้ประกอบการ</span>ทุกประการ
                     </span>
                     <p v-if="tickPolicy" class="text-red-600">

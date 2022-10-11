@@ -86,7 +86,7 @@
                 <router-link to="/">หางาน</router-link>
               </li>
               <li v-if="$store.state.auth.user && $store.state.auth.user.role.idRole == '2'" class="hover:text-orange-1">
-                <router-link to="/posting">ประกาศหางาน</router-link>
+                <router-link to="/posting">ประกาศรับสมัครงาน</router-link>
               </li>
             </div>
             <div v-if="$store.state.auth.user">

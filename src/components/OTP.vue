@@ -8,7 +8,7 @@
           <span class="text-blue-600">{{ email }}</span>
           <!-- <br />and click buttom confirm to complete the process. -->
         </div>
-        <OtpInput v-model="otp" classtext="xl:w-16 w-8 xl:text-5xl text-xl" />
+        <OtpInput v-model="otp" classtext="xl:w-16 w-8 xl:text-xl text-xl" />
         <div
           v-if="!validateotp"
           class="

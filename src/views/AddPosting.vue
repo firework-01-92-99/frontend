@@ -22,9 +22,9 @@
                 />
               </svg>
               <p class="font-sans-thai">
-                ทำการสมัครเรียบร้อยแล้ว ติดตามความคืบหน้าได้ที่<span
+                สร้างประกาศรับสมัครงานเรียบร้อยแล้ว สามารถดูได้ที่<span
                   class="font-medium"
-                  >เมนู "สถานะการสมัครงาน"</span
+                  >เมนู "ประกาศรับสมัครงาน"</span
                 >
               </p>
             </div>
@@ -38,7 +38,7 @@
           @click="$router.push('/posting')"
           class="btn btn-ghost font-sans-thai flex justify-start ml-2.5"
         >
-          <i class="material-icons"> arrow_back_ios </i>ประกาศหางาน
+          <i class="material-icons"> arrow_back_ios </i>ประกาศรับสมัครงาน
         </button>
       </div>
       <p
@@ -76,7 +76,7 @@
               <label
                 for=""
                 class="2xl:text-base md:text-base text-sm font-medium px-1"
-                >ตำแหน่ง</label
+                >กรอกชื่อตำแหน่ง</label
               >
               <div class="flex">
                 <div
@@ -94,10 +94,8 @@
                   <i class="mdi mdi-account-outline text-gray-400 text-lg"></i>
                 </div>
                 <input
-                  @click="onFocus('อีเมล')"
-                  @keydown="checkMail"
-                  type="email"
-                  v-model.trim="bindEmail"
+                  type="text"
+                  v-model.trim="postInfo.position.positionName"
                   class="
                     w-full
                     -ml-10
@@ -110,24 +108,17 @@
                     focus:border-indigo-500
                   "
                   :class="[
-                    { 'bg-red-50': emailInput },
-                    { 'bg-red-50': showError },
-                    { 'bg-red-50': errorMail },
+                    { 'bg-red-50': positionInput }
                   ]"
-                  placeholder="ตำแหน่ง"
-                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                  placeholder="ชื่อตำแหน่ง"
                   required
                 />
               </div>
-              <p v-if="emailInput" class="text-red-600">กรุณากรอกอีเมลของคุณ</p>
-              <p v-if="showError || errorMail" class="text-red-600">
-                {{ errorMessage }}
-              </p>
+              <p v-if="positionInput" class="text-red-600">กรุณากรอกชื่อตำแหน่ง</p>
             </div>
           </div>
           <h2 class="card-title">
-            <!-- {{ employer.establishmentName }} -->
-            establishmentName
+            {{ this.$store.state.auth.user.employer.establishmentName }}
           </h2>
           <p class="font-medium">
             <span class="inline-block align-middle"
@@ -145,7 +136,17 @@
             " " +
             employer.subDistrict.postcode
           }} -->
-              address
+              {{
+                this.$store.state.auth.user.employer.address +
+                " " +
+                this.$store.state.auth.user.employer.subDistrict.subDistrict +
+                " " +
+                this.$store.state.auth.user.employer.district.districtName +
+                " " +
+                this.$store.state.auth.user.employer.province.provinceName +
+                " " +
+                this.$store.state.auth.user.employer.subDistrict.postcode
+              }}
             </span>
           </p>
           <p class="font-medium">
@@ -184,7 +185,9 @@
                       "
                     ></div>
                     <input
-                      type="text"
+                      type="tel"
+                      v-model.trim="postInfo.minSalary"
+                      maxlength="5"
                       class="
                         w-full
                         -ml-10
@@ -196,13 +199,12 @@
                         outline-none
                         placeholder:font-normal
                       "
-                      placeholder="เงินเดือนน้อยที่สุด"
+                      :class="{ 'bg-red-50': minSalaryInput }"
+                      placeholder="กรอกเงินเดือนที่ต่ำที่สุด"
+                      onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                     />
-                    <p v-if="emailInput" class="text-red-600">
-                      กรุณากรอกเงินเดือนน้อยที่สุด
-                    </p>
-                    <p v-if="showError || errorMail" class="text-red-600">
-                      {{ errorMessage }}
+                    <p v-if="minSalaryInput" class="text-red-600">
+                      กรุณากรอกเงินเดือนที่ต่ำที่สุด
                     </p>
                   </div>
                 </div>
@@ -226,7 +228,9 @@
                       "
                     ></div>
                     <input
-                      type="text"
+                      type="tel"
+                      v-model.trim="postInfo.maxSalary"
+                      maxlength="5"
                       class="
                         w-full
                         -ml-10
@@ -238,13 +242,12 @@
                         outline-none
                         placeholder:font-normal
                       "
-                      placeholder="เงินเดือนมากที่สุด"
+                      :class="{ 'bg-red-50': maxSalaryInput }"
+                      placeholder="กรอกเงินเดือนที่มากที่สุด"
+                      onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                     /><span class="pl-2 py-2">บาท</span>
-                    <p v-if="emailInput" class="text-red-600">
-                      กรุณากรอกเงินเดือนมากที่สุด
-                    </p>
-                    <p v-if="showError || errorMail" class="text-red-600">
-                      {{ errorMessage }}
+                    <p v-if="maxSalaryInput" class="text-red-600">
+                      กรุณากรอกเงินเดือนที่มากที่สุด
                     </p>
                   </div>
                 </div>
@@ -256,8 +259,7 @@
               ><i class="material-icons pr-2"> call </i></span
             >
             <span class="inline-block align-middle">
-              <!-- {{ employer.phone }} -->
-              phone
+              {{ this.$store.state.auth.user.employer.phone }}
             </span>
           </p>
           <p class="font-medium">
@@ -265,8 +267,7 @@
               ><i class="material-icons pr-2"> email </i></span
             >
             <span class="inline-block align-middle">
-              <!-- {{ employer.email }} -->
-              email
+              {{ this.$store.state.auth.user.employer.email }}
             </span>
           </p>
         </div>
@@ -292,6 +293,7 @@
                 <label class="label cursor-pointer 2xl:space-x-2">
                   <input
                     type="radio"
+                    v-model="postInfo.workerType.idWorkerType"
                     name="radio-5"
                     class="radio checked:bg-blue-500"
                     :class="{ 'bg-red-50': workerTypeInput }"
@@ -306,6 +308,7 @@
                 <label class="label cursor-pointer 2xl:space-x-2">
                   <input
                     type="radio"
+                    v-model="postInfo.workerType.idWorkerType"
                     name="radio-5"
                     class="radio checked:bg-red-500"
                     :class="{ 'bg-red-50': workerTypeInput }"
@@ -313,6 +316,21 @@
                   />
                   <span class="label-text 2xl:pr-0 md:pl-2 md:pr-4"
                     >แรงงานไทย</span
+                  >
+                </label>
+              </div>
+              <div class="form-control">
+                <label class="label cursor-pointer 2xl:space-x-2">
+                  <input
+                    type="radio"
+                    v-model="postInfo.workerType.idWorkerType"
+                    name="radio-5"
+                    class="radio checked:bg-blue-500"
+                    :class="{ 'bg-red-50': workerTypeInput }"
+                    value="3"
+                  />
+                  <span class="label-text 2xl:pr-0 md:pl-2 md:pr-4"
+                    >แรงงานไทยและต่างด้าว</span
                   >
                 </label>
               </div>
@@ -338,6 +356,7 @@
                 <label class="label cursor-pointer space-x-2">
                   <input
                     type="radio"
+                    v-model.trim="postInfo.sex"
                     name="radio-6"
                     class="radio checked:bg-blue-500"
                     :class="{ 'bg-red-50': sexInput }"
@@ -349,6 +368,7 @@
               <div class="form-control">
                 <label class="label cursor-pointer space-x-2">
                   <input
+                    v-model.trim="postInfo.sex"
                     type="radio"
                     name="radio-6"
                     class="radio checked:bg-red-500"
@@ -361,6 +381,7 @@
               <div class="form-control">
                 <label class="label cursor-pointer space-x-2">
                   <input
+                    v-model.trim="postInfo.sex"
                     type="radio"
                     name="radio-6"
                     class="radio checked:bg-red-500"
@@ -399,7 +420,10 @@
                   "
                 ></div>
                 <input
-                  type="text"
+                  type="number"
+                  min="18"
+                  @change="ifChangeAge(postInfo.minAge)"
+                  v-model.trim="postInfo.minAge"
                   class="
                     w-full
                     -ml-10
@@ -410,13 +434,11 @@
                     border-2 border-gray-200
                     outline-none
                   "
-                  placeholder="อายุน้อยที่สุด"
+                  :class="{ 'bg-red-50': minAgeInput }"
+                  placeholder="อายุขั้นต่ำ"
                 />
-                <p v-if="emailInput" class="text-red-600">
-                  กรุณากรอกอายุน้อยที่สุด
-                </p>
-                <p v-if="showError || errorMail" class="text-red-600">
-                  {{ errorMessage }}
+                <p v-if="minAgeInput" class="text-red-600">
+                  กรุณากรอกอายุขั้นต่ำและอายุต้องไม่ต่ำกว่า 18 ปี
                 </p>
               </div>
             </div>
@@ -440,7 +462,10 @@
                   "
                 ></div>
                 <input
-                  type="text"
+                  type="number"
+                  max="60"
+                  @change="ifChangeAge(postInfo.maxAge)"
+                  v-model.trim="postInfo.maxAge"
                   class="
                     w-full
                     -ml-10
@@ -451,13 +476,11 @@
                     border-2 border-gray-200
                     outline-none
                   "
+                  :class="{ 'bg-red-50': maxAgeInput }"
                   placeholder="อายุมากที่สุด"
                 /><span class="pl-2 py-2">ปี</span>
-                <p v-if="emailInput" class="text-red-600">
-                  กรุณากรอกอายุมากที่สุด
-                </p>
-                <p v-if="showError || errorMail" class="text-red-600">
-                  {{ errorMessage }}
+                <p v-if="maxAgeInput" class="text-red-600">
+                  กรุณากรอกอายุขั้นต่ำและอายุต้องไม่มากกว่า 60 ปี
                 </p>
               </div>
             </div>
@@ -488,6 +511,7 @@
                 ></div>
                 <input
                   type="text"
+                  v-model.trim="postInfo.startTime"
                   class="
                     w-full
                     -ml-10
@@ -498,20 +522,17 @@
                     border-2 border-gray-200
                     outline-none
                   "
+                  :class="{ 'bg-red-50': startTimeInput }"
                   placeholder="เวลาเริ่มงาน เช่น 9:00"
                 />
-                <p v-if="emailInput" class="text-red-600">
+                <p v-if="startTimeInput" class="text-red-600">
                   กรุณากรอกเวลาเริ่มงาน
-                </p>
-                <p v-if="showError || errorMail" class="text-red-600">
-                  {{ errorMessage }}
                 </p>
               </div>
             </div>
             <span class="pt-9">-</span>
             <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
               <label
-                for=""
                 class="text-sm 2xl:text-base font-medium px-1"
               ></label>
               <div class="flex">
@@ -529,6 +550,7 @@
                 ></div>
                 <input
                   type="text"
+                  v-model.trim="postInfo.endTime"
                   class="
                     w-full
                     -ml-10
@@ -539,67 +561,36 @@
                     border-2 border-gray-200
                     outline-none
                   "
+                  :class="{ 'bg-red-50': endTimeInput }"
                   placeholder="เวลาเลิกงาน เช่น 18:00"
                 /><span class="pl-2 py-2">น.</span>
-                <p v-if="emailInput" class="text-red-600">
+                <p v-if="endTimeInput" class="text-red-600">
                   กรุณากรอกเวลาเลิกงาน
-                </p>
-                <p v-if="showError || errorMail" class="text-red-600">
-                  {{ errorMessage }}
                 </p>
               </div>
             </div>
           </div>
-          <!-- </p> -->
 
-          <!-- <p> -->
-          <!-- <span class="font-semibold">วันทำงาน: </span> -->
-          <!-- <span> -->
-          <!-- {{ day.day.abbreviation + "" }} -->
-          <!-- . -->
           <div class="w-1/2 px-3 mb-5">
             <label
-              for=""
               class="2xl:text-base md:text-base text-sm font-medium px-1"
               >วันทำงาน</label
-            >
+>
             <div class="flex space-x-5">
               <div class="form-control">
                 <label class="label cursor-pointer space-x-2">
-                  <input
+                  <!-- <input
+                    v-for="pd in allPostingHasDay"
                     type="checkbox"
                     checked="checked"
                     class="checkbox checkbox-sm"
-                  />
-                  <span class="label-text">วันลูปปปป</span>
+                    :class="{ 'bg-red-50': postingHasDayListInput }"
+                  /> -->
+                  <span class="label-text">จันทร์</span>
                 </label>
               </div>
-              <!-- <div class="form-control">
-                  <label class="label cursor-pointer space-x-2">
-                    <input
-                      type="radio"
-                      name="radio-6"
-                      class="radio checked:bg-red-500"
-                      :class="{ 'bg-red-50': sexInput }"
-                      value="F"
-                    />
-                    <span class="label-text">หญิง</span>
-                  </label>
-                </div>
-                <div class="form-control">
-                  <label class="label cursor-pointer space-x-2">
-                    <input
-                      type="radio"
-                      name="radio-6"
-                      class="radio checked:bg-red-500"
-                      :class="{ 'bg-red-50': sexInput }"
-                      value="A"
-                    />
-                    <span class="label-text">ทั้งหมด</span>
-                  </label>
-                </div> -->
             </div>
-            <p v-if="sexInput" class="text-red-600">กรุณาเลือกวันทำงาน</p>
+            <p v-if="postingHasDayListInput" class="text-red-600">กรุณาเลือกวันทำงาน</p>
           </div>
           <!-- </span> -->
           <!-- </p> -->
@@ -630,7 +621,8 @@
                   <i class="mdi mdi-account-outline text-gray-400 text-lg"></i>
                 </div>
                 <textarea
-                  type="tel"
+                  type="text"
+                  v-model.trim="postInfo.workDescription"
                   class="
                     textarea
                     w-full
@@ -643,11 +635,11 @@
                     outline-none
                     focus:border-indigo-500
                   "
-                  :class="{ 'bg-red-50': addressInput }"
+                  :class="{ 'bg-red-50': descriptInput }"
                   placeholder="รายละเอียดงาน"
                 />
               </div>
-              <p v-if="addressInput" class="text-red-600">กรุณากรอกที่อยู่</p>
+              <p v-if="descriptInput" class="text-red-600">กรุณากรอกรายละเอียดงาน</p>
             </div>
           </div>
 
@@ -662,44 +654,53 @@
               >รูปแบบงาน</label
             >
             <div class="flex space-x-5">
-              <div class="form-control">
-                <label class="label cursor-pointer space-x-2">
-                  <input
-                    type="radio"
-                    name="radio-6"
-                    class="radio checked:bg-blue-500"
-                    :class="{ 'bg-red-50': sexInput }"
-                    value="M"
-                  />
-                  <span class="label-text">พาร์ทไทม์ลูปปป</span>
-                </label>
+              <div class="flex">
+                <div
+                  class="
+                    w-10
+                    z-10
+                    pl-1
+                    text-center
+                    pointer-events-none
+                    flex
+                    items-center
+                    justify-center
+                  "
+                ></div>
+                <select
+                  type="text"
+                  v-model.trim="postInfo.hiringType.idHiringtype"
+                  class="
+                    select select-bordered
+                    w-full
+                    -ml-10
+                    pl-5
+                    pr-3
+                    py-2
+                    rounded-lg
+                    border-2 border-gray-200
+                    outline-none
+                    focus:border-indigo-500
+                  "
+                  :class="{ 'bg-red-50': hiringTypeInput }"
+                >
+                  <!-- แก้ด้วย -->
+                  <option :value="''" disabled selected>
+                    กรุณาเลือกรูปแบบงาน
+                  </option>
+                  <option
+                    class="text-black"
+                    v-for="ht in hiringTypeArray"
+                    :key="ht.idHiringtype"
+                    :value="ht.idHiringtype"
+                  >
+                    {{ ht.nameType }}
+                  </option>
+                  <!-- แก้ด้วย -->
+                </select>
               </div>
-              <!-- <div class="form-control">
-                  <label class="label cursor-pointer space-x-2">
-                    <input
-                      type="radio"
-                      name="radio-6"
-                      class="radio checked:bg-red-500"
-                      :class="{ 'bg-red-50': sexInput }"
-                      value="F"
-                    />
-                    <span class="label-text">หญิง</span>
-                  </label>
-                </div>
-                <div class="form-control">
-                  <label class="label cursor-pointer space-x-2">
-                    <input
-                      type="radio"
-                      name="radio-6"
-                      class="radio checked:bg-red-500"
-                      :class="{ 'bg-red-50': sexInput }"
-                      value="A"
-                    />
-                    <span class="label-text">ทั้งหมด</span>
-                  </label>
-                </div> -->
             </div>
-            <p v-if="sexInput" class="text-red-600">กรุณาเลือกรูปแบบงาน</p>
+            <p v-if="hiringTypeInput" class="text-red-600">กรุณาเลือกรูปแบบงาน</p>
           </div>
           <!-- </p> -->
 
@@ -718,10 +719,11 @@
                 <label class="label cursor-pointer space-x-2">
                   <input
                     type="radio"
-                    name="radio-6"
+                    v-model.trim="postInfo.overtimePayment"
+                    name="radio-7"
                     class="radio checked:bg-blue-500"
-                    :class="{ 'bg-red-50': sexInput }"
-                    value="M"
+                    :class="{ 'bg-red-50': otPayInput }"
+                    value="y"
                   />
                   <span class="label-text">มี</span>
                 </label>
@@ -730,16 +732,17 @@
                 <label class="label cursor-pointer space-x-2">
                   <input
                     type="radio"
-                    name="radio-6"
+                    v-model.trim="postInfo.overtimePayment"
+                    name="radio-7"
                     class="radio checked:bg-red-500"
-                    :class="{ 'bg-red-50': sexInput }"
-                    value="F"
+                    :class="{ 'bg-red-50': otPayInput }"
+                    value="n"
                   />
                   <span class="label-text">ไม่มี</span>
                 </label>
               </div>
             </div>
-            <p v-if="sexInput" class="text-red-600">กรุณาเลือกค่าล่วงเวลา</p>
+            <p v-if="otPayInput" class="text-red-600">กรุณาเลือกค่าล่วงเวลา</p>
           </div>
           <!-- </p> -->
 
@@ -747,6 +750,45 @@
           <!-- <span class="font-semibold">สวัสดิการ: </span> -->
           <!-- <p class="ml-10" v-html="jobDetail.welfare"></p> -->
           <!-- </div> -->
+
+          <div class="flex -mx-3">
+            <div class="w-full px-3 mb-5">
+              <label for="" class="text-base font-medium px-1">คุณสมบัติ</label>
+              <div class="flex">
+                <div
+                  class="
+                    w-10
+                    z-10
+                    pl-1
+                    text-center
+                    pointer-events-none
+                    flex
+                    items-center
+                    justify-center
+                  "
+                >
+                  <i class="mdi mdi-account-outline text-gray-400 text-lg"></i>
+                </div>
+                <textarea
+                  type="text"
+                  v-model.trim="postInfo.properties"
+                  class="
+                    textarea
+                    w-full
+                    -ml-10
+                    pl-5
+                    pr-3
+                    py-2
+                    rounded-lg
+                    border-2 border-gray-200
+                    outline-none
+                    focus:border-indigo-500
+                  "
+                  placeholder="รายละเอียดคุณสมบัติ"
+                />
+              </div>
+            </div>
+          </div>
 
           <div class="flex -mx-3">
             <div class="w-full px-3 mb-5">
@@ -767,7 +809,8 @@
                   <i class="mdi mdi-account-outline text-gray-400 text-lg"></i>
                 </div>
                 <textarea
-                  type="tel"
+                  type="text"
+                  v-model.trim="postInfo.welfare"
                   class="
                     textarea
                     w-full
@@ -780,11 +823,11 @@
                     outline-none
                     focus:border-indigo-500
                   "
-                  :class="{ 'bg-red-50': addressInput }"
+                  :class="{ 'bg-red-50': welfareInput }"
                   placeholder="รายละเอียดสวัสดิการ"
                 />
               </div>
-              <p v-if="addressInput" class="text-red-600">กรุณากรอกสวัสดิการ</p>
+              <p v-if="welfareInput" class="text-red-600">กรุณากรอกสวัสดิการ</p>
             </div>
           </div>
         </div>
@@ -792,6 +835,7 @@
 
       <div class="flex space-x-5 justify-between font-sans-thai">
         <button
+          @click.prevent="createPost()"
           type="submit"
           class="
             btn
@@ -812,7 +856,7 @@
         </button>
 
         <button
-        @click="$router.push('/posting')"
+          @click="$router.push('/posting')"
           class="
             btn btn-ghost
             w-2/5
@@ -828,14 +872,180 @@
         >
           ยกเลิก
         </button>
+        {{ this.$store.state.auth.user.employer }}
       </div>
     </form>
   </div>
 </template>
 
 <script>
-export default {};
-</script>
+import axios from "axios";
+// import BaseJob from "@/components/BaseJob.vue";
+// import { ref } from "@vue/reactivity";
+// import BaseApplication from "@/components/BaseApplication.vue";
 
+export default {
+  // components: { BaseJob },
+  props: [],
+  data() {
+    return {
+      showToast: false,
+      hiringTypeArray: [],
+      // postingHasDayListArray: [],
+
+        positionInput: false,
+        sexInput: false,
+        descriptInput: false,
+        minAgeInput: false,
+        maxAgeInput: false,
+        minSalaryInput: false,
+        maxSalaryInput: false,        
+        otPayInput: false,
+        startTimeInput: false,
+        endTimeInput: false,
+        welfareInput: false,
+        hiringTypeInput: false,
+        statusInput: false,
+        workerTypeInput: false,
+        postingHasDayListInput: false,
+
+      postInfo: {
+        sex: "",
+        workDescription: "",
+        minAge: 18,
+        maxAge: 60,
+        minSalary: 0,
+        maxSalary: 0,
+        overtimePayment: "",
+        startTime: "",
+        endTime: "",
+        properties: "",
+        welfare: "",
+        hiringType: {
+          idHiringtype: "",
+          nameType: "",
+        },
+        status: {
+          idStatus: "1",
+          statusName: "Active",
+        },
+        workerType: {
+          idWorkerType: "",
+          typeName: "",
+        },
+        postingHasDayList: [{
+          idPostingHasDay: "",
+          day: {
+            idDay: "2",
+            dayName: "จันทร์",
+            abbreviation: "จ",
+          }
+        }],
+        position: {
+          idposition: "5",
+          positionName: "",
+        },
+      },
+    };
+  },
+  methods: {
+    async createPost(){
+      this.checkValidate()
+      if(!this.checkValidate()){
+      await axios
+        .post(`${process.env.VUE_APP_ROOT_API}emp/createPosting?idEmployer=${this.$store.state.auth.user.employer.idEmployer}`, this.postInfo)
+        .then(function (response) {
+          console.log(response);
+          alert("ประกาศโพสหางานของคุณเรียบร้อยแล้ว");
+          this.clear();
+        })
+        .catch(function (error) {
+          console.log(error)
+        });
+      }
+    },
+
+    checkValidate(){
+        this.positionInput = this.postInfo.position.positionName === "" ? true:false
+        this.sexInput = this.postInfo.sex === "" ? true:false
+        this.descriptInput = this.postInfo.workDescription === "" ? true:false
+        this.minAgeInput = this.postInfo.minAge === "" || this.postInfo.minAge < 18 ? true:false
+        this.maxAgeInput = this.postInfo.maxAge === "" || this.postInfo.maxAge > 60 ? true:false
+        this.minSalaryInput = this.postInfo.minSalary === "" ? true:false
+        this.maxSalaryInput = this.postInfo.maxSalary === "" ? true:false       
+        this.otPayInput = this.postInfo.overtimePayment === "" ? true:false
+        this.startTimeInput = this.postInfo.startTime === "" ? true:false
+        this.endTimeInput = this.postInfo.endTime === "" ? true:false
+        this.welfareInput = this.postInfo.welfare === "" ? true:false
+        this.hiringTypeInput = this.postInfo.hiringType.idHiringtype === "" ? true:false
+        this.statusInput = this.postInfo.status.idStatus === "" ? true:false
+        this.workerType = this.postInfo.workerType.idWorkerType === "" ? true:false
+        this.postingHasDayListInput = this.postInfo.postingHasDayList.day?.idDay === "" ? true:false
+    },
+    clear(){
+      this.postInfo = {
+        sex: "",
+        workDescription: "",
+        minAge: 18,
+        maxAge: 60,
+        minSalary: 0,
+        maxSalary: 0,
+        overtimePayment: "",
+        startTime: "",
+        endTime: "",
+        properties: "",
+        welfare: "",
+        hiringType: {
+          idHiringtype: "",
+          nameType: "",
+        },
+        status: {
+          idStatus: "1",
+          statusName: "Active",
+        },
+        workerType: {
+          idWorkerType: "",
+          typeName: "",
+        },
+        postingHasDayList: {
+          idPostingHasDay: "",
+          day: {
+            idDay: [],
+            dayName: "",
+            abbreviation: "",
+          },
+        },
+        position: {
+          idposition: "",
+          positionName: "",
+        },
+      }
+    },
+    ifChangeAge(age){
+      if(age < 18){
+        this.postInfo.minAge = 18
+      }else{
+        if(age > 60){
+          this.postInfo.maxAge = 60
+        }
+      }  
+    },
+    async fetch(url) {
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
+  async created() {
+    console.log("hiringType")
+    this.hiringTypeArray = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allHiringType`);
+    // this.postingHasDayListArray = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allPostingHasDay`);
+  },
+};
+</script>
 <style>
 </style>

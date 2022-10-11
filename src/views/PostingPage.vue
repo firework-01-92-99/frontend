@@ -28,7 +28,7 @@
       </div>
     </div>
     <!-- search criteria & job card -->
-    <div class="hero 2xl:h-48 xl:h-48 lg:h-48 md:h-48 bg-gray-1">
+    <div class="hero 2xl:h-52 xl:h-48 lg:h-48 md:h-48 bg-gray-1">
       <form
         @submit.prevent="getData()"
         class="
@@ -159,11 +159,44 @@
             <option class="text-black" value="ASC">น้อยไปมาก</option>
           </select>
         </div>
+        <div class="w-full flex-col">
+          <p
+            class="
+              font-semibold
+              2xl:text-base
+              md:text-xs
+              -mt-12
+              2xl:mt-0
+              xl:mt-0
+              lg:mt-0
+              md:mt-0
+            "
+          >
+            สถานะ
+          </p>
+          <select
+            class="
+              select select-bordered
+              w-full
+              2xl:text-base
+              md:text-xs
+              font-normal
+              text-gray-400
+            "
+          >
+            <option class="text-black" :value="''" disabled selected>
+              สถานะ
+            </option>
+            <option class="text-black" value="Active">Active</option>
+            <option class="text-black" value="Inactive">Inactive</option>
+          </select>
+        </div>
         <div
           class="
             w-full
             grid grid-rows-4
             gap-4
+            pt-6
             2xl:flex 2xl:flex-row 2xl:space-x-4 2xl:gap-0
             xl:flex xl:flex-row xl:space-x-4 xl:gap-0
             lg:flex lg:flex-row lg:space-x-4 lg:gap-0

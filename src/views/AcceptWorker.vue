@@ -40,7 +40,6 @@
           <tr v-if="!noValue">
             <th></th>
             <th>ชื่อ</th>
-            <th>ประเภทบัญชี</th>
             <th>สัญชาติ</th>
             <th></th>
           </tr>
@@ -58,11 +57,7 @@
                 <!-- <div class="text-sm opacity-50">United States</div> -->
               </div>
             </td>
-            <td>
-              {{ a.workOrEmp }}
-              <!-- <br>
-          <span class="badge badge-ghost badge-sm">Desktop Support Technician</span> -->
-            </td>
+            
             <td>{{ a.nationlity }}</td>
             <th>
               <!-- detail -->
