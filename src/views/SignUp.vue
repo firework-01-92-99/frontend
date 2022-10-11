@@ -1254,71 +1254,6 @@
                       </div>
                     </div>
 
-                    <div class="flex -mx-3">
-                      <div v-if="signType == 'employer'" class="w-full px-3 mb-5">
-                        <label
-                          
-                          for=""
-                          class="text-base font-medium px-1"
-                          >ใบทะเบียนภาษีมูลค่าเพิ่ม</label
-                        >
-                        <div class="flex">
-                          <div
-                            class="
-                              w-10
-                              z-10
-                              pl-1
-                              text-center
-                              pointer-events-none
-                              flex
-                              items-center
-                              justify-center
-                            "
-                          >
-                            <i
-                              class="
-                                mdi mdi-account-outline
-                                text-gray-400 text-lg
-                              "
-                            ></i>
-                          </div>
-                          <div class="flex flex-col w-full">
-                            <img
-                              :src="image"
-                              class="
-                                mt-2
-                                mb-3
-                                2xl:w-1/5
-                                lg:w-2/5
-                                md:w-2/5
-                                w-5/6
-                                mx-auto
-                              "
-                            />
-                            <input
-                              type="file"
-                              class="
-                                w-full
-                                -ml-10
-                                pr-3
-                                py-2
-                                rounded-lg
-                                outline-none
-                                focus:border-indigo-500
-                              "
-                              @change="uploadImg"
-                              :class="{ 'bg-red-50': UpPic }"
-                            />
-                          </div>
-                        </div>
-                        <p
-                          v-if="UpPic && signType == 'employer'"
-                          class="text-red-600"
-                        >
-                          กรุณาอัปโหลดภาพสถานประกอบการ
-                        </p>
-                      </div>
-                    </div>
                   </div>
 
                   <label class="label cursor-pointer space-x-2">
@@ -1326,14 +1261,14 @@
                       type="checkbox"
                       v-model.trim="selectPolicy"
                       class="checkbox checkbox-sm"
-                      value="T"                      
+                      value="T"
                     />
                     <span class="label-text"
                       >ฉันยอมรับ
                       <label
                         for="my-modal-5"
-                        class="cursor-pointer no-underline hover:underline"
-                        >นโยบายความเป็นส่วนตัว</label
+                        class="text-blue-700 cursor-pointer underline hover:text-blue-800"
+                        >ข้อกำหนดและเงื่อนไข</label
                       >
                       <input
                         type="checkbox"
@@ -1343,22 +1278,120 @@
                       <div class="modal">
                         <div class="modal-box w-11/12 max-w-5xl">
                           <h3 class="font-bold text-lg">
-                            Congratulations random Internet user!
+                            ข้อกำหนดและเงื่อนไขของ Firework
                           </h3>
                           <p class="py-4">
                             You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free! You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free! You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free! You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free! You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free! You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free! You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
+                            subscription to use Wikipedia for free!You've been selected for a chance to get one year of
                             subscription to use Wikipedia for free!
                           </p>
                           <div class="modal-action">
-                            <label for="my-modal-5" class="btn">Yay!</label>
+                            <label for="my-modal-5" class="btn">ปิด</label>
                           </div>
                         </div>
                       </div>
-                      การเป็นสมาชิกผู้ประกอบการทุกประการ
-                      </span>
-                        <p v-if="tickPolicy" class="text-red-600">
-                          กรุณายอมรับนโยบายความเป็นส่วนตัวของ Firework
-                        </p>                    
+                      การเป็นสมาชิก<span v-if="signType == 'worker'">ผู้สมัครงาน</span
+                      ><span v-else>ผู้ประกอบการ</span>ทุกประการ
+                    </span>
+                    <p v-if="tickPolicy" class="text-red-600">
+                      กรุณายอมรับข้อกำหนดและเงื่อนไขของ Firework
+                    </p>
                   </label>
 
                   <div class="flex flex-col mt-8">
@@ -1613,8 +1646,8 @@ export default {
     },
     async signUp() {
       console.log("signupkrub");
-            console.log(this.selectPolicy)
-            // console.log(this.registWorker.worker.sex)
+      console.log(this.selectPolicy);
+      // console.log(this.registWorker.worker.sex)
       this.showError = false;
       this.errIden = false;
       this.checkIdenAndPass();
@@ -1857,25 +1890,34 @@ export default {
     },
   },
   async created() {
-    if (this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == "1") {
+    if (
+      this.$store.state.auth.user &&
+      this.$store.state.auth.user.role.idRole == "1"
+    ) {
       this.$router.push("/approve");
-    } else if (this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == "2") {
+    } else if (
+      this.$store.state.auth.user &&
+      this.$store.state.auth.user.role.idRole == "2"
+    ) {
       this.$router.push("/posting");
-    } else{
-      if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == "3"){
+    } else {
+      if (
+        this.$store.state.auth.user &&
+        this.$store.state.auth.user.role.idRole == "3"
+      ) {
         this.$router.push("/");
-      }else{
-      this.businesstype = await this.fetch(
-      `${process.env.VUE_APP_ROOT_API}main/allBusinesstype`
-    );
-    this.provinceForm = await this.fetch(
-      `${process.env.VUE_APP_ROOT_API}main/allProvince`
-    );
-    this.ntType = await this.fetch(
-      `${process.env.VUE_APP_ROOT_API}main/allNationality`
-    );  
+      } else {
+        this.businesstype = await this.fetch(
+          `${process.env.VUE_APP_ROOT_API}main/allBusinesstype`
+        );
+        this.provinceForm = await this.fetch(
+          `${process.env.VUE_APP_ROOT_API}main/allProvince`
+        );
+        this.ntType = await this.fetch(
+          `${process.env.VUE_APP_ROOT_API}main/allNationality`
+        );
       }
-      }     
+    }
   },
 };
 </script>
