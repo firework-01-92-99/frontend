@@ -166,7 +166,7 @@
                   </div>
                 </form>
                 <div class="text-center mt-4">
-                  <div @click="$router.push('/signup/worker')" class="text-sm">
+                  <div class="text-sm">
                     คุณยังไม่มีบัญชี?
                     <span
                       @click="$router.push('/signup/worker')"
