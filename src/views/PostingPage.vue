@@ -259,8 +259,8 @@
         @click="$router.push('/addPost')"
           class="
             btn
-            border-dark-blue
-            bg-dark-blue
+            border-orange-1
+            bg-orange-1
             hover:bg-orange-2 hover:border-orange-2
             w-full
             -mt-16

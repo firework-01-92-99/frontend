@@ -15,7 +15,15 @@
     >
       สถานะการสมัครงาน
     </p>
-    <div v-if="noValue" class="text-center mb-10">ไม่มีข้อมูลการสมัครงาน</div>
+    <div v-if="noValue" class="text-center mb-10">
+      <div><img src="../assets/icon/inbox.png" class="w-20 mx-auto" /></div>
+      <div class="pt-3">
+        ไม่มีข้อมูลการสมัครงาน <br />สามารถดูงานที่เปิดรับได้<span
+          class="text-blue-700 cursor-pointer underline hover:text-blue-800" @click="$router.push('/')"
+          >ที่นี่</span
+        >
+      </div>
+    </div>
     <!-- table: Desktop -->
     <div
       v-if="!noValue"
@@ -273,7 +281,7 @@ export default {
     return {
       workerApp: [],
       // urlWorkerApp:"http://localhost:3000/admin_worker/selectApplicationByWorker?idWorker=",
-      urlWorkerApp:`${process.env.VUE_APP_ROOT_API}admin_worker/selectApplicationByWorker?idWorker=`,
+      urlWorkerApp: `${process.env.VUE_APP_ROOT_API}admin_worker/selectApplicationByWorker?idWorker=`,
       status: [],
       isCancel: false,
       noValue: false,
@@ -302,28 +310,41 @@ export default {
     },
   },
   async created() {
-    if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == '3'){
-    const res = await axios.get(this.urlWorkerApp + this.$store.state.auth.user.worker.idWorker);
-    this.workerApp = res.data
-    // console.log("jopApp" + this.workerApp)
-    console.log(res)
-    this.status1 = await axios.get(
-      // "http://localhost:3000/admin_worker/selectApplicationByWorker?idWorker=" + "1"
-      `${process.env.VUE_APP_ROOT_API}admin_worker/selectApplicationByWorker?idWorker=` + this.$store.state.auth.user.worker.idWorker)
-    this.status = this.status1.data;
-    console.log(this.workerApp.length == 0);
-    if (this.workerApp.length == 0) {
-      this.noValue = true;
+    if (
+      this.$store.state.auth.user &&
+      this.$store.state.auth.user.role.idRole == "3"
+    ) {
+      const res = await axios.get(
+        this.urlWorkerApp + this.$store.state.auth.user.worker.idWorker
+      );
+      this.workerApp = res.data;
+      // console.log("jopApp" + this.workerApp)
+      console.log(res);
+      this.status1 = await axios.get(
+        // "http://localhost:3000/admin_worker/selectApplicationByWorker?idWorker=" + "1"
+        `${process.env.VUE_APP_ROOT_API}admin_worker/selectApplicationByWorker?idWorker=` +
+          this.$store.state.auth.user.worker.idWorker
+      );
+      this.status = this.status1.data;
+      console.log(this.workerApp.length == 0);
+      if (this.workerApp.length == 0) {
+        this.noValue = true;
+      } else {
+        this.noValue = false;
+      }
+    } else if (
+      this.$store.state.auth.user &&
+      this.$store.state.auth.user.role.idRole == "2"
+    ) {
+      this.$router.push("/posting");
+    } else if (
+      this.$store.state.auth.user &&
+      this.$store.state.auth.user.role.idRole == "1"
+    ) {
+      this.$router.push("/approve");
     } else {
-      this.noValue = false;
+      this.$router.push("/");
     }
-    }else if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == '2'){
-      this.$router.push('/posting')
-      }else if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == '1'){
-        this.$router.push('/approve')
-      }else{
-        this.$router.push('/')
-      }    
   },
 };
 </script>

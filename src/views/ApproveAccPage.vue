@@ -8,7 +8,7 @@
     >
       <div class="hero-overlay bg-opacity-60"></div>
       <div class="hero-content text-center text-neutral-content">
-        <div class="max-w-md">
+        <div class="w-full">
           <h1
             class="
               mb-5
@@ -20,35 +20,37 @@
               font-bold
             "
           >
-            สวัสดีท่านผู้เจริญ {{ this.myAcc.data.firstName + ' ' + this.myAcc.data.lastName}}
+            สวัสดีคุณ
+            {{ this.myAcc.data.firstName + " " + this.myAcc.data.lastName }}
           </h1>
-          <p class="mb-5">ขยันทำงานด้วยนะไอสัส อย่าอู้ ขอบใจ จากเจ้านายพวกมึง ด้วยรักและห่วงใย</p>
+          <!-- <p class="mb-5">ขยันทำงานด้วยนะไอสัส อย่าอู้ ขอบใจ จากเจ้านายพวกมึง ด้วยรักและห่วงใย</p> -->
         </div>
       </div>
     </div>
     <div class="2xl:p-6 2xl:pl-32 xl:p-6 lg:p-6 md:p-6 p-3 pt-5">
       <base-tab>
-      <template><a
-      :class="{ 'tab-active': routes == 'ApproveAccPage' }"
-      class="tab tab-bordered text-black"
-      @click="$router.push('/approve')"
-    >
-      ตรวจสอบบัญชี
-    </a>
-    <a
+        <template
+          ><a
+            :class="{ 'tab-active': routes == 'ApproveAccPage' }"
+            class="tab tab-bordered tab-active font-medium"
+            @click="$router.push('/approve')"
+          >
+            ตรวจสอบบัญชี
+          </a>
+          <!-- <a
       class="tab tab-bordered text-black"
       :class="{ 'tab-active': routes == 'EditAccPage' }"
       @click="$router.push('/approve/edit')"
       
       >คำขอแก้ไขบัญชี</a
-    >
-    <a
-      class="tab tab-bordered text-black"
-      :class="{ 'tab-active': routes == 'DelAccPage' }"
-      @click="$router.push('/approve/delete')"
-      
-      >คำขอลบบัญชี</a
-    ></template>
+    > -->
+          <a
+            class="tab tab-bordered"
+            :class="{ 'tab-active': routes == 'DelAccPage' }"
+            @click="$router.push('/approve/delete')"
+            >คำขอลบบัญชี</a
+          ></template
+        >
       </base-tab>
     </div>
     <div class="overflow-x-auto w-10/12 mx-auto font-sans-thai">
@@ -80,7 +82,7 @@
         </thead>
         <tbody v-for="a in listApprove.data" :key="a.idApprove">
           <!-- row 1 -->
-                    <!-- <div v-if="listApprove.lenght == null">
+          <!-- <div v-if="listApprove.lenght == null">
             ไม่มีรายการที่ต้องทำ
           </div> -->
           <tr>
@@ -862,42 +864,49 @@
                     <div class="2xl:flex 2xl:space-x-5">
                       <div class="form-control">
                         <label class="label cursor-pointer 2xl:space-x-2">
-                          <input   
+                          <input
                             type="radio"
                             v-model.trim="statusId"
                             name="radio-1"
                             class="radio checked:bg-blue-500"
-                            value=4
+                            value="4"
                           />
-                          <span class="label-text 2xl:pr-0 md:pr-56">อนุมัติ</span>
+                          <span class="label-text 2xl:pr-0 md:pr-56"
+                            >อนุมัติ</span
+                          >
                         </label>
                       </div>
                       <div class="form-control">
                         <label class="label cursor-pointer 2xl:space-x-2">
-                          <input      
+                          <input
                             type="radio"
                             v-model.trim="statusId"
                             name="radio-2"
                             class="radio checked:bg-red-500"
-                            value=5
+                            value="5"
                           />
                           <span class="label-text 2xl:pr-0 md:pr-52"
                             >ไม่อนุมัติ</span
                           >
                         </label>
                       </div>
-                        <p v-if="confirmInput" class="text-red-600">
-                          กรุณาเลือกรูปแบบการอนุมัติ
-                        </p>                       
+                      <p v-if="confirmInput" class="text-red-600">
+                        กรุณาเลือกรูปแบบการอนุมัติ
+                      </p>
                     </div>
                     <textarea
                       class="textarea textarea-bordered w-full h-36"
                       placeholder="หมายเหตุที่ไม่อนุมัติ"
                     ></textarea>
                   </div>
-                  
+
                   <div class="modal-action">
-                    <button @click="sendApprove(a)" class="btn w-1/2 bg-orange-1 hover:bg-orange-2">ยืนยัน</button>
+                    <button
+                      @click="sendApprove(a)"
+                      class="btn w-1/2 bg-orange-1 hover:bg-orange-2"
+                    >
+                      ยืนยัน
+                    </button>
                     <label for="my-modal-5" class="btn w-1/2">ปิด</label>
                   </div>
                 </div>
@@ -905,7 +914,7 @@
             </th>
           </tr>
         </tbody>
-        
+
         <!-- foot -->
         <!-- <tfoot>
           <tr>
@@ -918,11 +927,11 @@
         </tfoot> -->
       </table>
     </div>
-          <div v-if="noValue" class="text-center mt-10">
-            ไม่มีรายการที่ต้องทำ
-          </div>
+    <div v-if="noValue" class="text-center mt-10">
+      <div><img src="../assets/icon/inbox.png" class="w-20 mx-auto" /></div>
+      <div class="pt-5">ไม่มีรายการที่ต้องทำ</div>
+    </div>
   </div>
-  
 </template>
 
 <script>
@@ -957,21 +966,21 @@ export default {
       image: "",
       info: { nationality: {}, workerType: {} },
       status: [],
-      statusId: '',
+      statusId: "",
       myAcc: [],
       noValue: false,
-      routes:'',
+      routes: "",
       idAdmin: 0,
       confirmInput: false,
     };
   },
   methods: {
     async data(data) {
-      console.log("data: ")
-      console.log(data)
+      console.log("data: ");
+      console.log(data);
       console.log(data.idEmpOrWork, data.workOrEmp);
       this.confirmInput = false;
-      this.statusId = ''
+      this.statusId = "";
       if (data.workOrEmp == "Worker") {
         await axios
           .get(
@@ -979,33 +988,33 @@ export default {
           )
           .then((response) => {
             this.info = response.data;
-            console.log(this.info)
+            console.log(this.info);
             this.image =
-              `${process.env.VUE_APP_ROOT_API}main/image/` + this.info.verifyPic
+              `${process.env.VUE_APP_ROOT_API}main/image/` +
+              this.info.verifyPic;
           });
       }
     },
-    async sendApprove(idApprove){
-      if(this.statusId != ''){      
-      if(confirm("ต้องการจะส่งฟอร์มอนุมัติบัญชีหรือไม่")){
-              try {
-                 await axios.put(
-                  `${process.env.VUE_APP_ROOT_API}admin/approveAccount?idApprove=${idApprove.idApprove}&idAdmin=${this.idAdmin}&idStatus=${this.statusId}`
-                  // ,
-                  // {
-                  //   method: "PUT",
-                  // }
-                ).data;
-              window.location.reload();
-              } catch (error) {
-                console.log(error);
-              }             
-      }
-      }else{
+    async sendApprove(idApprove) {
+      if (this.statusId != "") {
+        if (confirm("ต้องการจะส่งฟอร์มอนุมัติบัญชีหรือไม่")) {
+          try {
+            await axios.put(
+              `${process.env.VUE_APP_ROOT_API}admin/approveAccount?idApprove=${idApprove.idApprove}&idAdmin=${this.idAdmin}&idStatus=${this.statusId}`
+              // ,
+              // {
+              //   method: "PUT",
+              // }
+            ).data;
+            window.location.reload();
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      } else {
         this.confirmInput = true;
-        console.log("เลือกก่อนว่าอนุมัติไม่อนุมัติ")
-      }       
-  
+        console.log("เลือกก่อนว่าอนุมัติไม่อนุมัติ");
+      }
     },
     async fetch(url) {
       try {
@@ -1018,19 +1027,28 @@ export default {
     },
   },
   async created() {
-    if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == "1"){
-    this.listApprove = await axios.get(`${process.env.VUE_APP_ROOT_API}admin/getAllApproveByIdStatusAndIdRole?idStatus=6&idRole=0`);
-    console.log(this.listApprove.data)
-    this.status = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allStatus`);
-       this.myAcc = await axios.get(`${process.env.VUE_APP_ROOT_API}admin/meAdmin`)
-       this.idAdmin = this.myAcc.data.idAdmin
-       console.log(this.myAcc.data)
-    if (this.listApprove.data.length == 0) {
-      this.noValue = true;
+    if (
+      this.$store.state.auth.user &&
+      this.$store.state.auth.user.role.idRole == "1"
+    ) {
+      this.listApprove = await axios.get(
+        `${process.env.VUE_APP_ROOT_API}admin/getAllApproveByIdStatusAndIdRole?idStatus=6&idRole=0`
+      );
+      console.log(this.listApprove.data);
+      this.status = await this.fetch(
+        `${process.env.VUE_APP_ROOT_API}main/allStatus`
+      );
+      this.myAcc = await axios.get(
+        `${process.env.VUE_APP_ROOT_API}admin/meAdmin`
+      );
+      this.idAdmin = this.myAcc.data.idAdmin;
+      console.log(this.myAcc.data);
+      if (this.listApprove.data.length == 0) {
+        this.noValue = true;
+      } else {
+        this.noValue = false;
+      }
     } else {
-      this.noValue = false;
-    }
-    }else{
       this.$router.push("/");
     }
   },

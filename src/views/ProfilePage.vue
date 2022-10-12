@@ -1,6 +1,6 @@
 <template>
   <div v-if="$store.state.auth.user" class="Profile">
-    <div class="font-sans-thai bg-gray-2 h-full w-screen">
+    <div class="font-sans-thai bg-gray-2 h-full w-full">
       <div
         class="
           2xl:pt-0
@@ -28,7 +28,7 @@
             justify-center
           "
         >
-          <div class="lg:w-1/2">
+          <!-- <div class="lg:w-1/2">
             <div class="flex-col space-y-5">
               <div class="flex justify-center">
                 <div class="avatar w-1/3 mt-5">
@@ -44,7 +44,7 @@
                 </div>
               </div>
 
-          <div class="collapse">
+              <div class="collapse">
                 <input class="w-1/3" type="checkbox" />
                 <div class="collapse-title flex justify-center">
                   <div class="stats bg-orange-1 shadow w-1/3">
@@ -55,7 +55,7 @@
                     </div>
                   </div>
                 </div>
-                
+
                 <div
                   class="
                     collapse-content
@@ -93,9 +93,11 @@
                   </div>
                 </div>
               </div>
-          </div>
-          </div>
-          <div class="divider lg:divider-horizontal"></div>
+            </div>
+          </div> -->
+
+          <!-- <div class="divider lg:divider-horizontal"></div> -->
+
           <!-- worker -->
           <div class="flex flex-col w-full lg:w-1/2 p-4">
             <div class="flex flex-col flex-1 justify-center mb-8">
@@ -121,7 +123,9 @@
                     </div>
                     <div class="2xl:flex -mx-3">
                       <div class="w-full px-3 mb-5">
-                        <label for="" class="text-sm 2xl:text-base font-medium px-1"
+                        <label
+                          for=""
+                          class="text-sm 2xl:text-base font-medium px-1"
                           >อีเมล</label
                         >
                         <div class="flex">
@@ -155,8 +159,13 @@
                           />
                         </div>
                       </div>
-                      <div v-if="$store.state.auth.user.role.idRole == '3'" class="w-full px-3 mb-5 -mx-0">
-                        <label for="" class="text-sm 2xl:text-base font-medium px-1"
+                      <div
+                        v-if="$store.state.auth.user.role.idRole == '3'"
+                        class="w-full px-3 mb-5 -mx-0"
+                      >
+                        <label
+                          for=""
+                          class="text-sm 2xl:text-base font-medium px-1"
                           >ประเภทแรงงาน</label
                         >
                         <div class="flex">
@@ -185,7 +194,12 @@
                               outline-none
                               placeholder-black placeholder-opacity-100
                             "
-                            :placeholder="workerType[$store.state.auth.user.worker.workerType.typeName]"
+                            :placeholder="
+                              workerType[
+                                $store.state.auth.user.worker.workerType
+                                  .typeName
+                              ]
+                            "
                             disabled
                           />
                         </div>
@@ -312,7 +326,9 @@
 
                     <div v-else class="2xl:flex -mx-3">
                       <div class="w-full px-3 mb-5">
-                        <label for="" class="text-sm 2xl:text-base font-medium 2xl:px-1"
+                        <label
+                          for=""
+                          class="text-sm 2xl:text-base font-medium 2xl:px-1"
                           >เลขบัตรประชาชน/เลขหนังสือเดินทาง</label
                         >
                         <div class="flex">
@@ -348,11 +364,12 @@
                           />
                         </div>
                       </div>
-                      
                     </div>
-                   <div class="2xl:flex -mx-3"> 
-<div class="w-full px-3 mb-5">
-                        <label for="" class="text-sm 2xl:text-base font-medium px-1"
+                    <div class="2xl:flex -mx-3">
+                      <div class="w-full px-3 mb-5">
+                        <label
+                          for=""
+                          class="text-sm 2xl:text-base font-medium px-1"
                           >สัญชาติ</label
                         >
                         <div class="flex">
@@ -393,10 +410,12 @@
                           />
                         </div>
                       </div>
-                   </div>
+                    </div>
                     <div class="2xl:flex 2xl:-mx-3">
                       <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                        <label for="" class="text-sm 2xl:text-base font-medium px-1"
+                        <label
+                          for=""
+                          class="text-sm 2xl:text-base font-medium px-1"
                           >ชื่อ</label
                         >
                         <div class="flex">
@@ -435,7 +454,9 @@
                         v-if="$store.state.auth.user.role.idRole == '3'"
                         class="2xl:w-1/2 w-full 2xl:px-3 mb-5"
                       >
-                        <label for="" class="text-sm 2xl:text-base font-medium px-1"
+                        <label
+                          for=""
+                          class="text-sm 2xl:text-base font-medium px-1"
                           >ชื่อกลาง</label
                         >
                         <div class="flex">
@@ -471,7 +492,9 @@
                       </div>
 
                       <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                        <label for="" class="text-sm 2xl:text-base font-medium px-1"
+                        <label
+                          for=""
+                          class="text-sm 2xl:text-base font-medium px-1"
                           >นามสกุล</label
                         >
                         <div class="flex">
@@ -543,7 +566,6 @@
                             <input
                               type="text"
                               class="
-                                
                                 w-full
                                 -ml-10
                                 pl-5
@@ -757,7 +779,9 @@
                         v-if="$store.state.auth.user.role.idRole == '3'"
                         class="w-full px-3 mb-5"
                       >
-                        <label for="" class="text-sm 2xl:text-base font-medium px-1"
+                        <label
+                          for=""
+                          class="text-sm 2xl:text-base font-medium px-1"
                           >เพศ</label
                         >
                         <div class="flex">
@@ -794,7 +818,9 @@
                         </div>
                       </div>
                       <div class="w-full px-3 mb-5">
-                        <label for="" class="text-sm 2xl:text-base font-medium px-1"
+                        <label
+                          for=""
+                          class="text-sm 2xl:text-base font-medium px-1"
                           >เบอร์โทรศัพท์</label
                         >
                         <div class="flex">
@@ -838,9 +864,6 @@
                       </div>
                     </div>
 
-                    <!-- <div class="flex -mx-3">
-                      
-                    </div> -->
                     <div class="flex -mx-3">
                       <div class="w-full px-3 mb-5">
                         <label
@@ -853,28 +876,51 @@
                     </div>
                   </div>
                   <button class="button" @click.prevent="sendDelete()">
-                          ขอลบบัญชี
-                        </button>   
-
-                  <!-- <div class="flex flex-col mt-8">
-                    <button
-                      @click.prevent="signUp()"
-                      type="submit"
-                      class="
-                        bg-orange-1
-                        hover:bg-orange-2
-                        text-white text-base
-                        font-medium
-                        py-2
-                        px-4
-                        rounded
-                      "
-                    >
-                      ลงทะเบียน
-                    </button>
-                  </div> -->
+                    ขอลบบัญชี
+                  </button>
                 </form>
               </div>
+            </div>
+          </div>
+
+          <div class="lg:w-1/2 p-4">
+            <base-tab>
+              <template
+                ><a
+                  class="tab tab-bordered px-16"
+                  @click="numTab = 1"
+                  :class="{
+                    'tab-active font-medium': numTab == 1 || numTab == '',
+                  }"
+                >
+                  งานโปรดของฉัน
+                </a>
+                <a
+                  class="tab tab-bordered px-16"
+                  @click="numTab = 2"
+                  :class="{
+                    'tab-active font-medium ': numTab == 2,
+                  }"
+                  >ประวัติงานที่เคยทำ</a
+                >
+                <a
+                  class="tab tab-bordered px-16"
+                  @click="numTab = 3"
+                  :class="{
+                    'tab-active font-medium': numTab == 3,
+                  }"
+                  >คะแนนของฉัน</a
+                ></template
+              >
+            </base-tab>
+            <div v-if="numTab == 1 || numTab == ''">
+              <base-fav class="mt-7"></base-fav>
+            </div>
+            <div v-if="numTab == 2">
+              <base-history class="mt-7"></base-history>
+            </div>
+            <div v-if="numTab == 3">
+              <base-rate class="mt-7"></base-rate>
             </div>
           </div>
         </div>
@@ -886,6 +932,10 @@
 
 <script>
 import axios from "axios";
+import BaseTab from "@/components/BaseTab.vue";
+import BaseFav from "@/components/BaseFav.vue";
+import BaseHistory from "@/components/BaseHistory.vue";
+import BaseRate from "@/components/BaseRate.vue";
 const sex = Object.freeze({
   F: "หญิง",
   M: "ชาย",
@@ -902,6 +952,7 @@ const nationFreeze = Object.freeze({
 });
 
 export default {
+  components: { BaseTab, BaseFav, BaseHistory, BaseRate },
   data() {
     return {
       sex,
@@ -913,13 +964,17 @@ export default {
       nationality: "",
       tel: "",
       image: "",
+      numTab: "",
     };
   },
   methods: {
     async sendDelete() {
-      if(confirm('คุณต้องการจะลบบัญชีใช่หรือไม่')){
-      console.log("idAccount = " + this.$store.state.auth.user.idAccount)
-      await axios.put(`${process.env.VUE_APP_ROOT_API}worker/deleteMyWorker?idWorker=` + this.$store.state.auth.user.worker.idWorker).data        
+      if (confirm("คุณต้องการจะลบบัญชีใช่หรือไม่")) {
+        console.log("idAccount = " + this.$store.state.auth.user.idAccount);
+        await axios.put(
+          `${process.env.VUE_APP_ROOT_API}worker/deleteMyWorker?idWorker=` +
+            this.$store.state.auth.user.worker.idWorker
+        ).data;
       }
     },
     async fetch(url) {
@@ -933,31 +988,34 @@ export default {
     },
   },
   async created() {
-    if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole != "1"){
-    if (this.$store.state.auth.user.role.idRole == "2") {
-      this.firstname = this.$store.state.auth.user.employer.entrepreneurfName;
-      this.lastname = this.$store.state.auth.user.employer.entrepreneurlName;
-      this.nationality =
-        this.$store.state.auth.user.employer.nationality.nationality_name;
-      this.tel = this.$store.state.auth.user.employer.tel;
-      this.image = "1";
-    } else {
-      if (this.$store.state.auth.user.role.idRole == "3") {
-        this.firstname = this.$store.state.auth.user.worker.firstName;
-        this.middlename = this.$store.state.auth.user.worker.middleName;
-        this.lastname = this.$store.state.auth.user.worker.lastName;
+    if (
+      this.$store.state.auth.user &&
+      this.$store.state.auth.user.role.idRole != "1"
+    ) {
+      if (this.$store.state.auth.user.role.idRole == "2") {
+        this.firstname = this.$store.state.auth.user.employer.entrepreneurfName;
+        this.lastname = this.$store.state.auth.user.employer.entrepreneurlName;
         this.nationality =
-          this.$store.state.auth.user.worker.nationality.nationality_name;
-        this.tel = this.$store.state.auth.user.worker.phone;
-        this.image =
-          (await `${process.env.VUE_APP_ROOT_API}main/image/`) +
-          this.$store.state.auth.user.worker.verifyPic;
+          this.$store.state.auth.user.employer.nationality.nationality_name;
+        this.tel = this.$store.state.auth.user.employer.tel;
+        this.image = "1";
+      } else {
+        if (this.$store.state.auth.user.role.idRole == "3") {
+          this.firstname = this.$store.state.auth.user.worker.firstName;
+          this.middlename = this.$store.state.auth.user.worker.middleName;
+          this.lastname = this.$store.state.auth.user.worker.lastName;
+          this.nationality =
+            this.$store.state.auth.user.worker.nationality.nationality_name;
+          this.tel = this.$store.state.auth.user.worker.phone;
+          this.image =
+            (await `${process.env.VUE_APP_ROOT_API}main/image/`) +
+            this.$store.state.auth.user.worker.verifyPic;
+        }
       }
-    }
-    }else{
-      if(this.$store.state.auth.user.role.idRole == '1'){
+    } else {
+      if (this.$store.state.auth.user.role.idRole == "1") {
         this.$router.push("/approve");
-      }else{
+      } else {
         this.$router.push("/");
       }
     }

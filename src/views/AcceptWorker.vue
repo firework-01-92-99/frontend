@@ -2,15 +2,13 @@
    <div class="bg-gray-2 h-screen font-sans-thai">
   <div class="2xl:p-6 2xl:pl-32 xl:p-6 lg:p-6 md:p-6 p-3 pt-5">
       <base-tab><template><a
-      :class="{ 'tab-active': routes == 'ApproveAccPage' }"
-      class="tab tab-bordered text-black"
+      class="tab tab-bordered"
       @click="$router.push('/viewworkapp')"
     >
       รอรับ
     </a>
     <a
-      class="tab tab-bordered text-black"
-      :class="{ 'tab-active': routes == 'EditAccPage' }"
+      class="tab tab-bordered text-black tab-active font-medium"
       @click="$router.push('/viewworkapp/accept')"
       
       >รับแล้ว</a

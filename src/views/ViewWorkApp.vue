@@ -3,13 +3,13 @@
   <div class="2xl:p-6 2xl:pl-32 xl:p-6 lg:p-6 md:p-6 p-3 pt-5">
       <base-tab><template><a
       :class="{ 'tab-active': routes == 'ViewWorkApp' }"
-      class="tab tab-bordered text-black"
+      class="tab tab-bordered text-black tab-active font-medium"
       @click="$router.push('/viewworkapp' + '?idPost=' + idPosting)"
     >
       รอรับ
     </a>
     <a
-      class="tab tab-bordered text-black"
+      class="tab tab-bordered"
       :class="{ 'tab-active': routes == 'AcceptWorker' }"
       @click="$router.push('/viewworkapp/accept')"
       

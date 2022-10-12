@@ -63,7 +63,6 @@
               2xl:text-base
               md:text-xs
               font-normal
-              text-gray-400
             "
           />
         </div>
@@ -77,7 +76,6 @@
               2xl:text-base
               md:text-xs
               font-normal
-              text-gray-400
             "
           >
             <option :value="''" disabled selected>จังหวัด</option>
@@ -114,7 +112,6 @@
               2xl:text-base
               md:text-xs
               font-normal
-              text-gray-400
             "
           >
             <option :value="''" disabled selected>รูปแบบงาน</option>
@@ -151,7 +148,6 @@
               2xl:text-base
               md:text-xs
               font-normal
-              text-gray-400
             "
           >
             <option class="text-black" :value="''" disabled selected>
@@ -213,12 +209,18 @@
     </div>
     <!-- <div class="flex flex-row justify-between p-6 font-sans-thai"> -->
     <!-- count posting  -->
-      <p class="my-auto font-medium text-sm p-10">
-        ทั้งหมด <span class="text-orange-1 text-sm"> {{lastPage.totalElements}} </span
-        > ผลลัพธ์
-      </p>
-        <div v-if="noValue">
-      <div class="text-center mt-10 mb-10">ไม่มีผลลัพธ์</div>
+    <p class="my-auto font-medium text-sm p-10">
+      ทั้งหมด
+      <span class="text-orange-1 text-sm"> {{ lastPage.totalElements }} </span>
+      ผลลัพธ์
+    </p>
+    <div v-if="noValue">
+      <div class="text-center mt-10 mb-10">
+        <div>
+          <img src="../assets/icon/not-found.svg" class="w-20 mx-auto" />
+        </div>
+        <div class="pt-5">ไม่มีผลลัพธ์</div>
+      </div>
     </div>
     <base-job></base-job>
     <!-- pagination  -->
@@ -238,7 +240,8 @@
           text-sm
         "
       >
-        หน้า <span class="text-orange-1 px-1">{{ page }}</span> จาก {{lastPage.totalPages}}
+        หน้า <span class="text-orange-1 px-1">{{ page }}</span> จาก
+        {{ lastPage.totalPages }}
       </button>
       <button @click="paging((action = 'increase'))" class="btn btn-ghost">
         <i class="material-icons"> chevron_right </i>
@@ -286,7 +289,9 @@ export default {
     async resetShowJob() {
       this.clearSearching();
       // const allPost = await this.fetch("http://localhost:3000/main/allPosting");
-      const allPost = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allPosting`);
+      const allPost = await this.fetch(
+        `${process.env.VUE_APP_ROOT_API}main/allPosting`
+      );
       this.$store.commit("setPosting", allPost);
       console.log("Store 2 = " + this.$store.getters.getPosting);
     },
@@ -313,14 +318,19 @@ export default {
       if (this.page > 0) {
         if (action == "decrease" && this.page !== 1) {
           this.page--;
-        } else if (action == "increase" && this.page < this.lastPage.totalPages) {
+        } else if (
+          action == "increase" &&
+          this.page < this.lastPage.totalPages
+        ) {
           this.page++;
         } else {
           console.log("ต่ำกว่าหน้า 1 ไม่ได้");
         }
         const pageBE = this.page - 1;
         // const sendBE = await this.fetch("http://localhost:3000/main/allPosting?pageNo=" + pageBE);
-        const sendBE = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allPosting?pageNo=` + pageBE);
+        const sendBE = await this.fetch(
+          `${process.env.VUE_APP_ROOT_API}main/allPosting?pageNo=` + pageBE
+        );
         this.$store.commit("setPosting", sendBE);
       }
     },
@@ -334,24 +344,31 @@ export default {
       };
     },
   },
-    computed: {
+  computed: {
     ...mapGetters({
       lastPage: "getPosting",
     }),
   },
   async created() {
-    if(!this.$store.state.auth.user || this.$store.state.auth.user.role.idRole == '3'){
-    // this.provinces = await this.fetch("http://localhost:3000/main/allProvince");
-    this.provinces = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allProvince`);
-    // this.typeHiring = await this.fetch("http://localhost:3000/main/allHiringType");
-    this.typeHiring = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allHiringType`);
-    console.log("test")           
-    }else{
-      if(this.$store.state.auth.user.role.idRole == '1'){
-        this.$router.push('/approve')
-      }else{
-        if(this.$store.state.auth.user.role.idRole == '2'){
-        this.$router.push('/posting')
+    if (
+      !this.$store.state.auth.user ||
+      this.$store.state.auth.user.role.idRole == "3"
+    ) {
+      // this.provinces = await this.fetch("http://localhost:3000/main/allProvince");
+      this.provinces = await this.fetch(
+        `${process.env.VUE_APP_ROOT_API}main/allProvince`
+      );
+      // this.typeHiring = await this.fetch("http://localhost:3000/main/allHiringType");
+      this.typeHiring = await this.fetch(
+        `${process.env.VUE_APP_ROOT_API}main/allHiringType`
+      );
+      console.log("test");
+    } else {
+      if (this.$store.state.auth.user.role.idRole == "1") {
+        this.$router.push("/approve");
+      } else {
+        if (this.$store.state.auth.user.role.idRole == "2") {
+          this.$router.push("/posting");
         }
       }
     }

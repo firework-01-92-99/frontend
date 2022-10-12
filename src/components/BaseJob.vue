@@ -18,7 +18,6 @@
           ease-in-out
           hover:-translate-y-1
           hover:scale-110
-          hover:border-4
           hover:border-orange-1
         "
         
@@ -104,13 +103,14 @@
             @click="$router.push('/viewworkapp')"
             class="
               btn
+              btn-ghost
               border-orange-1
-              bg-orange-1
-              hover:bg-orange-2 hover:border-orange-2
+              text-orange-1
+              hover:bg-orange-1 hover:border-orange-1 hover:text-white
               w-full
             "
           >
-            แก้ไขประกาศรับสมัคร
+            ดูรายละเอียด
           </button>
         </div>
           </div>

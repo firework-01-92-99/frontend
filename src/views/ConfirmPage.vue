@@ -22,7 +22,6 @@
           <tr>
             <th></th>
             <th>ชื่อ</th>
-            <th>ประเภทบัญชี</th>
             <th>สัญชาติ</th>
             <th></th>
           </tr>
@@ -36,11 +35,6 @@
                 <div class="font-bold">ชื่อแซ่</div>
                 <!-- <div class="text-sm opacity-50">United States</div> -->
               </div>
-            </td>
-            <td>
-              WORKER/EMP
-              <!-- <br>
-          <span class="badge badge-ghost badge-sm">Desktop Support Technician</span> -->
             </td>
             <td>ประเทศ</td>
             <th>
@@ -101,16 +95,18 @@
 
 <script>
 export default {
-  components: {  },
+  components: {},
 
   async created() {
-    if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == "2"){
-      console.log("หน้ารับแรงงานของผู้ประกอบการ")
-
-    }else{
-      this.$router.push('/')  
-      }
-  },  
+    if (
+      this.$store.state.auth.user &&
+      this.$store.state.auth.user.role.idRole == "1"
+    ) {
+      console.log("หน้ารับแรงงานของผู้ประกอบการ");
+    } else {
+      this.$router.push("/");
+    }
+  },
 };
 </script>
 
