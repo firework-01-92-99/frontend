@@ -579,13 +579,15 @@
             <div class="flex space-x-5">
               <div class="form-control">
                 <label class="label cursor-pointer space-x-2">
-                  <!-- <input
-                    v-for="pd in allPostingHasDay"
+                  <input
+                    v-for="pd in allPostingHasDay" :key="pd.idPostingHasDay"
+                    :value="pd"
                     type="checkbox"
+                    v-model="postingHasDayList"
                     checked="checked"
                     class="checkbox checkbox-sm"
                     :class="{ 'bg-red-50': postingHasDayListInput }"
-                  /> -->
+                  />
                   <span class="label-text">จันทร์</span>
                 </label>
               </div>
@@ -936,9 +938,9 @@ export default {
         postingHasDayList: [{
           idPostingHasDay: "",
           day: {
-            idDay: "2",
-            dayName: "จันทร์",
-            abbreviation: "จ",
+            idDay: "",
+            dayName: "",
+            abbreviation: "",
           }
         }],
         position: {
@@ -1043,7 +1045,9 @@ export default {
   async created() {
     console.log("hiringType")
     this.hiringTypeArray = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allHiringType`);
-    // this.postingHasDayListArray = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allPostingHasDay`);
+    this.postingHasDayListArray = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allPostingHasDay`);
+    console.log("phdlArray")
+    console.log(this.postingHasDayListArray)
   },
 };
 </script>
