@@ -44,7 +44,9 @@
         <tbody>
           <!-- row -->
           <tr v-for="s in status" :key="s.idApplication">
-            <th>{{ s.idApplication }}</th>
+            <!-- <div v-for="">
+            </div> -->
+            <th>{{ s.length == 0 ? countApp = '' : countApp+=1 }}</th>
             <td>{{ s.establishmentName }}</td>
             <td>{{ s.positionName }}</td>
             <td>
@@ -101,6 +103,7 @@
             <td>
               <div class="flex justify-center">
                 <label
+                v-if="s.statusName == 'Waiting'"
                   for="my-modal-5"
                   @click="isCancel = true"
                   class="btn border-red-700 bg-red-700"
@@ -226,6 +229,7 @@
               >
                 ไม่ผ่านการคัดเลือก
               </div>
+              <div v-if="s.statusName == 'Waiting'">
               <label
                 @click="isCancel = true"
                 for="my-modal-6"
@@ -233,6 +237,7 @@
               >
                 ยกเลิกการสมัคร
               </label>
+              </div>
               <!-- The button to open modal -->
               <!-- Put this part before </body> tag -->
               <div v-if="isCancel">
@@ -285,6 +290,7 @@ export default {
       status: [],
       isCancel: false,
       noValue: false,
+      countApp: 0
     };
   },
   methods: {

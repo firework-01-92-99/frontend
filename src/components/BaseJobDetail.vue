@@ -127,7 +127,6 @@
               bg-orange-1
               hover:bg-orange-2
               w-full
-              2xl:w-1/6 2xl:my-0
               my-3
             "
           >
