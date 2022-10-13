@@ -175,6 +175,8 @@
             สถานะ
           </p>
           <select
+          @click="searchStatusPost()"
+            v-model.trim="actOrInPost"
             class="
               select select-bordered
               w-full
@@ -279,6 +281,7 @@
     <div v-if="noValue">
       <div class="text-center mt-10 mb-10">ไม่มีผลลัพธ์</div>
     </div>
+    <!-- <div v-if="!showInactivePost"> -->
     <base-job>
       <!-- <template
         ><div class="card-actions">
@@ -308,6 +311,7 @@
         </div></template
       > -->
     </base-job>
+    <!-- </div> -->
     <!-- pagination  -->
     <div v-if="!noValue" class="btn-group justify-center pb-5 -mt-5">
       <button @click="paging((action = 'decrease'))" class="btn btn-ghost">
@@ -361,6 +365,10 @@ export default {
       page: 1,
       action: "",
       idPostToUse: '',
+      getInactivePost: [],
+      actOrInPost: '',
+      showInactivePost: false,
+      allPost: [],
     };
   },
   methods: {
@@ -379,14 +387,23 @@ export default {
     //   this.idPostToUse = idPost
 
     // },
+    searchStatusPost(){
+      console.log("โดนเรียกแล้ว")
+      if(this.actOrInPost == 'Inactive'){
+        this.showInactivePost = true
+        this.$store.commit("setPosting", this.getInactivePost)
+      }else{
+        this.showInactivePost = false
+        this.$store.commit("setPosting", this.allPost)
+      }
+    },
     async resetShowJob() {
       this.clearSearching();
-      // const allPost = await this.fetch("http://localhost:3000/main/allPosting");
-      const allPost = await this.fetch(
-        `${process.env.VUE_APP_ROOT_API}main/allPosting`
-      );
-      this.$store.commit("setPosting", allPost);
-      console.log("Store 2 = " + this.$store.getters.getPosting);
+      // const allPost = await this.fetch(
+      //   `${process.env.VUE_APP_ROOT_API}main/allPosting`
+      // );
+      // this.$store.commit("setPosting", allPost);
+      // console.log("Store 2 = " + this.$store.getters.getPosting);
     },
     async getData() {
       await axios
@@ -450,8 +467,10 @@ export default {
     );
     // this.typeHiring = await this.fetch("http://localhost:3000/main/allHiringType");
     this.typeHiring = await this.fetch(
-      `${process.env.VUE_APP_ROOT_API}main/allHiringType`
-    );
+      `${process.env.VUE_APP_ROOT_API}main/allHiringType`);
+    this.getInactivePost = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getPostingByStatus?idEmployer=` + this.$store.state.auth.user.employer.idEmployer + "&idStatus=2");
+    this.allPost = await this.fetch(
+      `${process.env.VUE_APP_ROOT_API}main/allPosting`);
   }else{
     this.$router.push('/')
   }
