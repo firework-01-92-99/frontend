@@ -43,10 +43,10 @@
         </thead>
         <tbody>
           <!-- row -->
-          <tr v-for="s in status" :key="s.idApplication">
+          <tr v-for="(s, index) in status" :key="s.idApplication">
             <!-- <div v-for="">
             </div> -->
-            <th>{{ s.length == 0 ? countApp = '' : countApp+=1 }}</th>
+            <th>{{ index + 1 }}</th>
             <td>{{ s.establishmentName }}</td>
             <td>{{ s.positionName }}</td>
             <td>
@@ -290,7 +290,6 @@ export default {
       status: [],
       isCancel: false,
       noValue: false,
-      countApp: 0
     };
   },
   methods: {
