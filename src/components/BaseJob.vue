@@ -43,8 +43,12 @@
               <h2 class="card-title text-orange-1 text-base">
                 {{ job.position.positionName }}
               </h2>
-              <i class="material-icons"> bookmark_border </i>
-              <i class="material-icons"> bookmark </i>
+              <div v-if="isBookmark == false && $store.state.auth.user && $store.state.auth.user.role.idRole == '3'">
+              <i @click="fav(job.idPosting)" class="material-icons z-10"> bookmark_border </i>
+              </div>
+              <div v-if="isBookmark == true && $store.state.auth.user && $store.state.auth.user.role.idRole == '3'">
+              <i @click="unFav()" class="material-icons"> bookmark </i>
+              </div>
             </div>
             <h2 class="card-title text-base">
               {{ getPostbyEmp(job.idEmployer).establishmentName }}
@@ -128,6 +132,7 @@
 </template>
 
 <script>
+import axios from "axios";
 // import BaseJobDetail from "@/components/BaseJobDetail.vue";
 import { mapGetters } from "vuex";
 export default {
@@ -139,18 +144,10 @@ export default {
       allEmployer: [],
       empId: 0,
       storeIdPost: "",
+      isBookmark: false,
     };
   },
   methods: {
-    async fetch(url) {
-      try {
-        const res = await fetch(url);
-        const data = await res.json();
-        return data;
-      } catch (error) {
-        console.log(error);
-      }
-    },
     linkTo(idPost, idEmp) {
       if (
         !this.$store.state.auth.user ||
@@ -168,6 +165,28 @@ export default {
       // }
       // }
     },
+    async fav(idPost, book){
+      await axios
+        .post(`${process.env.VUE_APP_ROOT_API}worker/addMyFavorite?idWorker=${this.$store.state.auth.user.worker.idWorker}&idPosting=${idPost}`)
+        .then(function (response) {
+          console.log("Fav()")
+          console.log(response);
+          book = true
+        })
+        .catch(function (error) {
+          console.log(error)
+        });
+        if(book == true){
+          this.isBookmark = true;
+          console.log("this.isBookmark " + this.isBookmark)
+          localStorage.isBookmark = this.isBookmark
+        }
+    },
+     async unFav(){
+      console.log("unfav")
+        await axios.delete(`${process.env.VUE_APP_ROOT_API}worker/deleteMyFavorite?idFavorite=${this.$store.state.auth.user?.worker.favoriteList.idFavorite}`);
+        this.isBookmark = false;      
+    },
     emitIdPostToPostingPage(idPost) {
       if (this.$store.state.auth.user.role.idRole == "2") {
         this.$emit("idPost", idPost);
@@ -177,6 +196,22 @@ export default {
     getPostbyEmp(idofEmp) {
       console.log(idofEmp);
       return this.allEmployer.find((j) => j.idEmployer == idofEmp);
+    },
+    async fetch(url) {
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    },    
+  },
+  watch:{
+    isBookmark: function check() {
+      localStorage.setItem('isBookmark', this.isBookmark)
+      console.log("localStorage.isBookmark" + localStorage.isBookmark)
+      console.log("localStorage.isBookmark" + localStorage.getItem('isBookmark'))
     },
   },
   computed: {
@@ -188,16 +223,18 @@ export default {
     const allPost = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/allPosting`
     );
-    // const allPost = await this.fetch(
-    //   `${process.env.VUE_APP_ROOT_API}main/allEmployer`
-    // );
     console.log(allPost);
     this.$store.commit("setPosting", allPost);
     console.log(this.allJobs);
-    // this.allEmployer = await this.fetch("http://localhost:3000/main/allEmployer");
     this.allEmployer = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/allEmployer`
     );
+    if(localStorage.isBookmark){ 
+      this.isBookmark = localStorage.isBookmark;
+      console.log("this.isBookmark = " + this.isBookmark)
+      localStorage.removeItem('isBookmark');
+      }    
+    // console.log(this.$store.state.auth.user?.worker.favoriteList.idFavorite)
   },
 };
 </script>
