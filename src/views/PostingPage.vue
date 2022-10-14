@@ -4,7 +4,7 @@
     <div
       class="hero 2xl:h-64 xl:h-64 lg:h-64 md:h-64 h-32"
       style="
-        background-image: url(https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80);
+        background-image: url(https://images.unsplash.com/photo-1507679799987-c73779587ccf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80);
       "
     >
       <div class="hero-overlay bg-opacity-60"></div>
@@ -159,40 +159,6 @@
             <option class="text-black" value="ASC">น้อยไปมาก</option>
           </select>
         </div>
-        <div class="w-full flex-col">
-          <p
-            class="
-              font-semibold
-              2xl:text-base
-              md:text-xs
-              -mt-12
-              2xl:mt-0
-              xl:mt-0
-              lg:mt-0
-              md:mt-0
-            "
-          >
-            สถานะ
-          </p>
-          <select
-          @click="searchStatusPost()"
-            v-model.trim="actOrInPost"
-            class="
-              select select-bordered
-              w-full
-              2xl:text-base
-              md:text-xs
-              font-normal
-              text-gray-400
-            "
-          >
-            <option class="text-black" :value="''" disabled selected>
-              สถานะ
-            </option>
-            <option class="text-black" value="Active">Active</option>
-            <option class="text-black" value="Inactive">Inactive</option>
-          </select>
-        </div>
         <div
           class="
             w-full
@@ -246,25 +212,58 @@
     </div>
     <!-- <div class="flex flex-row justify-between p-6 font-sans-thai"> -->
     <!-- count posting  -->
-    <div class="flex flex-row justify-between">
-      <div class="flex">
-        <p class="my-auto font-medium text-sm p-10">
+    <div class="flex flex-row">
+      <div class="flex w-full justify-start">
+        <p class="my-auto font-medium text-sm p-10 w-1/3">
           ทั้งหมด
           <span class="text-orange-1 text-sm">
             {{ lastPage.totalElements }}
           </span>
           ผลลัพธ์
         </p>
+        <div class="w-full pt-10">
+          <!-- <p
+            class="
+              font-semibold
+              2xl:text-base
+              md:text-xs
+              -mt-12
+              2xl:mt-0
+              xl:mt-0
+              lg:mt-0
+              md:mt-0
+            "
+          >
+            สถานะ
+          </p> -->
+          <select
+            @click="searchStatusPost()"
+            v-model.trim="actOrInPost"
+            class="
+              select select-bordered
+              w-1/4
+              2xl:text-base
+              md:text-xs
+              font-normal
+            "
+          >
+            <option class="text-black" :value="''" disabled selected>
+              สถานะ
+            </option>
+            <option class="text-black" value="Active">Active</option>
+            <option class="text-black" value="Inactive">Inactive</option>
+          </select>
+        </div>
       </div>
-      <div class="flex p-10">
+      <div class="flex p-10 w-full justify-end">
         <button
-        @click="$router.push('/addPost')"
+          @click="$router.push('/addPost')"
           class="
             btn
             border-orange-1
             bg-orange-1
             hover:bg-orange-2 hover:border-orange-2
-            w-full
+            w-1/3
             -mt-16
             2xl:mt-0
             xl:mt-0
@@ -346,7 +345,7 @@ import { mapGetters } from "vuex";
 import axios from "axios";
 import BaseJob from "@/components/BaseJob.vue";
 export default {
-  props: ["idPost"],  
+  props: ["idPost"],
   components: { BaseJob },
   data() {
     return {
@@ -364,9 +363,9 @@ export default {
       noValue: false,
       page: 1,
       action: "",
-      idPostToUse: '',
+      idPostToUse: "",
       getInactivePost: [],
-      actOrInPost: '',
+      actOrInPost: "",
       showInactivePost: false,
       allPost: [],
     };
@@ -383,18 +382,18 @@ export default {
     },
     // sendId(idPost){
     //   //ถ้าอยากใช้ idPost หน้านี้ก็เปิด method นี้ แล้วเรียก @idPost="sendId" ใน component base-job ด้านบน
-    //   console.log("idPost Posting page = " + idPost)      
+    //   console.log("idPost Posting page = " + idPost)
     //   this.idPostToUse = idPost
 
     // },
-    searchStatusPost(){
-      console.log("โดนเรียกแล้ว")
-      if(this.actOrInPost == 'Inactive'){
-        this.showInactivePost = true
-        this.$store.commit("setPosting", this.getInactivePost)
-      }else{
-        this.showInactivePost = false
-        this.$store.commit("setPosting", this.allPost)
+    searchStatusPost() {
+      console.log("โดนเรียกแล้ว");
+      if (this.actOrInPost == "Inactive") {
+        this.showInactivePost = true;
+        this.$store.commit("setPosting", this.getInactivePost);
+      } else {
+        this.showInactivePost = false;
+        this.$store.commit("setPosting", this.allPost);
       }
     },
     async resetShowJob() {
@@ -460,21 +459,29 @@ export default {
     }),
   },
   async created() {
-  if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == '2'){
-    // this.provinces = await this.fetch("http://localhost:3000/main/allProvince");
-    this.provinces = await this.fetch(
-      `${process.env.VUE_APP_ROOT_API}main/allProvince`
-    );
-    // this.typeHiring = await this.fetch("http://localhost:3000/main/allHiringType");
-    this.typeHiring = await this.fetch(
-      `${process.env.VUE_APP_ROOT_API}main/allHiringType`);
-    this.getInactivePost = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getPostingByStatus?idEmployer=` + this.$store.state.auth.user.employer.idEmployer + "&idStatus=2");
-    this.allPost = await this.fetch(
-      `${process.env.VUE_APP_ROOT_API}main/allPosting`);
-  }else{
-    this.$router.push('/')
-  }
-
+    if (
+      this.$store.state.auth.user &&
+      this.$store.state.auth.user.role.idRole == "2"
+    ) {
+      // this.provinces = await this.fetch("http://localhost:3000/main/allProvince");
+      this.provinces = await this.fetch(
+        `${process.env.VUE_APP_ROOT_API}main/allProvince`
+      );
+      // this.typeHiring = await this.fetch("http://localhost:3000/main/allHiringType");
+      this.typeHiring = await this.fetch(
+        `${process.env.VUE_APP_ROOT_API}main/allHiringType`
+      );
+      this.getInactivePost = await this.fetch(
+        `${process.env.VUE_APP_ROOT_API}main/getPostingByStatus?idEmployer=` +
+          this.$store.state.auth.user.employer.idEmployer +
+          "&idStatus=2"
+      );
+      this.allPost = await this.fetch(
+        `${process.env.VUE_APP_ROOT_API}main/allPosting`
+      );
+    } else {
+      this.$router.push("/");
+    }
   },
 };
 </script>
