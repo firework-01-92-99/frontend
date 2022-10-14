@@ -28,7 +28,7 @@
       </div>
     </div>
     <!-- search criteria & job card -->
-    <div class="hero 2xl:h-52 xl:h-48 lg:h-48 md:h-48 bg-gray-1">
+    <div class="hero 2xl:h-48 xl:h-48 lg:h-48 md:h-48 bg-gray-1">
       <form
         @submit.prevent="getData()"
         class="
@@ -164,7 +164,6 @@
             w-full
             grid grid-rows-4
             gap-4
-            pt-6
             2xl:flex 2xl:flex-row 2xl:space-x-4 2xl:gap-0
             xl:flex xl:flex-row xl:space-x-4 xl:gap-0
             lg:flex lg:flex-row lg:space-x-4 lg:gap-0
