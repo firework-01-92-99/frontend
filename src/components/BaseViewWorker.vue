@@ -27,6 +27,7 @@
             <th></th>
             <th>ชื่อ</th>
             <th>สัญชาติ</th>
+            <th>สถานะ</th>
             <th></th>
           </tr>
         </thead>
@@ -44,6 +45,7 @@
               </div>
             </td>
             <td>{{ a.nationality ? a.nationality.nationality_name : '' }}</td>
+            <td>สถานะะะะ</td>
             <th>
               <!-- detail -->
               <label

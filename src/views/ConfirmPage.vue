@@ -23,6 +23,7 @@
             <th></th>
             <th>ชื่อ</th>
             <th>สัญชาติ</th>
+            <th>สถานะ</th>
             <th></th>
           </tr>
         </thead>
@@ -37,6 +38,7 @@
               </div>
             </td>
             <td>ประเทศ</td>
+             <td>สถานะะะะ</td>
             <th>
               <!-- detail -->
               <label for="my-modal-5" class="btn btn-ghost btn-xs"
