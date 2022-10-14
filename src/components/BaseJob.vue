@@ -16,13 +16,9 @@
           transition
           duration-300
           ease-in-out
-          hover:-translate-y-1
-          hover:scale-110
-          hover:border-orange-1
+          hover:-translate-y-1 hover:scale-110 hover:border-orange-1
         "
-        
       >
-
         <div @click="linkTo(job.idPosting, job.idEmployer)">
           <!-- <router-link
           v-if="(!$store.state.auth.user || $store.state.auth.user.role.idRole == '3') && ($store.state.auth.user.role.idRole !== '2' || $store.state.auth.user.role.idRole !== '1')"
@@ -47,9 +43,12 @@
               <h2 class="card-title text-orange-1 text-base">
                 {{ job.position.positionName }}
               </h2>
-              <!-- <i class="material-icons"> bookmark_border </i> -->
+              <i class="material-icons"> bookmark_border </i>
+              <i class="material-icons"> bookmark </i>
             </div>
-            <h2 class="card-title text-base">{{getPostbyEmp(job.idEmployer).establishmentName}}</h2>
+            <h2 class="card-title text-base">
+              {{ getPostbyEmp(job.idEmployer).establishmentName }}
+            </h2>
             <p>
               <span class="inline-block align-middle"
                 ><i class="material-icons pr-2"> paid </i></span
@@ -86,33 +85,38 @@
               </p>
             </div>
             <!-- <slot></slot> -->
-          <div v-if="$store.state.auth.user && $store.state.auth.user.role.idRole == '2'" class="card-actions">
-          <button
-            @click="emitIdPostToPostingPage(job.idPosting)"
-            class="
-              btn
-              border-orange-1
-              bg-orange-1
-              hover:bg-orange-2 hover:border-orange-2
-              w-full
-            "
-          >
-            ดูผู้สมัคร
-          </button>
-          <button
-            @click="$router.push('/viewworkapp')"
-            class="
-              btn
-              btn-ghost
-              border-orange-1
-              text-orange-1
-              hover:bg-orange-1 hover:border-orange-1 hover:text-white
-              w-full
-            "
-          >
-            ดูรายละเอียด
-          </button>
-        </div>
+            <div
+              v-if="
+                $store.state.auth.user &&
+                $store.state.auth.user.role.idRole == '2'
+              "
+              class="card-actions"
+            >
+              <button
+                @click="emitIdPostToPostingPage(job.idPosting)"
+                class="
+                  btn
+                  border-orange-1
+                  bg-orange-1
+                  hover:bg-orange-2 hover:border-orange-2
+                  w-full
+                "
+              >
+                ดูผู้สมัคร
+              </button>
+              <button
+                @click="$router.push('/viewworkapp')"
+                class="
+                  btn btn-ghost
+                  border-orange-1
+                  text-orange-1
+                  hover:bg-orange-1 hover:border-orange-1 hover:text-white
+                  w-full
+                "
+              >
+                ดูรายละเอียด
+              </button>
+            </div>
           </div>
           <!-- </div> -->
           <!-- </router-link> -->
@@ -155,27 +159,25 @@ export default {
         this.$router.push(
           "/detail?idPosting=" + idPost + "&idEmployer=" + idEmp
         );
-      } 
+      }
       // else {
-        // if (this.$store.state.auth.user.role.idRole == "2") {
-        //   this.$emit("idPost", idPost)
-        //   // this.$router.push("/viewworkapp" + "?idPost=" + idPost);
-        //   // localStorage.storeIdPost
-        // }
+      // if (this.$store.state.auth.user.role.idRole == "2") {
+      //   this.$emit("idPost", idPost)
+      //   // this.$router.push("/viewworkapp" + "?idPost=" + idPost);
+      //   // localStorage.storeIdPost
+      // }
       // }
     },
-    emitIdPostToPostingPage(idPost){
-        if (this.$store.state.auth.user.role.idRole == "2") {
-          this.$emit("idPost", idPost)
-          this.$router.push("/viewworkapp" + "?idPost=" + idPost);
-        }
+    emitIdPostToPostingPage(idPost) {
+      if (this.$store.state.auth.user.role.idRole == "2") {
+        this.$emit("idPost", idPost);
+        this.$router.push("/viewworkapp" + "?idPost=" + idPost);
+      }
     },
-    getPostbyEmp(idofEmp){
-      console.log(idofEmp)
-      return this.allEmployer.find((j) => j.idEmployer == idofEmp)
-      
+    getPostbyEmp(idofEmp) {
+      console.log(idofEmp);
+      return this.allEmployer.find((j) => j.idEmployer == idofEmp);
     },
-
   },
   computed: {
     ...mapGetters({
@@ -191,12 +193,11 @@ export default {
     // );
     console.log(allPost);
     this.$store.commit("setPosting", allPost);
-    console.log(this.allJobs)
+    console.log(this.allJobs);
     // this.allEmployer = await this.fetch("http://localhost:3000/main/allEmployer");
     this.allEmployer = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/allEmployer`
     );
-
   },
 };
 </script>
