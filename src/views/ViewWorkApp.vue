@@ -16,14 +16,15 @@
             class="tab tab-bordered"
             @click="idStatus = 0"
           >
-            รอรับ
+            ผู้ที่รอรับสมัคร
           </a>
           <a
             class="tab tab-bordered"
             :class="{ 'tab-active font-medium': idStatus == 4 }"
             @click="idStatus = 4"
-            >รับแล้ว</a
-          ></template
+            >ยืนยันการรับเข้าทำงาน</a
+          >
+          </template
         ></base-tab
       >
     </div>
