@@ -65,7 +65,6 @@
                 <div
                   v-if="s.statusName == 'Waiting'"
                   class="
-                    font-normal
                     badge badge-md
                     bg-yellow-100
                     text-yellow-500
@@ -77,19 +76,20 @@
                 <div
                   v-if="s.statusName == 'Accept'"
                   class="
-                    font-medium
                     badge badge-md
                     bg-green-200
                     text-green-600
                     border-0
+                    tooltip
+                    tooltip-success
                   "
+                  data-tip="ทางนายจ้างจะติดต่อคุณกลับไป"
                 >
                   ผ่านการคัดเลือก
                 </div>
                 <div
                   v-if="s.statusName == 'Reject'"
                   class="
-                    font-medium
                     badge badge-md
                     bg-red-200
                     text-red-600
@@ -106,7 +106,7 @@
                 v-if="s.statusName == 'Waiting'"
                   for="my-modal-5"
                   @click="isCancel = true"
-                  class="btn border-red-700 bg-red-700"
+                  class="btn border-red-700 bg-red-700 hover:bg-red-800 hover:border-red-800"
                 >
                   ยกเลิกการสมัคร
                 </label>
@@ -193,7 +193,6 @@
               <div
                 v-if="s.statusName == 'Waiting'"
                 class="
-                  font-medium
                   badge badge-lg
                   w-full
                   bg-yellow-100
@@ -206,20 +205,21 @@
               <div
                 v-if="s.statusName == 'Accept'"
                 class="
-                  font-medium
                   badge badge-lg
                   w-full
                   bg-green-200
                   text-green-600
                   border-0
+                  tooltip
+                  tooltip-success
                 "
+                data-tip="ทางนายจ้างจะติดต่อคุณกลับไป"
               >
                 ผ่านการคัดเลือก
               </div>
               <div
                 v-if="s.statusName == 'Reject'"
                 class="
-                  font-medium
                   badge badge-lg
                   w-full
                   bg-red-200
