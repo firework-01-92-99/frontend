@@ -107,14 +107,14 @@
                     outline-none
                     focus:border-indigo-500
                   "
-                  :class="[
-                    { 'bg-red-50': positionInput }
-                  ]"
+                  :class="[{ 'bg-red-50': positionInput }]"
                   placeholder="ชื่อตำแหน่ง"
                   required
                 />
               </div>
-              <p v-if="positionInput" class="text-red-600">กรุณากรอกชื่อตำแหน่ง</p>
+              <p v-if="positionInput" class="text-red-600">
+                กรุณากรอกชื่อตำแหน่ง
+              </p>
             </div>
           </div>
           <h2 class="card-title">
@@ -532,9 +532,7 @@
             </div>
             <span class="pt-9">-</span>
             <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-              <label
-                class="text-sm 2xl:text-base font-medium px-1"
-              ></label>
+              <label class="text-sm 2xl:text-base font-medium px-1"></label>
               <div class="flex">
                 <div
                   class="
@@ -594,31 +592,32 @@
             </div>
             <p v-if="postingHasDayListInput" class="text-red-600">กรุณาเลือกวันทำงาน</p>
           </div> -->
-
           <div class="w-1/2 px-3 mb-5">
-            <label
-              class="2xl:text-base md:text-base text-sm font-medium px-1"
+            <label class="2xl:text-base md:text-base text-sm font-medium px-1"
               >วันทำงาน</label
->
+            >
             <div class="flex space-x-5">
               <div class="form-control">
                 <label class="label cursor-pointer space-x-2">
                   <span v-for="pd in sevenDay" :key="pd.idDay">
-                  <input
-                    :value="pd"
-                    type="checkbox"
-                    v-model="postInfo.postingHasDayList.day"
-                    class="checkbox checkbox-sm"
-                    :class="{ 'bg-red-50': postingHasDayListInput }"
-                  />
-                  <span class="label-text">{{pd.dayName}}</span>
+                    <input
+                      :id="pd.idDay"
+                      :value="{day:pd}"
+                      type="checkbox"
+                      v-model="postInfo.postingHasDayList"
+                      class="checkbox checkbox-sm"
+                      :class="{ 'bg-red-50': postingHasDayListInput }"
+                    />
+                    <span class="label-text">{{ pd.dayName }}</span>
                   </span>
                 </label>
-                <span>Selected day: {{ postInfo.postingHasDayList.day }}</span>
+                <span>Selected day: {{ postInfo.postingHasDayList }}</span>
               </div>
             </div>
-            <p v-if="postingHasDayListInput" class="text-red-600">กรุณาเลือกวันทำงาน</p>
-          </div>          
+            <p v-if="postingHasDayListInput" class="text-red-600">
+              กรุณาเลือกวันทำงาน
+            </p>
+          </div>
 
           <!-- <span v-for="item in allLocations">
     <input type="checkbox" :value="item.location" v-model="selectedLocations"> <span class="checkbox-label"> {{item.location}} </span> <br>
@@ -651,26 +650,18 @@
                 >
                   <i class="mdi mdi-account-outline text-gray-400 text-lg"></i>
                 </div>
-                <textarea
-                  type="text"
-                  v-model.trim="postInfo.workDescription"
-                  class="
-                    textarea
-                    w-full
-                    -ml-10
-                    pl-5
-                    pr-3
-                    py-2
-                    rounded-lg
-                    border-2 border-gray-200
-                    outline-none
-                    focus:border-indigo-500
-                  "
-                  :class="{ 'bg-red-50': descriptInput }"
-                  placeholder="รายละเอียดงาน"
-                />
+                <div class="html-editor">
+                  <ckeditor
+                    :editor="editor"
+                    v-model="postInfo.workDescription"
+                    :config="editorConfig"
+                  >
+                  </ckeditor>
+                </div>
               </div>
-              <p v-if="descriptInput" class="text-red-600">กรุณากรอกรายละเอียดงาน</p>
+              <p v-if="descriptInput" class="text-red-600">
+                กรุณากรอกรายละเอียดงาน
+              </p>
             </div>
           </div>
 
@@ -731,7 +722,9 @@
                 </select>
               </div>
             </div>
-            <p v-if="hiringTypeInput" class="text-red-600">กรุณาเลือกรูปแบบงาน</p>
+            <p v-if="hiringTypeInput" class="text-red-600">
+              กรุณาเลือกรูปแบบงาน
+            </p>
           </div>
           <!-- </p> -->
 
@@ -839,24 +832,14 @@
                 >
                   <i class="mdi mdi-account-outline text-gray-400 text-lg"></i>
                 </div>
-                <textarea
-                  type="text"
-                  v-model.trim="postInfo.welfare"
-                  class="
-                    textarea
-                    w-full
-                    -ml-10
-                    pl-5
-                    pr-3
-                    py-2
-                    rounded-lg
-                    border-2 border-gray-200
-                    outline-none
-                    focus:border-indigo-500
-                  "
-                  :class="{ 'bg-red-50': welfareInput }"
-                  placeholder="รายละเอียดสวัสดิการ"
-                />
+              <div class="html-editor">
+                                  <ckeditor
+                    :editor="editor"
+                    v-model="postInfo.welfare"
+                    :config="editorConfig"
+                  >
+                  </ckeditor>
+              </div>
               </div>
               <p v-if="welfareInput" class="text-red-600">กรุณากรอกสวัสดิการ</p>
             </div>
@@ -914,32 +897,37 @@ import axios from "axios";
 // import BaseJob from "@/components/BaseJob.vue";
 // import { ref } from "@vue/reactivity";
 // import BaseApplication from "@/components/BaseApplication.vue";
-
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 export default {
   // components: { BaseJob },
   props: [],
   data() {
     return {
+      editor: ClassicEditor,
+      editorConfig: {
+        // The configuration of the editor.
+        toolbar: ["bulletedList"],
+      },
       showToast: false,
       hiringTypeArray: [],
       sevenDay: [],
       // postingHasDayListArray: [],
 
-        positionInput: false,
-        sexInput: false,
-        descriptInput: false,
-        minAgeInput: false,
-        maxAgeInput: false,
-        minSalaryInput: false,
-        maxSalaryInput: false,        
-        otPayInput: false,
-        startTimeInput: false,
-        endTimeInput: false,
-        welfareInput: false,
-        hiringTypeInput: false,
-        statusInput: false,
-        workerTypeInput: false,
-        postingHasDayListInput: false,
+      positionInput: false,
+      sexInput: false,
+      descriptInput: false,
+      minAgeInput: false,
+      maxAgeInput: false,
+      minSalaryInput: false,
+      maxSalaryInput: false,
+      otPayInput: false,
+      startTimeInput: false,
+      endTimeInput: false,
+      welfareInput: false,
+      hiringTypeInput: false,
+      statusInput: false,
+      workerTypeInput: false,
+      postingHasDayListInput: false,
 
       postInfo: {
         sex: "",
@@ -965,14 +953,7 @@ export default {
           idWorkerType: "",
           typeName: "",
         },
-        postingHasDayList: [{
-          idPostingHasDay: "",
-          day: {
-            idDay: "",
-            dayName: "",
-            abbreviation: "",
-          }
-        }],
+        postingHasDayList: [],
         position: {
           idposition: "5",
           positionName: "",
@@ -981,40 +962,49 @@ export default {
     };
   },
   methods: {
-    async createPost(){
-      this.checkValidate()
-      if(!this.checkValidate()){
-      await axios
-        .post(`${process.env.VUE_APP_ROOT_API}emp/createPosting?idEmployer=${this.$store.state.auth.user.employer.idEmployer}`, this.postInfo)
-        .then(function (response) {
-          console.log(response);
-          alert("ประกาศโพสหางานของคุณเรียบร้อยแล้ว");
-          this.clear();
-        })
-        .catch(function (error) {
-          console.log(error)
-        });
+    async createPost() {
+      this.checkValidate();
+      if (!this.checkValidate()) {
+        await axios
+          .post(
+            `${process.env.VUE_APP_ROOT_API}emp/createPosting?idEmployer=${this.$store.state.auth.user.employer.idEmployer}`,
+            this.postInfo
+          )
+          .then(function (response) {
+            console.log(response);
+            alert("ประกาศโพสหางานของคุณเรียบร้อยแล้ว");
+            this.clear();
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
       }
     },
 
-    checkValidate(){
-        this.positionInput = this.postInfo.position.positionName === "" ? true:false
-        this.sexInput = this.postInfo.sex === "" ? true:false
-        this.descriptInput = this.postInfo.workDescription === "" ? true:false
-        this.minAgeInput = this.postInfo.minAge === "" || this.postInfo.minAge < 18 ? true:false
-        this.maxAgeInput = this.postInfo.maxAge === "" || this.postInfo.maxAge > 60 ? true:false
-        this.minSalaryInput = this.postInfo.minSalary === "" ? true:false
-        this.maxSalaryInput = this.postInfo.maxSalary === "" ? true:false       
-        this.otPayInput = this.postInfo.overtimePayment === "" ? true:false
-        this.startTimeInput = this.postInfo.startTime === "" ? true:false
-        this.endTimeInput = this.postInfo.endTime === "" ? true:false
-        this.welfareInput = this.postInfo.welfare === "" ? true:false
-        this.hiringTypeInput = this.postInfo.hiringType.idHiringtype === "" ? true:false
-        this.statusInput = this.postInfo.status.idStatus === "" ? true:false
-        this.workerType = this.postInfo.workerType.idWorkerType === "" ? true:false
-        this.postingHasDayListInput = this.postInfo.postingHasDayList.day?.idDay === "" ? true:false
+    checkValidate() {
+      this.positionInput =
+        this.postInfo.position.positionName === "" ? true : false;
+      this.sexInput = this.postInfo.sex === "" ? true : false;
+      this.descriptInput = this.postInfo.workDescription === "" ? true : false;
+      this.minAgeInput =
+        this.postInfo.minAge === "" || this.postInfo.minAge < 18 ? true : false;
+      this.maxAgeInput =
+        this.postInfo.maxAge === "" || this.postInfo.maxAge > 60 ? true : false;
+      this.minSalaryInput = this.postInfo.minSalary === "" ? true : false;
+      this.maxSalaryInput = this.postInfo.maxSalary === "" ? true : false;
+      this.otPayInput = this.postInfo.overtimePayment === "" ? true : false;
+      this.startTimeInput = this.postInfo.startTime === "" ? true : false;
+      this.endTimeInput = this.postInfo.endTime === "" ? true : false;
+      this.welfareInput = this.postInfo.welfare === "" ? true : false;
+      this.hiringTypeInput =
+        this.postInfo.hiringType.idHiringtype === "" ? true : false;
+      this.statusInput = this.postInfo.status.idStatus === "" ? true : false;
+      this.workerType =
+        this.postInfo.workerType.idWorkerType === "" ? true : false;
+      this.postingHasDayListInput =
+        this.postInfo.postingHasDayList.day?.idDay === "" ? true : false;
     },
-    clear(){
+    clear() {
       this.postInfo = {
         sex: "",
         workDescription: "",
@@ -1039,28 +1029,21 @@ export default {
           idWorkerType: "",
           typeName: "",
         },
-        postingHasDayList: {
-          idPostingHasDay: "",
-          day: {
-            idDay: [],
-            dayName: "",
-            abbreviation: "",
-          },
-        },
+        postingHasDayList: [],
         position: {
-          idposition: "",
+          idposition: "5",
           positionName: "",
         },
       }
     },
-    ifChangeAge(age){
-      if(age < 18){
-        this.postInfo.minAge = 18
-      }else{
-        if(age > 60){
-          this.postInfo.maxAge = 60
+    ifChangeAge(age) {
+      if (age < 18) {
+        this.postInfo.minAge = 18;
+      } else {
+        if (age > 60) {
+          this.postInfo.maxAge = 60;
         }
-      }  
+      }
     },
     async fetch(url) {
       try {
@@ -1073,14 +1056,28 @@ export default {
     },
   },
   async created() {
-    console.log("hiringType")
-    this.hiringTypeArray = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allHiringType`);
-    this.postingHasDayListArray = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allPostingHasDay`);
-    this.sevenDay = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getMondayToFriday`);
-    console.log("phdlArray")
-    console.log(this.sevenDay)
+    console.log("hiringType");
+    this.hiringTypeArray = await this.fetch(
+      `${process.env.VUE_APP_ROOT_API}main/allHiringType`
+    );
+    this.postingHasDayListArray = await this.fetch(
+      `${process.env.VUE_APP_ROOT_API}main/allPostingHasDay`
+    );
+    this.sevenDay = await this.fetch(
+      `${process.env.VUE_APP_ROOT_API}main/getMondayToFriday`
+    );
+    console.log("phdlArray");
+    console.log(this.sevenDay);
   },
 };
 </script>
-<style>
+<style scoped>
+.html-editor >>> ul {
+  list-style-type: disc !important;
+  margin-left: 20px !important;
+}
+.html-editor >>> ol {
+  list-style-type: decimal !important;
+  margin-left: 20px !important;
+}
 </style>
