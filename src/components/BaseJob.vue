@@ -43,11 +43,11 @@
               <h2 class="card-title text-orange-1 text-base">
                 {{ job.position.positionName }}
               </h2>
-              <div v-if="isBookmark == false && $store.state.auth.user && $store.state.auth.user.role.idRole == '3'">
+              <div v-if="!showFlag(job.idPosting) && $store.state.auth.user && $store.state.auth.user.role.idRole == '3'">
               <i @click="fav(job.idPosting)" class="material-icons z-10"> bookmark_border </i>
               </div>
-              <div v-if="isBookmark == true && $store.state.auth.user && $store.state.auth.user.role.idRole == '3'">
-              <i @click="unFav()" class="material-icons"> bookmark </i>
+              <div v-else-if="$store.state.auth.user && $store.state.auth.user.role.idRole == '3'">
+              <i @click="unFav(job.idPosting)" class="material-icons"> bookmark </i>
               </div>
             </div>
             <h2 class="card-title text-base">
@@ -144,7 +144,7 @@ export default {
       allEmployer: [],
       empId: 0,
       storeIdPost: "",
-      isBookmark: false,
+      favoriteList: []
     };
   },
   methods: {
@@ -165,27 +165,25 @@ export default {
       // }
       // }
     },
-    async fav(idPost, book){
+    showFlag(id){
+      return this.favoriteList.find(f => f.posting.idPosting == id)      
+    },
+    async fav(idPost){
       await axios
         .post(`${process.env.VUE_APP_ROOT_API}worker/addMyFavorite?idWorker=${this.$store.state.auth.user.worker.idWorker}&idPosting=${idPost}`)
         .then(function (response) {
-          console.log("Fav()")
           console.log(response);
-          book = true
+          // this.$store.commit("setPosting", allJobs);
         })
         .catch(function (error) {
           console.log(error)
-        });
-        if(book == true){
-          this.isBookmark = true;
-          console.log("this.isBookmark " + this.isBookmark)
-          localStorage.isBookmark = this.isBookmark
-        }
+        }); 
     },
-     async unFav(){
+     async unFav(id){
+      const idOfFav = this.favoriteList.find(f => f.posting.idPosting == id).idWhatFavorite
+      console.log("idOfFav = " + idOfFav)
       console.log("unfav")
-        await axios.delete(`${process.env.VUE_APP_ROOT_API}worker/deleteMyFavorite?idFavorite=${this.$store.state.auth.user?.worker.favoriteList.idFavorite}`);
-        this.isBookmark = false;      
+        await axios.delete(`${process.env.VUE_APP_ROOT_API}worker/deleteMyFavorite?idFavorite=${idOfFav}`);   
     },
     emitIdPostToPostingPage(idPost) {
       if (this.$store.state.auth.user.role.idRole == "2") {
@@ -208,11 +206,11 @@ export default {
     },    
   },
   watch:{
-    isBookmark: function check() {
-      localStorage.setItem('isBookmark', this.isBookmark)
-      console.log("localStorage.isBookmark" + localStorage.isBookmark)
-      console.log("localStorage.isBookmark" + localStorage.getItem('isBookmark'))
-    },
+    // isBookmark: function check() {
+    //   localStorage.setItem('isBookmark', this.isBookmark)
+    //   console.log("localStorage.isBookmark" + localStorage.isBookmark)
+    //   console.log("localStorage.isBookmark" + localStorage.getItem('isBookmark'))
+    // },
   },
   computed: {
     ...mapGetters({
@@ -229,12 +227,15 @@ export default {
     this.allEmployer = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/allEmployer`
     );
-    if(localStorage.isBookmark){ 
-      this.isBookmark = localStorage.isBookmark;
-      console.log("this.isBookmark = " + this.isBookmark)
-      localStorage.removeItem('isBookmark');
-      }    
-    // console.log(this.$store.state.auth.user?.worker.favoriteList.idFavorite)
+    // if(localStorage.isBookmark){ 
+    //   this.isBookmark = localStorage.isBookmark;
+    //   console.log("this.isBookmark = " + this.isBookmark)
+    //   localStorage.removeItem('isBookmark');
+    //   }    
+    this.fav1= await axios.get(
+        `${process.env.VUE_APP_ROOT_API}worker/getMyFavorite?idWorker=` + this.$store.state.auth.user.worker.idWorker);
+    this.favoriteList = this.fav1.data
+    console.log(this.favoriteList)
   },
 };
 </script>
