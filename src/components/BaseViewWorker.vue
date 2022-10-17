@@ -516,26 +516,6 @@ export default {
     }
   },
   methods: {
-
-    // async data(data) {
-    //   console.log("data: ");
-    //   console.log(data);
-    //   this.confirmInput = false;
-    //   this.statusId = "";
-    //   if (data.workOrEmp == "Worker") {
-    //     await axios
-    //       .get(
-    //         `${process.env.VUE_APP_ROOT_API}admin/selectWorker?idWorker=${data.idEmpOrWork}`
-    //       )
-    //       .then((response) => {
-    //         this.info = response.data;
-    //         console.log(this.info);
-    //         this.image =
-    //           `${process.env.VUE_APP_ROOT_API}main/image/` +
-    //           this.info.verifyPic;
-    //       });
-    //   }
-    // },
         async fetch(url) {
       try {
         const res = await fetch(url);
