@@ -31,7 +31,7 @@
             <th></th>
           </tr>
         </thead>
-        <tbody v-for="a in whoApplication.data" :key="a.applicationId">
+        <tbody v-for="a in whoApplication.data.whoApplicationList" :key="a.applicationId">
           <!-- row 1 -->
                     <!-- <div v-if="listApprove.lenght == null">
             ไม่มีรายการที่ต้องทำ
