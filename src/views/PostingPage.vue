@@ -386,7 +386,6 @@ export default {
 
     // },
     searchStatusPost() {
-      console.log("โดนเรียกแล้ว");
       if (this.actOrInPost == "Inactive") {
         this.showInactivePost = true;
         this.$store.commit("setPosting", this.getInactivePost);
@@ -471,10 +470,8 @@ export default {
         `${process.env.VUE_APP_ROOT_API}main/allHiringType`
       );
       this.getInactivePost = await this.fetch(
-        `${process.env.VUE_APP_ROOT_API}main/getPostingByStatus?idEmployer=` +
-          this.$store.state.auth.user.employer.idEmployer +
-          "&idStatus=2"
-      );
+        `${process.env.VUE_APP_ROOT_API}main/getPostingInActiveByIdEmployer?idEmployer=` +
+          this.$store.state.auth.user.employer.idEmployer);
       this.allPost = await this.fetch(
         `${process.env.VUE_APP_ROOT_API}main/allPosting`
       );

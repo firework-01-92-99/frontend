@@ -17,7 +17,7 @@
       >
         {{topic}}
       </p>
-      <div v-for="who in whoApplication.data" :key="who.idPosting">
+      <div v-for="who in whoApplication.data" :key="who.applicationId">
         {{who}}
       </div>
       <table class="table w-full">
@@ -31,7 +31,7 @@
             <th></th>
           </tr>
         </thead>
-        <tbody v-for="a in whoApplication.data" :key="a.idPosting">
+        <tbody v-for="a in whoApplication.data" :key="a.applicationId">
           <!-- row 1 -->
                     <!-- <div v-if="listApprove.lenght == null">
             ไม่มีรายการที่ต้องทำ
@@ -456,7 +456,7 @@
                   </div>
                   
                   <div class="modal-action">
-                    <button @click="sendApprove(a)" class="btn w-1/2 bg-orange-1 hover:bg-orange-2">ยืนยัน</button>
+                    <button class="btn w-1/2 bg-orange-1 hover:bg-orange-2">ยืนยัน</button>
                     <label for="my-modal-5" class="btn w-1/2">ปิด</label>
                   </div>
                 </div>
@@ -516,9 +516,7 @@ export default {
     }
   },
   methods: {
-    sendApprove(){
-        console.log("sendApprove")
-    },
+
     // async data(data) {
     //   console.log("data: ");
     //   console.log(data);

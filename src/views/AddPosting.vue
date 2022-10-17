@@ -571,7 +571,7 @@
             </div>
           </div>
 
-          <div class="w-1/2 px-3 mb-5">
+          <!-- <div class="w-1/2 px-3 mb-5">
             <label
               class="2xl:text-base md:text-base text-sm font-medium px-1"
               >วันทำงาน</label
@@ -580,20 +580,49 @@
               <div class="form-control">
                 <label class="label cursor-pointer space-x-2">
                   <input
-                    v-for="pd in allPostingHasDay" :key="pd.idPostingHasDay"
+                    v-for="pd in sevenDay" :key="pd.idDay"
                     :value="pd"
                     type="checkbox"
-                    v-model="postingHasDayList"
+                    v-model="postInfo.postingHasDayList.day"
                     checked="checked"
                     class="checkbox checkbox-sm"
                     :class="{ 'bg-red-50': postingHasDayListInput }"
                   />
-                  <span class="label-text">จันทร์</span>
+                  <span class="label-text">{{pd.dayName}}</span>
                 </label>
               </div>
             </div>
             <p v-if="postingHasDayListInput" class="text-red-600">กรุณาเลือกวันทำงาน</p>
-          </div>
+          </div> -->
+
+          <div class="w-1/2 px-3 mb-5">
+            <label
+              class="2xl:text-base md:text-base text-sm font-medium px-1"
+              >วันทำงาน</label
+>
+            <div class="flex space-x-5">
+              <div class="form-control">
+                <label class="label cursor-pointer space-x-2">
+                  <span v-for="pd in sevenDay" :key="pd.idDay">
+                  <input
+                    :value="pd"
+                    type="checkbox"
+                    v-model="postInfo.postingHasDayList.day"
+                    class="checkbox checkbox-sm"
+                    :class="{ 'bg-red-50': postingHasDayListInput }"
+                  />
+                  <span class="label-text">{{pd.dayName}}</span>
+                  </span>
+                </label>
+                <span>Selected day: {{ postInfo.postingHasDayList.day }}</span>
+              </div>
+            </div>
+            <p v-if="postingHasDayListInput" class="text-red-600">กรุณาเลือกวันทำงาน</p>
+          </div>          
+
+          <!-- <span v-for="item in allLocations">
+    <input type="checkbox" :value="item.location" v-model="selectedLocations"> <span class="checkbox-label"> {{item.location}} </span> <br>
+  </span> -->
           <!-- </span> -->
           <!-- </p> -->
 
@@ -893,6 +922,7 @@ export default {
     return {
       showToast: false,
       hiringTypeArray: [],
+      sevenDay: [],
       // postingHasDayListArray: [],
 
         positionInput: false,
@@ -1046,8 +1076,9 @@ export default {
     console.log("hiringType")
     this.hiringTypeArray = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allHiringType`);
     this.postingHasDayListArray = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allPostingHasDay`);
+    this.sevenDay = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getMondayToFriday`);
     console.log("phdlArray")
-    console.log(this.postingHasDayListArray)
+    console.log(this.sevenDay)
   },
 };
 </script>
