@@ -1066,7 +1066,6 @@ export default {
     this.sevenDay = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/getMondayToFriday`
     );
-    console.log("phdlArray");
     console.log(this.sevenDay);
   },
 };

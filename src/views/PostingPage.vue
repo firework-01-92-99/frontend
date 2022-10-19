@@ -433,12 +433,23 @@ export default {
         } else {
           console.log("ต่ำกว่าหน้า 1 ไม่ได้");
         }
-        const pageBE = this.page - 1;
-        // const sendBE = await this.fetch("http://localhost:3000/main/allPosting?pageNo=" + pageBE);
+
+        if(this.actOrInPost == "Active"){
+        const pageBEAct = this.page - 1;
+        // const sendBE = await this.fetch("http://localhost:3000/main/allPosting?pageNo=" + pageBEAct);
         const sendBE = await this.fetch(
-          `${process.env.VUE_APP_ROOT_API}main/allPosting?pageNo=` + pageBE
-        );
-        this.$store.commit("setPosting", sendBE);
+          `${process.env.VUE_APP_ROOT_API}main/allPosting?pageNo=` + pageBEAct
+        );          
+          this.$store.commit("setPosting", sendBE);
+        }else{
+          const pageBEInact = this.page - 1;
+          const sendBEInact = await this.fetch(
+        `${process.env.VUE_APP_ROOT_API}main/getPostingInActiveByIdEmployer?idEmployer=` +
+          this.$store.state.auth.user.employer.idEmployer + '&pageNo=' + pageBEInact);
+          this.$store.commit("setPosting", sendBEInact);
+          console.log(sendBEInact)
+          console.log("หน้า" + pageBEInact)
+        }
       }
     },
 

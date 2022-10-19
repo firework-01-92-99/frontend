@@ -109,6 +109,7 @@
           >
           <span class="inline-block align-middle"> {{ employer.email }}</span>
         </p>
+        <button @click="deletePost()" class="bg-slate-500 text-white">ลบโพส</button>
         <div class="card-actions justify-center 2xl:justify-end">
           <div v-if="this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == '3'">
           <label
@@ -468,6 +469,15 @@ export default {
         return data;
       } catch (error) {
         console.log(error);
+      }
+    },
+    async deletePost(){
+      if(confirm("ลบแน่นะวิ")){
+      console.log("delete")
+      await axios.put(`${process.env.VUE_APP_ROOT_API}emp/inActivePosting?idPosting=${this.idPosting}`).data        
+      this.$router.push('/posting');
+      }else{
+        console.log("มีปัญหาค่ะ")
       }
     },
     sendTrue() {

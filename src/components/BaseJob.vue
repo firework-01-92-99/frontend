@@ -109,7 +109,7 @@
                 ดูผู้สมัคร
               </button>
               <button
-                @click="$router.push('/viewworkapp')"
+                @click="seeDetailEmp(job.idPosting, job.idEmployer)"
                 class="
                   btn btn-ghost
                   border-orange-1
@@ -165,6 +165,11 @@ export default {
       // }
       // }
     },
+    seeDetailEmp(jobId, idEmp){
+      if (this.$store.state.auth.user.role.idRole == "2") {
+        this.$router.push("/detail?idPosting=" + jobId + "&idEmployer=" + idEmp);
+      }
+    },  
     showFlag(id){
       return this.favoriteList.find(f => f.posting.idPosting == id)      
     },
@@ -205,13 +210,7 @@ export default {
       }
     },    
   },
-  watch:{
-    // isBookmark: function check() {
-    //   localStorage.setItem('isBookmark', this.isBookmark)
-    //   console.log("localStorage.isBookmark" + localStorage.isBookmark)
-    //   console.log("localStorage.isBookmark" + localStorage.getItem('isBookmark'))
-    // },
-  },
+
   computed: {
     ...mapGetters({
       allJobs: "getPosting",

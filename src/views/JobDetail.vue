@@ -17,13 +17,9 @@ export default {
 
 },
 created(){
-  if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == '2'){
-    this.$router.push('/posting')
-  }else{
     if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == '1'){
     this.$router.push('/approve')
     }
-  }
 }
 }
 </script>

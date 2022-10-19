@@ -3,8 +3,10 @@
     <!-- <figure>
                 <img src="https://placeimg.com/200/280/arch" alt="Movie" />
               </figure> -->
-    <div class="card-body">
+    <div v-for="f in myFav" :key="f.idFavorite" class="card-body">
       <div class="flex justify-between">
+        {{f}}
+        <!-- {{this.$store.state.auth.user.worker}} -->
         <h2 class="card-title text-orange-1 text-base">
           job.position.positionName
         </h2>
@@ -59,7 +61,27 @@
 </template>
 
 <script>
-export default {};
+import axios from "axios";
+export default {
+
+  data() {
+    return {
+      myFav: [],
+    };
+  },
+  methods: {
+
+},
+async created(){
+    if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == '3'){
+      const myFav1 = await axios.get(`${process.env.VUE_APP_ROOT_API}worker/getMyFavorite?idWorker=` + this.$store.state.auth.user.worker.idWorker)
+      this.myFav = myFav1.data
+      console.log(this.myFav)
+    }else{
+      this.$router.push('/')
+    }
+}
+}
 </script>
 
 <style>
