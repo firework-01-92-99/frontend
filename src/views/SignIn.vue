@@ -143,6 +143,21 @@
                           </button>
                         </div>
                       </div>
+                      <p
+                        class="
+                          text-right
+                          pt-2
+                          text-sm
+                          cursor-pointer
+                          no-underline
+                          hover:underline
+                          text-blue-700
+                          hover:text-blue-800
+                          font-medium
+                        "
+                      >
+                        ลืมรหัสผ่าน ?
+                      </p>
                       <p v-if="showError" class="text-red-600">
                         อีเมลหรือรหัสผ่านไม่ถูกต้อง
                       </p>
@@ -170,13 +185,27 @@
                     คุณยังไม่มีบัญชี?
                     <span
                       @click="$router.push('/signup/worker')"
-                      class="cursor-pointer no-underline hover:underline"
+                      class="
+                        cursor-pointer
+                        no-underline
+                        hover:underline
+                        text-blue-700
+                        hover:text-blue-800
+                        font-medium
+                      "
                       >ลงทะเบียนสำหรับผู้สมัครงาน</span
                     >
                     หรือ
                     <span
                       @click="$router.push('/signup/employer')"
-                      class="cursor-pointer no-underline hover:underline"
+                      class="
+                        cursor-pointer
+                        no-underline
+                        hover:underline
+                        text-blue-700
+                        hover:text-blue-800
+                        font-medium
+                      "
                       >ลงทะเบียนสำหรับผู้ประกอบการ</span
                     >
                   </div>
@@ -201,6 +230,7 @@ export default {
       type: "password",
       eye: require("../assets/hide.png"),
       showError: false,
+      numTab: "",
     };
   },
   methods: {
@@ -235,15 +265,24 @@ export default {
     },
   },
   created() {
-    if (this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == "1") {
+    if (
+      this.$store.state.auth.user &&
+      this.$store.state.auth.user.role.idRole == "1"
+    ) {
       this.$router.push("/approve");
-    } else if (this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == "2") {
+    } else if (
+      this.$store.state.auth.user &&
+      this.$store.state.auth.user.role.idRole == "2"
+    ) {
       this.$router.push("/posting");
-    } else{
-      if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == "3"){
+    } else {
+      if (
+        this.$store.state.auth.user &&
+        this.$store.state.auth.user.role.idRole == "3"
+      ) {
         this.$router.push("/");
       }
-    } 
+    }
   },
 };
 </script>
