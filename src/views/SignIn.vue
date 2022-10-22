@@ -1,5 +1,5 @@
 <template>
-  <div class="SignIn">
+  <div class="ForgotPass">
     <!-- component -->
     <div class="font-sans-thai bg-gray-2 h-screen">
       <div
@@ -144,6 +144,7 @@
                         </div>
                       </div>
                       <p
+                       @click="$router.push('/forgetPass')"
                         class="
                           text-right
                           pt-2

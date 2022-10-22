@@ -16,6 +16,7 @@ import AcceptWorker from '../views/AcceptWorker.vue'
 import AddPosting from '../views/AddPosting.vue'
 import OtpPage from '../views/OtpPage.vue'
 import PageNotFound from '../views/PageNotFound.vue'
+import ForgotPass from '../views/ForgotPass.vue'
 // import store from '@/store'
 
 Vue.use(VueRouter)
@@ -120,6 +121,11 @@ const routes = [
     path: '/otp',
     name: 'OtpPage',
     component: OtpPage,
+  },
+  {
+    path: '/forgetPass',
+    name: 'ForgotPass',
+    component: ForgotPass,
   },
   {
     path: '/:pathMatch(.*)*',

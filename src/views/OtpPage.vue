@@ -1,15 +1,22 @@
 <template>
   <div>
-    <OTP></OTP>
+    <!-- <OTP></OTP> -->
+    <vue-otp-2
+      length="6"
+      join-character="-"
+      inputmode="numeric"
+      pattern="[0-9]*"
+      @onComplete="console.log()" 
+    />
   </div>
 </template>
 
 	<script>
-import OTP from "@/components/OTP.vue";
+// import OTP from "@/components/OTP.vue";
 
 export default {
   components: {
-    OTP
+    // OTP
   },
   data() {
     return {
@@ -17,19 +24,11 @@ export default {
     };
   },
   methods: {
-    onCompleteHandler(code) {
-      console.log("code completed", code);
-      this.isCodeValid = false;
-    },
-
-    onChangedHandler(lastEnteredCode) {
-      console.log("code changed", lastEnteredCode);
-      this.isCodeValid = true;
-    },
-
-    onPasteHandler(code) {
-      console.log("code pasted", code);
-    },
+    // otp(){
+    //   console.log(onComplete)
+    // }
   },
 };
 </script>
+<style>
+</style>

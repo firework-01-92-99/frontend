@@ -1621,6 +1621,7 @@ export default {
     async signUpAxios() {
       console.log("signup");
       let errorResponse;
+      const goTo = this.$router.push("/signin");
       await axios
         .post(`${process.env.VUE_APP_ROOT_API}main/register`, this.whoRegist)
         .then(function (response) {
@@ -1628,7 +1629,7 @@ export default {
           this.errIden = false;
           alert("Finish Sign up");
           this.clear();
-          this.$router.push("/signin");
+          goTo
         })
         .catch(function (error) {
           errorResponse = error.response.data.errorCode;
@@ -1687,10 +1688,10 @@ export default {
       this.registWorker.worker.identificationNumber = "";
     },
     clear() {
-      (this.registWorker = {
+      this.registWorker = {
         email: "",
         password: "",
-        role: { idRole: 3, role: "ROLE_WORKER" },
+        role: { idRole: 3, roleName: "ROLE_WORKER" },
         worker: {
           identificationNumber: "",
           verifyPic: null,
@@ -1708,44 +1709,44 @@ export default {
             typeName: "",
           },
         },
-      }),
-        (this.registEmp = {
+      },
+      this.registEmp = {
+        email: "",
+        password: "",
+        role: { idRole: 2, roleName: "ROLE_EMP" },
+        employer: {
+          establishmentName: "",
+          entrepreneurfName: "",
+          entrepreneurlName: "",
+          address: "",
+          tel: "",
+          phone: "",
           email: "",
-          password: "",
-          role: { idRole: 2, roleName: "ROLE_EMP" },
-          employer: {
-            establishmentName: "",
-            entrepreneurfName: "",
-            entrepreneurlName: "",
-            address: "",
-            tel: "",
-            phone: "",
-            email: "",
-            lineId: "",
-            verifyCert: null,
-            businesstype: {
-              idBusinessType: "",
-              nameType: "",
-            },
-            province: {
-              idProvince: "",
-              provinceName: "",
-            },
-            district: {
-              idDistrict: "",
-              districtName: "",
-            },
-            subDistrict: {
-              idSubdistrict: "",
-              subDistrict: "",
-              postcode: "",
-            },
-            nationality: {
-              idnationality: "",
-              nationality_name: "",
-            },
+          lineId: "",
+          verifyCert: null,
+          businesstype: {
+            idBusinessType: "",
+            nameType: "",
           },
-        });
+          province: {
+            idProvince: "",
+            provinceName: "",
+          },
+          district: {
+            idDistrict: "",
+            districtName: "",
+          },
+          subDistrict: {
+            idSubdistrict: "",
+            subDistrict: "",
+            postcode: "",
+          },
+          nationality: {
+            idnationality: 1,
+            nationality_name: "",
+          },
+        },
+      }
     },
     async fetch(url) {
       try {
