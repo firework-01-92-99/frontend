@@ -36,7 +36,7 @@
           <div class="flex flex-col w-full lg:w-1/2 p-4">
             <div class="flex flex-col flex-1 justify-center mb-8">
               <h1 class="font-bold text-4xl text-center">ลืมรหัสผ่าน</h1>
-              <p class="text-center">รหัส OTP จะถูกส่งไปยังอีเมลที่คุณกรอก</p>
+              <p class="text-center mt-5">รหัส OTP จะถูกส่งไปยังอีเมลที่คุณกรอก</p>
               <div class="w-full mt-4">
                 <form
                   autocomplete="off"
@@ -92,7 +92,7 @@
                   <p v-if="errorNull" class="text-red-600">
                     กรุณากรอกอีเมลเพื่อรับ OTP รีเซ็ตพาสเวิร์ด
                   </p>                  
-                  <div class="flex flex-col mt-8">
+                  <div class="flex flex-col mt-8 space-y-4">
                     <button 
                     @click.prevent="sendMailToBackEnd()"
                       class="
@@ -106,6 +106,24 @@
                       "
                     >
                       ยืนยัน
+                    </button>
+                    <button 
+                    @click="$router.push('/signin')"
+                      class="
+                        bg-white
+                        border
+                        border-orange-1
+                        hover:bg-orange-1
+                        text-orange-1
+                        hover:text-white
+                        text-base
+                        font-medium
+                        py-2
+                        px-4
+                        rounded
+                      "
+                    >
+                      ย้อนกลับ
                     </button>
                   </div>
                 </form>
