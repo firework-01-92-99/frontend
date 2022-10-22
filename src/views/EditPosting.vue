@@ -284,11 +284,14 @@
             </span>
           </p>
 
-<div class="w-full px-3 mb-5">
+          <div class="w-full px-3 mb-5">
             <label
               for=""
               class="2xl:text-base md:text-base text-sm font-medium px-1"
-              >ต้องการปิดประกาศรับสมัครหรือไม่ ? <span class="font-light italic ">(คุณสามารถเปิดประกาศรับสมัครใหม่ได้ในภายหลัง)</span></label
+              >ต้องการปิดประกาศรับสมัครหรือไม่ ?
+              <span class="font-light italic"
+                >(คุณสามารถเปิดประกาศรับสมัครใหม่ได้ในภายหลัง)</span
+              ></label
             >
             <div class="flex space-x-5">
               <div class="form-control">
@@ -296,7 +299,7 @@
                   <input
                     type="radio"
                     v-model.trim="InorAct"
-                     @click="closePost"
+                    @click="closePost"
                     name="radio-8"
                     class="radio checked:bg-blue-500"
                     value="Active"
@@ -309,7 +312,7 @@
                   <input
                     type="radio"
                     v-model.trim="InorAct"
-                     @click="closePost"
+                    @click="closePost"
                     name="radio-8"
                     class="radio checked:bg-red-500"
                     value="Inactive"
@@ -320,18 +323,16 @@
             </div>
           </div>
 
-<div
-                
-                class="
-                  badge badge-lg
-                  w-full
-                  bg-yellow-100
-                  text-yellow-500
-                  border-0
-                "
-              >
-                รอการพิจารณา
-              </div>
+          <div
+            class="badge badge-lg w-full bg-green-200 text-green-600 border-0"
+          >
+            เปิดประกาศรับสมัคร
+          </div>
+          <div
+            class="badge badge-lg w-full bg-gray-200 text-gray-600 border-0"
+          >
+            ปิดประกาศรับสมัคร
+          </div>
 
         </div>
       </div>
@@ -672,11 +673,13 @@
             <div class="flex space-x-5">
               <div class="form-control">
                 <label v-if="jobDetail" class="label cursor-pointer space-x-2">
-                  <span v-for="pd in jobDetail.postingHasDayList" :key="pd.idPostingHasDay">
-
+                  <span
+                    v-for="pd in jobDetail.postingHasDayList"
+                    :key="pd.idPostingHasDay"
+                  >
                     <input
                       :id="pd.idDay"
-                      :value="{day:pd}"
+                      :value="{ day: pd }"
                       type="checkbox"
                       v-if="jobDetail"
                       v-model="pd.idPostingHasDay"
@@ -690,7 +693,7 @@
               </div>
             </div>
 
-                        <!-- <div class="flex space-x-5">
+            <!-- <div class="flex space-x-5">
               <div class="form-control">
                 <label class="label cursor-pointer space-x-2">
                   <span v-for="pd in sevenDay" :key="pd.idDay">
@@ -892,13 +895,13 @@
                 >
                   <i class="mdi mdi-account-outline text-gray-400 text-lg"></i>
                 </div>
-                  <ckeditor
-                    :editor="editor"
-                    v-if="jobDetail"
-                    v-model.trim="jobDetail.properties"
-                    :config="editorConfig"
-                  >
-                  </ckeditor>
+                <ckeditor
+                  :editor="editor"
+                  v-if="jobDetail"
+                  v-model.trim="jobDetail.properties"
+                  :config="editorConfig"
+                >
+                </ckeditor>
               </div>
             </div>
           </div>
@@ -921,22 +924,19 @@
                 >
                   <i class="mdi mdi-account-outline text-gray-400 text-lg"></i>
                 </div>
-              <div class="html-editor">
-                                  <ckeditor
+                <div class="html-editor">
+                  <ckeditor
                     :editor="editor"
                     v-if="jobDetail"
                     v-model="jobDetail.welfare"
                     :config="editorConfig"
                   >
                   </ckeditor>
-              </div>
+                </div>
               </div>
               <p v-if="welfareInput" class="text-red-600">กรุณากรอกสวัสดิการ</p>
             </div>
           </div>
-
-          
-
         </div>
       </div>
 
@@ -1035,7 +1035,7 @@ export default {
           idHiringtype: this.jobDetail?.hiringType.idHiringtype,
           nameType: "",
         },
-        idEmployer: this.$store.state.auth.user.employer.idEmployer, 
+        idEmployer: this.$store.state.auth.user.employer.idEmployer,
         status: {
           idStatus: "1",
           statusName: "Active",
@@ -1050,32 +1050,31 @@ export default {
           positionName: this.jobDetail?.position?.positionName,
         },
       },
-      idPosting: '',
+      idPosting: "",
       jobDetail: {},
       hiringTypeArray: [],
       sevenDay: [],
-      InorAct: '',
+      InorAct: "",
     };
   },
   methods: {
-    async closePost(){
-        console.log("InorAct = " + this.InorAct)
-      if(confirm("ลบแน่นะวิ")){
-      console.log("delete")
-      await axios.put(`${process.env.VUE_APP_ROOT_API}emp/inActivePosting?idPosting=${this.idPosting}`).data        
-      this.$router.push('/posting');
-      }else{
-        console.log("มีปัญหาค่ะ")
+    async closePost() {
+      console.log("InorAct = " + this.InorAct);
+      if (confirm("ลบแน่นะวิ")) {
+        console.log("delete");
+        await axios.put(
+          `${process.env.VUE_APP_ROOT_API}emp/inActivePosting?idPosting=${this.idPosting}`
+        ).data;
+        this.$router.push("/posting");
+      } else {
+        console.log("มีปัญหาค่ะ");
       }
     },
     async editPost() {
       this.checkValidate();
       if (!this.checkValidate()) {
         await axios
-          .put(
-            `${process.env.VUE_APP_ROOT_API}emp/editPosting`,
-            this.postInfo
-          )
+          .put(`${process.env.VUE_APP_ROOT_API}emp/editPosting`, this.postInfo)
           .then(function (response) {
             console.log(response);
             alert("ประกาศโพสหางานของคุณเรียบร้อยแล้ว");
@@ -1126,7 +1125,7 @@ export default {
           idHiringtype: "",
           nameType: "",
         },
-        idEmployer: this.$store.state.auth.user.employer.idEmployer, 
+        idEmployer: this.$store.state.auth.user.employer.idEmployer,
         status: {
           idStatus: "1",
           statusName: "Active",
@@ -1140,7 +1139,7 @@ export default {
           idposition: "",
           positionName: "",
         },
-      }
+      };
     },
     ifChangeAge(age) {
       if (age < 18) {
@@ -1163,15 +1162,17 @@ export default {
   },
   async created() {
     const id = this.$route.query.idPost;
-    this.jobDetail = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/selectPosting` + "?idPosting=" + id);
-    console.log(this.jobDetail)
+    this.jobDetail = await this.fetch(
+      `${process.env.VUE_APP_ROOT_API}main/selectPosting` + "?idPosting=" + id
+    );
+    console.log(this.jobDetail);
     this.idPosting = id;
     this.hiringTypeArray = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/allHiringType`
     );
     this.sevenDay = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/getMondayToFriday`
-    );    
+    );
   },
 };
 </script>
