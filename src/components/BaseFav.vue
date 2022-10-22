@@ -1,34 +1,26 @@
 <template>
-  <div class="card card-side w-11/12 bg-base-100 shadow-xl">
+  <div>
     <!-- <figure>
                 <img src="https://placeimg.com/200/280/arch" alt="Movie" />
               </figure> -->
-    <div v-for="f in myFav" :key="f.idFavorite" class="card-body">
+    <div v-for="f in myFav" :key="f.idFavorite" class="card card-side w-11/12 bg-base-100 shadow-xl">
+    <div class="card-body">
       <div class="flex justify-between">
-        {{f}}
+        <!-- {{f.employer}} -->
         <!-- {{this.$store.state.auth.user.worker}} -->
         <h2 class="card-title text-orange-1 text-base">
-          job.position.positionName
+          <!-- {{f.posting.positionName ? f.posting.positionName : ''}} -->
+          {{f.posting.position.positionName}}
         </h2>
       </div>
-      <h2 class="card-title text-base">establishmentName</h2>
+      <h2 class="card-title text-base">{{f.employer.establishmentName}}</h2>
       <p>
         <span class="inline-block align-middle"
           ><i class="material-icons pr-2"> paid </i></span
         >
         <span class="hidden font-semibold text-base">ค่าตอบแทน : </span>
         <span class="text-base font-medium inline-block align-middle">
-          <!-- {{
-                      job.minSalary
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                    }}
-                    -
-                    {{
-                      job.maxSalary
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                    }} -->
+        {{f.posting.minSalary + " - " + f.posting.maxSalary}}
           บาท</span
         >
       </p>
@@ -39,6 +31,7 @@
           >
           <span class="hidden font-semibold text-base">ที่อยู่ : </span>
           <span class="text-base font-medium inline-block align-middle">
+            {{f.employer.address + " " + f.employer.district.districtName + " " + f.employer.subDistrict.subDistrict + " " + f.employer.province.provinceName + " " + f.employer.subDistrict.postcode}}
             <!-- {{
                   getPostbyEmp(job.idEmployer).address +
                   " " +
@@ -57,6 +50,7 @@
                   <button class="btn btn-primary">Watch</button>
                 </div> -->
     </div>
+  </div>
   </div>
 </template>
 

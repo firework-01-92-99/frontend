@@ -17,6 +17,7 @@ import AddPosting from '../views/AddPosting.vue'
 import OtpPage from '../views/OtpPage.vue'
 import PageNotFound from '../views/PageNotFound.vue'
 import ForgotPass from '../views/ForgotPass.vue'
+import EditPosting from '../views/EditPosting.vue'
 // import store from '@/store'
 
 Vue.use(VueRouter)
@@ -126,6 +127,11 @@ const routes = [
     path: '/forgetPass',
     name: 'ForgotPass',
     component: ForgotPass,
+  },
+  {
+    path: '/editPost',
+    name: 'EditPosting',
+    component: EditPosting,
   },
   {
     path: '/:pathMatch(.*)*',

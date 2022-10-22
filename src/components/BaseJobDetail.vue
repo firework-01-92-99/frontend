@@ -109,6 +109,7 @@
           >
           <span class="inline-block align-middle"> {{ employer.email }}</span>
         </p>
+        <button @click="$router.push('/editPost?idPost=' + idPosting)" class="bg-orange-1 text-white">แก้ไข</button>
         <button @click="deletePost()" class="bg-slate-500 text-white">ลบโพส</button>
         <div class="card-actions justify-center 2xl:justify-end">
           <div v-if="this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == '3'">

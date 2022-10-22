@@ -55,7 +55,7 @@
           font-sans-thai
         "
       >
-        สร้างประกาศรับสมัครงาน
+        แก้ไขประกาศรับสมัครงาน
       </p>
       <!-- </router-link> -->
     </div>
@@ -95,7 +95,8 @@
                 </div>
                 <input
                   type="text"
-                  v-model.trim="postInfo.position.positionName"
+                  v-if="jobDetail.position"
+                  v-model.trim="jobDetail.position.positionName"
                   class="
                     w-full
                     -ml-10
@@ -167,10 +168,20 @@
             }} -->
               <div class="2xl:flex 2xl:-mx-3">
                 <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                  <label
+                  <!-- <label
                     for=""
                     class="text-sm 2xl:text-base font-medium px-1"
-                  ></label>
+                  >{{
+              jobDetail.minSalary
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            }}
+            -
+            {{
+              jobDetail.maxSalary
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            }}</label> -->
                   <div class="flex">
                     <div
                       class="
@@ -186,7 +197,8 @@
                     ></div>
                     <input
                       type="tel"
-                      v-model.trim="postInfo.minSalary"
+                      v-if="jobDetail"
+                      v-model.trim="jobDetail.minSalary"
                       maxlength="5"
                       class="
                         w-full
@@ -229,7 +241,8 @@
                     ></div>
                     <input
                       type="tel"
-                      v-model.trim="postInfo.maxSalary"
+                      v-if="jobDetail"
+                      v-model.trim="jobDetail.maxSalary"
                       maxlength="5"
                       class="
                         w-full
@@ -270,6 +283,56 @@
               {{ this.$store.state.auth.user.employer.email }}
             </span>
           </p>
+
+<div class="w-full px-3 mb-5">
+            <label
+              for=""
+              class="2xl:text-base md:text-base text-sm font-medium px-1"
+              >ต้องการปิดประกาศรับสมัครหรือไม่ ? <span class="font-light italic ">(คุณสามารถเปิดประกาศรับสมัครใหม่ได้ในภายหลัง)</span></label
+            >
+            <div class="flex space-x-5">
+              <div class="form-control">
+                <label class="label cursor-pointer space-x-2">
+                  <input
+                    type="radio"
+                    v-model.trim="InorAct"
+                     @click="closePost"
+                    name="radio-8"
+                    class="radio checked:bg-blue-500"
+                    value="Active"
+                  />
+                  <span class="label-text">เปิดประกาศรับสมัคร</span>
+                </label>
+              </div>
+              <div class="form-control">
+                <label class="label cursor-pointer space-x-2">
+                  <input
+                    type="radio"
+                    v-model.trim="InorAct"
+                     @click="closePost"
+                    name="radio-8"
+                    class="radio checked:bg-red-500"
+                    value="Inactive"
+                  />
+                  <span class="label-text">ปิดประกาศรับสมัคร</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+<div
+                
+                class="
+                  badge badge-lg
+                  w-full
+                  bg-yellow-100
+                  text-yellow-500
+                  border-0
+                "
+              >
+                รอการพิจารณา
+              </div>
+
         </div>
       </div>
       <!-- card description -->
@@ -293,7 +356,8 @@
                 <label class="label cursor-pointer 2xl:space-x-2">
                   <input
                     type="radio"
-                    v-model="postInfo.workerType.idWorkerType"
+                    v-if="jobDetail.workerType"
+                    v-model="jobDetail.workerType.idWorkerType"
                     name="radio-5"
                     class="radio checked:bg-blue-500"
                     :class="{ 'bg-red-50': workerTypeInput }"
@@ -308,7 +372,8 @@
                 <label class="label cursor-pointer 2xl:space-x-2">
                   <input
                     type="radio"
-                    v-model="postInfo.workerType.idWorkerType"
+                    v-if="jobDetail.workerType"
+                    v-model="jobDetail.workerType.idWorkerType"
                     name="radio-5"
                     class="radio checked:bg-red-500"
                     :class="{ 'bg-red-50': workerTypeInput }"
@@ -323,7 +388,8 @@
                 <label class="label cursor-pointer 2xl:space-x-2">
                   <input
                     type="radio"
-                    v-model="postInfo.workerType.idWorkerType"
+                    v-if="jobDetail.workerType"
+                    v-model="jobDetail.workerType.idWorkerType"
                     name="radio-5"
                     class="radio checked:bg-blue-500"
                     :class="{ 'bg-red-50': workerTypeInput }"
@@ -356,7 +422,8 @@
                 <label class="label cursor-pointer space-x-2">
                   <input
                     type="radio"
-                    v-model.trim="postInfo.sex"
+                    v-if="jobDetail"
+                    v-model.trim="jobDetail.sex"
                     name="radio-6"
                     class="radio checked:bg-blue-500"
                     :class="{ 'bg-red-50': sexInput }"
@@ -368,7 +435,8 @@
               <div class="form-control">
                 <label class="label cursor-pointer space-x-2">
                   <input
-                    v-model.trim="postInfo.sex"
+                    v-if="jobDetail"
+                    v-model.trim="jobDetail.sex"
                     type="radio"
                     name="radio-6"
                     class="radio checked:bg-red-500"
@@ -381,7 +449,8 @@
               <div class="form-control">
                 <label class="label cursor-pointer space-x-2">
                   <input
-                    v-model.trim="postInfo.sex"
+                    v-if="jobDetail"
+                    v-model.trim="jobDetail.sex"
                     type="radio"
                     name="radio-6"
                     class="radio checked:bg-red-500"
@@ -422,8 +491,9 @@
                 <input
                   type="number"
                   min="18"
-                  @change="ifChangeAge(postInfo.minAge)"
-                  v-model.trim="postInfo.minAge"
+                  @change="ifChangeAge(jobDetail.minAge)"
+                  v-if="jobDetail"
+                  v-model.trim="jobDetail.minAge"
                   class="
                     w-full
                     -ml-10
@@ -464,8 +534,9 @@
                 <input
                   type="number"
                   max="60"
-                  @change="ifChangeAge(postInfo.maxAge)"
-                  v-model.trim="postInfo.maxAge"
+                  @change="ifChangeAge(jobDetail.maxAge)"
+                  v-if="jobDetail"
+                  v-model.trim="jobDetail.maxAge"
                   class="
                     w-full
                     -ml-10
@@ -511,7 +582,8 @@
                 ></div>
                 <input
                   type="text"
-                  v-model.trim="postInfo.startTime"
+                  v-if="jobDetail"
+                  v-model.trim="jobDetail.startTime"
                   class="
                     w-full
                     -ml-10
@@ -548,7 +620,8 @@
                 ></div>
                 <input
                   type="text"
-                  v-model.trim="postInfo.endTime"
+                  v-if="jobDetail"
+                  v-model.trim="jobDetail.endTime"
                   class="
                     w-full
                     -ml-10
@@ -598,13 +671,35 @@
             >
             <div class="flex space-x-5">
               <div class="form-control">
-                <label class="label cursor-pointer space-x-2">
-                  <span v-for="pd in sevenDay" :key="pd.idDay">
+                <label v-if="jobDetail" class="label cursor-pointer space-x-2">
+                  <span v-for="pd in jobDetail.postingHasDayList" :key="pd.idPostingHasDay">
+
                     <input
                       :id="pd.idDay"
                       :value="{day:pd}"
                       type="checkbox"
-                      v-model="postInfo.postingHasDayList"
+                      v-if="jobDetail"
+                      v-model="pd.idPostingHasDay"
+                      class="checkbox checkbox-sm"
+                      :class="{ 'bg-red-50': postingHasDayListInput }"
+                    />
+                    <span class="label-text">{{ pd.day.dayName }}</span>
+                  </span>
+                </label>
+                <!-- <span>Selected day: {{ jobDetail.postingHasDayList }}</span> -->
+              </div>
+            </div>
+
+                        <!-- <div class="flex space-x-5">
+              <div class="form-control">
+                <label class="label cursor-pointer space-x-2">
+                  <span v-for="pd in sevenDay" :key="pd.idDay">
+                    {{pd}}
+                    <input
+                      :id="pd.idDay"
+                      :value="{day:pd}"
+                      type="checkbox"
+                      v-model="jobDetail.postingHasDayList.idPostingHasDay"
                       class="checkbox checkbox-sm"
                       :class="{ 'bg-red-50': postingHasDayListInput }"
                     />
@@ -613,7 +708,7 @@
                 </label>
                 <span>Selected day: {{ postInfo.postingHasDayList }}</span>
               </div>
-            </div>
+            </div> -->
             <p v-if="postingHasDayListInput" class="text-red-600">
               กรุณาเลือกวันทำงาน
             </p>
@@ -653,7 +748,8 @@
                 <div class="html-editor">
                   <ckeditor
                     :editor="editor"
-                    v-model="postInfo.workDescription"
+                    v-if="jobDetail"
+                    v-model="jobDetail.workDescription"
                     :config="editorConfig"
                   >
                   </ckeditor>
@@ -691,7 +787,8 @@
                 ></div>
                 <select
                   type="text"
-                  v-model.trim="postInfo.hiringType.idHiringtype"
+                  v-if="jobDetail.hiringType"
+                  v-model.trim="jobDetail.hiringType.idHiringtype"
                   class="
                     select select-bordered
                     w-full
@@ -743,7 +840,8 @@
                 <label class="label cursor-pointer space-x-2">
                   <input
                     type="radio"
-                    v-model.trim="postInfo.overtimePayment"
+                    v-if="jobDetail"
+                    v-model.trim="jobDetail.overtimePayment"
                     name="radio-7"
                     class="radio checked:bg-blue-500"
                     :class="{ 'bg-red-50': otPayInput }"
@@ -756,7 +854,8 @@
                 <label class="label cursor-pointer space-x-2">
                   <input
                     type="radio"
-                    v-model.trim="postInfo.overtimePayment"
+                    v-if="jobDetail"
+                    v-model.trim="jobDetail.overtimePayment"
                     name="radio-7"
                     class="radio checked:bg-red-500"
                     :class="{ 'bg-red-50': otPayInput }"
@@ -793,8 +892,9 @@
                 >
                   <i class="mdi mdi-account-outline text-gray-400 text-lg"></i>
                 </div>
-                 <ckeditor
+                  <ckeditor
                     :editor="editor"
+                    v-if="jobDetail"
                     v-model.trim="jobDetail.properties"
                     :config="editorConfig"
                   >
@@ -824,7 +924,8 @@
               <div class="html-editor">
                                   <ckeditor
                     :editor="editor"
-                    v-model="postInfo.welfare"
+                    v-if="jobDetail"
+                    v-model="jobDetail.welfare"
                     :config="editorConfig"
                   >
                   </ckeditor>
@@ -833,12 +934,15 @@
               <p v-if="welfareInput" class="text-red-600">กรุณากรอกสวัสดิการ</p>
             </div>
           </div>
+
+          
+
         </div>
       </div>
 
       <div class="flex space-x-5 justify-between font-sans-thai">
         <button
-          @click.prevent="createPost()"
+          @click.prevent="editPost()"
           type="submit"
           class="
             btn
@@ -855,7 +959,7 @@
             md:text-xs
           "
         >
-          สร้าง
+          บันทึก
         </button>
 
         <button
@@ -875,7 +979,7 @@
         >
           ยกเลิก
         </button>
-        {{ this.$store.state.auth.user.employer }}
+        <!-- {{ this.$store.state.auth.user.employer }} -->
       </div>
     </form>
   </div>
@@ -898,9 +1002,6 @@ export default {
         toolbar: ["bulletedList"],
       },
       showToast: false,
-      hiringTypeArray: [],
-      sevenDay: [],
-      // postingHasDayListArray: [],
 
       positionInput: false,
       sexInput: false,
@@ -919,19 +1020,19 @@ export default {
       postingHasDayListInput: false,
 
       postInfo: {
-        sex: "",
-        workDescription: "",
-        minAge: 18,
-        maxAge: 60,
-        minSalary: 0,
-        maxSalary: 0,
-        overtimePayment: "",
-        startTime: "",
-        endTime: "",
-        properties: "",
-        welfare: "",
+        sex: this.jobDetail?.sex,
+        workDescription: this.jobDetail?.workDescription,
+        minAge: this.jobDetail?.minAge,
+        maxAge: this.jobDetail?.maxAge,
+        minSalary: this.jobDetail?.minSalary,
+        maxSalary: this.jobDetail?.maxSalary,
+        overtimePayment: this.jobDetail?.overtimePayment,
+        startTime: this.jobDetail?.startTime,
+        endTime: this.jobDetail?.endTime,
+        properties: this.jobDetail?.properties,
+        welfare: this.jobDetail?.welfare,
         hiringType: {
-          idHiringtype: "",
+          idHiringtype: this.jobDetail?.hiringType.idHiringtype,
           nameType: "",
         },
         idEmployer: this.$store.state.auth.user.employer.idEmployer, 
@@ -940,37 +1041,48 @@ export default {
           statusName: "Active",
         },
         workerType: {
-          idWorkerType: "",
+          idWorkerType: this.jobDetail?.workerType.idWorkerType,
           typeName: "",
         },
         postingHasDayList: [],
         position: {
           idposition: "",
-          positionName: "",
+          positionName: this.jobDetail?.position?.positionName,
         },
       },
-      // post: [],
+      idPosting: '',
+      jobDetail: {},
+      hiringTypeArray: [],
+      sevenDay: [],
+      InorAct: '',
     };
   },
   methods: {
-    async createPost() {
+    async closePost(){
+        console.log("InorAct = " + this.InorAct)
+      if(confirm("ลบแน่นะวิ")){
+      console.log("delete")
+      await axios.put(`${process.env.VUE_APP_ROOT_API}emp/inActivePosting?idPosting=${this.idPosting}`).data        
+      this.$router.push('/posting');
+      }else{
+        console.log("มีปัญหาค่ะ")
+      }
+    },
+    async editPost() {
       this.checkValidate();
-      // let clearForm = this.clear()
       if (!this.checkValidate()) {
         await axios
-          .post(
-            `${process.env.VUE_APP_ROOT_API}emp/createPosting?idEmployer=${this.$store.state.auth.user.employer.idEmployer}`,
+          .put(
+            `${process.env.VUE_APP_ROOT_API}emp/editPosting`,
             this.postInfo
           )
           .then(function (response) {
             console.log(response);
             alert("ประกาศโพสหางานของคุณเรียบร้อยแล้ว");
-            // clearForm
           })
           .catch(function (error) {
             console.log(error);
           });
-          this.$store.commit("setPosting", this.post);
       }
     },
 
@@ -1050,23 +1162,16 @@ export default {
     },
   },
   async created() {
-    console.log("hiringType");
+    const id = this.$route.query.idPost;
+    this.jobDetail = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/selectPosting` + "?idPosting=" + id);
+    console.log(this.jobDetail)
+    this.idPosting = id;
     this.hiringTypeArray = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/allHiringType`
     );
-    this.postingHasDayListArray = await this.fetch(
-      `${process.env.VUE_APP_ROOT_API}main/allPostingHasDay`
-    );
     this.sevenDay = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/getMondayToFriday`
-    );
-      // this.post1 = await axios.get(
-      //   `${process.env.VUE_APP_ROOT_API}emp/ActivePosting?idEmployer=` +
-      //     this.$store.state.auth.user.worker.idWorker
-      // );
-      // this.post = this.post1.data;
-      console.log(this.post)
-    console.log(this.sevenDay);
+    );    
   },
 };
 </script>

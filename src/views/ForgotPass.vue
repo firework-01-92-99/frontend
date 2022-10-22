@@ -178,19 +178,6 @@ methods: {
       }
   
   },
-  async sendOTP(){
-    // let errorResponse
-    let email    
-    await axios.post(`${process.env.VUE_APP_ROOT_API}main/receiveOTP?receiveOTP=` + email)
-        .then(function (response) {
-          console.log(response);
-          console.log(response.data)
-        })
-        .catch(function (error) {
-            console.log(error)
-        //   errorResponse = error.response.data.errorCode;
-        });
-  },  
 },
 }
 </script>

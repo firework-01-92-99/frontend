@@ -90,7 +90,7 @@
                           join-character="-"
                           inputmode="numeric"
                           pattern="[0-9]*"
-                          @onComplete="console.log()"
+                          @onComplete="fillOTP"
                         />
                       </div>
                     </div>
@@ -141,7 +141,7 @@
 
 	<script>
 // import OTP from "@/components/OTP.vue";
-
+import axios from "axios";
 export default {
   components: {
     // OTP
@@ -149,12 +149,31 @@ export default {
   data() {
     return {
       isCodeValid: true,
+      otpInput: '',
     };
   },
   methods: {
-    // otp(){
-    //   console.log(onComplete)
-    // }
+  fillOTP(value){
+    const initialValue = '';
+    const otp = value.reduce(
+    (previousValue, currentValue) => String(previousValue) + String(currentValue), initialValue);
+    console.log(otp)
+    this.otpInput = otp
+    // console.log(this.otpInput)
+
+  },
+  async sendOTP(){
+    // let errorResponse    
+    await axios.post(`${process.env.VUE_APP_ROOT_API}main/receiveOTP?receiveOTP=` + this.otpInput)
+        .then(function (response) {
+          console.log(response);
+          console.log(response.data)
+        })
+        .catch(function (error) {
+            console.log(error)
+        //   errorResponse = error.response.data.errorCode;
+        });
+  },  
   },
 };
 </script>
