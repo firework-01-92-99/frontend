@@ -280,7 +280,7 @@
       <div class="text-center mt-10 mb-10">ไม่มีผลลัพธ์</div>
     </div>
     <!-- <div v-if="!showInactivePost"> -->
-    <base-job>
+    <base-job :idEmp="$store.state.auth.user.employer.idEmployer">
       <!-- <template
         ><div class="card-actions">
           <button

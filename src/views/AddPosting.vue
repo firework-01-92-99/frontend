@@ -100,7 +100,7 @@
                   required
                 />
               </div>
-              <button class="btn">เพิ่ม</button>
+              <button @click="addPosition" class="btn">เพิ่ม</button>
             </div>
             <!-- <button class="btn">เพิ่ม</button> -->
           </div>
@@ -180,11 +180,11 @@
                   </option>
                   <option
                     class="text-black"
-                    v-for="ht in hiringTypeArray"
-                    :key="ht.idHiringtype"
-                    :value="ht.idHiringtype"
+                    v-for="pa in positionArray"
+                    :key="pa.idposition"
+                    :value="pa"
                   >
-                    {{ ht.nameType }}
+                    {{ pa.positionName }}
                   </option>
                   <!-- แก้ด้วย -->
                 </select>
@@ -978,6 +978,8 @@ export default {
       hiringTypeArray: [],
       sevenDay: [],
       // postingHasDayListArray: [],
+      positionArray1: [],
+      positionArray: [],
 
       positionInput: false,
       sexInput: false,
@@ -1026,10 +1028,21 @@ export default {
           positionName: "",
         },
       },
-      // post: [],
+      post: [],
     };
   },
   methods: {
+    async addPosition(){
+      if(!this.positionArray.map((p) => p.positionName).includes(this.postInfo.position.positionName)){
+      await axios
+          .post(
+            `${process.env.VUE_APP_ROOT_API}emp/createPosition?namePosition=${this.postInfo.position.positionName}&idEmployer=${this.$store.state.auth.user.employer.idEmployer}`
+          )
+      }
+      this.postInfo.position.positionName = ''
+      this.positionArray1 = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/getMyPosition?idEmployer=` + this.$store.state.auth.user.employer.idEmployer);
+      this.positionArray = this.positionArray1.data      
+    },
     async createPost() {
       this.checkValidate();
       // let clearForm = this.clear()
@@ -1053,7 +1066,7 @@ export default {
 
     checkValidate() {
       this.positionInput =
-        this.postInfo.position.positionName === "" ? true : false;
+        this.postInfo.position.idposition === "" ? true : false;
       this.sexInput = this.postInfo.sex === "" ? true : false;
       this.descriptInput = this.postInfo.workDescription === "" ? true : false;
       this.minAgeInput =
@@ -1126,6 +1139,8 @@ export default {
       }
     },
   },
+  computed: {
+  },
   async created() {
     console.log("hiringType");
     this.hiringTypeArray = await this.fetch(
@@ -1137,12 +1152,14 @@ export default {
     this.sevenDay = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/getMondayToFriday`
     );
-      // this.post1 = await axios.get(
-      //   `${process.env.VUE_APP_ROOT_API}emp/ActivePosting?idEmployer=` +
-      //     this.$store.state.auth.user.worker.idWorker
-      // );
-      // this.post = this.post1.data;
+      this.post1 = await axios.get(
+        `${process.env.VUE_APP_ROOT_API}main/getPostingActiveByIdEmployer?idEmployer=` +
+          this.$store.state.auth.user.employer.idEmployer
+      );
+      this.post = this.post1.data;
       console.log(this.post)
+      this.positionArray1 = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/getMyPosition?idEmployer=` + this.$store.state.auth.user.employer.idEmployer);
+      this.positionArray = this.positionArray1.data
     console.log(this.sevenDay);
   },
 };
