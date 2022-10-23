@@ -1425,7 +1425,7 @@ export default {
           phone: "",
           email: "",
           lineId: "",
-          verifyCert: null,
+          profile: null,
           businesstype: {
             idBusinessType: "",
             nameType: "",
@@ -1626,7 +1626,7 @@ export default {
     async signUpAxios() {
       console.log("signup");
       let errorResponse;
-      const goTo = this.$router.push("/signin");
+      const goTo = this.$router.push("/otp" + "/?email=" + this.bindEmail);
       await axios
         .post(`${process.env.VUE_APP_ROOT_API}main/register`, this.whoRegist)
         .then(function (response) {
@@ -1664,8 +1664,8 @@ export default {
           console.log(this.registWorker.worker.verifyPic);
         }
         if (this.signType == "employer") {
-          this.registEmp.employer.verifyCert = this.picture;
-          console.log(this.registEmp.employer.verifyCert);
+          this.registEmp.employer.profile = this.picture;
+          console.log(this.registEmp.employer.profile);
         }
         // filename.split('.').slice(0, -1).join('.')
         // this.img = file.name;
@@ -1728,7 +1728,7 @@ export default {
           phone: "",
           email: "",
           lineId: "",
-          verifyCert: null,
+          profile: null,
           businesstype: {
             idBusinessType: "",
             nameType: "",

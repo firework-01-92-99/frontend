@@ -162,6 +162,9 @@
                       <p v-if="showError" class="text-red-600">
                         อีเมลหรือรหัสผ่านไม่ถูกต้อง
                       </p>
+                      <p v-if="errorWaitingApprove" class="text-red-600">
+                        กรุณารอประมาณ 1-7 วัน แอดมินกำลังตรวจสอบข้อมูลบัญชีของคุณอยู่
+                      </p>                      
                     </div>
                   </div>
                   <div class="flex flex-col mt-8">
@@ -231,6 +234,7 @@ export default {
       type: "password",
       eye: require("../assets/hide.png"),
       showError: false,
+      errorWaitingApprove: false,
       numTab: "",
     };
   },
@@ -261,7 +265,11 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          this.showError = true;
+          if(error.response.data.errorCode == 'STATUS_ACCOUNT_WAIT_APPROVE'){
+            this.errorWaitingApprove = true
+          }else{
+            this.showError = true;
+          }
         });
     },
   },

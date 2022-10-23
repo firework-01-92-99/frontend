@@ -93,10 +93,13 @@
                           @onComplete="fillOTP"
                         />
                       </div>
+                        <p v-if="wrongOTP" class="text-red-600">
+                          รหัส OTP ไม่ถูกต้อง
+                        </p>                      
                     </div>
                   </div>
                   <div class="flex flex-col mt-8 space-y-4">
-                    <button
+                    <!-- <button
                       type="submit"
                       class="
                         bg-orange-1
@@ -109,7 +112,7 @@
                       "
                     >
                       ยืนยัน
-                    </button>
+                    </button> -->
                     <button
                       @click="$router.push('/forgetPass')"
                       class="
@@ -148,8 +151,8 @@ export default {
   },
   data() {
     return {
-      isCodeValid: true,
       otpInput: '',
+      wrongOTP: false
     };
   },
   methods: {
@@ -160,21 +163,32 @@ export default {
     console.log(otp)
     this.otpInput = otp
     // console.log(this.otpInput)
-
+    this.sendOTP()
   },
   async sendOTP(){
-    // let errorResponse    
-    await axios.post(`${process.env.VUE_APP_ROOT_API}main/receiveOTP?receiveOTP=` + this.otpInput)
+    let errorResponse  
+    // const toLoginPage = this.$router.push("/signin");  
+    await axios.post(`${process.env.VUE_APP_ROOT_API}main/receiveOTP?receiveOTP=` + this.otpInput + '&email=' + this.$route.query.email )
         .then(function (response) {
+          console.log("1.")
           console.log(response);
+          console.log("2.")
           console.log(response.data)
+          alert("ยืนยัน OTP เรียบร้อย กรุณารอ Admin ยืนยันและตรวจสอบบัญชีของท่าน")
+          // toLoginPage
         })
         .catch(function (error) {
             console.log(error)
-        //   errorResponse = error.response.data.errorCode;
+            errorResponse = error.response.data.errorCode;
         });
+      if (errorResponse == "OTP_INCORRECT") {
+        this.wrongOTP = true
+      }        
   },  
   },
+  created(){
+    console.log(this.$route.query.email)
+  }
 };
 </script>
 <style>

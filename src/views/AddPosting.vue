@@ -795,7 +795,7 @@
                 </div>
                  <ckeditor
                     :editor="editor"
-                    v-model.trim="jobDetail.properties"
+                    v-model.trim="postInfo.properties"
                     :config="editorConfig"
                   >
                   </ckeditor>

@@ -157,8 +157,8 @@ methods: {
     console.log("forgetpass");
     let errorResponse;
     let email
-    const linkTo = this.$router.push("/otp"); 
     email = this.emailInput
+    const linkTo = this.$router.push("/otp" + "/?email=" + email); 
       await axios.post(`${process.env.VUE_APP_ROOT_API}main/forgetPassword?email=` + email)
         .then(function (response) {
           console.log(response);

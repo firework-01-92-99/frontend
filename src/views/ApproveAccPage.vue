@@ -21,7 +21,7 @@
             "
           >
             สวัสดีคุณ
-            {{ this.myAcc.data.firstName + " " + this.myAcc.data.lastName }}
+            {{ myAcc.data.firstName + " " + myAcc.data.lastName }}
           </h1>
           <!-- <p class="mb-5">ขยันทำงานด้วยนะไอสัส อย่าอู้ ขอบใจ จากเจ้านายพวกมึง ด้วยรักและห่วงใย</p> -->
         </div>
@@ -81,6 +81,7 @@
           </tr>
         </thead>
         <tbody v-for="a in listApprove.data" :key="a.idApprove">
+          {{a}}
           <!-- row 1 -->
           <!-- <div v-if="listApprove.lenght == null">
             ไม่มีรายการที่ต้องทำ
@@ -142,6 +143,7 @@
                                       justify-center
                                     "
                                   ></div>
+                                  {{infoEmp.subDistrict}}
                                   <input
                                     type="text"
                                     class="
@@ -156,8 +158,7 @@
                                       placeholder-black placeholder-opacity-100
                                     "
                                     :placeholder="
-                                      $store.state.auth.user.employer
-                                        .establishmentName
+                                      infoEmp.establishmentName
                                     "
                                     disabled
                                   />
@@ -227,7 +228,7 @@
                                       placeholder-black placeholder-opacity-100
                                     "
                                     :placeholder="
-                                      workerType[info.workerType.typeName]
+                                      workerType[infoWorker.workerType.typeName]
                                     "
                                     disabled
                                   />
@@ -272,7 +273,7 @@
                                     "
                                     :placeholder="
                                       ntTypeFreeze[
-                                        info.nationality.nationality_name
+                                        infoWorker.nationality.nationality_name
                                       ]
                                     "
                                     disabled
@@ -317,14 +318,14 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="$store.state.auth.employer"
+                                    :placeholder="infoEmp.businesstype.nameType"
                                     disabled
                                   />
                                 </div>
                               </div>
                             </div>
 
-                            <div v-else class="flex -mx-3">
+                            <div v-if="a.workOrEmp == 'Employer' || a.workOrEmp == 'Worker' " class="flex -mx-3">
                               <div class="w-full px-3 mb-5">
                                 <label
                                   for=""
@@ -357,7 +358,7 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="info.identificationNumber"
+                                    :placeholder="a.workOrEmp == 'Worker' ? infoWorker.identificationNumber : infoEmp.identificationNumber"
                                     disabled
                                   />
                                 </div>
@@ -395,7 +396,7 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="info.firstName"
+                                    :placeholder="a.workOrEmp == 'Worker' ? infoWorker.firstName : infoEmp.entrepreneurfName"
                                     disabled
                                   />
                                 </div>
@@ -434,7 +435,7 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="info.middleName"
+                                    :placeholder="infoWorker.middleName"
                                     disabled
                                   />
                                 </div>
@@ -477,7 +478,7 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="info.lastName"
+                                    :placeholder="a.workOrEmp == 'Worker' ? infoWorker.lastName : infoEmp.entrepreneurlName"
                                     disabled
                                   />
                                 </div>
@@ -528,7 +529,7 @@
                                         placeholder-opacity-100
                                       "
                                       :placeholder="
-                                        $store.state.auth.user.employer
+                                        infoEmp.address
                                       "
                                       disabled
                                     />
@@ -578,7 +579,7 @@
                                         placeholder-opacity-100
                                       "
                                       :placeholder="
-                                        $store.state.auth.user.employer
+                                        infoEmp.subDistrict ? infoEmp.subDistrict.subDistrict : ''
                                       "
                                       disabled
                                     />
@@ -626,7 +627,7 @@
                                         placeholder-opacity-100
                                       "
                                       :placeholder="
-                                        $store.state.auth.user.employer
+                                        infoEmp.district ? infoEmp.district.districtName : ''
                                       "
                                       disabled
                                     />
@@ -676,7 +677,7 @@
                                         placeholder-opacity-100
                                       "
                                       :placeholder="
-                                        $store.state.auth.user.employer
+                                        infoEmp.province ? infoEmp.province.provinceName : ''
                                       "
                                       disabled
                                     />
@@ -724,7 +725,7 @@
                                         placeholder-opacity-100
                                       "
                                       :placeholder="
-                                        $store.state.auth.user.employer
+                                        infoEmp.subDistrict ? infoEmp.subDistrict.postcode : ''
                                       "
                                       disabled
                                     />
@@ -734,10 +735,9 @@
                             </div>
 
                             <div
-                              v-if="a.workOrEmp == 'Worker'"
                               class="flex -mx-3"
                             >
-                              <div class="w-full px-3 mb-5">
+                              <div v-if="a.workOrEmp == 'Worker'" class="w-full px-3 mb-5">
                                 <label for="" class="text-base font-medium px-1"
                                   >เพศ</label
                                 >
@@ -767,12 +767,12 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="sexFreeze[info.sex]"
+                                    :placeholder="sexFreeze[infoWorker.sex]"
                                     disabled
                                   />
                                 </div>
                               </div>
-                              <div class="w-full px-3 mb-5">
+                              <div v-if="a.workOrEmp == 'Employer' || a.workOrEmp == 'Worker' " class="w-full px-3 mb-5">
                                 <label for="" class="text-base font-medium px-1"
                                   >เบอร์โทรศัพท์</label
                                 >
@@ -810,7 +810,7 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="info.phone"
+                                    :placeholder="a.workOrEmp == 'Worker' ? infoWorker.phone : infoEmp.phone"
                                     disabled
                                   />
                                 </div>
@@ -964,7 +964,7 @@ export default {
       lastname: "",
       nationality: "",
       image: "",
-      info: { nationality: {}, workerType: {} },
+      infoWorker: { nationality: {}, workerType: {} },
       status: [],
       statusId: "",
       myAcc: [],
@@ -972,6 +972,7 @@ export default {
       routes: "",
       idAdmin: 0,
       confirmInput: false,
+      infoEmp : {businesstype:{}},
     };
   },
   methods: {
@@ -987,12 +988,26 @@ export default {
             `${process.env.VUE_APP_ROOT_API}admin/selectWorker?idWorker=${data.idEmpOrWork}`
           )
           .then((response) => {
-            this.info = response.data;
-            console.log(this.info);
+            this.infoWorker = response.data;
+            console.log(this.infoWorker);
             this.image =
               `${process.env.VUE_APP_ROOT_API}main/image/` +
-              this.info.verifyPic;
+              this.infoWorker.verifyPic;
+              console.log("ยืนยันworker")
           });
+      }else{
+        await axios
+          .get(
+            `${process.env.VUE_APP_ROOT_API}main/selectEmployer?idEmployer=${data.idEmpOrWork}`
+          )
+          .then((response) => {
+            this.infoEmp = response.data;
+            console.log(this.infoWorker);
+            this.image =
+              `${process.env.VUE_APP_ROOT_API}main/image/` +
+              this.infoEmp.profile;
+              console.log("ยืนยันemp")
+          });        
       }
     },
     async sendApprove(idApprove) {
@@ -1027,6 +1042,7 @@ export default {
     },
   },
   async created() {
+    console.log(this.$store.state.auth.user.employer)
     if (
       this.$store.state.auth.user &&
       this.$store.state.auth.user.role.idRole == "1"
