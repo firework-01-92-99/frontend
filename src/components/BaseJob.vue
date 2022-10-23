@@ -5,6 +5,7 @@
       v-for="job in allJobs.content.filter((j) => j.idPosting != this.idPost)"
       :key="job.idPosting"
     >
+    <div>
       <div
         class="
           cursor-pointer
@@ -51,7 +52,7 @@
               </div>
             </div>
             <h2 class="card-title text-base">
-              {{ getPostbyEmp(job.idEmployer).establishmentName }}
+              {{ getPostbyEmp(job.idEmployer) ? getPostbyEmp(job.idEmployer).establishmentName : ''}}
             </h2>
             <p>
               <span class="inline-block align-middle"
@@ -75,7 +76,7 @@
                   ><i class="material-icons pr-2"> place </i></span
                 >
                 <span class="hidden font-semibold text-base">ที่อยู่ : </span>
-                <span class="text-base font-medium inline-block align-middle">{{
+                <span v-if="getPostbyEmp(job.idEmployer)" class="text-base font-medium inline-block align-middle">{{
                   getPostbyEmp(job.idEmployer).address +
                   " " +
                   getPostbyEmp(job.idEmployer).district.districtName +
@@ -128,6 +129,7 @@
         </div>
       </div>
     </div>
+    </div>
   </div>
 </template>
 
@@ -137,7 +139,7 @@ import axios from "axios";
 import { mapGetters } from "vuex";
 export default {
   emits: ["idPost"],
-  props: ["searched", "idPost"],
+  props: ["searched", "idPost", "idEmp"],
   // components: { BaseJobDetail },
   data() {
     return {
