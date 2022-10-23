@@ -21,7 +21,7 @@
               font-bold
             "
           >
-            ประกาศรับสมัครงานของคุณไว้ที่นี่
+            สร้างประกาศรับสมัครงานของคุณไว้ที่นี่
           </h1>
           <!-- <p class="mb-5">ค้นหางานที่ใช่ ให้คุณได้ทำงานที่ชอบ</p> -->
         </div>
@@ -240,7 +240,7 @@
             v-model.trim="actOrInPost"
             class="
               select select-bordered
-              w-1/4
+              w-2/5
               2xl:text-base
               md:text-xs
               font-normal
@@ -249,8 +249,8 @@
             <option class="text-black" :value="''" disabled selected>
               สถานะ
             </option>
-            <option class="text-black" value="Active">Active</option>
-            <option class="text-black" value="Inactive">Inactive</option>
+            <option class="text-black" value="Active">เปิดประกาศรับสมัคร</option>
+            <option class="text-black" value="Inactive">ปิดประกาศรับสมัคร</option>
           </select>
         </div>
       </div>

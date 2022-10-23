@@ -1317,9 +1317,14 @@
                 <div class="text-center mt-4">
                   <div
                     @click="$router.push('/signin')"
-                    class="cursor-pointer no-underline hover:underline text-sm"
+                    class="text-sm"
                   >
-                    มีบัญชีอยู่แล้ว? เข้าสู่ระบบ
+                    มีบัญชีอยู่แล้ว? <span class="cursor-pointer
+                        no-underline
+                        hover:underline
+                        text-blue-700
+                        hover:text-blue-800
+                        font-medium">เข้าสู่ระบบ</span>
                   </div>
                 </div>
               </div>

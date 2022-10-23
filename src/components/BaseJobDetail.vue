@@ -109,8 +109,10 @@
           >
           <span class="inline-block align-middle"> {{ employer.email }}</span>
         </p>
-        <button @click="$router.push('/editPost?idPost=' + idPosting)" class="bg-orange-1 text-white">แก้ไข</button>
-        <button @click="deletePost()" class="bg-slate-500 text-white">ลบโพส</button>
+        <div class="flex justify-end space-x-5">
+          <button @click="$router.push('/editPost?idPost=' + idPosting)" class="px-10 btn border-orange-1 bg-orange-1 hover:bg-orange-2 hover:border-orange-2">แก้ไขประกาศรับสมัคร</button>
+          <button @click="deletePost()" class="px-10 btn btn-ghost border-red-600 text-red-600 hover:bg-red-700 hover:border-red-700 hover:text-white">ลบประกาศรับสมัคร</button>
+        </div>
         <div class="card-actions justify-center 2xl:justify-end">
           <div v-if="this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == '3'">
           <label

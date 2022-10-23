@@ -231,9 +231,11 @@ export default {
     //   console.log("this.isBookmark = " + this.isBookmark)
     //   localStorage.removeItem('isBookmark');
     //   }    
+    if(this.$store.state.auth.user.role.idRole == "3"){
     this.fav1= await axios.get(
         `${process.env.VUE_APP_ROOT_API}worker/getMyFavorite?idWorker=` + this.$store.state.auth.user.worker.idWorker);
     this.favoriteList = this.fav1.data
+    }
     console.log(this.favoriteList)
   },
 };
