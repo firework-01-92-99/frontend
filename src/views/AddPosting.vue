@@ -60,23 +60,12 @@
       <!-- </router-link> -->
     </div>
     <!-- card header -->
-    <form>
-      <div class="mx-auto card 2xl:card-side bg-base-100 font-sans-thai w-full">
-        <figure class="2xl:w-1/4">
-          <img
-            class="2xl:h-full w-full"
-            src="https://i.ytimg.com/vi/J_oT9erINxA/maxresdefault.jpg"
-            alt="Movie"
-          />
-        </figure>
-        <div class="card-body">
-          <!-- <h2 class="card-title text-orange-1">position</h2> -->
-          <div class="2xl:flex 2xl:-mx-3">
+    <div class="2xl:flex 2xl:-mx-3">
             <div class="w-full 2xl:px-3 mb-5">
               <label
                 for=""
                 class="2xl:text-base md:text-base text-sm font-medium px-1"
-                >กรอกชื่อตำแหน่ง</label
+                >เพิ่มตำแหน่งใหม่</label
               >
               <div class="flex">
                 <div
@@ -107,10 +96,98 @@
                     outline-none
                     focus:border-indigo-500
                   "
-                  :class="[{ 'bg-red-50': positionInput }]"
                   placeholder="ชื่อตำแหน่ง"
                   required
                 />
+              </div>
+              <button class="btn">เพิ่ม</button>
+            </div>
+            <!-- <button class="btn">เพิ่ม</button> -->
+          </div>
+
+    <form>
+      <div class="mx-auto card 2xl:card-side bg-base-100 font-sans-thai w-full">
+        <figure class="2xl:w-1/4">
+          <img
+            class="2xl:h-full w-full"
+            src="https://i.ytimg.com/vi/J_oT9erINxA/maxresdefault.jpg"
+            alt="Movie"
+          />
+        </figure>
+        <div class="card-body">
+          <!-- <h2 class="card-title text-orange-1">position</h2> -->
+
+          <div class="2xl:flex 2xl:-mx-3">
+            <div class="w-full 2xl:px-3 mb-5">
+              <label
+                for=""
+                class="2xl:text-base md:text-base text-sm font-medium px-1"
+                >กรอกชื่อตำแหน่ง</label
+              >
+              <div class="flex">
+                <div
+                  class="
+                    w-10
+                    z-10
+                    pl-1
+                    text-center
+                    pointer-events-none
+                    flex
+                    items-center
+                    justify-center
+                  "
+                >
+                  <i class="mdi mdi-account-outline text-gray-400 text-lg"></i>
+                </div>
+                <!-- <input
+                  type="text"
+                  v-model.trim="postInfo.position.positionName"
+                  class="
+                    w-full
+                    -ml-10
+                    pl-5
+                    pr-3
+                    py-2
+                    rounded-lg
+                    border-2 border-gray-200
+                    outline-none
+                    focus:border-indigo-500
+                  "
+                  :class="[{ 'bg-red-50': positionInput }]"
+                  placeholder="ชื่อตำแหน่ง"
+                  required
+                /> -->
+                <select
+                  type="text"
+                  v-model.trim="postInfo.position.idposition"
+                  class="
+                    select select-bordered
+                    w-full
+                    -ml-10
+                    pl-5
+                    pr-3
+                    py-2
+                    rounded-lg
+                    border-2 border-gray-200
+                    outline-none
+                    focus:border-indigo-500
+                  "
+                  :class="{ 'bg-red-50': positionInput }"
+                >
+                  <!-- แก้ด้วย -->
+                  <option :value="''" disabled selected>
+                    กรุณาเลือกตำแหน่งงาน
+                  </option>
+                  <option
+                    class="text-black"
+                    v-for="ht in hiringTypeArray"
+                    :key="ht.idHiringtype"
+                    :value="ht.idHiringtype"
+                  >
+                    {{ ht.nameType }}
+                  </option>
+                  <!-- แก้ด้วย -->
+                </select>
               </div>
               <p v-if="positionInput" class="text-red-600">
                 กรุณากรอกชื่อตำแหน่ง
