@@ -36,30 +36,45 @@
               type="radio"
               name="rating-2"
               class="mask mask-star-2 bg-orange-400"
+              v-model="giveRate"
+              :value="1"
+              disabled
             />
             <input
               type="radio"
               name="rating-2"
               class="mask mask-star-2 bg-orange-400"
-              checked
+              v-model="giveRate"
+              :value="2"
+              disabled
             />
             <input
               type="radio"
               name="rating-2"
               class="mask mask-star-2 bg-orange-400"
+              v-model="giveRate"
+              :value="3"
+              disabled
             />
             <input
               type="radio"
               name="rating-2"
               class="mask mask-star-2 bg-orange-400"
+              v-model="giveRate"
+              :value="4"
+              disabled
             />
             <input
               type="radio"
               name="rating-2"
               class="mask mask-star-2 bg-orange-400"
+              v-model="giveRate"
+              :value="5"
+              disabled
             />
             <span class="">•</span><span class="">timestamp</span>
           </div>
+          {{giveRate}}
           <p>ความคิดเห็นความคิดเห็นความคิดเห็นความคิดเห็นความคิดเห็น</p>
           <div class="card-actions justify-end"></div>
         </div>
@@ -70,7 +85,16 @@
 </template>
 
 <script>
-export default {};
+export default {
+    data() {
+    return {
+      giveRate: 4,
+    };
+  },
+  methods(){
+    
+  }
+};
 </script>
 
 <style>
