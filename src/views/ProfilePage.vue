@@ -624,8 +624,7 @@
                                 placeholder-black placeholder-opacity-100
                               "
                               :placeholder="
-                                $store.state.auth.user.employer.subDistrict
-                                  .subDistrict
+                                $store.state.auth.user.employer.subDistrict.subDistrict
                               "
                               disabled
                             />
@@ -670,8 +669,7 @@
                                 placeholder-black placeholder-opacity-100
                               "
                               :placeholder="
-                                $store.state.auth.user.employer.district
-                                  .districtName
+                                $store.state.auth.user.employer ? $store.state.auth.user.employer.district.districtName: ''
                               "
                               disabled
                             />
@@ -885,7 +883,7 @@
 
           <div class="lg:w-1/2 p-4">
             <base-tab>
-              <template
+              <template v-if="this.$store.state.auth.user.role.idRole == '3'"
                 ><a
                   class="tab tab-bordered px-16"
                   @click="numTab = 1"
@@ -913,7 +911,7 @@
                 ></template
               >
             </base-tab>
-            <div v-if="numTab == 1 || numTab == ''">
+            <div v-if="(numTab == 1 || numTab == '') && this.$store.state.auth.user.role.idRole == '3'">
               <base-fav class="mt-7"></base-fav>
             </div>
             <div v-if="numTab == 2">
@@ -998,7 +996,7 @@ export default {
         this.nationality =
           this.$store.state.auth.user.employer.nationality.nationality_name;
         this.tel = this.$store.state.auth.user.employer.tel;
-        this.image = "1";
+        this.image = await `${process.env.VUE_APP_ROOT_API}main/image/` + this.$store.state.auth.user.employer.profile;
       } else {
         if (this.$store.state.auth.user.role.idRole == "3") {
           this.firstname = this.$store.state.auth.user.worker.firstName;
@@ -1008,7 +1006,7 @@ export default {
             this.$store.state.auth.user.worker.nationality.nationality_name;
           this.tel = this.$store.state.auth.user.worker.phone;
           this.image =
-            (await `${process.env.VUE_APP_ROOT_API}main/image/`) +
+            await `${process.env.VUE_APP_ROOT_API}main/image/` +
             this.$store.state.auth.user.worker.verifyPic;
         }
       }
