@@ -60,27 +60,36 @@
               type="radio"
               name="rating-2"
               class="mask mask-star-2 bg-orange-400"
+              :value="1"
+              v-model="giveRate"
             />
             <input
               type="radio"
               name="rating-2"
               class="mask mask-star-2 bg-orange-400"
-              checked
+              :value="2"
+              v-model="giveRate"
             />
             <input
               type="radio"
               name="rating-2"
               class="mask mask-star-2 bg-orange-400"
+              :value="3"
+              v-model="giveRate"
             />
             <input
               type="radio"
               name="rating-2"
               class="mask mask-star-2 bg-orange-400"
+              :value="4"
+              v-model="giveRate"
             />
             <input
               type="radio"
               name="rating-2"
               class="mask mask-star-2 bg-orange-400"
+              :value="5"
+              v-model="giveRate"
             />
           </div>
           <div class="w-full mt-3">
@@ -121,7 +130,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data(){
+    return{
+      giveRate: 0
+    }
+  }
+};
 </script>
 
 <style>
