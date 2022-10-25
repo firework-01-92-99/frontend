@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="cursor-pointer" @click="$router.push('/posting')">
+  <!-- "/detail?idPosting=" + idPost + "&idEmployer=" + idEmp -->
     <!-- <figure>
                 <img src="https://placeimg.com/200/280/arch" alt="Movie" />
               </figure> -->
