@@ -39,10 +39,7 @@
                 กรุณากรอกรหัส OTP ที่ถูกส่งไปยังอีเมลของคุณ
               </p>
               <div class="w-full mt-4">
-                <div
-                  autocomplete="off"
-                  class="form-horizontal w-3/4 mx-auto"
-                >
+                <div autocomplete="off" class="form-horizontal w-3/4 mx-auto">
                   <div class="flex -mx-3">
                     <div class="w-full px-3 mb-5">
                       <label for="email" class="text-base font-medium px-1"
@@ -92,17 +89,21 @@
                           @onComplete="fillOTP"
                         />
                       </div>
-                        <p v-if="wrongOTP" class="text-red-600">
-                          รหัส OTP ไม่ถูกต้อง
-                        </p>                      
+                      <p v-if="wrongOTP" class="text-red-600">
+                        รหัส OTP ไม่ถูกต้อง
+                      </p>
                     </div>
                   </div>
-                        <button @click="resendOTP()" :disabled="btnDisable" class="text-blue-600">
-                          ส่งรหัสผ่านอีกรอบ
-                        </button>
-                        <div v-if="nowCount == true">
-                          {{timeCount}}
-                        </div>                    
+                  <button
+                    @click="resendOTP()"
+                    :disabled="btnDisable"
+                    class="text-blue-600"
+                  >
+                    ส่งรหัสผ่านอีกรอบ
+                  </button>
+                  <div v-if="nowCount == true">
+                    {{ timeCount }}
+                  </div>
                   <div class="flex flex-col mt-8 space-y-4">
                     <!-- <button
                       type="submit"
@@ -156,7 +157,7 @@ export default {
   },
   data() {
     return {
-      otpInput: '',
+      otpInput: "",
       wrongOTP: false,
       btnDisable: false,
       timeCount: 60,
@@ -164,65 +165,83 @@ export default {
     };
   },
   methods: {
-  fillOTP(value){
-    const initialValue = '';
-    const otp = value.reduce(
-    (previousValue, currentValue) => String(previousValue) + String(currentValue), initialValue);
-    console.log(otp)
-    this.otpInput = otp
-    // console.log(this.otpInput)
-    this.sendOTP()
-  },
-  // setTimeout(){
-
-  // },
-  async resendOTP(){
-    await axios.post(`${process.env.VUE_APP_ROOT_API}main/sendOTPAgain?email=` + this.$route.query.email)
-    console.log("ส่ง OTP อีกครั้งแล้ว")
-
-
-    this.btnDisable = true;
-    setTimeout(() => (this.btnDisable = false), 60*1000); // 60 seconds
-    // clearTimeout(this.setTime);
-    this.countDownTimer()
+    fillOTP(value) {
+      const initialValue = "";
+      const otp = value.reduce(
+        (previousValue, currentValue) =>
+          String(previousValue) + String(currentValue),
+        initialValue
+      );
+      console.log(otp);
+      this.otpInput = otp;
+      // console.log(this.otpInput)
+      this.sendOTP();
     },
-  countDownTimer(){
-    this.nowCount = true
-    setTimeout(() => {  if(this.timeCount>0){
-                        this.timeCount -= 1
-                        this.countDownTimer()
-                        }else{
-                          if(this.timeCount == 0){
-                            this.nowCount = false;
-                          }
-                        }
-                        // this.countDownTimer()
-                    }, 1000)
-  },
-  async sendOTP(){
-    let errorResponse  
-    // const toLoginPage = this.$router.push("/signin");  
-    await axios.post(`${process.env.VUE_APP_ROOT_API}main/receiveOTP?receiveOTP=` + this.otpInput + '&email=' + this.$route.query.email )
+    // setTimeout(){
+
+    // },
+    async resendOTP() {
+      await axios.post(
+        `${process.env.VUE_APP_ROOT_API}main/sendOTPAgain?email=` +
+          this.$route.query.email
+      );
+      console.log("ส่ง OTP อีกครั้งแล้ว");
+
+      this.btnDisable = true;
+      setTimeout(() => (this.btnDisable = false), 60 * 1000); // 60 seconds
+      // clearTimeout(this.setTime);
+      this.countDownTimer();
+    },
+    countDownTimer() {
+      this.nowCount = true;
+      setTimeout(() => {
+        if (this.timeCount > 0) {
+          this.timeCount -= 1;
+          this.countDownTimer();
+        } else {
+          if (this.timeCount == 0) {
+            this.nowCount = false;
+          }
+        }
+        // this.countDownTimer()
+      }, 1000);
+    },
+    async sendOTP() {
+      let errorResponse;
+      let res;
+      // const toLoginPage = this.$router.push("/signin");
+      await axios
+        .post(
+          `${process.env.VUE_APP_ROOT_API}main/receiveOTP?receiveOTP=` +
+            this.otpInput +
+            "&email=" +
+            this.$route.query.email
+        )
         .then(function (response) {
-          console.log("1.")
+          console.log("1.");
           console.log(response);
-          console.log("2.")
-          console.log(response.data)
-          alert("ยืนยัน OTP เรียบร้อย กรุณารอ Admin ยืนยันและตรวจสอบบัญชีของท่าน")
-          // toLoginPage
+          console.log("2.");
+          console.log(response.data);
+          alert(
+            "ยืนยัน OTP เรียบร้อย กรุณารอ Admin ยืนยันและตรวจสอบบัญชีของท่าน"
+          );
+          res = response.status;
         })
         .catch(function (error) {
-            console.log(error)
-            errorResponse = error.response.data.errorCode;
+          console.log(error);
+          errorResponse = error.response.data.errorCode;
         });
+      if (res == 200) {
+        this.$router.push("/signin")
+      }
       if (errorResponse == "OTP_INCORRECT") {
-        this.wrongOTP = true
-      }        
-  },      
+        this.wrongOTP = true;
+      }
+    },
   },
-  created(){
-    console.log(this.$route.query.email)
-  }
+  created() {
+    console.log(this.$route.query.email);
+  },
 };
 </script>
 <style>

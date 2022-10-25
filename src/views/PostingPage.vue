@@ -386,16 +386,35 @@ export default {
 
     // },
     searchStatusPost() {
+      console.log("this.actOrInPost1" + this.actOrInPost)
       if (this.actOrInPost == "Inactive") {
         this.showInactivePost = true;
         this.$store.commit("setPosting", this.getInactivePost);
+        console.log("this.page Inactive = " +this.page)
+        this.page = 1
       } else {
+        console.log("this.actOrInPost2" + this.actOrInPost)
+        if (this.actOrInPost == "Active"){
         this.showInactivePost = false;
-        this.$store.commit("setPosting", this.allPost);
+        console.log("this.page Active = " +this.page)
+        if(this.page!=1){
+          if(this.x == 1){
+            this.page = 1
+            this.$store.commit("setPosting", this.allPost);
+          }
+        }else{
+          if(this.x == 1){
+            this.$store.commit("setPosting", this.allPost);
+          }else{
+            this.$store.commit("setPosting", this.allPost);
+          }
+        }
+        }
       }
     },
     async resetShowJob() {
       this.clearSearching();
+      this.actOrInPost = "Active"
       // const allPost = await this.fetch(
       //   `${process.env.VUE_APP_ROOT_API}main/allPosting`
       // );

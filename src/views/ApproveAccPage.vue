@@ -143,7 +143,6 @@
                                       justify-center
                                     "
                                   ></div>
-                                  {{infoEmp.subDistrict}}
                                   <input
                                     type="text"
                                     class="
@@ -985,7 +984,7 @@ export default {
       if (data.workOrEmp == "Worker") {
         await axios
           .get(
-            `${process.env.VUE_APP_ROOT_API}admin/selectWorker?idWorker=${data.idEmpOrWork}`
+            `${process.env.VUE_APP_ROOT_API}admin/selectWorker?idWorker=${data.idWorker}`
           )
           .then((response) => {
             this.infoWorker = response.data;
@@ -998,11 +997,11 @@ export default {
       }else{
         await axios
           .get(
-            `${process.env.VUE_APP_ROOT_API}main/selectEmployer?idEmployer=${data.idEmpOrWork}`
+            `${process.env.VUE_APP_ROOT_API}main/selectEmployer?idEmployer=${data.idEmployer}`
           )
           .then((response) => {
             this.infoEmp = response.data;
-            console.log(this.infoWorker);
+            console.log(this.infoEmp);
             this.image =
               `${process.env.VUE_APP_ROOT_API}main/image/` +
               this.infoEmp.profile;

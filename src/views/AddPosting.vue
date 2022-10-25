@@ -216,6 +216,7 @@
                     ></div>
                     <input
                       type="tel"
+                      @change="salaryType(postInfo.minSalary)"
                       v-model.trim="postInfo.minSalary"
                       maxlength="5"
                       class="
@@ -259,6 +260,7 @@
                     ></div>
                     <input
                       type="tel"
+                      @change="salaryType(postInfo.maxSalary)"
                       v-model.trim="postInfo.maxSalary"
                       maxlength="5"
                       class="
@@ -982,6 +984,7 @@ export default {
         },
       },
       post: [],
+      response200: '',
     };
   },
   methods: {
@@ -998,7 +1001,7 @@ export default {
     },
     async createPost() {
       this.checkValidate();
-      // let clearForm = this.clear()
+      let res;
       if (!this.checkValidate()) {
         await axios
           .post(
@@ -1007,12 +1010,15 @@ export default {
           )
           .then(function (response) {
             console.log(response);
-            alert("ประกาศโพสหางานของคุณเรียบร้อยแล้ว");
-            // clearForm
+            res = response.status
+            alert("ประกาศโพสหางานของคุณเรียบร้อยแล้ว");        
           })
           .catch(function (error) {
             console.log(error);
           });
+          if(res == 200){
+            this.clear()
+          }
           this.$store.commit("setPosting", this.post);
       }
     },
@@ -1073,6 +1079,15 @@ export default {
         },
       }
     },
+    // salaryType(s){
+    //   if(s < this.postInfo.minSalary){
+    //     this.postInfo.maxSalary + 100
+    //   }else{
+    //     if(s > this.postInfo.maxSalary){
+    //       this.postInfo.minSalary - 100
+    //     }
+    //   }
+    // },
     ifChangeAge(age) {
       if (age < 18) {
         this.postInfo.minAge = 18;

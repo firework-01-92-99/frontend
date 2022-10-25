@@ -967,12 +967,25 @@ export default {
   },
   methods: {
     async sendDelete() {
-      if (confirm("คุณต้องการจะลบบัญชีใช่หรือไม่")) {
-        console.log("idAccount = " + this.$store.state.auth.user.idAccount);
+      if(this.$store.state.auth.user){
+      if(this.$store.state.auth.user.role.idRole == '3'){
+      if (confirm("คุณต้องการจะลบบัญชี worker ใช่หรือไม่")) {
         await axios.put(
           `${process.env.VUE_APP_ROOT_API}worker/deleteMyWorker?idWorker=` +
             this.$store.state.auth.user.worker.idWorker
         ).data;
+      }
+      }else{
+        if(this.$store.state.auth.user.role.idRole == '2'){
+          if (confirm("คุณต้องการจะลบบัญชี employer ใช่หรือไม่")){
+            await axios.put(
+          `${process.env.VUE_APP_ROOT_API}emp/deleteMyEmployer?idEmployer=` +
+            this.$store.state.auth.user.employer.idEmployer
+        ).data;
+          }
+
+        }
+      }
       }
     },
     async fetch(url) {

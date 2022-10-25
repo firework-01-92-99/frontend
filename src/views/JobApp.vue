@@ -46,6 +46,7 @@
           <tr v-for="(s, index) in status" :key="s.idApplication">
             <!-- <div v-for="">
             </div> -->
+            {{s}}
             <th>{{ index + 1 }}</th>
             <td>{{ s.establishmentName }}</td>
             <td>{{ s.positionName }}</td>
@@ -105,7 +106,7 @@
                 <label
                 v-if="s.statusName == 'Waiting'"
                   for="my-modal-5"
-                  @click="isCancel = true"
+                  @click="embendedId(s.idApplication), isCancel = true"
                   class="btn border-red-700 bg-red-700 hover:bg-red-800 hover:border-red-800"
                 >
                   ยกเลิกการสมัคร
@@ -126,7 +127,7 @@
                         >ยกเลิก</label
                       >
                       <label
-                        @click="cancel(s.idApplication)"
+                        @click="cancel(idApplication)"
                         for="my-modal-5"
                         class="
                           btn
@@ -231,7 +232,7 @@
               </div>
               <div v-if="s.statusName == 'Waiting'">
               <label
-                @click="isCancel = true"
+                @click="embendedId(s.idApplication), isCancel = true"
                 for="my-modal-6"
                 class="btn border-red-700 bg-red-700 w-full -mt-16"
               >
@@ -255,7 +256,7 @@
                         >ยกเลิก</label
                       >
                       <label
-                        @click="cancel(s.idApplication)"
+                        @click="cancel(idApplication)"
                         for="my-modal-6"
                         class="
                           btn
@@ -290,9 +291,13 @@ export default {
       status: [],
       isCancel: false,
       noValue: false,
+      idApplication: 0,
     };
   },
   methods: {
+    embendedId(id){
+      this.idApplication = id
+    },
     async fetch(url) {
       try {
         const res = await fetch(url);
@@ -303,6 +308,7 @@ export default {
       }
     },
     async cancel(idApp) {
+      console.log("idApp = " + idApp)
       try {
         await axios.delete(
           // `http://localhost:3000/worker/workCancelApp?idApplication=${idApp}`,
