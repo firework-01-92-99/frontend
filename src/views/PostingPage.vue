@@ -246,10 +246,10 @@
               font-normal
             "
           >
-            <option class="text-black" :value="''" disabled selected>
+            <!-- <option class="text-black" :value="''" disabled selected>
               สถานะ
-            </option>
-            <option class="text-black" value="Active">เปิดประกาศรับสมัคร</option>
+            </option> -->
+            <option class="text-black" value="Active" selected = "selected">เปิดประกาศรับสมัคร</option>
             <option class="text-black" value="Inactive">ปิดประกาศรับสมัคร</option>
           </select>
         </div>
@@ -364,7 +364,7 @@ export default {
       action: "",
       idPostToUse: "",
       getInactivePost: [],
-      actOrInPost: "",
+      actOrInPost: "Active",
       showInactivePost: false,
       allPost: [],
     };
@@ -434,7 +434,7 @@ export default {
           console.log("ต่ำกว่าหน้า 1 ไม่ได้");
         }
 
-        if(this.actOrInPost == "Active"){
+        if(this.actOrInPost == "Active" || this.actOrInPost == ''){
         const pageBEAct = this.page - 1;
         // const sendBE = await this.fetch("http://localhost:3000/main/allPosting?pageNo=" + pageBEAct);
         const sendBE = await this.fetch(
@@ -442,6 +442,7 @@ export default {
         );          
           this.$store.commit("setPosting", sendBE);
         }else{
+        if(this.actOrInPost == "Inactive"){
           const pageBEInact = this.page - 1;
           const sendBEInact = await this.fetch(
         `${process.env.VUE_APP_ROOT_API}main/getPostingInActiveByIdEmployer?idEmployer=` +
@@ -449,6 +450,7 @@ export default {
           this.$store.commit("setPosting", sendBEInact);
           console.log(sendBEInact)
           console.log("หน้า" + pageBEInact)
+        }  
         }
       }
     },
