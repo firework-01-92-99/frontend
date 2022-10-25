@@ -35,7 +35,7 @@
             to="/viewworkapp"
           > -->
           <figure>
-            <img src="https://i.ytimg.com/vi/J_oT9erINxA/maxresdefault.jpg" />
+            <img class="object-cover" src="https://i.ytimg.com/vi/J_oT9erINxA/maxresdefault.jpg" />
           </figure>
 
           <!-- <div v-for="e in allEmployer" :key="e.idEmployer"> -->
