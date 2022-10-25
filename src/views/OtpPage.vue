@@ -39,9 +39,8 @@
                 กรุณากรอกรหัส OTP ที่ถูกส่งไปยังอีเมลของคุณ
               </p>
               <div class="w-full mt-4">
-                <form
+                <div
                   autocomplete="off"
-                  @submit.prevent="submit"
                   class="form-horizontal w-3/4 mx-auto"
                 >
                   <div class="flex -mx-3">
@@ -98,6 +97,12 @@
                         </p>                      
                     </div>
                   </div>
+                        <button @click="resendOTP()" :disabled="btnDisable" class="text-blue-600">
+                          ส่งรหัสผ่านอีกรอบ
+                        </button>
+                        <div v-if="nowCount == true">
+                          {{timeCount}}
+                        </div>                    
                   <div class="flex flex-col mt-8 space-y-4">
                     <!-- <button
                       type="submit"
@@ -131,7 +136,7 @@
                       ย้อนกลับ
                     </button>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
           </div>
@@ -152,7 +157,10 @@ export default {
   data() {
     return {
       otpInput: '',
-      wrongOTP: false
+      wrongOTP: false,
+      btnDisable: false,
+      timeCount: 60,
+      nowCount: false,
     };
   },
   methods: {
@@ -164,6 +172,32 @@ export default {
     this.otpInput = otp
     // console.log(this.otpInput)
     this.sendOTP()
+  },
+  // setTimeout(){
+
+  // },
+  async resendOTP(){
+    await axios.post(`${process.env.VUE_APP_ROOT_API}main/sendOTPAgain?email=` + this.$route.query.email)
+    console.log("ส่ง OTP อีกครั้งแล้ว")
+
+
+    this.btnDisable = true;
+    setTimeout(() => (this.btnDisable = false), 60*1000); // 60 seconds
+    // clearTimeout(this.setTime);
+    this.countDownTimer()
+    },
+  countDownTimer(){
+    this.nowCount = true
+    setTimeout(() => {  if(this.timeCount>0){
+                        this.timeCount -= 1
+                        this.countDownTimer()
+                        }else{
+                          if(this.timeCount == 0){
+                            this.nowCount = false;
+                          }
+                        }
+                        // this.countDownTimer()
+                    }, 1000)
   },
   async sendOTP(){
     let errorResponse  
@@ -184,7 +218,7 @@ export default {
       if (errorResponse == "OTP_INCORRECT") {
         this.wrongOTP = true
       }        
-  },  
+  },      
   },
   created(){
     console.log(this.$route.query.email)
