@@ -118,6 +118,7 @@
               </p>
             </div>
           </div>
+          {{jobDetail.position.positionName}}
           <h2 class="card-title">
             {{ this.$store.state.auth.user.employer.establishmentName }}
           </h2>
@@ -298,8 +299,8 @@
                 <label class="label cursor-pointer space-x-2">
                   <input
                     type="radio"
-                    v-model.trim="InorAct"
-                    @click="closePost"
+                    v-model="jobDetail.status.statusName"
+                    @click="closePost('On')"
                     name="radio-8"
                     class="radio checked:bg-blue-500"
                     value="Active"
@@ -311,8 +312,8 @@
                 <label class="label cursor-pointer space-x-2">
                   <input
                     type="radio"
-                    v-model.trim="InorAct"
-                    @click="closePost"
+                    v-model="jobDetail.status.statusName"
+                    @click="closePost('Off')"
                     name="radio-8"
                     class="radio checked:bg-red-500"
                     value="Inactive"
@@ -324,11 +325,11 @@
           </div>
 
           <div
-            class="badge badge-lg w-full bg-green-200 text-green-600 border-0"
+            v-if="jobDetail.status.statusName == 'Active'" class="badge badge-lg w-full bg-green-200 text-green-600 border-0"
           >
             เปิดประกาศรับสมัคร
           </div>
-          <div
+          <div v-else
             class="badge badge-lg w-full bg-gray-200 text-gray-600 border-0"
           >
             ปิดประกาศรับสมัคร
@@ -670,7 +671,7 @@
             <label class="2xl:text-base md:text-base text-sm font-medium px-1"
               >วันทำงาน</label
             >
-            <div class="flex space-x-5">
+            <!-- <div class="flex space-x-5">
               <div class="form-control">
                 <label v-if="jobDetail" class="label cursor-pointer space-x-2">
                   <span
@@ -689,29 +690,29 @@
                     <span class="label-text">{{ pd.day.dayName }}</span>
                   </span>
                 </label>
-                <!-- <span>Selected day: {{ jobDetail.postingHasDayList }}</span> -->
+                <span>Selected day: {{ jobDetail.postingHasDayList }}</span>
               </div>
-            </div>
+            </div> -->
 
-            <!-- <div class="flex space-x-5">
+            <div class="flex space-x-5">
               <div class="form-control">
                 <label class="label cursor-pointer space-x-2">
                   <span v-for="pd in sevenDay" :key="pd.idDay">
-                    {{pd}}
+                    <!-- {{pd}} -->
                     <input
                       :id="pd.idDay"
-                      :value="{day:pd}"
+                      :value="jobDetail.postingHasDayList.find(d=>d.day.idDay == pd.idDay) ? jobDetail.postingHasDayList.find(d=>d.day.idDay == pd.idDay) : {day:pd}"
                       type="checkbox"
-                      v-model="jobDetail.postingHasDayList.idPostingHasDay"
+                      v-model="jobDetail.postingHasDayList"
                       class="checkbox checkbox-sm"
                       :class="{ 'bg-red-50': postingHasDayListInput }"
                     />
                     <span class="label-text">{{ pd.dayName }}</span>
                   </span>
                 </label>
-                <span>Selected day: {{ postInfo.postingHasDayList }}</span>
+                <span>Selected day: {{ jobDetail.postingHasDayList }}</span>
               </div>
-            </div> -->
+            </div>
             <p v-if="postingHasDayListInput" class="text-red-600">
               กรุณาเลือกวันทำงาน
             </p>
@@ -1019,7 +1020,105 @@ export default {
       workerTypeInput: false,
       postingHasDayListInput: false,
 
+      // postInfo: {
+        // sex: this.jobDetail?.sex,
+        // workDescription: this.jobDetail?.workDescription,
+        // minAge: this.jobDetail?.minAge,
+        // maxAge: this.jobDetail?.maxAge,
+        // minSalary: this.jobDetail?.minSalary,
+        // maxSalary: this.jobDetail?.maxSalary,
+        // overtimePayment: this.jobDetail?.overtimePayment,
+        // startTime: this.jobDetail?.startTime,
+        // endTime: this.jobDetail?.endTime,
+        // properties: this.jobDetail?.properties,
+        // welfare: this.jobDetail?.welfare,
+        // hiringType: {
+        //   idHiringtype: this.jobDetail?.hiringType.idHiringtype,
+        //   nameType: "",
+        // },
+        // idEmployer: this.$store.state.auth.user.employer.idEmployer,
+        // status: {
+        //   idStatus: "1",
+        //   statusName: "Active",
+        // },
+        // workerType: {
+        //   idWorkerType: this.jobDetail?.workerType.idWorkerType,
+        //   typeName: "",
+        // },
+        // postingHasDayList: [],
+        // position: {
+        //   idposition: "",
+        //   positionName: this.jobDetail?.position?.positionName,
+      //   },
+      // },
       postInfo: {
+        sex: "",
+        workDescription: "",
+        minAge: 18,
+        maxAge: 60,
+        minSalary: 0,
+        maxSalary: 0,
+        overtimePayment: "",
+        startTime: "",
+        endTime: "",
+        properties: "",
+        welfare: "",
+        hiringType: {
+          idHiringtype: "",
+          nameType: "",
+        },
+        idEmployer: this.$store.state.auth.user.employer.idEmployer, 
+        status: {
+          idStatus: "1",
+          statusName: "Active",
+        },
+        workerType: {
+          idWorkerType: "",
+          typeName: "",
+        },
+        postingHasDayList: [],
+        position: {
+          idposition: "",
+          positionName: "",
+        },
+      },      
+      idPosting: this.idPosting,
+      jobDetail: {},
+      hiringTypeArray: [],
+      sevenDay: [],
+    };
+  },
+  methods: {
+    async closePost(OnorOff) {
+      console.log("InorAct = " + OnorOff);
+      if(OnorOff == 'Off'){
+        if (confirm("ลบแน่นะวิ")) {
+        console.log("Inactive Post");
+        await axios.put(
+          `${process.env.VUE_APP_ROOT_API}emp/inActivePosting?idPosting=${this.idPosting}`
+        ).data;
+        OnorOff = ''
+        this.$router.push("/posting");
+      }      
+      }else {
+        if(OnorOff == 'On'){
+      if (confirm("ต้องการจะเปิดโพสใช่หรือไม่")) {
+        console.log("Active Post");
+        await axios.put(
+          `${process.env.VUE_APP_ROOT_API}emp/ActivePosting?idPosting=${this.idPosting}`
+        ).data;
+        OnorOff = ''
+        this.$router.push("/posting");
+      }  
+        }
+      
+      }
+    },
+    async editPost() {
+      this.checkValidate();
+      console.log("postInfo")
+      this.postInfo = {
+        idPosting: this.idPosting,
         sex: this.jobDetail?.sex,
         workDescription: this.jobDetail?.workDescription,
         minAge: this.jobDetail?.minAge,
@@ -1044,34 +1143,13 @@ export default {
           idWorkerType: this.jobDetail?.workerType.idWorkerType,
           typeName: "",
         },
-        postingHasDayList: [],
+        postingHasDayList: this.jobDetail.postingHasDayList.map(j=>{return{day:j.day}}),
         position: {
           idposition: "",
           positionName: this.jobDetail?.position?.positionName,
         },
-      },
-      idPosting: "",
-      jobDetail: {},
-      hiringTypeArray: [],
-      sevenDay: [],
-      InorAct: "",
-    };
-  },
-  methods: {
-    async closePost() {
-      console.log("InorAct = " + this.InorAct);
-      if (confirm("ลบแน่นะวิ")) {
-        console.log("delete");
-        await axios.put(
-          `${process.env.VUE_APP_ROOT_API}emp/inActivePosting?idPosting=${this.idPosting}`
-        ).data;
-        this.$router.push("/posting");
-      } else {
-        console.log("มีปัญหาค่ะ");
-      }
-    },
-    async editPost() {
-      this.checkValidate();
+      }      
+      console.log(this.postInfo)
       if (!this.checkValidate()) {
         await axios
           .put(`${process.env.VUE_APP_ROOT_API}emp/editPosting`, this.postInfo)
@@ -1171,8 +1249,41 @@ export default {
       `${process.env.VUE_APP_ROOT_API}main/allHiringType`
     );
     this.sevenDay = await this.fetch(
-      `${process.env.VUE_APP_ROOT_API}main/getMondayToFriday`
+      `${process.env.VUE_APP_ROOT_API}main/getSundayToSaturday`
     );
+      this.postInfo = {
+        idPosting: this.idPosting,
+        sex: this.jobDetail?.sex,
+        workDescription: this.jobDetail?.workDescription,
+        minAge: this.jobDetail?.minAge,
+        maxAge: this.jobDetail?.maxAge,
+        minSalary: this.jobDetail?.minSalary,
+        maxSalary: this.jobDetail?.maxSalary,
+        overtimePayment: this.jobDetail?.overtimePayment,
+        startTime: this.jobDetail?.startTime,
+        endTime: this.jobDetail?.endTime,
+        properties: this.jobDetail?.properties,
+        welfare: this.jobDetail?.welfare,
+        hiringType: {
+          idHiringtype: this.jobDetail?.hiringType.idHiringtype,
+          nameType: "",
+        },
+        idEmployer: this.$store.state.auth.user.employer.idEmployer,
+        status: {
+          idStatus: "1",
+          statusName: "Active",
+        },
+        workerType: {
+          idWorkerType: this.jobDetail?.workerType.idWorkerType,
+          typeName: "",
+        },
+        postingHasDayList: [this.jobDetail?.postingHasDayList.idPostingHasDay],
+        position: {
+          idposition: "",
+          positionName: this.jobDetail?.position?.positionName,
+        },
+      }
+      console.log(this.postInfo)
   },
 };
 </script>
