@@ -60,51 +60,6 @@
       <!-- </router-link> -->
     </div>
     <!-- card header -->
-    <div class="2xl:flex 2xl:-mx-3">
-            <div class="w-full 2xl:px-3 mb-5">
-              <label
-                for=""
-                class="2xl:text-base md:text-base text-sm font-medium px-1"
-                >เพิ่มตำแหน่งใหม่</label
-              >
-              <div class="flex">
-                <div
-                  class="
-                    w-10
-                    z-10
-                    pl-1
-                    text-center
-                    pointer-events-none
-                    flex
-                    items-center
-                    justify-center
-                  "
-                >
-                  <i class="mdi mdi-account-outline text-gray-400 text-lg"></i>
-                </div>
-                <input
-                  type="text"
-                  v-model.trim="postInfo.position.positionName"
-                  class="
-                    w-full
-                    -ml-10
-                    pl-5
-                    pr-3
-                    py-2
-                    rounded-lg
-                    border-2 border-gray-200
-                    outline-none
-                    focus:border-indigo-500
-                  "
-                  placeholder="ชื่อตำแหน่ง"
-                  required
-                />
-              </div>
-              <button @click="addPosition" class="btn">เพิ่ม</button>
-            </div>
-            <!-- <button class="btn">เพิ่ม</button> -->
-          </div>
-
     <form>
       <div class="mx-auto card 2xl:card-side bg-base-100 font-sans-thai w-full">
         <figure class="2xl:w-1/4">
@@ -139,7 +94,7 @@
                 >
                   <i class="mdi mdi-account-outline text-gray-400 text-lg"></i>
                 </div>
-                <!-- <input
+                <input
                   type="text"
                   v-model.trim="postInfo.position.positionName"
                   class="
@@ -156,8 +111,8 @@
                   :class="[{ 'bg-red-50': positionInput }]"
                   placeholder="ชื่อตำแหน่ง"
                   required
-                /> -->
-                <select
+                />
+                <!-- <select
                   type="text"
                   v-model.trim="postInfo.position.idposition"
                   class="
@@ -174,7 +129,6 @@
                   "
                   :class="{ 'bg-red-50': positionInput }"
                 >
-                  <!-- แก้ด้วย -->
                   <option :value="''" disabled selected>
                     กรุณาเลือกตำแหน่งงาน
                   </option>
@@ -186,8 +140,7 @@
                   >
                     {{ pa.positionName }}
                   </option>
-                  <!-- แก้ด้วย -->
-                </select>
+                </select> -->
               </div>
               <p v-if="positionInput" class="text-red-600">
                 กรุณากรอกชื่อตำแหน่ง
@@ -1066,7 +1019,7 @@ export default {
 
     checkValidate() {
       this.positionInput =
-        this.postInfo.position.idposition === "" ? true : false;
+        this.postInfo.position.positionName === "" ? true : false;
       this.sexInput = this.postInfo.sex === "" ? true : false;
       this.descriptInput = this.postInfo.workDescription === "" ? true : false;
       this.minAgeInput =
@@ -1150,7 +1103,7 @@ export default {
       `${process.env.VUE_APP_ROOT_API}main/allPostingHasDay`
     );
     this.sevenDay = await this.fetch(
-      `${process.env.VUE_APP_ROOT_API}main/getMondayToFriday`
+      `${process.env.VUE_APP_ROOT_API}main/getSundayToSaturday`
     );
       this.post1 = await axios.get(
         `${process.env.VUE_APP_ROOT_API}main/getPostingActiveByIdEmployer?idEmployer=` +
