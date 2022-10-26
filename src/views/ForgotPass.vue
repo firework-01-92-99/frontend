@@ -33,9 +33,9 @@
               background-position: center center;
             "
           ></div>
-          <div class="flex flex-col w-full lg:w-1/2 p-4">
+          <div v-if="!this.$route.query.changePass" class="flex flex-col w-full lg:w-1/2 p-4">
             <div class="flex flex-col flex-1 justify-center mb-8">
-              <h1 class="font-bold text-4xl text-center">ลืมรหัสผ่าน</h1>
+              <h1 class="font-bold text-4xl text-center">ลืมรหัสผ่าน {{emailInput}}</h1>
               <p class="text-center mt-5">รหัส OTP จะถูกส่งไปยังอีเมลที่คุณกรอก</p>
               <div class="w-full mt-4">
                 <form
@@ -130,9 +130,191 @@
               </div>
             </div>
           </div>
+          <div v-if="this.$route.query.changePass" class="flex flex-col w-full lg:w-1/2 p-4">
+            <div class="flex flex-col flex-1 justify-center mb-8">
+              <h1 class="font-bold text-4xl text-center">รีเซ็ตรหัสผ่าน {{emailInput}}</h1>
+              <p class="text-center mt-5">รหัส OTP จะถูกส่งไปยังอีเมลที่คุณกรอก</p>
+              <div class="w-full mt-4">
+                <form
+                  autocomplete="off"
+                  class="form-horizontal w-3/4 mx-auto"
+                >
+                  <div class="flex -mx-3">
+                    <div class="w-full px-3 mb-5">
+                      <label for="email" class="text-base font-medium px-1"
+                        >รหัสผ่านปัจจุบัน</label
+                      >
+                      <div class="flex">
+                        <div
+                          class="
+                            w-10
+                            z-10
+                            pl-1
+                            text-center
+                            pointer-events-none
+                            flex
+                            items-center
+                            justify-center
+                          "
+                        >
+                          <i
+                            class="mdi mdi-email-outline text-gray-400 text-lg"
+                          ></i>
+                        </div>
+                        <input
+                          type="text"
+                          name="email"
+                          id="email"
+                          v-model="reset.currPass"
+                          :class="{ 'bg-red-50': currPassInput }"
+                          class="
+                            w-full
+                            -ml-10
+                            pl-10
+                            pr-3
+                            py-2
+                            rounded-lg
+                            border-2 border-gray-200
+                            outline-none
+                            focus:border-indigo-500
+                          "
+                          placeholder="อีเมล"
+                        />
+                      </div>
+                      <p v-if="currPassInput" class="text-red-600">
+                    กรุณากรอกรหัสผ่านปัจจุบัน
+                  </p>                      
+                      <label for="email" class="text-base font-medium px-1"
+                        >รหัสผ่านใหม่</label
+                      >
+                      <div class="flex">
+                        <div
+                          class="
+                            w-10
+                            z-10
+                            pl-1
+                            text-center
+                            pointer-events-none
+                            flex
+                            items-center
+                            justify-center
+                          "
+                        >
+                          <i
+                            class="mdi mdi-email-outline text-gray-400 text-lg"
+                          ></i>
+                        </div>
+                        <input
+                          type="text"
+                          name="email"
+                          id="email"
+                          v-model="reset.newPass"
+                          :class="{ 'bg-red-50': newPassInput }"
+                          class="
+                            w-full
+                            -ml-10
+                            pl-10
+                            pr-3
+                            py-2
+                            rounded-lg
+                            border-2 border-gray-200
+                            outline-none
+                            focus:border-indigo-500
+                          "
+                          placeholder="อีเมล"
+                        />
+                      </div>
+                        <p v-if="newPassInput" class="text-red-600">
+                    กรุณากรอกรหัสผ่านใหม่
+                  </p>                    
+                      <label for="email" class="text-base font-medium px-1"
+                        >ยืนยันรหัสผ่าน เอาตามาใส่ด้วย</label
+                      >
+                      <div class="flex">
+                        <div
+                          class="
+                            w-10
+                            z-10
+                            pl-1
+                            text-center
+                            pointer-events-none
+                            flex
+                            items-center
+                            justify-center
+                          "
+                        >
+                          <i
+                            class="mdi mdi-email-outline text-gray-400 text-lg"
+                          ></i>
+                        </div>
+                        <input
+                          type="text"
+                          name="email"
+                          id="email"
+                          v-model="reset.confirmPass"
+                          :class="{ 'bg-red-50': confirmPassInput }"
+                          class="
+                            w-full
+                            -ml-10
+                            pl-10
+                            pr-3
+                            py-2
+                            rounded-lg
+                            border-2 border-gray-200
+                            outline-none
+                            focus:border-indigo-500
+                          "
+                          placeholder="อีเมล"
+                        />
+                      </div>                                               
+                    </div>
+                  </div>
+                  <p v-if="confirmPassInput" class="text-red-600">
+                    กรุณากรอกรหัสยืนยืนอีกครั้ง
+                  </p>                 
+                  <div class="flex flex-col mt-8 space-y-4">
+                    <button 
+                    @click.prevent="resetPassword()"
+                      class="
+                        bg-orange-1
+                        hover:bg-orange-2
+                        text-white text-base
+                        font-medium
+                        py-2
+                        px-4
+                        rounded
+                      "
+                    >
+                      ยืนยัน
+                    </button>
+                    <button 
+                    @click="$router.push('/signin')"
+                      class="
+                        bg-white
+                        border
+                        border-orange-1
+                        hover:bg-orange-1
+                        text-orange-1
+                        hover:text-white
+                        text-base
+                        font-medium
+                        py-2
+                        px-4
+                        rounded
+                      "
+                    >
+                      ย้อนกลับ
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>          
         </div>
       </div>
     </div>
+
+    <p v-if="this.$route.query.changePass">Test</p>
   </div>
 </template>
 
@@ -144,21 +326,34 @@ data(){
         emailInput: '',
         errorNoEmail: false,
         errorNull: false,
+        reset:{
+          currPass: '',
+          newPass: '',
+          confirmPass: '',
+        },
+        currPassInput: false,
+        newPassInput: false,
+        confirmPassInput: false,
     }
 },
 methods: {
-    check(){
-        if(this.emailInput == ''){
-            this.errorNull = true;
-            this.errorNoEmail = false;
-        }
-    },
+    async resetPassword(){
+      console.log(1)
+      this.currPassInput = this.reset.currPass === '' || this.reset.currPass.length < 8 ? true : false
+      this.newPassInput = this.reset.newPass === '' || this.reset.newPass.length < 8 ? true : false
+      this.confirmPassInput = this.reset.confirmPass === '' || this.reset.confirmPass.length < 8 ? true : false
+      if(!this.confirmPassInput && !this.newPassInput && !this.currPassInput){
+        console.log(1)
+        const edit = await axios.post(`${process.env.VUE_APP_ROOT_API}main/editPassword?currentPassword=` + this.reset.currPass + "&newPassword=" + this.reset.newPass + "&email=" + this.emailInput )
+        console.log(edit.data)
+      }
+    },  
   async sendMailToBackEnd(){
     console.log("forgetpass");
     let errorResponse;
     let email
     email = this.emailInput
-    const linkTo = this.$router.push("/otp" + "/?email=" + email); 
+    const linkTo = this.$router.push("/otp" + "/?email=" + email + "&forgetPass=yes"); 
       await axios.post(`${process.env.VUE_APP_ROOT_API}main/forgetPassword?email=` + email)
         .then(function (response) {
           console.log(response);
@@ -176,9 +371,26 @@ methods: {
       }else{
         this.errorNoEmail = true;
       }
-  
+    this.persist()
   },
+    check(){
+        if(this.emailInput == ''){
+            this.errorNull = true;
+            this.errorNoEmail = false;
+        }
+    }, 
+    persist(){
+      localStorage.emailInput = this.emailInput
+      console.log("name = " + localStorage.emailInput)
+    } 
 },
+created(){
+    if (localStorage.emailInput) {
+      this.emailInput = localStorage.emailInput;
+      console.log("local1" + this.emailInput)
+    }  
+  console.log(this.$route.query.changePass)
+}
 }
 </script>
 

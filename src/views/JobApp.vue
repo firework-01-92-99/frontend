@@ -64,7 +64,7 @@
             <td>
               <div class="flex justify-center">
                 <div
-                  v-if="s.statusName == 'Waiting'"
+                  v-if="s.statusName == 'Wating_EmployerOnWeb'"
                   class="
                     badge badge-md
                     bg-yellow-100
@@ -75,7 +75,7 @@
                   รอการพิจารณา
                 </div>
                 <div
-                  v-if="s.statusName == 'Accept'"
+                  v-if="s.statusName == 'Accept_EmployerOnWeb'"
                   class="
                     badge badge-md
                     bg-green-200
@@ -89,7 +89,7 @@
                   ผ่านการคัดเลือก
                 </div>
                 <div
-                  v-if="s.statusName == 'Reject'"
+                  v-if="s.statusName == 'Reject_EmployerOnWeb'"
                   class="
                     badge badge-md
                     bg-red-200
@@ -104,7 +104,7 @@
             <td>
               <div class="flex justify-center">
                 <label
-                v-if="s.statusName == 'Waiting'"
+                v-if="s.statusName == 'Wating_EmployerOnWeb'"
                   for="my-modal-5"
                   @click="embendedId(s.idApplication), isCancel = true"
                   class="btn border-red-700 bg-red-700 hover:bg-red-800 hover:border-red-800"
@@ -119,8 +119,8 @@
                     <h3 class="font-bold text-lg">แจ้งเตือน</h3>
                     <p class="py-4 w-full">
                       ยืนยันที่จะยกเลิกการสมัครงานตำแหน่ง
-                      <b>{{ s.positionName }}</b> ของบริษัท
-                      <b>{{ s.establishmentName }}</b>
+                      <b>{{ positionName }}</b> ของบริษัท
+                      <b>{{ establishmentName }}</b>
                     </p>
                     <div class="modal-action justify-between">
                       <label for="my-modal-5" class="btn btn-ghost px-12 h-11"
@@ -192,7 +192,7 @@
                 }}</span>
               </p>
               <div
-                v-if="s.statusName == 'Waiting'"
+                v-if="s.statusName == 'Wating_EmployerOnWeb'"
                 class="
                   badge badge-lg
                   w-full
@@ -204,7 +204,7 @@
                 รอการพิจารณา
               </div>
               <div
-                v-if="s.statusName == 'Accept'"
+                v-if="s.statusName == 'Accept_EmployerOnWeb'"
                 class="
                   badge badge-lg
                   w-full
@@ -219,7 +219,7 @@
                 ผ่านการคัดเลือก
               </div>
               <div
-                v-if="s.statusName == 'Reject'"
+                v-if="s.statusName == 'Reject_EmployerOnWeb'"
                 class="
                   badge badge-lg
                   w-full
@@ -248,8 +248,8 @@
                     <h3 class="font-bold text-lg">แจ้งเตือน</h3>
                     <p class="py-4">
                       ยืนยันที่จะยกเลิกการสมัครงานตำแหน่ง
-                      <b>{{ s.positionName }}</b> ของบริษัท
-                      <b>{{ s.establishmentName }}</b>
+                      <b>{{ positionName }}</b> ของบริษัท
+                      <b>{{ establishmentName }}</b>
                     </p>
                     <div class="modal-action justify-between">
                       <label for="my-modal-6" class="btn btn-ghost px-12 h-11"
@@ -292,11 +292,18 @@ export default {
       isCancel: false,
       noValue: false,
       idApplication: 0,
+      PostEst:{},
+      positionName: '',
+      establishmentName: '',
     };
   },
   methods: {
-    embendedId(id){
+    async embendedId(id){
       this.idApplication = id
+      const PositionNameAndEst = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_worker/getPositionNameAndEstablishmentNameByIdApplication?idApplication=${id}`)
+      this.PostEst = PositionNameAndEst.data
+      this.positionName = this.PostEst.positionName
+      this.establishmentName = this.PostEst.establishmentName
     },
     async fetch(url) {
       try {

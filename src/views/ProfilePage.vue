@@ -55,7 +55,7 @@
               </div>
               <div class="flex-grow sm:text-left text-center mt-6 sm:mt-0">
                 <h1 class="text-black text-2xl title-font font-bold mb-2">
-                  {{ firstname + " " + middlename + " " + lastname }}
+                  {{ firstname}} <span>{{middlename == null || middlename == '' || middlename == '-' ? '' : middlename + " "}}</span> {{ lastname }}
                 </h1>
                 <p class="leading-relaxed text-base">
                   {{

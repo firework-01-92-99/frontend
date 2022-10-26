@@ -507,7 +507,7 @@ export default {
     workerType,
     ntTypeFreeze,
       routes: '',
-      whoApplication: [{nationality: {}, workerType: {}}],
+      whoApplication: [{nationality: {}, workerType: {}, data:{}}],
     //   idPosting: '',
       acceptPage: false,
       statusId: '',
@@ -528,7 +528,7 @@ export default {
   },
   async created() {
     if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == "2"){
-    this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorker?idPosting=` + this.idPost + "&idStatus=" + this.idStatus);
+    this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}main/showAllWorker?idPosting=` + this.idPost + "&idStatus=" + this.idStatus);
     console.log(this.whoApplication)
     console.log("idPost = " + this.idPost, "idStatus = " + this.idStatus )
     }else{
@@ -538,15 +538,17 @@ export default {
   },
   watch: {
     idStatus: async function check() {
-        if(this.idStatus == 0){
+        if(this.idStatus == 11){
             console.log("idStatus =" + this.idStatus)
             this.topic = "รายการผู้สมัคร"
-            this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorker?idPosting=` + this.idPost + "&idStatus=" + this.idStatus);    
+            this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}main/showAllWorker?idPosting=` + this.idPost + "&idStatus=" + this.idStatus);
+            console.log("ถุยให้แล้ว" + "idPost = " + this.idPost + "idStatus = " + this.idStatus)
+            console.log(this.whoApplication)    
         }else{
-          if(this.idStatus == 4){
+          if(this.idStatus == 12){
             console.log("idStatus =" + this.idStatus)
             this.topic = "รายการที่รับสมัครแล้ว"
-            this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorker?idPosting=` + this.idPost + "&idStatus=" + this.idStatus);
+            this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}main/showAllWorker?idPosting=` + this.idPost + "&idStatus=" + this.idStatus);
         }
         }
       }

@@ -880,7 +880,7 @@
                             v-model.trim="statusId"
                             name="radio-2"
                             class="radio checked:bg-red-500"
-                            value="5"
+                            value="1"
                           />
                           <span class="label-text 2xl:pr-0 md:pr-52"
                             >ไม่อนุมัติ</span
@@ -1021,6 +1021,8 @@ export default {
           } catch (error) {
             console.log(error);
           }
+        }else{
+          console.log("ไม่อนุมัติให้ลบ")
         }
       } else {
         this.confirmInput = true;

@@ -114,9 +114,9 @@
           >
           <span class="inline-block align-middle"> {{ employer.email }}</span>
         </p>
-        <div v-if="this.$store.state.auth.user.role.idRole == '2'" class="flex justify-end space-x-5">
+        <div v-if="$store.state.auth.user && this.$store.state.auth.user.role.idRole == '2'" class="flex justify-end space-x-5">
           <button @click="$router.push('/editPost?idPost=' + idPosting)" class="px-10 btn border-orange-1 bg-orange-1 hover:bg-orange-2 hover:border-orange-2">แก้ไขประกาศรับสมัคร</button>
-          <button @click="deletePost()" class="px-10 btn btn-ghost border-red-600 text-red-600 hover:bg-red-700 hover:border-red-700 hover:text-white">ลบประกาศรับสมัคร</button>
+          <button v-if="jobDetail.status.statusName == 'Active'" @click="deletePost()" class="px-10 btn btn-ghost border-red-600 text-red-600 hover:bg-red-700 hover:border-red-700 hover:text-white">ลบประกาศรับสมัคร</button>
         </div>
         <div class="card-actions justify-center 2xl:justify-end">
           <div v-if="this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == '3'">
@@ -127,7 +127,9 @@
               (openForm = true),
                 (closeWord = true),
                 (sexNotice = true),
-                (typeNotice = true)
+                (typeNotice = true),
+                defNext = true,
+                YNextBtn = true
             "
             class="
               btn
@@ -318,7 +320,7 @@
                       </div>
                       </div>
                       <div v-if="sexNotice == false ||typeNotice == false">
-                      <button @click="openForm = false" class="btn border-0 bg-orange-1 hover:bg-orange-2 px-12 h-11">
+                      <button @click="openForm = false, $router.go()" class="btn border-0 bg-orange-1 hover:bg-orange-2 px-12 h-11">
                         ตกลง
                       </button>                      
                       </div>
@@ -419,6 +421,7 @@ const sex = Object.freeze({
 const workerType = Object.freeze({
   Migrant: "แรงงานต่างด้าว",
   Thai: "แรงงานไทย",
+  All: "แรงงานไทยและต่างด้าว"
 });
 const ot = Object.freeze({
   y: "มี",
@@ -467,7 +470,7 @@ export default {
       hideYourSelf: true,
       defNext: true,
       YNextBtn: true,
-      favoriteList: []
+      favoriteList: [],
     };
   },
   methods: {

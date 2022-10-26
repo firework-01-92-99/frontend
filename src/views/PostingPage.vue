@@ -215,9 +215,12 @@
       <div class="flex w-full justify-start">
         <p class="my-auto font-medium text-sm p-10 w-1/3">
           ทั้งหมด
-          <span class="text-orange-1 text-sm">
-            {{ lastPage.totalElements }}
+          <span v-if="actOrInPost == 'Active'" class="text-orange-1 text-sm">
+            {{ getActivePost.totalElements }}
           </span>
+          <span v-if="actOrInPost == 'Inactive'" class="text-orange-1 text-sm">
+            {{ getInactivePost.totalElements }}
+          </span>          
           ผลลัพธ์
         </p>
         <div class="w-full pt-10">
@@ -276,42 +279,19 @@
         </button>
       </div>
     </div>
+        <div v-if="noPost" class="text-center mt-10">
+      <div><img src="../assets/icon/inbox.png" class="w-20 mx-auto" /></div>
+      <div class="pt-5">ไม่มีโพสที่ปิดประกาศ</div>
+    </div>
     <div v-if="noValue">
       <div class="text-center mt-10 mb-10">ไม่มีผลลัพธ์</div>
     </div>
-    <!-- <div v-if="!showInactivePost"> -->
+
     <base-job :idEmp="$store.state.auth.user.employer.idEmployer">
-      <!-- <template
-        ><div class="card-actions">
-          <button
-            class="
-              btn
-              border-orange-1
-              bg-orange-1
-              hover:bg-orange-2 hover:border-orange-2
-              w-full
-            "
-          >
-            ดูผู้สมัคร
-          </button>
-          <button
-            @click="$router.push('/viewworkapp')"
-            class="
-              btn
-              border-orange-1
-              bg-orange-1
-              hover:bg-orange-2 hover:border-orange-2
-              w-full
-            "
-          >
-            แก้ไขประกาศรับสมัคร
-          </button>
-        </div></template
-      > -->
     </base-job>
-    <!-- </div> -->
+    
     <!-- pagination  -->
-    <div v-if="!noValue" class="btn-group justify-center pb-5 -mt-5">
+    <div v-if="!noValue || !noPost" class="btn-group justify-center pb-5 -mt-5">
       <button @click="paging((action = 'decrease'))" class="btn btn-ghost">
         <i class="material-icons"> chevron_left </i>
       </button>
@@ -327,8 +307,11 @@
           text-sm
         "
       >
-        หน้า <span class="text-orange-1 px-1">{{ page }}</span> จาก
-        {{ lastPage.totalPages }}
+        หน้า <span class="text-orange-1 px-1">{{ page }}</span>
+        จาก <span v-if="actOrInPost == 'Active'">{{getActivePost.totalPages}}</span>
+            <span v-if="actOrInPost == 'Inactive'">{{getInactivePost.totalPages}}</span>
+            <span v-if="actOrInPost == 'Active'">{{ getActivePost.totalPages == 0 ? getActivePost.totalPages + 1 : ''}}</span>
+            <span v-if="actOrInPost == 'Inactive'">{{ getInactivePost.totalPages == 0 ? getInactivePost.totalPages + 1 : ''}}</span>
       </button>
       <button @click="paging((action = 'increase'))" class="btn btn-ghost">
         <i class="material-icons"> chevron_right </i>
@@ -340,7 +323,7 @@
 
 <script>
 // import BaseJobView from "@/components/BaseJobView.vue";
-import { mapGetters } from "vuex";
+// import { mapGetters } from "vuex";
 import axios from "axios";
 import BaseJob from "@/components/BaseJob.vue";
 export default {
@@ -364,9 +347,11 @@ export default {
       action: "",
       idPostToUse: "",
       getInactivePost: [],
+      getActivePost: [],
       actOrInPost: "Active",
       showInactivePost: false,
       allPost: [],
+      noPost: false
     };
   },
   methods: {
@@ -389,7 +374,12 @@ export default {
       console.log("this.actOrInPost1" + this.actOrInPost)
       if (this.actOrInPost == "Inactive") {
         this.showInactivePost = true;
+                console.log(this.getInactivePost)
+        if(this.getInactivePost.content.length == 0){
+          this.noPost = true
+        }
         this.$store.commit("setPosting", this.getInactivePost);
+
         console.log("this.page Inactive = " +this.page)
         this.page = 1
       } else {
@@ -400,13 +390,13 @@ export default {
         if(this.page!=1){
           if(this.x == 1){
             this.page = 1
-            this.$store.commit("setPosting", this.allPost);
+            this.$store.commit("setPosting", this.getActivePost);
           }
         }else{
           if(this.x == 1){
-            this.$store.commit("setPosting", this.allPost);
+            this.$store.commit("setPosting", this.getActivePost);
           }else{
-            this.$store.commit("setPosting", this.allPost);
+            this.$store.commit("setPosting", this.getActivePost);
           }
         }
         }
@@ -430,7 +420,7 @@ export default {
         .then((response) => {
           console.log(response.data);
           this.$store.commit("setPosting", response.data);
-          if (this.lastPage.totalPages == 0) {
+          if (this.getActivePost.totalPages == 0) {
             this.noValue = true;
           } else {
             this.noValue = false;
@@ -446,7 +436,7 @@ export default {
           this.page--;
         } else if (
           action == "increase" &&
-          this.page < this.lastPage.totalPages
+          this.page < this.getActivePost.totalPages
         ) {
           this.page++;
         } else {
@@ -484,15 +474,19 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({
-      lastPage: "getPosting",
-    }),
+    // ...mapGetters({
+    //   getActivePost: "getPosting",
+    // }),
   },
   async created() {
     if (
       this.$store.state.auth.user &&
       this.$store.state.auth.user.role.idRole == "2"
     ) {
+      this.getActivePost = await this.fetch(
+        `${process.env.VUE_APP_ROOT_API}main/getPostingActiveByIdEmployer?idEmployer=` +
+          this.$store.state.auth.user.employer.idEmployer);
+          this.$store.commit("setPosting", this.getActivePost);
       // this.provinces = await this.fetch("http://localhost:3000/main/allProvince");
       this.provinces = await this.fetch(
         `${process.env.VUE_APP_ROOT_API}main/allProvince`

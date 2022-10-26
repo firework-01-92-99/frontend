@@ -1,11 +1,11 @@
 <template>
-  <div class="cursor-pointer" @click="$router.push('/posting')">
+  <div class="cursor-pointer">
   <!-- "/detail?idPosting=" + idPost + "&idEmployer=" + idEmp -->
     <!-- <figure>
                 <img src="https://placeimg.com/200/280/arch" alt="Movie" />
               </figure> -->
     <div v-for="f in myFav" :key="f.idFavorite" class="card card-side w-full bg-base-100 shadow-xl my-10">
-    <div class="card-body">
+    <div @click="linkTo(f.idWhatFavorite)" class="card-body">
       <div class="flex justify-between">
         <!-- {{f.employer}} -->
         <!-- {{this.$store.state.auth.user.worker}} -->
@@ -62,9 +62,29 @@ export default {
   data() {
     return {
       myFav: [],
+      response: {},
     };
   },
   methods: {
+    // linkTo(idFav){
+    //   let res
+    //   let idPost
+    //   const idEmp
+    //   axios.get(`${process.env.VUE_APP_ROOT_API}worker/getPostingAndEmployerByIdFavorite?idFavorite=` + idFav).then(function (response) {
+    //    res = response.data
+    //    idPost = res.posting?.idPosting
+    //    console.log(res)
+    //   // console.log(response.data.employer.idEmployer);
+    // })
+    // console.log(res)
+    // console.log(res?.posting?.idPosting)
+    //   // this.$router.push("/detail?idPosting=" + res?.posting?.idPosting + "&idEmployer=" + res?.employer?.idEmployer)
+    // },
+    async linkTo(idFav){
+     const res = await axios.get(`${process.env.VUE_APP_ROOT_API}worker/getPostingAndEmployerByIdFavorite?idFavorite=` + idFav)
+      this.response = res.data
+      this.$router.push("/detail?idPosting=" + this.response.posting?.idPosting + "&idEmployer=" + this.response.employer?.idEmployer)
+    },    
 
 },
 async created(){

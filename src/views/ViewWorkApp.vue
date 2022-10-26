@@ -12,16 +12,16 @@
       <base-tab
         ><template
           ><a
-            :class="{ 'tab-active font-medium': idStatus == 0 }"
+            :class="{ 'tab-active font-medium': idStatus == 11 }"
             class="tab tab-bordered"
-            @click="idStatus = 0"
+            @click="idStatus = 11"
           >
             ผู้ที่รอรับสมัคร
           </a>
           <a
             class="tab tab-bordered"
-            :class="{ 'tab-active font-medium': idStatus == 4 }"
-            @click="idStatus = 4"
+            :class="{ 'tab-active font-medium': idStatus == 12 }"
+            @click="idStatus = 12"
             >ยืนยันการรับเข้าทำงาน</a
           >
           </template
@@ -37,7 +37,6 @@
 </template>
 
 <script>
-// import axios from "axios";
 import BaseViewWorker from "@/components/BaseViewWorker.vue";
 import BaseTab from "@/components/BaseTab.vue";
 export default {
@@ -48,7 +47,7 @@ export default {
       routes: "",
       // whoApplication: [],
       idPosting: "",
-      idStatus: "0", //รอ be ทำ wating 0 คือแทนทั้ง status 4,5 ไปก่อน
+      idStatus: "11",
     };
   },
   methods: {
@@ -73,7 +72,7 @@ export default {
       );
       this.idPosting = this.$route.query.idPost;
       //  console.log(this.idPost + "ถ้าส่ง query(param) url มาได้ก็เรียก whoApp บ้างได้แล้ว")
-      // this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorker?idPosting=` + this.$route.query.idPost + "&idStatus=" + this.idStatus);
+      // this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}main/showAllWorker?idPosting=` + this.$route.query.idPost + "&idStatus=" + this.idStatus);
       // console.log(this.whoApplication)
     } else {
       this.$router.push("/");

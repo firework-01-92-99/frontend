@@ -896,6 +896,7 @@
                 >
                   <i class="mdi mdi-account-outline text-gray-400 text-lg"></i>
                 </div>
+                <div class="html-editor">
                 <ckeditor
                   :editor="editor"
                   v-if="jobDetail"
@@ -903,6 +904,7 @@
                   :config="editorConfig"
                 >
                 </ckeditor>
+                </div>
               </div>
             </div>
           </div>

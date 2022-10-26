@@ -81,7 +81,6 @@
           </tr>
         </thead>
         <tbody v-for="a in listApprove.data" :key="a.idApprove">
-          {{a}}
           <!-- row 1 -->
           <!-- <div v-if="listApprove.lenght == null">
             ไม่มีรายการที่ต้องทำ
@@ -324,7 +323,7 @@
                               </div>
                             </div>
 
-                            <div v-if="a.workOrEmp == 'Employer' || a.workOrEmp == 'Worker' " class="flex -mx-3">
+                            <div v-if="a.workOrEmp == 'Worker' " class="flex -mx-3">
                               <div class="w-full px-3 mb-5">
                                 <label
                                   for=""
@@ -357,7 +356,7 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="a.workOrEmp == 'Worker' ? infoWorker.identificationNumber : infoEmp.identificationNumber"
+                                    :placeholder="a.workOrEmp == 'Worker' ? infoWorker.identificationNumber : ''"
                                     disabled
                                   />
                                 </div>

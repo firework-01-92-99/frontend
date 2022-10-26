@@ -119,7 +119,7 @@
                     >
                       ยืนยัน
                     </button> -->
-                    <button
+                    <!-- <button
                       @click="$router.push('/forgetPass')"
                       class="
                         bg-white
@@ -135,7 +135,7 @@
                       "
                     >
                       ย้อนกลับ
-                    </button>
+                    </button> -->
                   </div>
                 </div>
               </div>
@@ -231,8 +231,12 @@ export default {
           console.log(error);
           errorResponse = error.response.data.errorCode;
         });
-      if (res == 200) {
+      if (res == 200 && this.$route.query.forgetPass != 'yes') {  //it's mean for signup
         this.$router.push("/signin")
+      }else{
+        if(res == 200 && this.$route.query.forgetPass == 'yes'){  //it's mean for forgetPassword
+        this.$router.push("/forgetPass?changePass=yes")
+        }
       }
       if (errorResponse == "OTP_INCORRECT") {
         this.wrongOTP = true;
@@ -241,6 +245,8 @@ export default {
   },
   created() {
     console.log(this.$route.query.email);
+    // console.log("this.$route.query.forgetPassword" + this.$route.query.forgetPassword)
+    console.log("this.$route.query.forgetPass" + this.$route.query.forgetPass)
   },
 };
 </script>
