@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bg-gray-2">
     <div>
       <!-- toast -->
       <transition name="toast">
@@ -314,7 +314,7 @@
           <!-- <span class="font-semibold">แรงงานที่รับ: </span> -->
           <!-- {{ workerType[jobDetail.workerType.typeName] }} -->
           <!-- workerType -->
-          <div class="w-full px-3 mb-5">
+          <div class="w-full mb-5">
             <label
               for=""
               class="2xl:text-base md:text-base text-sm font-medium px-1"
@@ -377,7 +377,7 @@
           <!-- <span class="font-semibold">เพศ: </span> -->
           <!-- {{ sex[jobDetail.sex] }} -->
           <!-- sex -->
-          <div class="w-1/2 px-3 mb-5">
+          <div class="w-1/2 mb-5">
             <label
               for=""
               class="2xl:text-base md:text-base text-sm font-medium px-1"
@@ -624,26 +624,26 @@
             </div>
             <p v-if="postingHasDayListInput" class="text-red-600">กรุณาเลือกวันทำงาน</p>
           </div> -->
-          <div class="w-1/2 px-3 mb-5">
+          <div class="w-1/2 mb-5">
             <label class="2xl:text-base md:text-base text-sm font-medium px-1"
               >วันทำงาน</label
             >
             <div class="flex space-x-5">
               <div class="form-control">
-                <label class="label cursor-pointer space-x-2">
+                <label class="label cursor-pointer space-x-4">
                   <span v-for="pd in sevenDay" :key="pd.idDay">
                     <input
                       :id="pd.idDay"
                       :value="{day:pd}"
                       type="checkbox"
                       v-model="postInfo.postingHasDayList"
-                      class="checkbox checkbox-sm"
+                      class="checkbox checkbox-sm inline-block align-middle"
                       :class="{ 'bg-red-50': postingHasDayListInput }"
                     />
-                    <span class="label-text">{{ pd.dayName }}</span>
+                    <span class="label-text pl-2">{{ pd.dayName }}</span>
                   </span>
                 </label>
-                <span>Selected day: {{ postInfo.postingHasDayList }}</span>
+                <!-- <span>Selected day: {{ postInfo.postingHasDayList }}</span> -->
               </div>
             </div>
             <p v-if="postingHasDayListInput" class="text-red-600">
@@ -667,7 +667,7 @@
               <label for="" class="text-base font-medium px-1"
                 >รายละเอียดงาน</label
               >
-              <div class="flex">
+              <div class="">
                 <div
                   class="
                     w-10
@@ -701,7 +701,7 @@
           <!-- <span class="font-semibold">รูปแบบงาน: </span> -->
           <!-- {{ jobDetail.hiringType.nameType }} -->
           <!-- hiringType -->
-          <div class="w-1/2 px-3 mb-5">
+          <div class="w-1/2 mb-5">
             <label
               for=""
               class="2xl:text-base md:text-base text-sm font-medium px-1"
@@ -764,7 +764,7 @@
           <!-- <span class="font-semibold">ค่าล่วงเวลา: </span> -->
           <!-- {{ ot[jobDetail.overtimePayment] }} -->
           <!-- overtimePayment -->
-          <div class="w-1/2 px-3 mb-5">
+          <div class="w-1/2 mb-5">
             <label
               for=""
               class="2xl:text-base md:text-base text-sm font-medium px-1"

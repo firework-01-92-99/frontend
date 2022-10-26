@@ -57,7 +57,13 @@
           <h2 class="card-title text-orange-1">
             {{ jobDetail.position.positionName }}
           </h2>
-          <!-- <i class="material-icons"> bookmark_border </i> -->
+          <i class="material-icons"> bookmark_border </i>
+          <!-- <div v-if="!showFlag(job.idPosting) && $store.state.auth.user && $store.state.auth.user.role.idRole == '3'">
+            <i @click="fav(job.idPosting)" class="material-icons z-10"> bookmark_border </i>
+          </div>
+          <div v-else-if="$store.state.auth.user && $store.state.auth.user.role.idRole == '3'">
+            <i @click="unFav(job.idPosting)" class="material-icons"> bookmark </i>
+          </div> -->
         </div>
         <h2 class="card-title">
           {{ employer.establishmentName }}
@@ -462,6 +468,7 @@ export default {
       hideYourSelf: true,
       defNext: true,
       YNextBtn: true,
+      favoriteList: []
     };
   },
   methods: {

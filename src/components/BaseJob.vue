@@ -8,19 +8,18 @@
     <div>
       <div
         class="
-          cursor-pointer
           font-sans-thai
           card
-          w-96
+          2xl:w-96 xl:w-96 lg:w-96 md:w-96 w-11/12
           bg-base-100
-          m-6
+          2xl:m-6 xl:m-6 lg:m-6 md:m-6 mx-auto my-6
           transition
           duration-300
           ease-in-out
-          hover:-translate-y-1 hover:scale-110 hover:border-orange-1
+          hover:-translate-y-1 hover:scale-110
         "
       >
-        <div @click="linkTo(job.idPosting, job.idEmployer)">
+        <div>
           <!-- <router-link
           v-if="(!$store.state.auth.user || $store.state.auth.user.role.idRole == '3') && ($store.state.auth.user.role.idRole !== '2' || $store.state.auth.user.role.idRole !== '1')"
           :to="
@@ -116,6 +115,25 @@
                   border-orange-1
                   text-orange-1
                   hover:bg-orange-1 hover:border-orange-1 hover:text-white
+                  w-full
+                "
+              >
+                ดูรายละเอียด
+              </button>
+            </div>
+            
+            <div v-if="
+                !$store.state.auth.user ||
+                $store.state.auth.user.role.idRole == '3'
+              "
+              class="card-actions">
+              <button
+                @click="linkTo(job.idPosting, job.idEmployer)"
+                class="
+                  btn
+                  border-orange-1
+                  bg-orange-1
+                  hover:bg-orange-2 hover:border-orange-2
                   w-full
                 "
               >

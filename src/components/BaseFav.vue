@@ -4,7 +4,7 @@
     <!-- <figure>
                 <img src="https://placeimg.com/200/280/arch" alt="Movie" />
               </figure> -->
-    <div v-for="f in myFav" :key="f.idFavorite" class="card card-side 2xl:w-11/12 w-full bg-base-100 shadow-xl my-10">
+    <div v-for="f in myFav" :key="f.idFavorite" class="card card-side w-full bg-base-100 shadow-xl my-10">
     <div class="card-body">
       <div class="flex justify-between">
         <!-- {{f.employer}} -->
