@@ -57,13 +57,12 @@
           <h2 class="card-title text-orange-1">
             {{ jobDetail.position.positionName }}
           </h2>
-          <i class="material-icons"> bookmark_border </i>
-          <!-- <div v-if="!showFlag(job.idPosting) && $store.state.auth.user && $store.state.auth.user.role.idRole == '3'">
-            <i @click="fav(job.idPosting)" class="material-icons z-10"> bookmark_border </i>
+          <div v-if="!showFlag($route.query.idPosting) && $store.state.auth.user && $store.state.auth.user.role.idRole == '3'">
+            <i @click="fav($route.query.idPosting)" class="material-icons z-10 cursor-pointer select-none"> bookmark_border </i>
           </div>
           <div v-else-if="$store.state.auth.user && $store.state.auth.user.role.idRole == '3'">
-            <i @click="unFav(job.idPosting)" class="material-icons"> bookmark </i>
-          </div> -->
+            <i @click="unFav($route.query.idPosting)" class="material-icons cursor-pointer select-none"> bookmark </i>
+          </div>
         </div>
         <h2 class="card-title">
           {{ employer.establishmentName }}
@@ -472,6 +471,41 @@ export default {
     };
   },
   methods: {
+    showFlag(id){
+      return this.favoriteList.find(f => f.posting.idPosting == id)      
+    },    
+      async fav(idPost){
+      console.log(this.favoriteList.map(f => f.posting.idPosting).includes(idPost))
+      console.log(this.favoriteList)
+      if(!this.favoriteList.map(f => f.posting.idPosting).includes(idPost)){
+        console.log("เข้าได้ยังไงวะ..")
+      await axios
+        .post(`${process.env.VUE_APP_ROOT_API}worker/addMyFavorite?idWorker=${this.$store.state.auth.user.worker.idWorker}&idPosting=${idPost}`)
+        .then(function (response) {
+          console.log(response);
+          // this.$store.commit("setPosting", allJobs);
+        })
+        .catch(function (error) {
+          console.log(error)
+        }); 
+        console.log(this.favoriteList)
+      }
+      // this.$store.commit("setPosting", this.allJobs);
+      // console.log(this.allJobs)
+          this.fav1= await axios.get(
+        `${process.env.VUE_APP_ROOT_API}worker/getMyFavorite?idWorker=` + this.$store.state.auth.user.worker.idWorker);
+    this.favoriteList = this.fav1.data      
+      // console.log(this.favoriteList)
+    },
+     async unFav(id){
+      const idOfFav = this.favoriteList.find(f => f.posting.idPosting == id).idWhatFavorite
+      console.log("idOfFav = " + idOfFav)
+      console.log("unfav")
+        await axios.delete(`${process.env.VUE_APP_ROOT_API}worker/deleteMyFavorite?idFavorite=${idOfFav}`);  
+          this.fav1= await axios.get(
+        `${process.env.VUE_APP_ROOT_API}worker/getMyFavorite?idWorker=` + this.$store.state.auth.user.worker.idWorker);
+    this.favoriteList = this.fav1.data         
+    },
     async fetch(url) {
       try {
         const res = await fetch(url);
@@ -576,6 +610,9 @@ export default {
     this.jobDetail.postingHasDayList.sort((a, b)=>{return a.day.idDay - b.day.idDay})
     this.idPosting = id;
     this.employer = await this.fetch(this.urlEmp + "?idEmployer=" + this.empId);
+    this.fav1= await axios.get(
+        `${process.env.VUE_APP_ROOT_API}worker/getMyFavorite?idWorker=` + this.$store.state.auth.user.worker.idWorker);
+    this.favoriteList = this.fav1.data    
     // // this.allApplication = await this.fetch("http://localhost:3000/admin/allApplication");
     // this.allApplication = await this.fetch(`${process.env.VUE_APP_ROOT_API}admin/allApplication`);
     // this.worker1 = await axios(this.urlWorker);
