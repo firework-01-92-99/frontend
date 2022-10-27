@@ -29,8 +29,7 @@
     </div>
     <!-- search criteria & job card -->
     <div class="hero 2xl:h-48 xl:h-48 lg:h-48 md:h-48 bg-gray-1">
-      <form
-        @submit.prevent="getData()"
+      <div
         class="
           form-control
           grid
@@ -171,7 +170,7 @@
           "
         >
           <button
-            type="submit"
+            @click="getData()"
             class="
               btn
               border-orange-1
@@ -207,7 +206,7 @@
             รีเซ็ตเงื่อนไข
           </button>
         </div>
-      </form>
+      </div>     
     </div>
     <!-- <div class="flex flex-row justify-between p-6 font-sans-thai"> -->
     <!-- count posting  -->
@@ -285,15 +284,12 @@
       <div><img src="../assets/icon/inbox.png" class="w-20 mx-auto" /></div>
       <div class="pt-5">ไม่มีโพสที่ปิดประกาศ</div>
     </div>
-    <div v-if="noValue">
-      <div class="text-center mt-10 mb-10">ไม่มีผลลัพธ์</div>
-    </div>
 
     <base-job :idEmp="$store.state.auth.user.employer.idEmployer">
     </base-job>
     
     <!-- pagination  -->
-    <div v-if="!noValue || !noPost" class="btn-group justify-center pb-5 -mt-5">
+    <div v-if="!noPost || !noPost" class="btn-group justify-center pb-5 -mt-5">
       <button @click="paging((action = 'decrease'))" class="btn btn-ghost">
         <i class="material-icons"> chevron_left </i>
       </button>
@@ -310,10 +306,15 @@
         "
       >
         หน้า <span class="text-orange-1 px-1">{{ page }}</span>
-        จาก <span v-if="actOrInPost == 'Active'">{{getActivePost.totalPages}}</span>
+        จาก 
+            <span v-if="!$store.state.auth.user.employer.idEmployer">
+            <span v-if="actOrInPost == 'Active'">{{getActivePost.totalPages}}</span>
             <span v-if="actOrInPost == 'Inactive'">{{getInactivePost.totalPages}}</span>
-            <span v-if="actOrInPost == 'Active'">{{ getActivePost.totalPages == 0 ? getActivePost.totalPages + 1 : ''}}</span>
-            <span v-if="actOrInPost == 'Inactive'">{{ getInactivePost.totalPages == 0 ? getInactivePost.totalPages + 1 : ''}}</span>
+            </span>
+            <span v-if="$store.state.auth.user.employer.idEmployer">
+            <span v-if="actOrInPost == 'Active'">{{ getActivePost.totalPages == 0 ? getActivePost.totalPages + 1 : getActivePost.totalPages}}</span>
+            <span v-if="actOrInPost == 'Inactive'">{{ getInactivePost.totalPages == 0 ? getInactivePost.totalPages + 1 : getInactivePost.totalPages}}</span>
+            </span>
       </button>
       <button @click="paging((action = 'increase'))" class="btn btn-ghost">
         <i class="material-icons"> chevron_right </i>
@@ -344,7 +345,6 @@ export default {
         enterHiringType: "",
         enterSortSalary: "",
       },
-      noValue: false,
       page: 1,
       action: "",
       idPostToUse: "",
@@ -375,29 +375,42 @@ export default {
     searchStatusPost() {
       console.log("this.actOrInPost1" + this.actOrInPost)
       if (this.actOrInPost == "Inactive") {
+        this.noPost = false
         this.showInactivePost = true;
                 console.log(this.getInactivePost)
         if(this.getInactivePost.content.length == 0){
           this.noPost = true
         }
-        this.$store.commit("setPosting", this.getInactivePost);
-
         console.log("this.page Inactive = " +this.page)
-        this.page = 1
+        this.page = 1        
+        this.$store.commit("setPosting", this.getInactivePost);
       } else {
         console.log("this.actOrInPost2" + this.actOrInPost)
         if (this.actOrInPost == "Active"){
+        this.noPost = false
         this.showInactivePost = false;
+        if(this.getActivePost.content.length == 0){
+          this.noPost = true
+        }        
         console.log("this.page Active = " +this.page)
         if(this.page!=1){
           if(this.x == 1){
             this.page = 1
+        if(this.getActivePost.content.length == 0){
+          this.noPost = true
+        }            
             this.$store.commit("setPosting", this.getActivePost);
           }
         }else{
           if(this.x == 1){
+        if(this.getActivePost.content.length == 0){
+          this.noPost = true
+        }                 
             this.$store.commit("setPosting", this.getActivePost);
           }else{
+        if(this.getActivePost.content.length == 0){
+          this.noPost = true
+        }                 
             this.$store.commit("setPosting", this.getActivePost);
           }
         }
@@ -407,6 +420,12 @@ export default {
     async resetShowJob() {
       this.clearSearching();
       this.actOrInPost = "Active"
+      if(this.$store.state.auth.user.role.idRole == "2"){
+        if(this.getActivePost.content.length == 0){
+          this.noPost = true
+        }           
+        this.$store.commit("setPosting", this.getActivePost);
+      }
       // const allPost = await this.fetch(
       //   `${process.env.VUE_APP_ROOT_API}main/allPosting`
       // );
@@ -423,9 +442,9 @@ export default {
           console.log(response.data);
           this.$store.commit("setPosting", response.data);
           if (this.getActivePost.totalPages == 0) {
-            this.noValue = true;
+            this.noPost = true;
           } else {
-            this.noValue = false;
+            this.noPost = false;
           }
         })
         .catch((error) => {
@@ -438,29 +457,46 @@ export default {
           this.page--;
         } else if (
           action == "increase" &&
-          this.page < this.getActivePost.totalPages
+          this.page < this.getActivePost.totalPages || this.page < this.getInactivePost.totalPages
         ) {
           this.page++;
         } else {
           console.log("ต่ำกว่าหน้า 1 ไม่ได้");
+      //     if(this.$store.state.auth.user.role.idRole == '2'){
+      // this.getActivePost = await this.fetch(
+      //   `${process.env.VUE_APP_ROOT_API}main/getPostingActiveByIdEmployer?idEmployer=` +
+      //     this.$store.state.auth.user.employer.idEmployer);
+      //     this.$store.commit("setPosting", this.getActivePost);            
+      //     }
         }
 
         if(this.actOrInPost == "Active" || this.actOrInPost == ''){
+          if(!this.$store.state.auth.user.role.idRole == "2"){
         const pageBEAct = this.page - 1;
         // const sendBE = await this.fetch("http://localhost:3000/main/allPosting?pageNo=" + pageBEAct);
         const sendBE = await this.fetch(
           `${process.env.VUE_APP_ROOT_API}main/allPosting?pageNo=` + pageBEAct
         );          
           this.$store.commit("setPosting", sendBE);
-        }else{
-        if(this.actOrInPost == "Inactive"){
+          }else{
           const pageBEInact = this.page - 1;
           const sendBEInact = await this.fetch(
-        `${process.env.VUE_APP_ROOT_API}main/getPostingInActiveByIdEmployer?idEmployer=` +
+        `${process.env.VUE_APP_ROOT_API}main/getPostingActiveByIdEmployer?idEmployer=` +
           this.$store.state.auth.user.employer.idEmployer + '&pageNo=' + pageBEInact);
-          this.$store.commit("setPosting", sendBEInact);
-          console.log(sendBEInact)
-          console.log("หน้า" + pageBEInact)
+          this.$store.commit("setPosting", sendBEInact);            
+          }
+        }else{
+        if(this.actOrInPost == "Inactive"){
+          if(!this.$store.state.auth.user.role.idRole == "2"){
+        const pageBEAct = this.page - 1;
+        // const sendBE = await this.fetch("http://localhost:3000/main/allPosting?pageNo=" + pageBEAct);
+        const sendBE = await this.fetch(
+          `${process.env.VUE_APP_ROOT_API}main/allPosting?pageNo=` + pageBEAct
+        );          
+          this.$store.commit("setPosting", sendBE);
+          }else{
+this.$store.commit("setPosting", this.getInactivePost);  
+          }
         }  
         }
       }
@@ -489,6 +525,9 @@ export default {
         `${process.env.VUE_APP_ROOT_API}main/getPostingActiveByIdEmployer?idEmployer=` +
           this.$store.state.auth.user.employer.idEmployer);
           this.$store.commit("setPosting", this.getActivePost);
+        if(this.getActivePost.content.length == 0){
+          this.noPost = true
+        }           
       // this.provinces = await this.fetch("http://localhost:3000/main/allProvince");
       this.provinces = await this.fetch(
         `${process.env.VUE_APP_ROOT_API}main/allProvince`

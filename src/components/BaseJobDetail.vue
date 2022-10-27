@@ -539,22 +539,30 @@ export default {
     async closePost(OnorOff) {
       console.log("InorAct = " + OnorOff);
       if(OnorOff == 'Off'){
-        if (confirm("ลบแน่นะวิ")) {
+        if (confirm("ต้องการปิดประกาศรับสมัครใช่หรือไม่")) {
         console.log("Inactive Post");
         await axios.put(
           `${process.env.VUE_APP_ROOT_API}emp/inActivePosting?idPosting=${this.idPosting}`
         ).data;
         OnorOff = ''
+      this.getInactivePost = await this.fetch(
+        `${process.env.VUE_APP_ROOT_API}main/getPostingInActiveByIdEmployer?idEmployer=` +
+          this.$store.state.auth.user.employer.idEmployer);
+      this.$store.commit("setPosting", this.getInactivePost);
         this.$router.push("/posting");
       }      
       }else {
         if(OnorOff == 'On'){
-      if (confirm("ต้องการจะเปิดโพสใช่หรือไม่")) {
+      if (confirm("ต้องการจเปิดประกาศรับสมัคร")) {
         console.log("Active Post");
         await axios.put(
           `${process.env.VUE_APP_ROOT_API}emp/ActivePosting?idPosting=${this.idPosting}`
         ).data;
         OnorOff = ''
+      this.getActivePost = await this.fetch(
+        `${process.env.VUE_APP_ROOT_API}main/getPostingActiveByIdEmployer?idEmployer=` +
+          this.$store.state.auth.user.employer.idEmployer);
+          this.$store.commit("setPosting", this.getActivePost);                
         this.$router.push("/posting");
       }  
         }
@@ -658,7 +666,13 @@ export default {
     this.employer = await this.fetch(this.urlEmp + "?idEmployer=" + this.empId);
     this.fav1= await axios.get(
         `${process.env.VUE_APP_ROOT_API}worker/getMyFavorite?idWorker=` + this.$store.state.auth.user.worker.idWorker);
-    this.favoriteList = this.fav1.data    
+    this.favoriteList = this.fav1.data
+      this.getActivePost = await this.fetch(
+        `${process.env.VUE_APP_ROOT_API}main/getPostingActiveByIdEmployer?idEmployer=` +
+          this.$store.state.auth.user.employer.idEmployer);
+      this.getInactivePost = await this.fetch(
+        `${process.env.VUE_APP_ROOT_API}main/getPostingInActiveByIdEmployer?idEmployer=` +
+          this.$store.state.auth.user.employer.idEmployer);                 
     // // this.allApplication = await this.fetch("http://localhost:3000/admin/allApplication");
     // this.allApplication = await this.fetch(`${process.env.VUE_APP_ROOT_API}admin/allApplication`);
     // this.worker1 = await axios(this.urlWorker);
