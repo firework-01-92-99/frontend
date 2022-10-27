@@ -67,7 +67,7 @@
         <figure class="2xl:w-1/4">
           <img
             class="2xl:h-full object-cover w-full"
-            src="https://i.ytimg.com/vi/J_oT9erINxA/maxresdefault.jpg"
+            :src="image"
             alt="Movie"
           />
         </figure>
@@ -1156,7 +1156,11 @@ export default {
       console.log(this.post)
       this.positionArray1 = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/getMyPosition?idEmployer=` + this.$store.state.auth.user.employer.idEmployer);
       this.positionArray = this.positionArray1.data
-      this.image = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getImageByIdEmployer` + "?idEmployer=" + this.$store.state.auth.user.employer.idEmployer);
+          const image1 = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getImageByIdEmployer` + "?idEmployer=" + this.$store.state.auth.user.employer.idEmployer);
+    const imageName = image1.data
+          this.image =
+            (await `${process.env.VUE_APP_ROOT_API}main/image/`) +
+            imageName;   
     console.log(this.sevenDay);
   },
 };

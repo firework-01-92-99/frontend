@@ -45,7 +45,7 @@
             <figure>
               <img
                 class="object-cover"
-                src="https://i.ytimg.com/vi/J_oT9erINxA/maxresdefault.jpg"
+                :src="!$store.state.auth.user || $store.state.auth.user.role.idRole == '3' ? env + allPicture.find(a=>a.idEmployer == job.idEmployer).imageName : image"
               />
             </figure>
 
@@ -67,7 +67,7 @@
                     class="material-icons z-10 cursor-pointer select-none"
                   >
                     bookmark_border
-                  </i>
+                  </i>                 
                 </div>
                 <div
                   v-else-if="
@@ -82,6 +82,17 @@
                     bookmark
                   </i>
                 </div>
+                <div
+                  v-if="
+                    $store.state.auth.user &&
+                    $store.state.auth.user.role.idRole == '2'
+                    && job.status.statusName == 'Inactive'
+                  "
+                >
+                  <i @click="babyBin(job.idPosting)" class="material-icons cursor-pointer select-none text-red-800" >
+                      delete
+                  </i>
+                </div>                
               </div>
               <h2 class="card-title text-base">
                 {{
@@ -204,7 +215,7 @@ import axios from "axios";
 import { mapGetters } from "vuex";
 export default {
   emits: ["idPost"],
-  props: ["searched", "idPost", "idEmp"],
+  props: ["searched", "idPost", "idEmp", "status"],
   // components: { BaseJobDetail },
   data() {
     return {
@@ -213,10 +224,26 @@ export default {
       storeIdPost: "",
       favoriteList: [],
       getActivePost: [],
+      getInactivePost: [],
       image: null,
+      allPicture: [],
+      env: `${process.env.VUE_APP_ROOT_API}main/image/`
     };
   },
   methods: {
+    async babyBin(idPost){
+      const vm = this
+      if(confirm("ยืนยันที่จะลบประกาศรับสมัครหรือไม่")){
+        await axios.put(`${process.env.VUE_APP_ROOT_API}emp/deletePosting?idPosting=${idPost}`)
+        if(vm.status == "Inactive" ){
+          vm.getInactivePost = await this.fetch(
+        `${process.env.VUE_APP_ROOT_API}main/getPostingInActiveByIdEmployer?idEmployer=` +
+          this.$store.state.auth.user.employer.idEmployer);
+          this.$store.commit("setPosting", this.getInactivePost);
+        }
+        // location.reload()
+      }
+    },    
     linkTo(idPost, idEmp) {
       if (
         !this.$store.state.auth.user ||
@@ -310,16 +337,41 @@ export default {
     );
     console.log(allPost);
     if (!this.idEmp) {
-      // this.image = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getImageByIdEmployer` + "?idEmployer=" + this.$route.query.idEmployer);
+      const allPicture1 = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getImageEveryEmployer`);
+      this.allPicture = allPicture1.data
+      console.log(this.allPicture)
+      console.log(this.allPicture[0].imageName)
+
+
+      for (let i = 0; i < this.allJobs.content.length; i++) {
+          this.allJobs.content[i].image == this.allPicture.find(a=>a.idEmployer == this.allJobs.content[i].idEmployer).imageName
+      }
+      // this.env + allPicture.find(a=>a.idEmployer == job.idEmployer).imageName
+      // }
+
+      // if(this.allPicture
+      //       .map((m) => m.idEmp)
+      //       .includes(this.allJobs.content.idEmployer)){
+      
+      // }
+     
       this.$store.commit("setPosting", allPost);
     } else {
       if (this.idEmp) {
-        this.image = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getImageByIdEmployer` + "?idEmployer=" + this.$store.state.auth.user.employer.idEmployer);
+        console.log("เข้าไหม")
+            const image1 = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getImageByIdEmployer` + "?idEmployer=" + this.$store.state.auth.user.employer.idEmployer);
+    const imageName = image1.data
+          this.image =
+            (await `${process.env.VUE_APP_ROOT_API}main/image/`) +
+            imageName;   
         this.getActivePost = await this.fetch(
           `${process.env.VUE_APP_ROOT_API}main/getPostingActiveByIdEmployer?idEmployer=` +
             this.$store.state.auth.user.employer.idEmployer
         );
         this.$store.commit("setPosting", this.getActivePost);
+this.getInactivePost = await this.fetch(
+        `${process.env.VUE_APP_ROOT_API}main/getPostingInActiveByIdEmployer?idEmployer=` +
+          this.$store.state.auth.user.employer.idEmployer);        
       }
     }
     console.log(this.allJobs);

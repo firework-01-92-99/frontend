@@ -47,7 +47,7 @@
             <th>
               <!-- detail -->
               <label
-               
+                @click="getPic(a)"
                 for="my-modal-5"
                 class="btn btn-ghost btn-xs"
                 >รายละเอียด</label
@@ -512,6 +512,11 @@ export default {
     }
   },
   methods: {
+
+  async getPic(a){
+    console.log(a.verifyPic)
+    this.image = `${process.env.VUE_APP_ROOT_API}main/image/` + a.verifyPic
+  },    
         async fetch(url) {
       try {
         const res = await fetch(url);

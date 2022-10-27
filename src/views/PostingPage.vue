@@ -285,7 +285,7 @@
       <div class="pt-5">ไม่มีโพสที่ปิดประกาศ</div>
     </div>
 
-    <base-job :idEmp="$store.state.auth.user.employer.idEmployer">
+    <base-job :idEmp="$store.state.auth.user.employer.idEmployer" :status="actOrInPost">
     </base-job>
     
     <!-- pagination  -->

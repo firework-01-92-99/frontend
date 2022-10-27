@@ -46,7 +46,6 @@
           <tr v-for="(s, index) in status" :key="s.idApplication">
             <!-- <div v-for="">
             </div> -->
-            {{s}}
             <th>{{ index + 1 }}</th>
             <td>{{ s.establishmentName }}</td>
             <td>{{ s.positionName }}</td>

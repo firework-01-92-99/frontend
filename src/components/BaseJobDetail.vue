@@ -56,8 +56,7 @@
       <figure class="2xl:w-1/4">
         <img
           class="2xl:h-full object-cover w-full"
-          src="https://i.ytimg.com/vi/J_oT9erINxA/maxresdefault.jpg"
-          alt="Movie"
+          :src="image"
         />
       </figure>
       <div class="card-body">
@@ -603,7 +602,8 @@ export default {
         ) {
           if (
             this.jobDetail.workerType.typeName ==
-            this.$store.state.auth.user.worker.workerType.typeName
+            this.$store.state.auth.user.worker.workerType.typeName ||
+            this.jobDetail.workerType.typeName == 'All'
           ) {
             if (
               this.jobDetail.sex == this.$store.state.auth.user.worker.sex ||
@@ -665,9 +665,17 @@ export default {
     this.jobDetail.postingHasDayList.sort((a, b)=>{return a.day.idDay - b.day.idDay})
     this.idPosting = id;
 
-    this.image = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getImageByIdEmployer` + "?idEmployer=" + this.$route.query.idEmployer);
-
+    const image1 = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getImageByIdEmployer` + "?idEmployer=" + this.$route.query.idEmployer);
+    const imageName = image1.data
+          this.image =
+            (await `${process.env.VUE_APP_ROOT_API}main/image/`) +
+            imageName;    
+    console.log(this.image)
     this.employer = await this.fetch(this.urlEmp + "?idEmployer=" + this.empId);
+        this.alreadyApp = this.jobDetail.applicationList
+      .map((a) => a.idWorker)
+      .includes(this.$store.state.auth.user.worker.idWorker);
+    console.log(this.alreadyApp);
     this.fav1= await axios.get(
         `${process.env.VUE_APP_ROOT_API}worker/getMyFavorite?idWorker=` + this.$store.state.auth.user.worker.idWorker);
     this.favoriteList = this.fav1.data
@@ -687,10 +695,6 @@ export default {
     // );
     // this.thisWorker = this.thisWorker1.data
     // console.log("this.thisWorker = " + this.thisWorker)
-    this.alreadyApp = this.jobDetail.applicationList
-      .map((a) => a.idWorker)
-      .includes(this.$store.state.auth.user.worker.idWorker);
-    console.log(this.alreadyApp);
     window.scrollTo(0, 0);
   },
 };

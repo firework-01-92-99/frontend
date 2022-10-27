@@ -80,7 +80,7 @@
             <th></th>
           </tr>
         </thead>
-        <tbody v-for="a in listApprove.data" :key="a.idApprove">
+        <tbody v-for="(a,index) in listApprove.data" :key="a.idApprove">
           <!-- row 1 -->
           <!-- <div v-if="listApprove.lenght == null">
             ไม่มีรายการที่ต้องทำ
@@ -108,8 +108,9 @@
                 >รายละเอียด</label
               >
               <input type="checkbox" id="my-modal-5" class="modal-toggle" />
-              <div class="modal modal-bottom">
+              <div v-show="a.workOrEmp == 'Worker'" class="modal modal-bottom">
                 <div class="modal-box w-11/12 2xl:max-w-xl md:max-w-sm">
+                {{index}}
                   <h3 class="font-bold text-lg">รายละเอียด</h3>
                   <!-- <h4 class="py-4">รอดึง</h4> -->
                   <div class="flex flex-col 2xl:w-full mt-4">
@@ -120,7 +121,7 @@
                         <form class="form-horizontal 2xl:w-full md:w-full">
                           <div>
                             <div
-                              v-if="a.workOrEmp == 'Employer'"
+                              v-if="aa"
                               class="flex -mx-3"
                             >
                               <div class="w-full px-3 mb-5">
@@ -281,7 +282,7 @@
                             </div>
 
                             <div
-                              v-if="a.workOrEmp == 'Employer'"
+                              v-if="aa"
                               class="flex -mx-3"
                             >
                               <div class="w-full px-3 mb-5">
@@ -323,7 +324,7 @@
                               </div>
                             </div>
 
-                            <div v-if="a.workOrEmp == 'Worker' " class="flex -mx-3">
+                            <div v-if="work" class="flex -mx-3">
                               <div class="w-full px-3 mb-5">
                                 <label
                                   for=""
@@ -401,7 +402,7 @@
                               </div>
 
                               <div
-                                v-if="a.workOrEmp == 'Worker'"
+                                v-if="work"
                                 class="2xl:w-1/2 w-full 2xl:px-3 mb-5"
                               >
                                 <label for="" class="text-base font-medium px-1"
@@ -483,7 +484,7 @@
                               </div>
                             </div>
 
-                            <div v-if="a.workOrEmp == 'Employer'">
+                            <div v-if="aa">
                               <div class="flex -mx-3">
                                 <div class="w-full px-3 mb-5">
                                   <label
@@ -735,7 +736,7 @@
                             <div
                               class="flex -mx-3"
                             >
-                              <div v-if="a.workOrEmp == 'Worker'" class="w-full px-3 mb-5">
+                              <div v-if="work" class="w-full px-3 mb-5">
                                 <label for="" class="text-base font-medium px-1"
                                   >เพศ</label
                                 >
@@ -770,7 +771,7 @@
                                   />
                                 </div>
                               </div>
-                              <div v-if="a.workOrEmp == 'Employer' || a.workOrEmp == 'Worker' " class="w-full px-3 mb-5">
+                              <div v-if="aa || work " class="w-full px-3 mb-5">
                                 <label for="" class="text-base font-medium px-1"
                                   >เบอร์โทรศัพท์</label
                                 >
@@ -821,13 +822,13 @@
                             <div class="flex -mx-3">
                               <div class="w-full px-3 mb-5">
                                 <label
-                                  v-if="a.workOrEmp == 'Employer'"
+                                  v-if="aa"
                                   for=""
                                   class="text-base font-medium px-1"
                                   >ภาพสถานประกอบการ</label
                                 >
                                 <label
-                                  v-if="a.workOrEmp == 'Worker'"
+                                  v-if="work"
                                   for=""
                                   class="text-base font-medium px-1"
                                   >ภาพยืนยันตัวตน</label
@@ -971,16 +972,20 @@ export default {
       idAdmin: 0,
       confirmInput: false,
       infoEmp : {businesstype:{}},
+      aa:[],
+      work: [],
     };
   },
   methods: {
     async data(data) {
+      this.aa = data.workOrEmp == 'Employer'
+      this.work = data.workOrEmp == 'Worker'
       console.log("data: ");
       console.log(data);
-      console.log(data.idEmpOrWork, data.workOrEmp);
+      console.log(data.workOrEmp);
       this.confirmInput = false;
       this.statusId = "";
-      if (data.workOrEmp == "Worker") {
+      if (data.idWorker != 0) {
         await axios
           .get(
             `${process.env.VUE_APP_ROOT_API}admin/selectWorker?idWorker=${data.idWorker}`
@@ -994,6 +999,7 @@ export default {
               console.log("ยืนยันworker")
           });
       }else{
+        if(data.idEmployer != 0){
         await axios
           .get(
             `${process.env.VUE_APP_ROOT_API}main/selectEmployer?idEmployer=${data.idEmployer}`
@@ -1005,7 +1011,8 @@ export default {
               `${process.env.VUE_APP_ROOT_API}main/image/` +
               this.infoEmp.profile;
               console.log("ยืนยันemp")
-          });        
+          });
+        }    
       }
     },
     async sendApprove(idApprove) {

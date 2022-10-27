@@ -1582,13 +1582,13 @@ export default {
         this.registWorker.worker.lastName = this.bindLname;
         this.registWorker.worker.phone = this.bindPhone;
 
-        if (
-          this.registWorker.worker.middleName == "" ||
-          this.registWorker.worker.lastName == ""
-        ) {
-          this.registWorker.worker.middleName = "-";
-          this.registWorker.worker.lastName = "-";
-        }
+        // if (
+        //   this.registWorker.worker.middleName == "" ||
+        //   this.registWorker.worker.lastName == ""
+        // ) {
+        //   this.registWorker.worker.middleName = "-";
+        //   this.registWorker.worker.lastName = "-";
+        // }
 
         this.whoRegist = this.registWorker;
         console.log("workerRegist")
@@ -1615,6 +1615,7 @@ export default {
         !this.tickPolicy
       ) {
         this.registEmp.email = this.bindEmail;
+        this.registEmp.employer.email = this.bindEmail;
         this.registEmp.password = this.bindPass;
         this.registEmp.employer.entrepreneurfName = this.bindFname;
         this.registEmp.employer.entrepreneurlName = this.bindLname;
@@ -1628,7 +1629,7 @@ export default {
     async signUpAxios() {
       console.log("signup");
       let errorResponse;
-      const goTo = this.$router.push("/otp" + "/?email=" + this.bindEmail);
+      const vm = this
 
       const formData = new FormData();
       console.log("this.whoRegist" + this.whoRegist)
@@ -1638,13 +1639,14 @@ export default {
       formData.append('image', this.imgFile)
       await formData.append('account', blob);
 
-await axios
+      await axios
         .post(`${process.env.VUE_APP_ROOT_API}main/register`, formData)
         .then(function (response) {
           console.log(response);
-          this.errIden = false;
+          vm.errIden = false;
           alert("Finish Sign up");
-          this.clear();
+          vm.clear();
+          vm.$router.push("/otp" + "/?email=" + vm.bindEmail);
         })
         .catch(function (error) {
           console.log(error)
@@ -1655,10 +1657,6 @@ await axios
         this.errIden = false;
         this.errorMail = true;
         this.errorMessage = "อีเมลนี้ถูกใช้แล้ว";
-      }else{
-        if(errorResponse == ''){
-          goTo
-        }
       }
 
     },
