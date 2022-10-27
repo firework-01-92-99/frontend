@@ -1591,7 +1591,9 @@ export default {
         }
 
         this.whoRegist = this.registWorker;
+        console.log("workerRegist")
         console.log(this.whoRegist);
+        console.log(this.whoRegist.worker.verifyPic)
         this.signUpAxios();
       }
       if (
@@ -1627,24 +1629,38 @@ export default {
       console.log("signup");
       let errorResponse;
       const goTo = this.$router.push("/otp" + "/?email=" + this.bindEmail);
-      await axios
-        .post(`${process.env.VUE_APP_ROOT_API}main/register`, this.whoRegist)
+
+      const formData = new FormData();
+      console.log("this.whoRegist.worker.verifyPic" + this.whoRegist.worker.verifyPic)
+      console.log("this.whoRegist" + this.whoRegist)
+        const blob = await new Blob([JSON.stringify(this.whoRegist)], {
+          type: "application/json",
+        });
+      formData.append('image', this.imgFile)
+      await formData.append('account', blob);
+
+try {
+await axios
+        .post(`${process.env.VUE_APP_ROOT_API}main/register`, formData)
         .then(function (response) {
           console.log(response);
           this.errIden = false;
           alert("Finish Sign up");
           this.clear();
-          goTo
         })
-        .catch(function (error) {
-          errorResponse = error.response.data.errorCode;
-        });
-      console.log("errorResponse = " + errorResponse);
+        // .catch(function (error) {
+        //   console.log(error)
+        // });
+        goTo
+} catch (error) {
+       console.log("errorResponse = " + errorResponse);
+       errorResponse = error.response.data.errorCode;
       if (errorResponse == "ACCOUNT_EMAIL_HAVE_ALREADY") {
         this.errIden = false;
         this.errorMail = true;
         this.errorMessage = "อีเมลนี้ถูกใช้แล้ว";
-      }
+      }   
+}
     },
     async uploadImg(event) {
       const file = event.target.files[0];
