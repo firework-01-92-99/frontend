@@ -35,7 +35,7 @@
       <!-- back btn -->
       <div>
         <button
-          v-if="$store.state.auth.user && this.$store.state.auth.user.role.idRole == '3'"
+          v-if="!$store.state.auth.user || ($store.state.auth.user && this.$store.state.auth.user.role.idRole == '3')"
           @click="$router.push('/')"
           class="btn btn-ghost font-sans-thai flex justify-start ml-2.5"
         >
@@ -489,6 +489,7 @@ export default {
       defNext: true,
       YNextBtn: true,
       favoriteList: [],
+      image: null,
     };
   },
   methods: {
@@ -663,6 +664,9 @@ export default {
     this.jobDetail = await this.fetch(this.urlJobDetail + "?idPosting=" + `${id}`);
     this.jobDetail.postingHasDayList.sort((a, b)=>{return a.day.idDay - b.day.idDay})
     this.idPosting = id;
+
+    this.image = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getImageByIdEmployer` + "?idEmployer=" + this.$route.query.idEmployer);
+
     this.employer = await this.fetch(this.urlEmp + "?idEmployer=" + this.empId);
     this.fav1= await axios.get(
         `${process.env.VUE_APP_ROOT_API}worker/getMyFavorite?idWorker=` + this.$store.state.auth.user.worker.idWorker);

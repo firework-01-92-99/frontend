@@ -213,6 +213,7 @@ export default {
       storeIdPost: "",
       favoriteList: [],
       getActivePost: [],
+      image: null,
     };
   },
   methods: {
@@ -309,9 +310,11 @@ export default {
     );
     console.log(allPost);
     if (!this.idEmp) {
+      // this.image = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getImageByIdEmployer` + "?idEmployer=" + this.$route.query.idEmployer);
       this.$store.commit("setPosting", allPost);
     } else {
       if (this.idEmp) {
+        this.image = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getImageByIdEmployer` + "?idEmployer=" + this.$store.state.auth.user.employer.idEmployer);
         this.getActivePost = await this.fetch(
           `${process.env.VUE_APP_ROOT_API}main/getPostingActiveByIdEmployer?idEmployer=` +
             this.$store.state.auth.user.employer.idEmployer

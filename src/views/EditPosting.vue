@@ -1117,6 +1117,7 @@ export default {
       jobDetail: {},
       hiringTypeArray: [],
       sevenDay: [],
+      image: null,
     };
   },
   methods: {
@@ -1314,6 +1315,7 @@ export default {
           positionName: this.jobDetail?.position?.positionName,
         },
       }
+      this.image = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getImageByIdEmployer` + "?idEmployer=" + this.$store.state.auth.user.employer.idEmployer);
       console.log(this.postInfo)
   },
 };

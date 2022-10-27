@@ -1012,6 +1012,7 @@ export default {
       },
       post: [],
       response200: '',
+      image: null
     };
   },
   methods: {
@@ -1155,6 +1156,7 @@ export default {
       console.log(this.post)
       this.positionArray1 = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/getMyPosition?idEmployer=` + this.$store.state.auth.user.employer.idEmployer);
       this.positionArray = this.positionArray1.data
+      this.image = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getImageByIdEmployer` + "?idEmployer=" + this.$store.state.auth.user.employer.idEmployer);
     console.log(this.sevenDay);
   },
 };
