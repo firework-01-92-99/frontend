@@ -51,6 +51,8 @@
           md:p-6
           p-3
           pt-5
+          2xl:ml-0
+          md:ml-1
           ml-3.5
           font-sans-thai
         "
@@ -118,7 +120,7 @@
               </p>
             </div>
           </div>
-          {{jobDetail.position.positionName}}
+          <!-- {{jobDetail.position.positionName}} -->
           <h2 class="card-title">
             {{ this.$store.state.auth.user.employer.establishmentName }}
           </h2>
@@ -167,8 +169,8 @@
                 .toString()
                 .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             }} -->
-              <div class="2xl:flex 2xl:-mx-3">
-                <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+              <div class="flex -mx-3">
+                <div class="w-1/2 px-3 mb-5">
                   <!-- <label
                     for=""
                     class="text-sm 2xl:text-base font-medium px-1"
@@ -183,6 +185,10 @@
                 .toString()
                 .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             }}</label> -->
+            <label
+                    for=""
+                    class="text-sm 2xl:text-base font-medium px-1"
+                  ></label>
                   <div class="flex">
                     <div
                       class="
@@ -202,7 +208,9 @@
                       v-model.trim="jobDetail.minSalary"
                       maxlength="5"
                       class="
-                        w-full
+                        2xl:w-full
+                        md:w-full
+                        w-5/6
                         -ml-10
                         pl-5
                         pr-3
@@ -211,6 +219,7 @@
                         border-2 border-gray-200
                         outline-none
                         placeholder:font-normal
+                        focus:border-indigo-500
                       "
                       :class="{ 'bg-red-50': minSalaryInput }"
                       placeholder="กรอกเงินเดือนที่ต่ำที่สุด"
@@ -221,8 +230,8 @@
                     </p>
                   </div>
                 </div>
-                <span class="pt-9 pr-1">-</span>
-                <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                <span class="pt-9 2xl:pr-1 md:pr-1 2xl:-ml-0 md:-ml-0 -ml-7">-</span>
+                <div class="w-1/2 px-3 mb-5">
                   <label
                     for=""
                     class="text-sm 2xl:text-base font-medium px-1"
@@ -246,7 +255,9 @@
                       v-model.trim="jobDetail.maxSalary"
                       maxlength="5"
                       class="
-                        w-full
+                         2xl:w-full
+                        md:w-full
+                        w-5/6
                         -ml-10
                         pl-5
                         pr-3
@@ -255,6 +266,7 @@
                         border-2 border-gray-200
                         outline-none
                         placeholder:font-normal
+                        focus:border-indigo-500
                       "
                       :class="{ 'bg-red-50': maxSalaryInput }"
                       placeholder="กรอกเงินเดือนที่มากที่สุด"
@@ -285,7 +297,7 @@
             </span>
           </p>
 
-          <div class="w-full px-3 mb-5">
+          <!-- <div class="w-full px-3 mb-5">
             <label
               for=""
               class="2xl:text-base md:text-base text-sm font-medium px-1"
@@ -333,7 +345,7 @@
             class="badge badge-lg w-full bg-gray-200 text-gray-600 border-0"
           >
             ปิดประกาศรับสมัคร
-          </div>
+          </div> -->
 
         </div>
       </div>
@@ -347,13 +359,13 @@
           <!-- <span class="font-semibold">แรงงานที่รับ: </span> -->
           <!-- {{ workerType[jobDetail.workerType.typeName] }} -->
           <!-- workerType -->
-          <div class="w-full px-3 mb-5">
+          <div class="w-full mb-5">
             <label
               for=""
               class="2xl:text-base md:text-base text-sm font-medium px-1"
               >แรงงานที่รับ</label
             >
-            <div class="flex 2xl:space-x-5">
+            <div class="flex flex-col sm:flex-row 2xl:space-x-5">
               <div class="form-control">
                 <label class="label cursor-pointer 2xl:space-x-2">
                   <input
@@ -361,11 +373,11 @@
                     v-if="jobDetail.workerType"
                     v-model="jobDetail.workerType.idWorkerType"
                     name="radio-5"
-                    class="radio checked:bg-blue-500"
+                    class="radio checked:bg-orange-1"
                     :class="{ 'bg-red-50': workerTypeInput }"
                     value="1"
                   />
-                  <span class="label-text 2xl:pr-0 md:pl-2 md:pr-4"
+                  <span class="label-text 2xl:pr-0 md:pl-2 md:pr-4 pr-48"
                     >แรงงานต่างด้าว</span
                   >
                 </label>
@@ -377,11 +389,11 @@
                     v-if="jobDetail.workerType"
                     v-model="jobDetail.workerType.idWorkerType"
                     name="radio-5"
-                    class="radio checked:bg-red-500"
+                    class="radio checked:bg-orange-1"
                     :class="{ 'bg-red-50': workerTypeInput }"
                     value="2"
                   />
-                  <span class="label-text 2xl:pr-0 md:pl-2 md:pr-4"
+                  <span class="label-text 2xl:pr-0 md:pl-2 md:pr-4 pr-52 mr-2.5"
                     >แรงงานไทย</span
                   >
                 </label>
@@ -393,11 +405,11 @@
                     v-if="jobDetail.workerType"
                     v-model="jobDetail.workerType.idWorkerType"
                     name="radio-5"
-                    class="radio checked:bg-blue-500"
+                    class="radio checked:bg-orange-1"
                     :class="{ 'bg-red-50': workerTypeInput }"
                     value="3"
                   />
-                  <span class="label-text 2xl:pr-0 md:pl-2 md:pr-4"
+                  <span class="label-text 2xl:pr-0 md:pl-2 md:pr-4 pr-36 mr-1"
                     >แรงงานไทยและต่างด้าว</span
                   >
                 </label>
@@ -413,7 +425,7 @@
           <!-- <span class="font-semibold">เพศ: </span> -->
           <!-- {{ sex[jobDetail.sex] }} -->
           <!-- sex -->
-          <div class="w-1/2 px-3 mb-5">
+          <div class="w-1/2 mb-5">
             <label
               for=""
               class="2xl:text-base md:text-base text-sm font-medium px-1"
@@ -427,7 +439,7 @@
                     v-if="jobDetail"
                     v-model.trim="jobDetail.sex"
                     name="radio-6"
-                    class="radio checked:bg-blue-500"
+                    class="radio checked:bg-orange-1"
                     :class="{ 'bg-red-50': sexInput }"
                     value="M"
                   />
@@ -441,7 +453,7 @@
                     v-model.trim="jobDetail.sex"
                     type="radio"
                     name="radio-6"
-                    class="radio checked:bg-red-500"
+                    class="radio checked:bg-orange-1"
                     :class="{ 'bg-red-50': sexInput }"
                     value="F"
                   />
@@ -455,7 +467,7 @@
                     v-model.trim="jobDetail.sex"
                     type="radio"
                     name="radio-6"
-                    class="radio checked:bg-red-500"
+                    class="radio checked:bg-orange-1"
                     :class="{ 'bg-red-50': sexInput }"
                     value="A"
                   />
@@ -472,8 +484,8 @@
           <!-- {{ jobDetail.minAge }} -
           {{ jobDetail.maxAge }}  -->
           <!-- ปี -->
-          <div class="2xl:flex 2xl:-mx-3">
-            <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+          <div class="flex -mx-3">
+            <div class="w-1/2 px-3 mb-5">
               <label for="" class="text-sm 2xl:text-base font-medium px-1"
                 >อายุ</label
               >
@@ -497,7 +509,9 @@
                   v-if="jobDetail"
                   v-model.trim="jobDetail.minAge"
                   class="
-                    w-full
+                    2xl:w-full
+                    md:w-full
+                    w-4/6
                     -ml-10
                     pl-5
                     pr-3
@@ -505,6 +519,7 @@
                     rounded-lg
                     border-2 border-gray-200
                     outline-none
+                    focus:border-indigo-500
                   "
                   :class="{ 'bg-red-50': minAgeInput }"
                   placeholder="อายุขั้นต่ำ"
@@ -514,8 +529,8 @@
                 </p>
               </div>
             </div>
-            <span class="pt-9">-</span>
-            <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+            <span class="pt-9 2xl:pr-1 md:pr-1 2xl:-ml-0 md:-ml-0 -ml-14">-</span>
+            <div class="w-1/2 px-3 mb-5">
               <label
                 for=""
                 class="text-sm 2xl:text-base font-medium px-1"
@@ -540,7 +555,9 @@
                   v-if="jobDetail"
                   v-model.trim="jobDetail.maxAge"
                   class="
-                    w-full
+                    2xl:w-full
+                    md:w-full
+                    w-4/6
                     -ml-10
                     pl-5
                     pr-3
@@ -548,6 +565,7 @@
                     rounded-lg
                     border-2 border-gray-200
                     outline-none
+                    focus:border-indigo-500
                   "
                   :class="{ 'bg-red-50': maxAgeInput }"
                   placeholder="อายุมากที่สุด"
@@ -564,8 +582,8 @@
           <!-- <span class="font-semibold">เวลาทำงาน: </span> -->
           <!-- {{ jobDetail.startTime }} - {{ jobDetail.endTime }}  -->
           <!-- น. -->
-          <div class="2xl:flex 2xl:-mx-3">
-            <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+          <div class="flex -mx-3">
+            <div class="w-1/2 px-3 mb-5">
               <label for="" class="text-sm 2xl:text-base font-medium px-1"
                 >เวลาทำงาน</label
               >
@@ -587,7 +605,9 @@
                   v-if="jobDetail"
                   v-model.trim="jobDetail.startTime"
                   class="
-                    w-full
+                    2xl:w-full
+                    md:w-full
+                    w-4/6
                     -ml-10
                     pl-5
                     pr-3
@@ -595,6 +615,7 @@
                     rounded-lg
                     border-2 border-gray-200
                     outline-none
+                    focus:border-indigo-500
                   "
                   :class="{ 'bg-red-50': startTimeInput }"
                   placeholder="เวลาเริ่มงาน เช่น 9:00"
@@ -604,8 +625,8 @@
                 </p>
               </div>
             </div>
-            <span class="pt-9">-</span>
-            <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+            <span class="pt-9 2xl:pr-1 md:pr-1 2xl:-ml-0 md:-ml-0 -ml-14">-</span>
+            <div class="w-1/2 px-3 mb-5">
               <label class="text-sm 2xl:text-base font-medium px-1"></label>
               <div class="flex">
                 <div
@@ -625,7 +646,9 @@
                   v-if="jobDetail"
                   v-model.trim="jobDetail.endTime"
                   class="
-                    w-full
+                     2xl:w-full
+                    md:w-full
+                    w-4/6
                     -ml-10
                     pl-5
                     pr-3
@@ -633,6 +656,7 @@
                     rounded-lg
                     border-2 border-gray-200
                     outline-none
+                    focus:border-indigo-500
                   "
                   :class="{ 'bg-red-50': endTimeInput }"
                   placeholder="เวลาเลิกงาน เช่น 18:00"
@@ -667,7 +691,7 @@
             </div>
             <p v-if="postingHasDayListInput" class="text-red-600">กรุณาเลือกวันทำงาน</p>
           </div> -->
-          <div class="w-1/2 px-3 mb-5">
+          <div class="w-full mb-5">
             <label class="2xl:text-base md:text-base text-sm font-medium px-1"
               >วันทำงาน</label
             >
@@ -696,7 +720,7 @@
 
             <div class="flex space-x-5">
               <div class="form-control">
-                <label class="label cursor-pointer space-x-2">
+                <label class="flex flex-col items-start label cursor-pointer space-y-2">
                   <span v-for="pd in sevenDay" :key="pd.idDay">
                     <!-- {{pd}} -->
                     <input
@@ -704,13 +728,13 @@
                       :value="jobDetail.postingHasDayList.find(d=>d.day.idDay == pd.idDay) ? jobDetail.postingHasDayList.find(d=>d.day.idDay == pd.idDay) : {day:pd}"
                       type="checkbox"
                       v-model="jobDetail.postingHasDayList"
-                      class="checkbox checkbox-sm"
+                      class="checkbox checkbox-sm inline-block align-middle checkbox-primary"
                       :class="{ 'bg-red-50': postingHasDayListInput }"
                     />
-                    <span class="label-text">{{ pd.dayName }}</span>
+                    <span class="label-text pl-2">{{ pd.dayName }}</span>
                   </span>
                 </label>
-                <span>Selected day: {{ jobDetail.postingHasDayList }}</span>
+                <!-- <span>Selected day: {{ jobDetail.postingHasDayList }}</span> -->
               </div>
             </div>
             <p v-if="postingHasDayListInput" class="text-red-600">
@@ -734,7 +758,7 @@
               <label for="" class="text-base font-medium px-1"
                 >รายละเอียดงาน</label
               >
-              <div class="flex">
+              <div class="">
                 <div
                   class="
                     w-10
@@ -769,14 +793,14 @@
           <!-- <span class="font-semibold">รูปแบบงาน: </span> -->
           <!-- {{ jobDetail.hiringType.nameType }} -->
           <!-- hiringType -->
-          <div class="w-1/2 px-3 mb-5">
+          <div class="2xl:w-1/2 md:w-1/2 w-full mb-5">
             <label
               for=""
               class="2xl:text-base md:text-base text-sm font-medium px-1"
               >รูปแบบงาน</label
             >
-            <div class="flex space-x-5">
-              <div class="flex">
+            <div class="flex space-x-5 w-full">
+              <div class="flex 2xl:w-1/3 md:w-2/3 w-2/3">
                 <div
                   class="
                     w-10
@@ -833,7 +857,7 @@
           <!-- <span class="font-semibold">ค่าล่วงเวลา: </span> -->
           <!-- {{ ot[jobDetail.overtimePayment] }} -->
           <!-- overtimePayment -->
-          <div class="w-1/2 px-3 mb-5">
+          <div class="w-1/2 mb-5">
             <label
               for=""
               class="2xl:text-base md:text-base text-sm font-medium px-1"
@@ -847,7 +871,7 @@
                     v-if="jobDetail"
                     v-model.trim="jobDetail.overtimePayment"
                     name="radio-7"
-                    class="radio checked:bg-blue-500"
+                    class="radio checked:bg-orange-1"
                     :class="{ 'bg-red-50': otPayInput }"
                     value="y"
                   />
@@ -861,7 +885,7 @@
                     v-if="jobDetail"
                     v-model.trim="jobDetail.overtimePayment"
                     name="radio-7"
-                    class="radio checked:bg-red-500"
+                    class="radio checked:bg-orange-1"
                     :class="{ 'bg-red-50': otPayInput }"
                     value="n"
                   />
@@ -881,7 +905,7 @@
           <div class="flex -mx-3">
             <div class="w-full px-3 mb-5">
               <label for="" class="text-base font-medium px-1">คุณสมบัติ</label>
-              <div class="flex">
+              <div class="">
                 <div
                   class="
                     w-10
@@ -912,7 +936,7 @@
           <div class="flex -mx-3">
             <div class="w-full px-3 mb-5">
               <label for="" class="text-base font-medium px-1">สวัสดิการ</label>
-              <div class="flex">
+              <div class="">
                 <div
                   class="
                     w-10
@@ -940,10 +964,8 @@
               <p v-if="welfareInput" class="text-red-600">กรุณากรอกสวัสดิการ</p>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div class="flex space-x-5 justify-between font-sans-thai">
+<div class="w-full flex space-x-5 justify-center font-sans-thai">
         <button
           @click.prevent="editPost()"
           type="submit"
@@ -952,8 +974,9 @@
             border-orange-1
             bg-orange-1
             hover:bg-orange-2 hover:border-orange-2
+            2xl:w-1/5
+            md:w-2/5
             w-2/5
-            -mt-16
             2xl:mt-0
             xl:mt-0
             lg:mt-0
@@ -969,8 +992,9 @@
           @click="$router.push('/posting')"
           class="
             btn btn-ghost
-            w-2/5
-            -mt-7
+           2xl:w-1/5
+            md:w-2/5
+             w-2/5
             -mb-5
             2xl:mt-0
             xl:mt-0
@@ -984,6 +1008,11 @@
         </button>
         <!-- {{ this.$store.state.auth.user.employer }} -->
       </div>
+
+        </div>
+      </div>
+
+      
     </form>
   </div>
 </template>
@@ -1091,31 +1120,31 @@ export default {
     };
   },
   methods: {
-    async closePost(OnorOff) {
-      console.log("InorAct = " + OnorOff);
-      if(OnorOff == 'Off'){
-        if (confirm("ลบแน่นะวิ")) {
-        console.log("Inactive Post");
-        await axios.put(
-          `${process.env.VUE_APP_ROOT_API}emp/inActivePosting?idPosting=${this.idPosting}`
-        ).data;
-        OnorOff = ''
-        this.$router.push("/posting");
-      }      
-      }else {
-        if(OnorOff == 'On'){
-      if (confirm("ต้องการจะเปิดโพสใช่หรือไม่")) {
-        console.log("Active Post");
-        await axios.put(
-          `${process.env.VUE_APP_ROOT_API}emp/ActivePosting?idPosting=${this.idPosting}`
-        ).data;
-        OnorOff = ''
-        this.$router.push("/posting");
-      }  
-        }
+    // async closePost(OnorOff) {
+    //   console.log("InorAct = " + OnorOff);
+    //   if(OnorOff == 'Off'){
+    //     if (confirm("ลบแน่นะวิ")) {
+    //     console.log("Inactive Post");
+    //     await axios.put(
+    //       `${process.env.VUE_APP_ROOT_API}emp/inActivePosting?idPosting=${this.idPosting}`
+    //     ).data;
+    //     OnorOff = ''
+    //     this.$router.push("/posting");
+    //   }      
+    //   }else {
+    //     if(OnorOff == 'On'){
+    //   if (confirm("ต้องการจะเปิดโพสใช่หรือไม่")) {
+    //     console.log("Active Post");
+    //     await axios.put(
+    //       `${process.env.VUE_APP_ROOT_API}emp/ActivePosting?idPosting=${this.idPosting}`
+    //     ).data;
+    //     OnorOff = ''
+    //     this.$router.push("/posting");
+    //   }  
+    //     }
       
-      }
-    },
+    //   }
+    // },
     async editPost() {
       this.checkValidate();
       console.log("postInfo")

@@ -37,16 +37,16 @@
             "
           ></div>
           <div class="flex flex-col w-full lg:w-1/2 p-4">
-            <div class="flex flex-col flex-1 justify-center mb-8">
+            <div class="flex flex-col flex-1 justify-center mt-8 mb-8">
               <h1
                 v-if="signType == 'employer'"
-                class="font-bold 2xl:text-4xl md:text-4xl text-xl text-center"
+                class="text-orange-1 font-bold 2xl:text-4xl md:text-4xl text-xl text-center"
               >
                 ลงทะเบียนสำหรับผู้ประกอบการ
               </h1>
               <h1
                 v-else
-                class="font-bold 2xl:text-4xl md:text-4xl text-2xl text-center"
+                class="text-orange-1 font-bold 2xl:text-4xl md:text-4xl text-2xl text-center"
               >
                 ลงทะเบียนสำหรับผู้สมัครงาน
               </h1>
@@ -1176,7 +1176,7 @@
                           v-if="signType == 'employer'"
                           for=""
                           class="text-base font-medium px-1"
-                          >ภาพสถานประกอบการ</label
+                          >ภาพ Logo ของบริษัท</label
                         >
                         <label
                           v-if="signType == 'worker'"
@@ -1267,10 +1267,11 @@
                       <label
                         for="my-modal-5"
                         class="
-                          text-blue-700
+                          text-blue-600
                           cursor-pointer
                           underline
-                          hover:text-blue-800
+                          hover:text-blue-700
+                          font-medium
                         "
                         >ข้อกำหนดและเงื่อนไข</label
                       >
@@ -1320,10 +1321,9 @@
                     class="text-sm"
                   >
                     มีบัญชีอยู่แล้ว? <span class="cursor-pointer
-                        no-underline
-                        hover:underline
-                        text-blue-700
-                        hover:text-blue-800
+                        underline
+                        text-blue-600
+                        hover:text-blue-700
                         font-medium">เข้าสู่ระบบ</span>
                   </div>
                 </div>

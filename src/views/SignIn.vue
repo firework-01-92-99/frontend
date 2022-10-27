@@ -34,8 +34,8 @@
             "
           ></div>
           <div class="flex flex-col w-full lg:w-1/2 p-4">
-            <div class="flex flex-col flex-1 justify-center mb-8">
-              <h1 class="font-bold text-4xl text-center">เข้าสู่ระบบ</h1>
+            <div class="flex flex-col flex-1 justify-center mt-8 mb-8">
+              <h1 class="font-bold text-4xl text-center text-orange-1">เข้าสู่ระบบ</h1>
               <div class="w-full mt-4">
                 <form
                   autocomplete="off"
@@ -150,10 +150,9 @@
                           pt-2
                           text-sm
                           cursor-pointer
-                          no-underline
-                          hover:underline
-                          text-blue-700
-                          hover:text-blue-800
+                          underline
+                          text-blue-600
+                          hover:text-blue-700
                           font-medium
                         "
                       >
@@ -191,10 +190,9 @@
                       @click="$router.push('/signup/worker')"
                       class="
                         cursor-pointer
-                        no-underline
-                        hover:underline
-                        text-blue-700
-                        hover:text-blue-800
+                        underline
+                        text-blue-600
+                        hover:text-blue-700
                         font-medium
                       "
                       >ลงทะเบียนสำหรับผู้สมัครงาน</span
@@ -204,10 +202,9 @@
                       @click="$router.push('/signup/employer')"
                       class="
                         cursor-pointer
-                        no-underline
-                        hover:underline
-                        text-blue-700
-                        hover:text-blue-800
+                        underline
+                        text-blue-600
+                        hover:text-blue-700
                         font-medium
                       "
                       >ลงทะเบียนสำหรับผู้ประกอบการ</span
