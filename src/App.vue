@@ -29,6 +29,9 @@
               menu menu-compact
               dropdown-content
               p-2
+              2xl:ml-8
+              md:ml-5
+              ml-5
               shadow
               bg-base-100
               rounded-box
@@ -79,9 +82,9 @@
                   >ลงทะเบียนสำหรับผู้ประกอบการ</router-link
                 >
               </li>
-              <li class="hover:text-orange-1">
+              <!-- <li class="hover:text-orange-1">
                 <router-link to="/otp">OTP</router-link>
-              </li>
+              </li> -->
               <li v-if="!$store.state.auth.user || $store.state.auth.user.role.idRole == '3'" class="hover:text-orange-1">
                 <router-link to="/">หางาน</router-link>
               </li>
@@ -171,8 +174,8 @@
           <button
             class="
               btn btn-outline
-              text-white
-              hover:text-orange-1 hover:border-orange-1
+              text-orange-1
+              hover:text-white hover:border-orange-1 hover:bg-orange-1
             "
           >
             เข้าสู่ระบบ

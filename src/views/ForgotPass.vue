@@ -1,7 +1,7 @@
 <template>
    <div class="SignIn">
     <!-- component -->
-    <div class="font-sans-thai bg-gray-2 h-screen">
+    <div class="font-sans-thai bg-gray-2 h-screen ">
       <div
         class="
           flex flex-col
@@ -34,9 +34,9 @@
             "
           ></div>
           <div v-if="!this.$route.query.changePass" class="flex flex-col w-full lg:w-1/2 p-4">
-            <div class="flex flex-col flex-1 justify-center mb-8">
-              <h1 class="font-bold text-4xl text-center">ลืมรหัสผ่าน {{emailInput}}</h1>
-              <p class="text-center mt-5">รหัส OTP จะถูกส่งไปยังอีเมลที่คุณกรอก</p>
+            <div class="flex flex-col flex-1 justify-center mt-8 mb-8">
+              <h1 class="font-bold text-4xl text-center text-orange-1">ลืมรหัสผ่าน{{emailInput}}</h1>
+              <!-- <p class="text-center mt-5">รหัส OTP จะถูกส่งไปยังอีเมลที่คุณกรอก</p> -->
               <div class="w-full mt-4">
                 <form
                   autocomplete="off"
@@ -90,7 +90,7 @@
                     ไม่มีอีเมล {{emailInput}} นี้ในระบบ
                   </p>
                   <p v-if="errorNull" class="text-red-600">
-                    กรุณากรอกอีเมลเพื่อรับ OTP รีเซ็ตพาสเวิร์ด
+                    กรุณากรอกอีเมลเพื่อรับรหัส OTP รีเซ็ตพาสเวิร์ด
                   </p>                  
                   <div class="flex flex-col mt-8 space-y-4">
                     <button 
@@ -130,17 +130,17 @@
               </div>
             </div>
           </div>
-          <div v-if="this.$route.query.changePass" class="flex flex-col w-full lg:w-1/2 p-4">
+          <div v-if="this.$route.query.changePass" class="flex flex-col w-full lg:w-1/2 p-4 mt-8">
             <div class="flex flex-col flex-1 justify-center mb-8">
-              <h1 class="font-bold text-4xl text-center">รีเซ็ตรหัสผ่าน {{emailInput}}</h1>
-              <p class="text-center mt-5">รหัส OTP จะถูกส่งไปยังอีเมลที่คุณกรอก</p>
+              <h1 class="font-bold text-4xl text-center text-orange-1">รีเซ็ตรหัสผ่าน {{emailInput}}</h1>
+              <!-- <p class="text-center mt-5">รหัส OTP จะถูกส่งไปยังอีเมลที่คุณกรอก</p> -->
               <div class="w-full mt-4">
                 <form
                   autocomplete="off"
                   class="form-horizontal w-3/4 mx-auto"
                 >
-                  <div class="flex -mx-3">
-                    <div class="w-full px-3 mb-5">
+                  <div class="-mx-3">
+                    <div class="w-full 2xl:px-3 mb-5">
                       <label for="email" class="text-base font-medium px-1"
                         >รหัสผ่านปัจจุบัน</label
                       >
@@ -162,7 +162,8 @@
                           ></i>
                         </div>
                         <input
-                          type="text"
+                          :type="type"
+                          maxlength="15"
                           name="email"
                           id="email"
                           v-model="reset.currPass"
@@ -178,12 +179,15 @@
                             outline-none
                             focus:border-indigo-500
                           "
-                          placeholder="อีเมล"
+                          placeholder="รหัสผ่านปัจจุบัน"
                         />
                       </div>
                       <p v-if="currPassInput" class="text-red-600">
                     กรุณากรอกรหัสผ่านปัจจุบัน
-                  </p>                      
+                  </p> 
+                    </div>
+
+                        <div class="w-full 2xl:px-3 mb-5">       
                       <label for="email" class="text-base font-medium px-1"
                         >รหัสผ่านใหม่</label
                       >
@@ -205,7 +209,8 @@
                           ></i>
                         </div>
                         <input
-                          type="text"
+                          :type="type"
+                          maxlength="15"
                           name="email"
                           id="email"
                           v-model="reset.newPass"
@@ -221,14 +226,17 @@
                             outline-none
                             focus:border-indigo-500
                           "
-                          placeholder="อีเมล"
+                          placeholder="รหัสผ่านใหม่"
                         />
                       </div>
                         <p v-if="newPassInput" class="text-red-600">
                     กรุณากรอกรหัสผ่านใหม่
-                  </p>                    
+                  </p> 
+                        </div>
+
+                        <div class="w-full 2xl:px-3 mb-5">                   
                       <label for="email" class="text-base font-medium px-1"
-                        >ยืนยันรหัสผ่าน เอาตามาใส่ด้วย</label
+                        >ยืนยันรหัสผ่าน</label
                       >
                       <div class="flex">
                         <div
@@ -248,7 +256,8 @@
                           ></i>
                         </div>
                         <input
-                          type="text"
+                          :type="type"
+                          maxlength="15"
                           name="email"
                           id="email"
                           v-model="reset.confirmPass"
@@ -264,8 +273,23 @@
                             outline-none
                             focus:border-indigo-500
                           "
-                          placeholder="อีเมล"
+                          placeholder="ยืนยันรหัสผ่าน"
                         />
+                        <div class="relative">
+                            <button
+                              class="
+                                absolute
+                                inset-y-0
+                                right-0
+                                w-8
+                                border-2 border-gray-200
+                                rounded-r-lg
+                              "
+                              @click.prevent="showPassword"
+                            >
+                              <img class="" :src="eye" />
+                            </button>
+                          </div>
                       </div>                                               
                     </div>
                   </div>
@@ -323,6 +347,8 @@ import axios from "axios";
 export default {
 data(){
     return{
+      type: "password",
+      eye: require("../assets/hide.png"),
         emailInput: '',
         errorNoEmail: false,
         errorNull: false,
@@ -373,6 +399,15 @@ methods: {
       }
     this.persist()
   },
+  showPassword() {
+      if (this.type === "password") {
+        this.type = "text";
+        this.eye = require("../assets/show.png");
+      } else {
+        this.type = "password";
+        this.eye = require("../assets/hide.png");
+      }
+    },
     check(){
         if(this.emailInput == ''){
             this.errorNull = true;

@@ -1,6 +1,8 @@
 <template>
   <div v-if="$store.state.auth.user" class="Profile font-sans-thai">
-    <!-- back btn -->
+    
+    <div v-if="$store.state.auth.user.role.idRole == '3'" class="bg-gray-100">
+      <!-- back btn -->
       <div>
         <button
           @click="$router.push('/')"
@@ -10,7 +12,6 @@
         </button>
       </div>
     <!-- worker -->
-    <div v-if="$store.state.auth.user.role.idRole == '3'" class="bg-gray-100">
       <section>
         <section class="text-gray-600 body-font">
           <div class="container px-5 mt-10 mx-auto">
@@ -54,7 +55,7 @@
                 />
               </div>
               <div class="flex-grow sm:text-left text-center mt-6 sm:mt-0">
-                <h1 class="text-black text-2xl title-font font-bold mb-2">
+                <h1 class="text-orange-1 text-2xl title-font font-bold mb-2">
                   {{ firstname}} <span>{{middlename == null || middlename == '' || middlename == '-' ? '' : middlename + " "}}</span> {{ lastname }}
                 </h1>
                 <p class="leading-relaxed text-base">
@@ -95,9 +96,9 @@
                     
                   </div> -->
                 </div>
-                <div class="mt-3 text-indigo-500 inline-flex items-center">
+                <div class="mt-8 text-blue-600 font-medium inline-flex items-center">
                   <div class="dropdown">
-                    <label tabindex="0" class="btn btn-ghost m-1"
+                    <label tabindex="0" class="cursor-pointer"
                       >เพิ่มเติม</label
                     >
                     <ul
@@ -112,7 +113,7 @@
                         w-52
                       "
                     >
-                      <li @click.prevent="sendDelete()"><a>ขอลบบัญชี</a></li>
+                      <li @click.prevent="sendDelete()" class="font-normal text-black hover:text-orange-1"><a>ขอลบบัญชี</a></li>
                     </ul>
                   </div>
                 </div>
@@ -125,6 +126,15 @@
 
     <!-- employer -->
     <div v-if="$store.state.auth.user.role.idRole == '2'" class="bg-gray-100">
+      <!-- back btn -->
+      <div>
+        <button
+          @click="$router.push('/posting')"
+          class="btn btn-ghost font-sans-thai flex justify-start 2xl:ml-16 2xl:mt-5 md:ml-8 md:mt-5 ml-4 mt-4"
+        >
+          <i class="material-icons"> arrow_back_ios </i>ประกาศรับสมัครงาน
+        </button>
+      </div>
       <section>
         <section class="text-gray-600 body-font">
           <div class="container px-5 py-24 mx-auto">
@@ -168,7 +178,7 @@
                 />
               </div>
               <div class="flex-grow sm:text-left text-center mt-6 sm:mt-0">
-                <h1 class="text-black text-2xl title-font font-bold mb-2">
+                <h1 class="text-orange-1 text-2xl title-font font-bold mb-2">
                   {{ $store.state.auth.user.employer.establishmentName }}
                 </h1>
 
@@ -176,13 +186,13 @@
                   <i class="material-icons pr-2"> place </i
                   >{{
                     $store.state.auth.user.employer.address +
-                    " ตำบล/แขวง" +
+                    " " +
                     $store.state.auth.user.employer.subDistrict.subDistrict +
-                    " อำเภอ/เขต" +
+                    " " +
                     ($store.state.auth.user.employer
                       ? $store.state.auth.user.employer.district.districtName
                       : "") +
-                    " จังหวัด" +
+                    " " +
                     $store.state.auth.user.employer.province.provinceName +
                     " " +
                     $store.state.auth.user.employer.subDistrict.postcode
@@ -192,7 +202,7 @@
                 <div class="py-4">
                   <div class="inline-block mr-2">
                     <div class="flex pr-2 h-full items-center">
-                      <i class="material-icons"> work </i>
+                      <i class="material-icons pr-2"> work </i>
                       <p class="title-font font-medium">
                         {{
                           $store.state.auth.user.employer.businesstype.nameType
@@ -202,28 +212,28 @@
                   </div>
                 </div>
                 <div class="md:flex font-bold text-gray-800">
-                  <div class="w-full md:w-1/2 flex space-x-3">
-                    <div class="w-1/2">
+                  <div class="w-full flex flex-col md:flex-row sm:flex-row">
+                    <div class="w-1/2 pr-5 mx-auto">
                       <h2 class="text-gray-500">
                         <i class="material-icons"> account_circle </i>
                       </h2>
-                      <p>{{ firstname + " " + lastname }}</p>
+                      <p class="mx-auto">{{ firstname + " " + lastname }}</p>
                     </div>
-                    <div class="w-1/3">
+                    <div class="w-1/2 pr-5 mx-auto">
                       <h2 class="text-gray-500">
                         <i class="material-icons"> flag </i>
                       </h2>
                       <p>{{ nationFreeze[nationality] }}</p>
                     </div>
                   </div>
-                  <div class="w-full md:w-full flex space-x-3">
-                    <div class="w-1/2">
+                  <div class="w-full flex flex-col md:flex-row sm:flex-row">
+                    <div class="w-1/2 pr-5 mx-auto">
                       <h2 class="text-gray-500">
-                        <i class="material-icons"> email </i>
+                        <i class="material-icons pr-2"> email </i>
                       </h2>
                       <p>{{ $store.state.auth.user.email }}</p>
                     </div>
-                    <div class="w-1/2">
+                    <div class="w-1/2 pr-5 mx-auto md:ml-8">
                       <h2 class="text-gray-500">
                         <i class="material-icons pr-2"> call </i>
                       </h2>
@@ -232,9 +242,9 @@
                   </div>
                 </div>
 
-                <div class="mt-3 text-indigo-500 inline-flex items-center">
+                <div class="mt-8 text-blue-600 font-medium inline-flex items-center">
                   <div class="dropdown">
-                    <label tabindex="0" class="btn btn-ghost m-1"
+                    <label tabindex="0" class="cursor-pointer"
                       >เพิ่มเติม</label
                     >
                     <ul
@@ -249,7 +259,7 @@
                         w-52
                       "
                     >
-                      <li @click.prevent="sendDelete()"><a>ขอลบบัญชี</a></li>
+                      <li @click.prevent="sendDelete()" class="font-normal text-black hover:text-orange-1"><a>ขอลบบัญชี</a></li>
                     </ul>
                   </div>
                 </div>

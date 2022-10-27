@@ -8,7 +8,7 @@
       <span class="font-bold">("คุณ")</span> และ Firework
       <span class="font-bold">("บริษัท", "เรา", "เรา" หรือ "ของเรา")</span>
       เกี่ยวกับการเข้าถึงและการใช้งาน
-      <span class="text-blue-700">https://fireworku.ddns.net</span>
+      <span class="text-blue-700">https://fireworkun.ddns.net</span>
       เว็บไซต์และรูปแบบสื่ออื่น ๆ ช่องทางสื่อ
       เว็บไซต์มือถือหรือแอพพลิเคชั่นมือถือที่เกี่ยวข้อง เชื่อมโยงหรืออื่น ๆ
       เชื่อมต่อกับมัน (รวมกันคือ "ไซต์") เราลงทะเบียนในประเทศไทย

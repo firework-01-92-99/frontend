@@ -33,20 +33,20 @@
             "
           ></div>
           <div class="flex flex-col w-full lg:w-1/2 p-4">
-            <div class="flex flex-col flex-1 justify-center mb-8">
-              <h1 class="font-bold text-4xl text-center">OTP</h1>
-              <p class="text-center mt-5">
-                กรุณากรอกรหัส OTP ที่ถูกส่งไปยังอีเมลของคุณ
+            <div class="flex flex-col flex-1 justify-center mt-8 mb-8">
+              <h1 class="font-bold text-4xl text-center text-orange-1">ยืนยันรหัส OTP</h1>
+              <p class="text-center mt-5 mb-5">
+                รหัส OTP จะถูกส่งไปยังอีเมลของคุณ
               </p>
               <div class="w-full mt-4">
                 <div autocomplete="off" class="form-horizontal w-3/4 mx-auto">
                   <div class="flex -mx-3">
                     <div class="w-full px-3 mb-5">
-                      <label for="email" class="text-base font-medium px-1"
-                        >รหัส OTP</label
+                      <label for="email" class="text-base font-medium 2xl:px-1 xl:px-1 lg:px-1 md:px-1 px-0"
+                        >กรอกรหัส OTP ที่ได้รับ</label
                       >
-                      <div class="flex">
-                        <div
+                      <div class="flex justify-between mt-2">
+                        <!-- <div
                           class="
                             w-10
                             z-10
@@ -61,7 +61,7 @@
                           <i
                             class="mdi mdi-email-outline text-gray-400 text-lg"
                           ></i>
-                        </div>
+                        </div> -->
                         <!-- <input
                           type="text"
                           name="email"
@@ -81,7 +81,7 @@
                           placeholder="กรอกรหัส OTP ที่ถูกส่งไปยังอีเมลของคุณ"
                         /> -->
                         <vue-otp-2
-                          class="space-x-5 mt-2 px-6"
+                          class="mt-2 flex flex-1 items-center justify-center"
                           length="6"
                           join-character="-"
                           inputmode="numeric"
@@ -97,14 +97,14 @@
                   <button
                     @click="resendOTP()"
                     :disabled="btnDisable"
-                    class="text-blue-600"
+                    class="text-base 2xl:px-1 xl:px-1 lg:px-1 md:px-1 px-0 mt-8 underline text-blue-600 hover:text-blue-700"
                   >
-                    ส่งรหัสผ่านอีกรอบ
+                    ส่งรหัส OTP อีกครั้ง
                   </button>
                   <div v-if="nowCount == true">
-                    {{ timeCount }}
+                    {{ timeCount }} วินาที
                   </div>
-                  <div class="flex flex-col mt-8 space-y-4">
+                  <div class="flex flex-col space-y-4">
                     <!-- <button
                       type="submit"
                       class="

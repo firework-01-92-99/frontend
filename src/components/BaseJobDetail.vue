@@ -35,10 +35,18 @@
       <!-- back btn -->
       <div>
         <button
+          v-if="$store.state.auth.user && this.$store.state.auth.user.role.idRole == '3'"
           @click="$router.push('/')"
           class="btn btn-ghost font-sans-thai flex justify-start ml-2.5"
         >
           <i class="material-icons"> arrow_back_ios </i>หางาน
+        </button>
+        <button
+          v-if="$store.state.auth.user && this.$store.state.auth.user.role.idRole == '2'"
+          @click="$router.push('/posting')"
+          class="btn btn-ghost font-sans-thai flex justify-start ml-2.5"
+        >
+          <i class="material-icons"> arrow_back_ios </i>ประกาศรับสมัครงาน
         </button>
       </div>
       <!-- </router-link> -->
@@ -57,6 +65,14 @@
           <h2 class="card-title text-orange-1">
             {{ jobDetail.position.positionName }}
           </h2>
+          <!-- status -->
+          <div v-if="jobDetail.status.statusName == 'Active' && $store.state.auth.user && $store.state.auth.user.role.idRole == '2'" class="badge badge-lg 2xl:w-1/6 2xl:text-base md:text-base text-xs bg-green-200 text-green-600 border-0">
+            <span class="2xl:block md:block hidden">เปิดประกาศรับสมัคร</span>
+          </div>
+          <div v-if="jobDetail.status.statusName == 'Inactive' && $store.state.auth.user && $store.state.auth.user.role.idRole == '2'" class="badge badge-lg 2xl:w-1/6 2xl:text-base md:text-base text-xs bg-gray-200 text-gray-600 border-0">
+            <span class="2xl:block md:block hidden">ปิดประกาศรับสมัคร</span>
+          </div>
+          <!-- bookmark -->
           <div v-if="!showFlag($route.query.idPosting) && $store.state.auth.user && $store.state.auth.user.role.idRole == '3'">
             <i @click="fav($route.query.idPosting)" class="material-icons z-10 cursor-pointer select-none"> bookmark_border </i>
           </div>
@@ -114,12 +130,13 @@
           >
           <span class="inline-block align-middle"> {{ employer.email }}</span>
         </p>
-        <div v-if="$store.state.auth.user && this.$store.state.auth.user.role.idRole == '2'" class="flex justify-end space-x-5">
-          <button @click="$router.push('/editPost?idPost=' + idPosting)" class="px-10 btn border-orange-1 bg-orange-1 hover:bg-orange-2 hover:border-orange-2">แก้ไขประกาศรับสมัคร</button>
-          <button v-if="jobDetail.status.statusName == 'Active'" @click="deletePost()" class="px-10 btn btn-ghost border-red-600 text-red-600 hover:bg-red-700 hover:border-red-700 hover:text-white">ลบประกาศรับสมัคร</button>
+        <div v-if="$store.state.auth.user && this.$store.state.auth.user.role.idRole == '2'" class="2xl:flex 2xl:justify-end md:flex md:justify-between 2xl:space-x-5 md:space-y-0 space-y-5">
+          <button @click="$router.push('/editPost?idPost=' + idPosting)" class="px-10 2xl:w-1/4 md:w-2/5 w-full btn border-orange-1 bg-orange-1 hover:bg-orange-2 hover:border-orange-2">แก้ไขประกาศรับสมัคร</button>
+          <button v-if="jobDetail.status.statusName == 'Active'" @click="closePost('Off')" class="px-10 2xl:w-1/4 md:w-2/5 w-full btn btn-ghost border-red-600 text-red-600 hover:bg-red-700 hover:border-red-700 hover:text-white">ปิดประกาศรับสมัคร</button>
+          <button v-if="jobDetail.status.statusName == 'Inactive'" @click="closePost('On')" class="px-10 2xl:w-1/4 md:w-2/5 w-full btn btn-ghost border-green-600 text-green-600 hover:bg-green-600 hover:border-green-600 hover:text-white">เปิดประกาศรับสมัคร</button>
         </div>
         <div class="card-actions justify-center 2xl:justify-end">
-          <div v-if="this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == '3'">
+          <div v-if="this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == '3'" class="2xl:w-1/6 w-full">
           <label
             for="my-modal-6"
             v-if="!alreadyApp"
@@ -149,7 +166,7 @@
             <input type="checkbox" id="my-modal-6" class="modal-toggle" />
             <div class="modal w-full font-sans-thai">
             
-                  <div class="modal-box w-80 mx-auto max-w-5xl">
+                  <div class="modal-box 2xl:w-1/3 xl:w-1/3 lg:w-1/3 md:w-2/3 w-80 mx-auto max-w-5xl">
                     <h3 v-if="conditionNotTrue" class="font-bold text-lg mb-5">
                       ยืนยัน<span v-if="closeWord">ข้อมูล</span>การสมัครงาน
                       <!-- แจ้งเตือน -->
@@ -203,7 +220,7 @@
                           <!-- {{
                             this.thisworker.firstName + " " + this.thisworker.middleName + " " + this.thisworker.lastName
                           }} -->
-                          {{this.$store.state.auth.user.worker.firstName + " " + (this.$store.state.auth.user.worker.middleName ? this.$store.state.auth.user.worker.middleName : '')  + " " + this.$store.state.auth.user.worker.lastName}}
+                          {{this.$store.state.auth.user.worker.firstName + " " + (this.$store.state.auth.user.worker.middleName == null || this.$store.state.auth.user.worker.middleName == '' || this.$store.state.auth.user.worker.middleName == '-' ? '' : this.$store.state.auth.user.worker.middleName + " ")  + " " + this.$store.state.auth.user.worker.lastName}}
                         </p>
                       </div>
                       <div class="w-full flex-col mb-5">
@@ -334,6 +351,7 @@
           <button
             v-if="alreadyApp"
             class="
+            cursor-default
               btn
               border-0
               bg-orange-2
@@ -518,15 +536,40 @@ export default {
         console.log(error);
       }
     },
-    async deletePost(){
-      if(confirm("ลบแน่นะวิ")){
-      console.log("delete")
-      await axios.put(`${process.env.VUE_APP_ROOT_API}emp/inActivePosting?idPosting=${this.idPosting}`).data        
-      this.$router.push('/posting');
-      }else{
-        console.log("มีปัญหาค่ะ")
+    async closePost(OnorOff) {
+      console.log("InorAct = " + OnorOff);
+      if(OnorOff == 'Off'){
+        if (confirm("ลบแน่นะวิ")) {
+        console.log("Inactive Post");
+        await axios.put(
+          `${process.env.VUE_APP_ROOT_API}emp/inActivePosting?idPosting=${this.idPosting}`
+        ).data;
+        OnorOff = ''
+        this.$router.push("/posting");
+      }      
+      }else {
+        if(OnorOff == 'On'){
+      if (confirm("ต้องการจะเปิดโพสใช่หรือไม่")) {
+        console.log("Active Post");
+        await axios.put(
+          `${process.env.VUE_APP_ROOT_API}emp/ActivePosting?idPosting=${this.idPosting}`
+        ).data;
+        OnorOff = ''
+        this.$router.push("/posting");
+      }  
+        }
+      
       }
     },
+    // async deletePost(){
+    //   if(confirm("ลบแน่นะวิ")){
+    //   console.log("delete")
+    //   await axios.put(`${process.env.VUE_APP_ROOT_API}emp/inActivePosting?idPosting=${this.idPosting}`).data        
+    //   this.$router.push('/posting');
+    //   }else{
+    //     console.log("มีปัญหาค่ะ")
+    //   }
+    // },
     sendTrue() {
       this.$emit("setTrue", true);
     },

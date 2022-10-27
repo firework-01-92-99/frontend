@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-2 h-screen font-sans-thai">
+  <div class="bg-gray-2 h-full font-sans-thai">
     <p
       class="
         text-2xl
@@ -230,11 +230,11 @@
               >
                 ไม่ผ่านการคัดเลือก
               </div>
-              <div v-if="s.statusName == 'Waiting'">
+              <div v-if="s.statusName == 'Wating_EmployerOnWeb'" class="">
               <label
                 @click="embendedId(s.idApplication), isCancel = true"
                 for="my-modal-6"
-                class="btn border-red-700 bg-red-700 w-full -mt-16"
+                class="btn border-red-700 bg-red-700 w-full"
               >
                 ยกเลิกการสมัคร
               </label>
