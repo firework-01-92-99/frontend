@@ -17,9 +17,9 @@
       >
         {{topic}}
       </p>
-      <div v-for="who in whoApplication.data" :key="who.applicationId">
+      <!-- <div v-for="who in whoApplication.data" :key="who.applicationId">
         {{who}}
-      </div>
+      </div> -->
       <table class="table w-full">
         <!-- head -->
         <thead>
@@ -27,7 +27,6 @@
             <th></th>
             <th>ชื่อ</th>
             <th>สัญชาติ</th>
-            <th>สถานะ</th>
             <th></th>
           </tr>
         </thead>
@@ -40,12 +39,11 @@
             <th>{{ a.count }}</th>
             <td>
               <div class="flex items-center space-x-3">
-                <div class="">{{ a.firstName }}</div>
+                <div class="">{{ a.firstName}} <span>{{a.middleName == null || a.middleName == '' || a.middleName == '-' ? '' : a.middleName + " "}}</span> {{ a.lastName }}</div>
                 <!-- <div class="text-sm opacity-50">United States</div> -->
               </div>
             </td>
-            <td>{{ a.nationality ? a.nationality.nationality_name : '' }}</td>
-            <td>สถานะะะะ</td>
+            <td>{{ntTypeFreeze[a.nationality ? a.nationality.nationality_name : '' ]}}</td>
             <th>
               <!-- detail -->
               <label
@@ -146,9 +144,7 @@
                                       placeholder-black placeholder-opacity-100
                                     "
                                     :placeholder="
-                                      ntTypeFreeze[
-                                        a.nationality ? a.nationality.nationality_name : ''
-                                      ]
+                                      ntTypeFreeze[a.nationality ? a.nationality.nationality_name : '']
                                     "
                                     disabled
                                   />
