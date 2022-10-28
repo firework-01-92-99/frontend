@@ -80,7 +80,7 @@
             <th></th>
           </tr>
         </thead>
-        <tbody v-for="(a,index) in listApprove.data" :key="a.idApprove">
+        <tbody v-for="a in listApprove.data" :key="a.idApprove">
           <!-- row 1 -->
           <!-- <div v-if="listApprove.lenght == null">
             ไม่มีรายการที่ต้องทำ
@@ -108,9 +108,8 @@
                 >รายละเอียด</label
               >
               <input type="checkbox" id="my-modal-5" class="modal-toggle" />
-              <div v-show="a.workOrEmp == 'Worker'" class="modal modal-bottom">
+              <div v-show="a.workOrEmp == 'Employer'" class="modal modal-bottom">
                 <div class="modal-box w-11/12 2xl:max-w-xl md:max-w-sm">
-                {{index}}
                   <h3 class="font-bold text-lg">รายละเอียด</h3>
                   <!-- <h4 class="py-4">รอดึง</h4> -->
                   <div class="flex flex-col 2xl:w-full mt-4">

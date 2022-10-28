@@ -1183,11 +1183,13 @@ export default {
       }      
       console.log(this.postInfo)
       if (!this.checkValidate()) {
+        const vm = this
         await axios
           .put(`${process.env.VUE_APP_ROOT_API}emp/editPosting`, this.postInfo)
           .then(function (response) {
             console.log(response);
             alert("ประกาศโพสหางานของคุณเรียบร้อยแล้ว");
+            vm.$router.push('/posting')
           })
           .catch(function (error) {
             console.log(error);
