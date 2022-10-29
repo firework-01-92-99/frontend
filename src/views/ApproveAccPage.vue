@@ -101,17 +101,16 @@
             <td>{{ a.nationlity }}</td>
             <th>
               <!-- detail -->
-              <label
-                @click="data(a)"
-                for="my-modal-5"
-                class="btn btn-ghost btn-xs"
-                >รายละเอียด</label
-              >
-              <input type="checkbox" id="my-modal-5" class="modal-toggle" />
-              <div v-show="a.workOrEmp == 'Employer'" class="modal modal-bottom">
+              <button class="btn btn-ghost btn-xs" @click="toggleModal = !toggleModal, data(a)">
+                รายละเอียด
+              </button>
+
+              <!-- <input type="checkbox" id="my-modal-5" class="modal-toggle" /> -->
+
+              <!-- <div v-show="iAm == 'Employer' || iAm == 'Worker'" class="modal modal-bottom">
                 <div class="modal-box w-11/12 2xl:max-w-xl md:max-w-sm">
                   <h3 class="font-bold text-lg">รายละเอียด</h3>
-                  <!-- <h4 class="py-4">รอดึง</h4> -->
+                 
                   <div class="flex flex-col 2xl:w-full mt-4">
                     <div
                       class="flex flex-col w-full flex-1 justify-between mb-8"
@@ -165,35 +164,6 @@
                             </div>
 
                             <div v-else class="flex -mx-3">
-                              <!-- <select
-                            type="text"
-                            v-model.trim="person.accLname"
-                            class="
-                              select select-bordered
-                              w-full
-                              -ml-10
-                              pl-5
-                              pr-3
-                              py-2
-                              rounded-lg
-                              border-2 border-gray-200
-                              outline-none
-                              focus:border-indigo-500
-                            "
-                            :class="{ 'bg-red-50': firstnameInput }"
-                          >
-                            <option :value="''" disabled selected>
-                              กรุณาเลือกประเภทธุรกิจ
-                            </option>
-                            <option
-                              class="text-black"
-                              v-for="p in provinces"
-                              :key="p.idProvince"
-                              :value="p.idProvince"
-                            >
-                              {{ p.provinceName }}
-                            </option>
-                          </select> -->
 
                               <div class="w-full px-3 mb-5">
                                 <label for="" class="text-base font-medium px-1"
@@ -356,7 +326,7 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="a.workOrEmp == 'Worker' ? infoWorker.identificationNumber : ''"
+                                    :placeholder="iAm == 'Worker' ? infoWorker.identificationNumber : ''"
                                     disabled
                                   />
                                 </div>
@@ -394,7 +364,7 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="a.workOrEmp == 'Worker' ? infoWorker.firstName : infoEmp.entrepreneurfName"
+                                    :placeholder="iAm == 'Worker' ? infoWorker.firstName : infoEmp.entrepreneurfName"
                                     disabled
                                   />
                                 </div>
@@ -476,7 +446,7 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="a.workOrEmp == 'Worker' ? infoWorker.lastName : infoEmp.entrepreneurlName"
+                                    :placeholder="iAm == 'Worker' ? infoWorker.lastName : infoEmp.entrepreneurlName"
                                     disabled
                                   />
                                 </div>
@@ -808,16 +778,13 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="a.workOrEmp == 'Worker' ? infoWorker.phone : infoEmp.phone"
+                                    :placeholder="iAm == 'Worker' ? infoWorker.phone : infoEmp.phone"
                                     disabled
                                   />
                                 </div>
                               </div>
                             </div>
 
-                            <!-- <div class="flex -mx-3">
-                      
-                    </div> -->
                             <div class="flex -mx-3">
                               <div class="w-full px-3 mb-5">
                                 <label
@@ -837,23 +804,6 @@
                             </div>
                           </div>
 
-                          <!-- <div class="flex flex-col mt-8">
-                    <button
-                      @click.prevent="signUp()"
-                      type="submit"
-                      class="
-                        bg-orange-1
-                        hover:bg-orange-2
-                        text-white text-base
-                        font-medium
-                        py-2
-                        px-4
-                        rounded
-                      "
-                    >
-                      ลงทะเบียน
-                    </button>
-                  </div> -->
                         </form>
                       </div>
                     </div>
@@ -908,7 +858,9 @@
                     <label for="my-modal-5" class="btn w-1/2">ปิด</label>
                   </div>
                 </div>
-              </div>
+              </div> -->
+
+
             </th>
           </tr>
         </tbody>
@@ -929,6 +881,770 @@
       <div><img src="../assets/icon/inbox.png" class="w-20 mx-auto" /></div>
       <div class="pt-5">ไม่มีรายการที่ต้องทำ</div>
     </div>
+
+    <!-- modal -->
+    <div v-if="toggleModal" class="fixed overflow-x-hidden overflow-y-auto inset-0 flex justify-center items-center z-50">
+      <div class="relative mx-auto w-auto max-w-2xl">
+        <div class="bg-white w-full overflow-y-auto h-96 rounded shadow-2xl flex flex-col">
+         
+          <div v-show="iAm == 'Employer' || iAm == 'Worker'" class=" p-8">
+                
+                  <h3 class="font-bold text-lg">รายละเอียด</h3>
+                 
+                  <div class="flex flex-col 2xl:w-full mt-4">
+                    <div
+                      class="flex flex-col w-full flex-1 justify-between mb-8"
+                    >
+                      <div class="w-full">
+                        <form class="form-horizontal 2xl:w-full md:w-full">
+                          <div>
+                            <div
+                              v-if="aa"
+                              class="flex -mx-3"
+                            >
+                              <div class="w-full px-3 mb-5">
+                                <label
+                                  for=""
+                                  class="text-base font-medium 2xl:px-1"
+                                  >ชื่อสถานประกอบการ</label
+                                >
+                                <div class="flex">
+                                  <div
+                                    class="
+                                      w-10
+                                      z-10
+                                      pl-1
+                                      text-center
+                                      pointer-events-none
+                                      flex
+                                      items-center
+                                      justify-center
+                                    "
+                                  ></div>
+                                  <input
+                                    type="text"
+                                    class="
+                                      w-full
+                                      -ml-10
+                                      pl-5
+                                      pr-3
+                                      py-2
+                                      rounded-lg
+                                      border-2 border-gray-200
+                                      outline-none
+                                      placeholder-black placeholder-opacity-100
+                                    "
+                                    :placeholder="
+                                      infoEmp.establishmentName
+                                    "
+                                    disabled
+                                  />
+                                </div>
+                              </div>
+                            </div>
+
+                            <div v-else class="flex -mx-3">
+
+                              <div class="w-full px-3 mb-5">
+                                <label for="" class="text-base font-medium px-1"
+                                  >ประเภทแรงงาน</label
+                                >
+                                <div class="flex">
+                                  <div
+                                    class="
+                                      w-10
+                                      z-10
+                                      pl-1
+                                      text-center
+                                      pointer-events-none
+                                      flex
+                                      items-center
+                                      justify-center
+                                    "
+                                  ></div>
+                                  <input
+                                    type="text"
+                                    class="
+                                      w-full
+                                      -ml-10
+                                      pl-5
+                                      pr-3
+                                      py-2
+                                      rounded-lg
+                                      border-2 border-gray-200
+                                      outline-none
+                                      placeholder-black placeholder-opacity-100
+                                    "
+                                    :placeholder="
+                                      workerType[infoWorker.workerType.typeName]
+                                    "
+                                    disabled
+                                  />
+                                </div>
+                              </div>
+                              <div class="w-full px-3 mb-5">
+                                <label for="" class="text-base font-medium px-1"
+                                  >สัญชาติ</label
+                                >
+                                <div class="flex">
+                                  <div
+                                    class="
+                                      w-10
+                                      z-10
+                                      pl-1
+                                      text-center
+                                      pointer-events-none
+                                      flex
+                                      items-center
+                                      justify-center
+                                    "
+                                  >
+                                    <i
+                                      class="
+                                        mdi mdi-account-outline
+                                        text-gray-400 text-lg
+                                      "
+                                    ></i>
+                                  </div>
+                                  <input
+                                    type="text"
+                                    class="
+                                      w-full
+                                      -ml-10
+                                      pl-5
+                                      pr-3
+                                      py-2
+                                      rounded-lg
+                                      border-2 border-gray-200
+                                      outline-none
+                                      placeholder-black placeholder-opacity-100
+                                    "
+                                    :placeholder="
+                                      ntTypeFreeze[
+                                        infoWorker.nationality.nationality_name
+                                      ]
+                                    "
+                                    disabled
+                                  />
+                                </div>
+                              </div>
+                            </div>
+
+                            <div
+                              v-if="aa"
+                              class="flex -mx-3"
+                            >
+                              <div class="w-full px-3 mb-5">
+                                <label
+                                  for=""
+                                  class="text-base font-medium 2xl:px-1"
+                                  >ประเภทธุรกิจ</label
+                                >
+                                <div class="flex">
+                                  <div
+                                    class="
+                                      w-10
+                                      z-10
+                                      pl-1
+                                      text-center
+                                      pointer-events-none
+                                      flex
+                                      items-center
+                                      justify-center
+                                    "
+                                  ></div>
+                                  <input
+                                    type="text"
+                                    class="
+                                      w-full
+                                      -ml-10
+                                      pl-5
+                                      pr-3
+                                      py-2
+                                      rounded-lg
+                                      border-2 border-gray-200
+                                      outline-none
+                                      placeholder-black placeholder-opacity-100
+                                    "
+                                    :placeholder="infoEmp.businesstype.nameType"
+                                    disabled
+                                  />
+                                </div>
+                              </div>
+                            </div>
+
+                            <div v-if="work" class="flex -mx-3">
+                              <div class="w-full px-3 mb-5">
+                                <label
+                                  for=""
+                                  class="text-base font-medium 2xl:px-1"
+                                  >เลขบัตรประชาชน/เลขหนังสือเดินทาง</label
+                                >
+                                <div class="flex">
+                                  <div
+                                    class="
+                                      w-10
+                                      z-10
+                                      pl-1
+                                      text-center
+                                      pointer-events-none
+                                      flex
+                                      items-center
+                                      justify-center
+                                    "
+                                  ></div>
+                                  <input
+                                    type="text"
+                                    class="
+                                      w-full
+                                      -ml-10
+                                      pl-5
+                                      pr-3
+                                      py-2
+                                      rounded-lg
+                                      border-2 border-gray-200
+                                      outline-none
+                                      placeholder-black placeholder-opacity-100
+                                    "
+                                    :placeholder="iAm == 'Worker' ? infoWorker.identificationNumber : ''"
+                                    disabled
+                                  />
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="2xl:flex 2xl:-mx-3">
+                              <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                                <label for="" class="text-base font-medium px-1"
+                                  >ชื่อ</label
+                                >
+                                <div class="flex">
+                                  <div
+                                    class="
+                                      w-10
+                                      z-10
+                                      pl-1
+                                      text-center
+                                      pointer-events-none
+                                      flex
+                                      items-center
+                                      justify-center
+                                    "
+                                  ></div>
+                                  <input
+                                    type="text"
+                                    class="
+                                      w-full
+                                      -ml-10
+                                      pl-5
+                                      pr-3
+                                      py-2
+                                      rounded-lg
+                                      border-2 border-gray-200
+                                      outline-none
+                                      placeholder-black placeholder-opacity-100
+                                    "
+                                    :placeholder="iAm == 'Worker' ? infoWorker.firstName : infoEmp.entrepreneurfName"
+                                    disabled
+                                  />
+                                </div>
+                              </div>
+
+                              <div
+                                v-if="work"
+                                class="2xl:w-1/2 w-full 2xl:px-3 mb-5"
+                              >
+                                <label for="" class="text-base font-medium px-1"
+                                  >ชื่อกลาง</label
+                                >
+                                <div class="flex">
+                                  <div
+                                    class="
+                                      w-10
+                                      z-10
+                                      pl-1
+                                      text-center
+                                      pointer-events-none
+                                      flex
+                                      items-center
+                                      justify-center
+                                    "
+                                  ></div>
+                                  <input
+                                    type="text"
+                                    class="
+                                      w-full
+                                      -ml-10
+                                      pl-5
+                                      pr-3
+                                      py-2
+                                      rounded-lg
+                                      border-2 border-gray-200
+                                      outline-none
+                                      placeholder-black placeholder-opacity-100
+                                    "
+                                    :placeholder="infoWorker.middleName"
+                                    disabled
+                                  />
+                                </div>
+                              </div>
+
+                              <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                                <label for="" class="text-base font-medium px-1"
+                                  >นามสกุล</label
+                                >
+                                <div class="flex">
+                                  <div
+                                    class="
+                                      w-10
+                                      z-10
+                                      pl-1
+                                      text-center
+                                      pointer-events-none
+                                      flex
+                                      items-center
+                                      justify-center
+                                    "
+                                  >
+                                    <i
+                                      class="
+                                        mdi mdi-account-outline
+                                        text-gray-400 text-lg
+                                      "
+                                    ></i>
+                                  </div>
+                                  <input
+                                    type="text"
+                                    class="
+                                      w-full
+                                      -ml-10
+                                      pl-5
+                                      pr-3
+                                      py-2
+                                      rounded-lg
+                                      border-2 border-gray-200
+                                      outline-none
+                                      placeholder-black placeholder-opacity-100
+                                    "
+                                    :placeholder="iAm == 'Worker' ? infoWorker.lastName : infoEmp.entrepreneurlName"
+                                    disabled
+                                  />
+                                </div>
+                              </div>
+                            </div>
+
+                            <div v-if="aa">
+                              <div class="flex -mx-3">
+                                <div class="w-full px-3 mb-5">
+                                  <label
+                                    for=""
+                                    class="text-base font-medium px-1"
+                                    >ที่อยู่</label
+                                  >
+                                  <div class="flex">
+                                    <div
+                                      class="
+                                        w-10
+                                        z-10
+                                        pl-1
+                                        text-center
+                                        pointer-events-none
+                                        flex
+                                        items-center
+                                        justify-center
+                                      "
+                                    >
+                                      <i
+                                        class="
+                                          mdi mdi-account-outline
+                                          text-gray-400 text-lg
+                                        "
+                                      ></i>
+                                    </div>
+                                    <textarea
+                                      type="tel"
+                                      class="
+                                        textarea
+                                        w-full
+                                        -ml-10
+                                        pl-5
+                                        pr-3
+                                        py-2
+                                        rounded-lg
+                                        border-2 border-gray-200
+                                        outline-none
+                                        placeholder-black
+                                        placeholder-opacity-100
+                                      "
+                                      :placeholder="
+                                        infoEmp.address
+                                      "
+                                      disabled
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="2xl:flex 2xl:-mx-3">
+                                <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                                  <label
+                                    for=""
+                                    class="text-base font-medium px-1"
+                                    >ตำบล/แขวง</label
+                                  >
+                                  <div class="flex">
+                                    <div
+                                      class="
+                                        w-10
+                                        z-10
+                                        pl-1
+                                        text-center
+                                        pointer-events-none
+                                        flex
+                                        items-center
+                                        justify-center
+                                      "
+                                    >
+                                      <i
+                                        class="
+                                          mdi mdi-account-outline
+                                          text-gray-400 text-lg
+                                        "
+                                      ></i>
+                                    </div>
+                                    <input
+                                      type="text"
+                                      class="
+                                        w-full
+                                        -ml-10
+                                        pl-5
+                                        pr-3
+                                        py-2
+                                        rounded-lg
+                                        border-2 border-gray-200
+                                        outline-none
+                                        placeholder-black
+                                        placeholder-opacity-100
+                                      "
+                                      :placeholder="
+                                        infoEmp.subDistrict ? infoEmp.subDistrict.subDistrict : ''
+                                      "
+                                      disabled
+                                    />
+                                  </div>
+                                </div>
+
+                                <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                                  <label
+                                    for=""
+                                    class="text-base font-medium px-1"
+                                    >อำเภอ/เขต</label
+                                  >
+                                  <div class="flex">
+                                    <div
+                                      class="
+                                        w-10
+                                        z-10
+                                        pl-1
+                                        text-center
+                                        pointer-events-none
+                                        flex
+                                        items-center
+                                        justify-center
+                                      "
+                                    >
+                                      <i
+                                        class="
+                                          mdi mdi-account-outline
+                                          text-gray-400 text-lg
+                                        "
+                                      ></i>
+                                    </div>
+                                    <input
+                                      type="text"
+                                      class="
+                                        w-full
+                                        -ml-10
+                                        pl-5
+                                        pr-3
+                                        py-2
+                                        rounded-lg
+                                        border-2 border-gray-200
+                                        outline-none
+                                        placeholder-black
+                                        placeholder-opacity-100
+                                      "
+                                      :placeholder="
+                                        infoEmp.district ? infoEmp.district.districtName : ''
+                                      "
+                                      disabled
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="2xl:flex 2xl:-mx-3">
+                                <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                                  <label
+                                    for=""
+                                    class="text-base font-medium px-1"
+                                    >จังหวัด</label
+                                  >
+                                  <div class="flex">
+                                    <div
+                                      class="
+                                        w-10
+                                        z-10
+                                        pl-1
+                                        text-center
+                                        pointer-events-none
+                                        flex
+                                        items-center
+                                        justify-center
+                                      "
+                                    >
+                                      <i
+                                        class="
+                                          mdi mdi-account-outline
+                                          text-gray-400 text-lg
+                                        "
+                                      ></i>
+                                    </div>
+                                    <input
+                                      type="text"
+                                      class="
+                                        w-full
+                                        -ml-10
+                                        pl-5
+                                        pr-3
+                                        py-2
+                                        rounded-lg
+                                        border-2 border-gray-200
+                                        outline-none
+                                        placeholder-black
+                                        placeholder-opacity-100
+                                      "
+                                      :placeholder="
+                                        infoEmp.province ? infoEmp.province.provinceName : ''
+                                      "
+                                      disabled
+                                    />
+                                  </div>
+                                </div>
+
+                                <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                                  <label
+                                    for=""
+                                    class="text-base font-medium px-1"
+                                    >เลขไปรษณีย์</label
+                                  >
+                                  <div class="flex">
+                                    <div
+                                      class="
+                                        w-10
+                                        z-10
+                                        pl-1
+                                        text-center
+                                        pointer-events-none
+                                        flex
+                                        items-center
+                                        justify-center
+                                      "
+                                    >
+                                      <i
+                                        class="
+                                          mdi mdi-account-outline
+                                          text-gray-400 text-lg
+                                        "
+                                      ></i>
+                                    </div>
+                                    <input
+                                      type="tel"
+                                      class="
+                                        w-full
+                                        -ml-10
+                                        pl-5
+                                        pr-3
+                                        py-2
+                                        rounded-lg
+                                        border-2 border-gray-200
+                                        outline-none
+                                        placeholder-black
+                                        placeholder-opacity-100
+                                      "
+                                      :placeholder="
+                                        infoEmp.subDistrict ? infoEmp.subDistrict.postcode : ''
+                                      "
+                                      disabled
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div
+                              class="flex -mx-3"
+                            >
+                              <div v-if="work" class="w-full px-3 mb-5">
+                                <label for="" class="text-base font-medium px-1"
+                                  >เพศ</label
+                                >
+                                <div class="flex">
+                                  <div
+                                    class="
+                                      w-10
+                                      z-10
+                                      pl-1
+                                      text-center
+                                      pointer-events-none
+                                      flex
+                                      items-center
+                                      justify-center
+                                    "
+                                  ></div>
+                                  <input
+                                    type="text"
+                                    class="
+                                      w-full
+                                      -ml-10
+                                      pl-5
+                                      pr-3
+                                      py-2
+                                      rounded-lg
+                                      border-2 border-gray-200
+                                      outline-none
+                                      placeholder-black placeholder-opacity-100
+                                    "
+                                    :placeholder="sexFreeze[infoWorker.sex]"
+                                    disabled
+                                  />
+                                </div>
+                              </div>
+                              <div v-if="aa || work " class="w-full px-3 mb-5">
+                                <label for="" class="text-base font-medium px-1"
+                                  >เบอร์โทรศัพท์</label
+                                >
+                                <div class="flex">
+                                  <div
+                                    class="
+                                      w-10
+                                      z-10
+                                      pl-1
+                                      text-center
+                                      pointer-events-none
+                                      flex
+                                      items-center
+                                      justify-center
+                                    "
+                                  >
+                                    <i
+                                      class="
+                                        mdi mdi-account-outline
+                                        text-gray-400 text-lg
+                                      "
+                                    ></i>
+                                  </div>
+                                  <input
+                                    type="tel"
+                                    maxlength="10"
+                                    class="
+                                      w-full
+                                      -ml-10
+                                      pl-5
+                                      pr-3
+                                      py-2
+                                      rounded-lg
+                                      border-2 border-gray-200
+                                      outline-none
+                                      placeholder-black placeholder-opacity-100
+                                    "
+                                    :placeholder="iAm == 'Worker' ? infoWorker.phone : infoEmp.phone"
+                                    disabled
+                                  />
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="flex -mx-3">
+                              <div class="w-full px-3 mb-5">
+                                <label
+                                  v-if="aa"
+                                  for=""
+                                  class="text-base font-medium px-1"
+                                  >ภาพสถานประกอบการ</label
+                                >
+                                <label
+                                  v-if="work"
+                                  for=""
+                                  class="text-base font-medium px-1"
+                                  >ภาพยืนยันตัวตน</label
+                                >
+                                <img :src="image" />
+                              </div>
+                            </div>
+                          </div>
+
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="w-full px-3 mb-5">
+                    <div class="2xl:flex 2xl:space-x-5">
+                      <div class="form-control">
+                        <label class="label cursor-pointer 2xl:space-x-2">
+                          <input
+                            type="radio"
+                            v-model.trim="statusId"
+                            name="radio-1"
+                            class="radio checked:bg-orange-1"
+                            value="4"
+                          />
+                          <span class="label-text 2xl:pr-0 md:pr-56"
+                            >อนุมัติ</span
+                          >
+                        </label>
+                      </div>
+                      <div class="form-control">
+                        <label class="label cursor-pointer 2xl:space-x-2">
+                          <input
+                            type="radio"
+                            v-model.trim="statusId"
+                            name="radio-2"
+                            class="radio checked:bg-orange-1"
+                            value="5"
+                          />
+                          <span class="label-text 2xl:pr-0 md:pr-52"
+                            >ไม่อนุมัติ</span
+                          >
+                        </label>
+                      </div>
+                      <p v-if="confirmInput" class="text-red-600">
+                        กรุณาเลือกรูปแบบการอนุมัติ
+                      </p>
+                    </div>
+                    <textarea
+                      class="textarea textarea-bordered w-full h-36"
+                      placeholder="หมายเหตุที่ไม่อนุมัติ"
+                    ></textarea>
+                  </div>
+
+                  <div class="">
+                    <button
+                      @click="sendApprove(idApprove)"
+                      class="btn w-1/2 bg-orange-1 hover:bg-orange-2"
+                    >
+                      ยืนยัน
+                    </button>
+                    <button @click="toggleModal = false" for="" class="btn w-1/2">ปิด</button>
+                  </div>
+          
+              </div>
+        </div>
+      </div>
+    </div>
+     <div v-if="toggleModal" class="absolute inset-0 z-40 opacity-25 bg-black">
+
+      </div>
   </div>
 </template>
 
@@ -973,10 +1689,14 @@ export default {
       infoEmp : {businesstype:{}},
       aa:[],
       work: [],
+      toggleModal: false,
+      iAm: "",
+      idApprove: "",
     };
   },
   methods: {
     async data(data) {
+      this.idApprove = data.idApprove
       this.aa = data.workOrEmp == 'Employer'
       this.work = data.workOrEmp == 'Worker'
       console.log("data: ");
@@ -985,6 +1705,8 @@ export default {
       this.confirmInput = false;
       this.statusId = "";
       if (data.idWorker != 0) {
+        this.iAm = data.workOrEmp
+        console.log(this.iAm)
         await axios
           .get(
             `${process.env.VUE_APP_ROOT_API}admin/selectWorker?idWorker=${data.idWorker}`
@@ -999,6 +1721,8 @@ export default {
           });
       }else{
         if(data.idEmployer != 0){
+        this.iAm = data.workOrEmp
+        console.log(this.iAm)
         await axios
           .get(
             `${process.env.VUE_APP_ROOT_API}main/selectEmployer?idEmployer=${data.idEmployer}`
@@ -1019,7 +1743,7 @@ export default {
         if (confirm("ต้องการจะส่งฟอร์มอนุมัติบัญชีหรือไม่")) {
           try {
             await axios.put(
-              `${process.env.VUE_APP_ROOT_API}admin/approveAccount?idApprove=${idApprove.idApprove}&idAdmin=${this.idAdmin}&idStatus=${this.statusId}`
+              `${process.env.VUE_APP_ROOT_API}admin/approveAccount?idApprove=${idApprove}&idAdmin=${this.idAdmin}&idStatus=${this.statusId}`
               // ,
               // {
               //   method: "PUT",
