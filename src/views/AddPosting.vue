@@ -650,8 +650,8 @@
             >
             <div class="flex space-x-5">
               <div class="form-control">
-                <label class="flex flex-col items-start label cursor-pointer space-y-2">
-                  <span v-for="pd in sevenDay" :key="pd.idDay">
+                <label v-for="pd in sevenDay" :key="pd.idDay" class="flex flex-col items-start label cursor-pointer space-y-2">
+                  <span>
                     <input
                       :id="pd.idDay"
                       :value="{day:pd}"
