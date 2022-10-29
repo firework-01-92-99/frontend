@@ -360,7 +360,7 @@
                                   registWorker.worker.workerType.idWorkerType
                                 "
                                 name="radio-5"
-                                class="radio checked:bg-blue-500"
+                                class="radio checked:bg-orange-1"
                                 :class="{ 'bg-red-50': workerTypeInput }"
                                 value="1"
                               />
@@ -385,7 +385,7 @@
                                   registWorker.worker.workerType.idWorkerType
                                 "
                                 name="radio-5"
-                                class="radio checked:bg-red-500"
+                                class="radio checked:bg-orange-1"
                                 :class="{ 'bg-red-50': workerTypeInput }"
                                 value="2"
                               />
@@ -1073,14 +1073,15 @@
                         <div class="flex space-x-5">
                           <div class="form-control">
                             <label
-                              for="radio-6"
+                              for="male"
                               class="label cursor-pointer space-x-2"
                             >
                               <input
+                              id="male"
                                 type="radio"
                                 v-model.trim="registWorker.worker.sex"
                                 name="radio-6"
-                                class="radio checked:bg-blue-500"
+                                class="radio checked:bg-orange-1"
                                 :class="{ 'bg-red-50': sexInput }"
                                 value="M"
                               />
@@ -1089,14 +1090,15 @@
                           </div>
                           <div class="form-control">
                             <label
-                              for="radio-7"
+                              for="female"
                               class="label cursor-pointer space-x-2"
                             >
                               <input
+                              id="female"
                                 type="radio"
                                 v-model.trim="registWorker.worker.sex"
                                 name="radio-7"
-                                class="radio checked:bg-red-500"
+                                class="radio checked:bg-orange-1"
                                 :class="{ 'bg-red-50': sexInput }"
                                 value="F"
                               />
