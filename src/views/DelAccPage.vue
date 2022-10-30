@@ -982,7 +982,7 @@ export default {
       if (data.workOrEmp == "Worker") {
         await axios
           .get(
-            `${process.env.VUE_APP_ROOT_API}admin/selectWorker?idWorker=${data.idWorker}`
+            `${process.env.VUE_APP_ROOT_API}admin_emp/selectWorker?idWorker=${data.idWorker}`
           )
           .then((response) => {
             this.info = response.data;

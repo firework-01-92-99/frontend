@@ -1709,7 +1709,7 @@ export default {
         console.log(this.iAm)
         await axios
           .get(
-            `${process.env.VUE_APP_ROOT_API}admin/selectWorker?idWorker=${data.idWorker}`
+            `${process.env.VUE_APP_ROOT_API}admin_emp/selectWorker?idWorker=${data.idWorker}`
           )
           .then((response) => {
             this.infoWorker = response.data;

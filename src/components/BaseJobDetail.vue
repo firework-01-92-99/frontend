@@ -689,7 +689,7 @@ export default {
     // this.allApplication = await this.fetch(`${process.env.VUE_APP_ROOT_API}admin/allApplication`);
     // this.worker1 = await axios(this.urlWorker);
     // this.worker = this.worker1.data
-    // this.thisWorker = await this.fetch("http://localhost:3000/admin/selectWorker?idWorker=1");
+    // this.thisWorker = await this.fetch("http://localhost:3000/admin_emp/selectWorker?idWorker=1");
     // this.thisWorker1 = await axios.get(
     //   `${process.env.VUE_APP_ROOT_API}main/selectWorker?idWorker=` + this.$store.state.auth.user.worker.idWorker
     // );
