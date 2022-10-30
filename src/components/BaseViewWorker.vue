@@ -35,6 +35,7 @@
                     <!-- <div v-if="listApprove.lenght == null">
             ไม่มีรายการที่ต้องทำ
           </div> -->
+          {{a}}
           <tr>
             <th>{{ a.count }}</th>
             <td>
@@ -47,7 +48,7 @@
             <th>
               <!-- detail -->
               <label
-                @click="getPic(a)"
+                @click="getPic(a), acceptWorker(a), rejectWorker(a)"
                 for="my-modal-5"
                 class="btn btn-ghost btn-xs"
                 >รายละเอียด</label
@@ -418,26 +419,26 @@
                   </div>
                   <div class="w-full px-3 mb-5">
                     <div class="2xl:flex 2xl:space-x-5">
-                      <div class="form-control">
+                      <div @click="acceptWorker()" class="form-control">
                         <label class="label cursor-pointer 2xl:space-x-2">
                           <input   
                             type="radio"
                             v-model.trim="statusId"
                             name="radio-1"
                             class="radio checked:bg-blue-500"
-                            value=4
+                            value=12
                           />
                           <span class="label-text 2xl:pr-0 md:pr-56">อนุมัติ</span>
                         </label>
                       </div>
-                      <div class="form-control">
+                      <div @click="rejectWorker()" class="form-control">
                         <label class="label cursor-pointer 2xl:space-x-2">
                           <input      
                             type="radio"
                             v-model.trim="statusId"
                             name="radio-2"
                             class="radio checked:bg-red-500"
-                            value=5
+                            value=13
                           />
                           <span class="label-text 2xl:pr-0 md:pr-52"
                             >ไม่อนุมัติ</span
@@ -446,6 +447,7 @@
                       </div>
                     </div>
                     <textarea
+                    v-model="applicationHasComment.description"
                       class="textarea textarea-bordered w-full h-36"
                       placeholder="หมายเหตุที่ไม่อนุมัติ"
                     ></textarea>
@@ -509,10 +511,39 @@ export default {
       statusId: '',
       image: "",
       topic: 'รายการผู้สมัคร',
+      applicationHasComment: {
+        description: ''
+      },
     }
   },
   methods: {
-
+  async acceptWorker(idApp){
+    console.log(idApp.applicationId)
+    const vm = this
+        if (confirm("ต้องการรับบุคคลนี้เข้าทำงานหรือไม่")) {
+          try {
+            await axios.put(
+              `${process.env.VUE_APP_ROOT_API}emp/employerAcceptOnWeb?idApplication=${idApp.applicationId}`, this.applicationHasComment.description).data;
+            vm.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}main/showAllWorker?idPosting=` + vm.idPost + "&idStatus=" + vm.idStatus);            
+          } catch (error) {
+            console.log(error);
+          }
+        }    
+  },
+  async rejectWorker(idApp){
+    console.log(idApp.applicationId)
+    const vm = this
+        if (confirm("ต้องการปฏิเสธบุคคลนี้เข้าทำงานหรือไม่")) {
+          try {
+            await axios.put(
+              `${process.env.VUE_APP_ROOT_API}emp/employerRejectOnWeb?idApplication=${idApp.applicationId}`
+            ).data;
+            vm.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}main/showAllWorker?idPosting=` + vm.idPost + "&idStatus=" + vm.idStatus);  
+          } catch (error) {
+            console.log(error);
+          }
+        }    
+  },
   async getPic(a){
     console.log(a.verifyPic)
     this.image = `${process.env.VUE_APP_ROOT_API}main/image/` + a.verifyPic
