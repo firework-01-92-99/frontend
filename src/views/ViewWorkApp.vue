@@ -24,6 +24,18 @@
             @click="idStatus = 12"
             >ยืนยันการรับเข้าทำงาน</a
           >
+          <a
+            class="tab tab-bordered"
+            :class="{ 'tab-active font-medium': idStatus == 12 }"
+            @click="idStatus = 12"
+            >คนงานที่กำลังทำงาน</a
+          >
+          <a
+            class="tab tab-bordered"
+            :class="{ 'tab-active font-medium': idStatus == 12 }"
+            @click="idStatus = 12"
+            >ให้คะแนนคนงาน</a
+          >
           </template
         ></base-tab
       >
