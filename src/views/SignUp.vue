@@ -1123,6 +1123,64 @@
                             font-medium
                             px-1
                           "
+                          >เบอร์โทรศัพท์ (มือถือ)</label
+                        >
+                        <div class="flex">
+                          <div
+                            class="
+                              w-10
+                              z-10
+                              pl-1
+                              text-center
+                              pointer-events-none
+                              flex
+                              items-center
+                              justify-center
+                            "
+                          >
+                            <i
+                              class="
+                                mdi mdi-account-outline
+                                text-gray-400 text-lg
+                              "
+                            ></i>
+                          </div>
+                          <input
+                            @click="onFocus('เบอร์')"
+                            type="tel"
+                            v-model.trim="bindPhone"
+                            maxlength="10"
+                            class="
+                              w-full
+                              -ml-10
+                              pl-5
+                              pr-3
+                              py-2
+                              rounded-lg
+                              border-2 border-gray-200
+                              outline-none
+                              focus:border-indigo-500
+                            "
+                            :class="{ 'bg-red-50': phoneInput }"
+                            onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                            placeholder="เบอร์โทรศัพท์ (มือถือ)"
+                          />
+                        </div>
+                        <p v-if="phoneInput" class="text-red-600">
+                          กรุณากรอกเบอร์โทรศัพท์ (มือถือ)
+                        </p>
+                      </div>
+
+                       <div class="w-full px-3 mb-5">
+                        <label
+                          for=""
+                          class="
+                            2xl:text-base
+                            md:text-base
+                            text-sm
+                            font-medium
+                            px-1
+                          "
                           >เบอร์โทรศัพท์</label
                         >
                         <div class="flex">
@@ -1163,11 +1221,71 @@
                             "
                             :class="{ 'bg-red-50': phoneInput }"
                             onkeypress="return event.charCode >= 48 && event.charCode <= 57"
-                            placeholder="0123456789"
+                            placeholder="เบอร์โทรศัพท์"
                           />
                         </div>
                         <p v-if="phoneInput" class="text-red-600">
                           กรุณากรอกเบอร์โทรศัพท์
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="flex -mx-3">
+                      <div class="w-full px-3 mb-5">
+                        <label
+                          for=""
+                          class="
+                            2xl:text-base
+                            md:text-base
+                            text-sm
+                            font-medium
+                            px-1
+                          "
+                          >ID Line</label
+                        >
+                        <div class="flex">
+                          <div
+                            class="
+                              w-10
+                              z-10
+                              pl-1
+                              text-center
+                              pointer-events-none
+                              flex
+                              items-center
+                              justify-center
+                            "
+                          >
+                            <i
+                              class="
+                                mdi mdi-account-outline
+                                text-gray-400 text-lg
+                              "
+                            ></i>
+                          </div>
+                          <input
+                            @click="onFocus('เบอร์')"
+                            type="tel"
+                            v-model.trim="bindPhone"
+                            maxlength="10"
+                            class="
+                              w-full
+                              -ml-10
+                              pl-5
+                              pr-3
+                              py-2
+                              rounded-lg
+                              border-2 border-gray-200
+                              outline-none
+                              focus:border-indigo-500
+                            "
+                            :class="{ 'bg-red-50': phoneInput }"
+                            onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                            placeholder="ID Line"
+                          />
+                        </div>
+                        <p v-if="phoneInput" class="text-red-600">
+                          กรุณากรอก ID LINE
                         </p>
                       </div>
                     </div>
