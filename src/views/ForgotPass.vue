@@ -35,7 +35,7 @@
           ></div>
           <div v-if="!this.$route.query.changePass" class="flex flex-col w-full lg:w-1/2 p-4">
             <div class="flex flex-col flex-1 justify-center mt-8 mb-8">
-              <h1 class="font-bold text-4xl text-center text-orange-1">ลืมรหัสผ่าน{{emailInput}}</h1>
+              <h1 class="font-bold text-4xl text-center text-orange-1">ลืมรหัสผ่าน</h1>
               <!-- <p class="text-center mt-5">รหัส OTP จะถูกส่งไปยังอีเมลที่คุณกรอก</p> -->
               <div class="w-full mt-4">
                 <form
