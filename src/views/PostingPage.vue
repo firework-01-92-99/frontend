@@ -154,9 +154,12 @@
             <option class="text-black" :value="''" disabled selected>
               ค่าตอบแทน
             </option>
+            <option v-if="filter.enterHiringType == 2" class="text-black" value="300 - 400">300 - 400</option>
+            <option v-if="filter.enterHiringType == 2" class="text-black" value="400 - 500">400 - 500</option>
+            <option v-if="filter.enterHiringType == 2" class="text-black" value="500 - 1000">500 - 1000</option>                
             <option class="text-black" value="DESC">มากไปน้อย</option>
             <option class="text-black" value="ASC">น้อยไปมาก</option>
-          </select>
+          </select>      
         </div>
         <div
           class="
