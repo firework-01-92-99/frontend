@@ -113,6 +113,7 @@
                         w-52
                       "
                     >
+                      <li @click="$router.push('/editProfile')" class="font-normal text-black hover:text-orange-1"><a>แก้ไขบัญชี</a></li>
                       <li @click.prevent="sendDelete()" class="font-normal text-black hover:text-orange-1"><a>ขอลบบัญชี</a></li>
                     </ul>
                   </div>
@@ -259,6 +260,7 @@
                         w-52
                       "
                     >
+                      <li @click="$router.push('/editProfile')" class="font-normal text-black hover:text-orange-1"><a>แก้ไขบัญชี</a></li>
                       <li @click.prevent="sendDelete()" class="font-normal text-black hover:text-orange-1"><a>ขอลบบัญชี</a></li>
                     </ul>
                   </div>
@@ -283,14 +285,14 @@
             >
               งานโปรดของฉัน
             </a>
-            <a
+            <!-- <a
               class="tab tab-bordered 2xl:px-16 xl:px-16 lg:px-16 md:px-14 px-0.5"
               @click="numTab = 2"
               :class="{
                 'tab-active font-medium ': numTab == 2,
               }"
               >ประวัติงานที่เคยทำ</a
-            >
+            > -->
             <a
               class="tab tab-bordered 2xl:px-16 xl:px-16 lg:px-16 md:px-16 px-0.5"
               @click="numTab = 3"
@@ -309,9 +311,9 @@
         >
           <base-fav class="mt-7"></base-fav>
         </div>
-        <div v-if="numTab == 2">
+        <!-- <div v-if="numTab == 2">
           <base-history class="mt-7"></base-history>
-        </div>
+        </div> -->
         <div v-if="numTab == 3">
           <base-rate class="mt-7"></base-rate>
         </div>
@@ -325,7 +327,7 @@
 import axios from "axios";
 import BaseTab from "@/components/BaseTab.vue";
 import BaseFav from "@/components/BaseFav.vue";
-import BaseHistory from "@/components/BaseHistory.vue";
+// import BaseHistory from "@/components/BaseHistory.vue";
 import BaseRate from "@/components/BaseRate.vue";
 const sex = Object.freeze({
   F: "หญิง",
@@ -343,7 +345,7 @@ const nationFreeze = Object.freeze({
 });
 
 export default {
-  components: { BaseTab, BaseFav, BaseHistory, BaseRate },
+  components: { BaseTab, BaseFav, BaseRate },
   data() {
     return {
       sex,
