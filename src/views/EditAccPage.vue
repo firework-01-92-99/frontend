@@ -1,23 +1,50 @@
 <template>
-  <div class="bg-gray-2 h-screen font-sans-thai">
+  <div v-if="$store.state.auth.user" class="bg-gray-2 h-screen font-sans-thai">
+    <div
+      class="hero 2xl:h-64 xl:h-64 lg:h-64 md:h-64 h-32"
+      style="
+        background-image: url(https://images.unsplash.com/photo-1503945438517-f65904a52ce6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80);
+      "
+    >
+      <div class="hero-overlay bg-opacity-60"></div>
+      <div class="hero-content text-center text-neutral-content">
+        <div class="w-full">
+          <h1
+            class="
+              mb-5
+              2xl:text-5xl
+              xl:text-5xl
+              lg:text-5xl
+              md:text-5xl
+              text-2xl
+              font-bold
+            "
+          >
+            สวัสดีคุณ
+            {{ myAcc.data.firstName + " " + myAcc.data.lastName }}
+          </h1>
+          <!-- <p class="mb-5">ขยันทำงานด้วยนะไอสัส อย่าอู้ ขอบใจ จากเจ้านายพวกมึง ด้วยรักและห่วงใย</p> -->
+        </div>
+      </div>
+    </div>
     <div class="2xl:p-6 2xl:pl-32 xl:p-6 lg:p-6 md:p-6 p-3 pt-5">
       <base-tab
         ><template
           ><a
             :class="{ 'tab-active': routes == 'ApproveAccPage' }"
-            class="tab tab-bordered text-black"
+            class="tab tab-bordered"
             @click="$router.push('/approve')"
           >
             ตรวจสอบบัญชี
           </a>
           <a
-            class="tab tab-bordered text-black"
+            class="tab tab-bordered tab-active font-medium"
             :class="{ 'tab-active': routes == 'EditAccPage' }"
             @click="$router.push('/approve/edit')"
             >คำขอแก้ไขบัญชี</a
           >
           <a
-            class="tab tab-bordered text-black"
+            class="tab tab-bordered"
             :class="{ 'tab-active': routes == 'DelAccPage' }"
             @click="$router.push('/approve/delete')"
             >คำขอลบบัญชี</a
@@ -70,11 +97,9 @@
             <td>ประเทศ</td>
             <th>
               <!-- detail -->
-              <label for="my-modal-5" class="btn btn-ghost btn-xs"
-                >รายละเอียด</label
-              >
-              <input type="checkbox" id="my-modal-5" class="modal-toggle" />
-              <div class="modal modal-bottom sm:modal-middle">
+              <button class="btn btn-ghost btn-xs" @click="toggleModal = !toggleModal"
+                >รายละเอียด</button>
+              <!-- <div class="modal modal-bottom sm:modal-middle">
                 <div class="modal-box">
                   <h3 class="font-bold text-lg">รายละเอียด</h3>
                   <p class="py-4">รอดึง</p>
@@ -112,12 +137,12 @@
                     <label for="my-modal-5" class="btn">ปิด</label>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </th>
           </tr>
         </tbody>
         <!-- foot -->
-        <tfoot>
+        <!-- <tfoot>
           <tr>
             <th></th>
             <th>ชื่อ</th>
@@ -125,23 +150,47 @@
             <th>สัญชาติ</th>
             <th></th>
           </tr>
-        </tfoot>
+        </tfoot> -->
       </table>
+    </div>
+    <!-- modal -->
+    <div v-if="toggleModal" class="fixed overflow-x-hidden overflow-y-auto inset-0 flex justify-center items-center z-50">
+      <div class="relative mx-auto w-auto max-w-2xl">
+        <div class="bg-white w-full overflow-y-auto h-96 rounded shadow-2xl flex flex-col">
+          <div class="p-8">
+            <h3 class="font-bold text-lg">รายละเอียด</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-if="toggleModal" class="absolute inset-0 z-40 opacity-25 bg-black">
+
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 import BaseTab from "@/components/BaseTab.vue";
 export default {
   components: { BaseTab },
-
+  data() {
+    return {
+      myAcc: [],
+      toggleModal: false,
+    };
+  },
+  methods: {},
   async created() {
     if (
       this.$store.state.auth.user &&
       this.$store.state.auth.user.role.idRole == "1"
     ) {
       console.log("Admin's Edit Page");
+      this.myAcc = await axios.get(
+        `${process.env.VUE_APP_ROOT_API}admin/meAdmin`
+      );
+      this.idAdmin = this.myAcc.data.idAdmin;
     } else {
       this.$router.push("/");
     }

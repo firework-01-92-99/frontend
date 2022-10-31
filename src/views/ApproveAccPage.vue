@@ -37,13 +37,13 @@
           >
             ตรวจสอบบัญชี
           </a>
-          <!-- <a
-      class="tab tab-bordered text-black"
+          <a
+      class="tab tab-bordered"
       :class="{ 'tab-active': routes == 'EditAccPage' }"
       @click="$router.push('/approve/edit')"
       
       >คำขอแก้ไขบัญชี</a
-    > -->
+    >
           <a
             class="tab tab-bordered"
             :class="{ 'tab-active': routes == 'DelAccPage' }"
@@ -1635,16 +1635,16 @@
                     >
                       ยืนยัน
                     </button>
-                    <button @click="toggleModal = false" for="" class="btn w-1/2">ปิด</button>
+                    <button @click="toggleModal = false" class="btn w-1/2">ปิด</button>
                   </div>
           
               </div>
         </div>
       </div>
     </div>
-     <div v-if="toggleModal" class="absolute inset-0 z-40 opacity-25 bg-black">
+    <div v-if="toggleModal" class="absolute inset-0 z-40 opacity-25 bg-black">
 
-      </div>
+    </div>
   </div>
 </template>
 
