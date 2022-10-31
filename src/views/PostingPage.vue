@@ -436,6 +436,7 @@ export default {
       // console.log("Store 2 = " + this.$store.getters.getPosting);
     },
     async getData() {
+      if(!this.$store.state.auth.user || this.$store.state.auth.user.role.idRole == '3'){
       await axios
         .get(
           // `http://localhost:3000/main/searchPosting?establishmentAndpositionName=${this.filter.enterEstOrPost}&idHiringtype=${this.filter.enterHiringType}&sortSalary=${this.filter.enterSortSalary}&idProvince=${this.filter.enterProvince}&idDistrict=&idSubdistrict=`
@@ -453,6 +454,28 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+      }else{
+        console.log("ของEmp")
+        // if(this.$store.state.auth.user.role.idRole == '2'){
+        //     await axios
+        // .get(
+        //   // `http://localhost:3000/main/searchPosting?establishmentAndpositionName=${this.filter.enterEstOrPost}&idHiringtype=${this.filter.enterHiringType}&sortSalary=${this.filter.enterSortSalary}&idProvince=${this.filter.enterProvince}&idDistrict=&idSubdistrict=`
+        //   `${process.env.VUE_APP_ROOT_API}emp/searchPosting?idEmp=${this.$store.state.auth.user.employer.idEmployer}&establishmentAndpositionName=${this.filter.enterEstOrPost}&idHiringtype=${this.filter.enterHiringType}&sortSalary=${this.filter.enterSortSalary}&idProvince=${this.filter.enterProvince}&idDistrict=&idSubdistrict=`
+        // )
+        // .then((response) => {
+        //   console.log(response.data);
+        //   this.$store.commit("setPosting", response.data);
+        //   if (this.getActivePost.totalPages == 0) {
+        //     this.noPost = true;
+        //   } else {
+        //     this.noPost = false;
+        //   }
+        // })
+        // .catch((error) => {
+        //   console.log(error);
+        // });          
+        // }
+      }
     },
     async paging(action) {
       if (this.page > 0) {
