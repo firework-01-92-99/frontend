@@ -218,7 +218,7 @@
                     ></div>
                     <input
                       type="tel"
-                      @change="salaryType(postInfo.minSalary)"
+                      @change="salaryType()"
                       v-model.trim="postInfo.minSalary"
                       maxlength="5"
                       class="
@@ -239,6 +239,9 @@
                       placeholder="กรอกเงินเดือนที่ต่ำที่สุด"
                       onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                     />
+                    <p v-if="minSalaryAlert" class="text-red-600">
+                      เงินขั้นต่ำต้องไม่ต่ำกว่า 300 บาท
+                    </p>                    
                     <p v-if="minSalaryInput" class="text-red-600">
                       กรุณากรอกเงินเดือนที่ต่ำที่สุด
                     </p>
@@ -265,7 +268,7 @@
                     ></div>
                     <input
                       type="tel"
-                      @change="salaryType(postInfo.maxSalary)"
+                      @change="salaryType()"
                       v-model.trim="postInfo.maxSalary"
                       maxlength="5"
                       class="
@@ -286,8 +289,11 @@
                       placeholder="กรอกเงินเดือนที่มากที่สุด"
                       onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                     /><span class="pl-2 py-2">บาท</span>
+                    <p v-if="maxWrong" class="text-red-600">
+                      กรุณากรอกเงินเดือนที่มากสุดให้น้อยกว่าเงินเดือนที่ต่ำสุด
+                    </p>
                     <p v-if="maxSalaryInput" class="text-red-600">
-                      กรุณากรอกเงินเดือนที่มากที่สุด
+                      กรุณากรอกเงินเดือนที่มากสุด
                     </p>
                   </div>
                 </div>
@@ -984,8 +990,8 @@ export default {
         workDescription: "",
         minAge: 18,
         maxAge: 60,
-        minSalary: 0,
-        maxSalary: 0,
+        minSalary: 300,
+        maxSalary: '',
         overtimePayment: "",
         startTime: "",
         endTime: "",
@@ -1012,7 +1018,9 @@ export default {
       },
       post: [],
       response200: '',
-      image: null
+      image: null,
+      maxWrong: false,
+      minSalaryAlert: false,
     };
   },
   methods: {
@@ -1080,8 +1088,8 @@ export default {
         workDescription: "",
         minAge: 18,
         maxAge: 60,
-        minSalary: 0,
-        maxSalary: 0,
+        minSalary: 300,
+        maxSalary: '',
         overtimePayment: "",
         startTime: "",
         endTime: "",
@@ -1107,15 +1115,24 @@ export default {
         },
       }
     },
-    // salaryType(s){
-    //   if(s < this.postInfo.minSalary){
-    //     this.postInfo.maxSalary + 100
-    //   }else{
-    //     if(s > this.postInfo.maxSalary){
-    //       this.postInfo.minSalary - 100
-    //     }
-    //   }
-    // },
+    salaryType(){
+        if(parseInt(this.postInfo.minSalary) < 300){
+          this.postInfo.minSalary = 300
+          this.minSalaryAlert = true
+          setTimeout(() => (this.minSalaryAlert = false), 2000);
+        }     
+      if(this.postInfo.minSalary && this.postInfo.maxSalary != ''){
+        console.log("ไม่เข้าเรอะ")
+        console.log("min Sal = " + this.postInfo.minSalary)
+        console.log("max Sal = " + this.postInfo.maxSalary)
+        console.log("max < min เป็น True or False " + this.postInfo.maxSalary < this.postInfo.minSalary)
+      if(parseInt(this.postInfo.maxSalary) < parseInt(this.postInfo.minSalary)){
+        // this.postInfo.maxSalary = parseInt(this.postInfo.minSalary) + 100
+        this.maxWrong = true
+        setTimeout(() => (this.maxWrong = false), 3000);
+      }
+      }
+    },
     ifChangeAge(age) {
       if (age < 18) {
         this.postInfo.minAge = 18;
