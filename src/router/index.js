@@ -18,7 +18,8 @@ import OtpPage from '../views/OtpPage.vue'
 import PageNotFound from '../views/PageNotFound.vue'
 import ForgotPass from '../views/ForgotPass.vue'
 import EditPosting from '../views/EditPosting.vue'
-import EditProfile from '../views/EditProfile.vue'
+import EditProfileEmp from '../views/EditProfileEmp.vue'
+import EditProfileWorker from '../views/EditProfileWorker.vue'
 // import store from '@/store'
 
 Vue.use(VueRouter)
@@ -135,9 +136,14 @@ const routes = [
     component: EditPosting,
   },
   {
-    path: '/editProfile',
-    name: 'EditProfile',
-    component: EditProfile,
+    path: '/editProfile/emp',
+    name: 'EditProfileEmp',
+    component: EditProfileEmp,
+  },
+  {
+    path: '/editProfile/worker',
+    name: 'EditProfileWorker',
+    component: EditProfileWorker,
   },
   {
     path: '/:pathMatch(.*)*',

@@ -113,7 +113,7 @@
                         w-52
                       "
                     >
-                      <li @click="$router.push('/editProfile')" class="font-normal text-black hover:text-orange-1"><a>แก้ไขบัญชี</a></li>
+                      <li @click="$router.push('/editProfile/worker')" class="font-normal text-black hover:text-orange-1"><a>แก้ไขบัญชี</a></li>
                       <li @click.prevent="sendDelete()" class="font-normal text-black hover:text-orange-1"><a>ขอลบบัญชี</a></li>
                     </ul>
                   </div>
@@ -260,7 +260,7 @@
                         w-52
                       "
                     >
-                      <li @click="$router.push('/editProfile')" class="font-normal text-black hover:text-orange-1"><a>แก้ไขบัญชี</a></li>
+                      <li @click="$router.push('/editProfile/emp')" class="font-normal text-black hover:text-orange-1"><a>แก้ไขบัญชี</a></li>
                       <li @click.prevent="sendDelete()" class="font-normal text-black hover:text-orange-1"><a>ขอลบบัญชี</a></li>
                     </ul>
                   </div>

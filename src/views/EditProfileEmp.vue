@@ -248,7 +248,7 @@
                       </div>
                     </div> -->
                     <div class="2xl:flex -mx-3">
-                      <div class="w-full px-3 mb-5">
+                      <!-- <div class="w-full px-3 mb-5">
                         <label
                           for=""
                           class="text-sm 2xl:text-base font-medium px-1"
@@ -288,7 +288,7 @@
                         <p v-if="emailInput" class="text-red-600">
                           กรุณากรอกอีเมลของคุณ
                         </p>
-                      </div>
+                      </div> -->
 
                       <!-- <div
                         v-if="$store.state.auth.user.role.idRole == '3'"
@@ -372,9 +372,6 @@
                               outline-none
                               placeholder-black placeholder-opacity-100
                               focus:border-indigo-500
-                            "
-                            :placeholder="
-                              $store.state.auth.user.employer.establishmentName
                             "
                           />
                         </div>
@@ -585,10 +582,6 @@
                               placeholder-black placeholder-opacity-100
                               focus:border-indigo-500
                             "
-                            :placeholder="
-                              this.$store.state.auth.user.employer
-                                .entrepreneurfName
-                            "
                           />
                         </div>
                         <p v-if="firstnameInput" class="text-red-600">
@@ -681,10 +674,6 @@
                               placeholder-black placeholder-opacity-100
                               focus:border-indigo-500
                             "
-                            :placeholder="
-                              this.$store.state.auth.user.employer
-                                .entrepreneurlName
-                            "
                           />
                         </div>
                         <p v-if="lastnameInput" class="text-red-600">
@@ -734,9 +723,6 @@
                                 placeholder-black placeholder-opacity-100
                                 focus:border-indigo-500
                               "
-                              :placeholder="
-                                $store.state.auth.user.employer.address
-                              "
                             />
                           </div>
                           <p v-if="addressInput" class="text-red-600">
@@ -748,7 +734,7 @@
                       <div class="2xl:flex 2xl:-mx-3">
                         <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                           <label for="" class="text-base font-medium px-1"
-                            >ตำบล/แขวง</label
+                            >จังหวัด</label
                           >
                           <div class="flex">
                             <div
@@ -771,8 +757,8 @@
                               ></i>
                             </div>
                             <input
-                              v-if="!isEditSubDistrict"
-                              @focus="editProvince('subDistrict')"
+                              v-if="!isEditProvince"
+                              @focus="editProvince('province')"
                               type="text"
                               class="
                                 w-full
@@ -787,14 +773,14 @@
                                 focus:border-indigo-500
                               "
                               :placeholder="
-                                empInfo.employer.subDistrict.subDistrict
+                                empInfo.employer.province.provinceName
                               "
                             />
                             <select
-                              v-if="isEditSubDistrict"
-                              @blur="blur('subDistrict')"
+                              v-if="isEditProvince"
+                              @blur="blur('province')"
                               type="text"
-                              v-model.trim="empInfo.employer.subDistrict"
+                              v-model.trim="empInfo.employer.province"
                               class="
                                 select select-bordered
                                 w-full
@@ -807,24 +793,23 @@
                                 outline-none
                                 focus:border-indigo-500
                               "
-                              :class="{ 'bg-red-50': subdisInput }"
+                              :class="{ 'bg-red-50': provinceInput }"
                             >
-                              <option class="" :value="''" disabled selected>
-                                กรุณาเลือกตำบล/แขวง
+                              <option class="" value="''" disabled selected>
+                                กรุณาเลือกจังหวัด
                               </option>
                               <option
                                 class="text-black"
-                                v-for="sd in empInfo.employer.district
-                                  .subDistrictList"
-                                :key="sd.idSubdistrict"
-                                :value="sd"
+                                v-for="p in provinceForm"
+                                :key="p.idProvince"
+                                :value="p"
                               >
-                                {{ sd.subDistrict }}
+                                {{ p.provinceName }}
                               </option>
                             </select>
                           </div>
-                          <p v-if="subdisInput" class="text-red-600">
-                            กรุณาเลือกตำบล/แขวง
+                          <p v-if="provinceInput" class="text-red-600">
+                            กรุณาเลือกจังหวัด
                           </p>
                         </div>
 
@@ -914,7 +899,7 @@
                       <div class="2xl:flex 2xl:-mx-3">
                         <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                           <label for="" class="text-base font-medium px-1"
-                            >จังหวัด</label
+                            >ตำบล/แขวง</label
                           >
                           <div class="flex">
                             <div
@@ -937,8 +922,8 @@
                               ></i>
                             </div>
                             <input
-                              v-if="!isEditProvince"
-                              @focus="editProvince('province')"
+                              v-if="!isEditSubDistrict"
+                              @focus="editProvince('subDistrict')"
                               type="text"
                               class="
                                 w-full
@@ -952,15 +937,15 @@
                                 placeholder-black placeholder-opacity-100
                                 focus:border-indigo-500
                               "
-                              :placeholder="
-                                empInfo.employer.province.provinceName
+                               :placeholder="
+                                empInfo.employer.subDistrict.subDistrict
                               "
                             />
                             <select
-                              v-if="isEditProvince"
-                              @blur="blur('province')"
+                              v-if="isEditSubDistrict"
+                              @blur="blur('subDistrict')"
                               type="text"
-                              v-model.trim="empInfo.employer.province"
+                              v-model.trim="empInfo.employer.subDistrict"
                               class="
                                 select select-bordered
                                 w-full
@@ -973,23 +958,24 @@
                                 outline-none
                                 focus:border-indigo-500
                               "
-                              :class="{ 'bg-red-50': provinceInput }"
+                              :class="{ 'bg-red-50': subdisInput }"
                             >
-                              <option class="" value="''" disabled selected>
-                                กรุณาเลือกจังหวัด
+                              <option class="" :value="''" disabled selected>
+                                กรุณาเลือกตำบล/แขวง
                               </option>
                               <option
                                 class="text-black"
-                                v-for="p in provinceForm"
-                                :key="p.idProvince"
-                                :value="p"
+                                v-for="sd in empInfo.employer.district
+                                  .subDistrictList"
+                                :key="sd.idSubdistrict"
+                                :value="sd"
                               >
-                                {{ p.provinceName }}
+                                {{ sd.subDistrict }}
                               </option>
                             </select>
                           </div>
-                          <p v-if="provinceInput" class="text-red-600">
-                            กรุณาเลือกจังหวัด
+                          <p v-if="subdisInput" class="text-red-600">
+                            กรุณาเลือกตำบล/แขวง
                           </p>
                         </div>
 
@@ -1031,10 +1017,6 @@
                                 outline-none
                                 placeholder-black placeholder-opacity-100
                                 focus:border-indigo-500
-                              "
-                              :placeholder="
-                                $store.state.auth.user.employer.subDistrict
-                                  .postcode
                               "
                             />
                           </div>
@@ -1130,7 +1112,6 @@
                               placeholder-black placeholder-opacity-100
                               focus:border-indigo-500
                             "
-                            :placeholder="$store.state.auth.user.employer.phone"
                             onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                           />
                         </div>
@@ -1181,7 +1162,6 @@
                               placeholder-black placeholder-opacity-100
                               focus:border-indigo-500
                             "
-                            :placeholder="$store.state.auth.user.employer.tel"
                             onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                           />
                         </div>
@@ -1274,9 +1254,6 @@
                               outline-none
                               placeholder-black placeholder-opacity-100
                               focus:border-indigo-500
-                            "
-                            :placeholder="
-                              $store.state.auth.user.employer.lineId
                             "
                           />
                         </div>
