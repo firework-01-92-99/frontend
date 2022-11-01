@@ -1623,7 +1623,7 @@
 
                   <div class="">
                     <button
-                      @click="sendApprove(a)"
+                      @click="sendApprove()"
                       class="btn w-1/2 bg-orange-1 hover:bg-orange-2"
                     >
                       ยืนยัน
@@ -1681,10 +1681,12 @@ export default {
       confirmInput: false,
       infoEmp : {businesstype:{}},
       toggleModal: false,
+      idApprove: 0
     };
   },
   methods: {
     async data(data) {
+      this.idApprove = data.idApprove
       console.log("data: ");
       console.log(data);
       console.log(data.idEmpOrWork, data.workOrEmp);
@@ -1719,12 +1721,12 @@ export default {
           });        
       }
     },
-    async sendApprove(idApprove) {
+    async sendApprove() {
       if (this.statusId != "") {
         if (confirm("ต้องการจะส่งฟอร์มอนุมัติบัญชีหรือไม่")) {
           try {
             await axios.put(
-              `${process.env.VUE_APP_ROOT_API}admin/approveAccount?idApprove=${idApprove.idApprove}&idAdmin=${this.idAdmin}&idStatus=${this.statusId}`
+              `${process.env.VUE_APP_ROOT_API}admin/approveAccount?idApprove=${this.idApprove}&idAdmin=${this.idAdmin}&idStatus=${this.statusId}`
               // ,
               // {
               //   method: "PUT",

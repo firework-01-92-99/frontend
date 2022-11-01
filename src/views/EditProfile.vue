@@ -81,17 +81,17 @@
                       />
                     </div>
                     <p
-                      v-if="UpPic && signType == 'employer'"
+                      v-if="UpPic"
                       class="text-red-600"
                     >
                       กรุณาอัปโหลดภาพสถานประกอบการ
                     </p>
-                    <p
+                    <!-- <p
                       v-if="UpPic && signType == 'worker'"
                       class="text-red-600"
                     >
                       กรุณาอัปโหลดภาพยืนยันตัวตน
-                    </p>
+                    </p> -->
                   </div>
 
                   <div class="2xl:flex -mx-3">
@@ -215,8 +215,8 @@
                         />
                       </div>
                       <p v-if="secPassInput" class="text-red-600">
-                          กรุณากรอกช่องยืนยันรหัสผ่านให้ตรงกับช่องรหัสผ่าน
-                        </p>
+                        กรุณากรอกช่องยืนยันรหัสผ่านให้ตรงกับช่องรหัสผ่าน
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -269,6 +269,7 @@
                           ></div>
                           <input
                             type="text"
+                            v-model.trim="empInfo.employer.email"
                             class="
                               w-full
                               -ml-10
@@ -281,7 +282,7 @@
                               placeholder-black placeholder-opacity-100
                               focus:border-indigo-500
                             "
-                            :placeholder="$store.state.auth.user.email"
+                            :placeholder="$store.state.auth.user.employer.email"
                           />
                         </div>
                         <p v-if="emailInput" class="text-red-600">
@@ -359,6 +360,7 @@
                           ></div>
                           <input
                             type="text"
+                            v-model.trim="empInfo.employer.establishmentName"
                             class="
                               w-full
                               -ml-10
@@ -570,6 +572,7 @@
                           ></div>
                           <input
                             type="text"
+                            v-model.trim="empInfo.employer.entrepreneurfName"
                             class="
                               w-full
                               -ml-10
@@ -582,7 +585,10 @@
                               placeholder-black placeholder-opacity-100
                               focus:border-indigo-500
                             "
-                            :placeholder="firstname"
+                            :placeholder="
+                              this.$store.state.auth.user.employer
+                                .entrepreneurfName
+                            "
                           />
                         </div>
                         <p v-if="firstnameInput" class="text-red-600">
@@ -590,7 +596,7 @@
                         </p>
                       </div>
 
-                      <div
+                      <!-- <div
                         v-if="$store.state.auth.user.role.idRole == '3'"
                         class="2xl:w-1/2 w-full 2xl:px-3 mb-5"
                       >
@@ -632,7 +638,7 @@
                         <p v-if="middlenameInput" class="text-red-600">
                           กรุณากรอกชื่อกลาง
                         </p>
-                      </div>
+                      </div> -->
 
                       <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                         <label
@@ -662,6 +668,7 @@
                           </div>
                           <input
                             type="text"
+                            v-model.trim="empInfo.employer.entrepreneurlName"
                             class="
                               w-full
                               -ml-10
@@ -674,7 +681,10 @@
                               placeholder-black placeholder-opacity-100
                               focus:border-indigo-500
                             "
-                            :placeholder="lastname"
+                            :placeholder="
+                              this.$store.state.auth.user.employer
+                                .entrepreneurlName
+                            "
                           />
                         </div>
                         <p v-if="lastnameInput" class="text-red-600">
@@ -711,6 +721,7 @@
                             </div>
                             <input
                               type="text"
+                              v-model.trim="empInfo.employer.address"
                               class="
                                 w-full
                                 -ml-10
@@ -760,6 +771,8 @@
                               ></i>
                             </div>
                             <input
+                              v-if="!isEditSubDistrict"
+                              @focus="editProvince('subDistrict')"
                               type="text"
                               class="
                                 w-full
@@ -774,13 +787,14 @@
                                 focus:border-indigo-500
                               "
                               :placeholder="
-                                $store.state.auth.user.employer.subDistrict
-                                  .subDistrict
+                                empInfo.employer.subDistrict.subDistrict
                               "
                             />
-                            <!-- <select
+                            <select
+                              v-if="isEditSubDistrict"
+                              @blur="blur('subDistrict')"
                               type="text"
-                              v-model.trim="registEmp.employer.subDistrict"
+                              v-model.trim="empInfo.employer.subDistrict"
                               class="
                                 select select-bordered
                                 w-full
@@ -800,14 +814,14 @@
                               </option>
                               <option
                                 class="text-black"
-                                v-for="sd in registEmp.employer.district
+                                v-for="sd in empInfo.employer.district
                                   .subDistrictList"
                                 :key="sd.idSubdistrict"
                                 :value="sd"
                               >
                                 {{ sd.subDistrict }}
                               </option>
-                            </select> -->
+                            </select>
                           </div>
                           <p v-if="subdisInput" class="text-red-600">
                             กรุณาเลือกตำบล/แขวง
@@ -839,6 +853,8 @@
                               ></i>
                             </div>
                             <input
+                              v-if="!isEditDistrict"
+                              @focus="editProvince('district')"
                               type="text"
                               class="
                                 w-full
@@ -853,13 +869,14 @@
                                 focus:border-indigo-500
                               "
                               :placeholder="
-                                $store.state.auth.user.employer.district
-                                  .districtName
+                                empInfo.employer.district.districtName
                               "
                             />
-                            <!-- <select
+                            <select
+                              v-if="isEditDistrict"
+                              @blur="blur('district')"
                               type="text"
-                              v-model.trim="registEmp.employer.district"
+                              v-model.trim="empInfo.employer.district"
                               class="
                                 select select-bordered
                                 w-full
@@ -879,14 +896,14 @@
                               </option>
                               <option
                                 class="text-black"
-                                v-for="d in this.registEmp.employer.province
+                                v-for="d in empInfo.employer.province
                                   .districtList"
                                 :key="d.idDistrict"
                                 :value="d"
                               >
                                 {{ d.districtName }}
                               </option>
-                            </select> -->
+                            </select>
                           </div>
                           <p v-if="districtInput" class="text-red-600">
                             กรุณาเลือกอำเภอ/เขต
@@ -920,6 +937,8 @@
                               ></i>
                             </div>
                             <input
+                              v-if="!isEditProvince"
+                              @focus="editProvince('province')"
                               type="text"
                               class="
                                 w-full
@@ -934,13 +953,14 @@
                                 focus:border-indigo-500
                               "
                               :placeholder="
-                                $store.state.auth.user.employer.province
-                                  .provinceName
+                                empInfo.employer.province.provinceName
                               "
                             />
-                            <!-- <select
+                            <select
+                              v-if="isEditProvince"
+                              @blur="blur('province')"
                               type="text"
-                              v-model.trim="registEmp.employer.province"
+                              v-model.trim="empInfo.employer.province"
                               class="
                                 select select-bordered
                                 w-full
@@ -966,7 +986,7 @@
                               >
                                 {{ p.provinceName }}
                               </option>
-                            </select> -->
+                            </select>
                           </div>
                           <p v-if="provinceInput" class="text-red-600">
                             กรุณาเลือกจังหวัด
@@ -999,6 +1019,7 @@
                             </div>
                             <input
                               type="tel"
+                              v-model="empInfo.employer.subDistrict.postcode"
                               class="
                                 w-full
                                 -ml-10
@@ -1094,6 +1115,7 @@
                             ></i>
                           </div>
                           <input
+                            v-model="empInfo.employer.phone"
                             type="tel"
                             maxlength="10"
                             class="
@@ -1108,7 +1130,7 @@
                               placeholder-black placeholder-opacity-100
                               focus:border-indigo-500
                             "
-                            :placeholder="tel"
+                            :placeholder="$store.state.auth.user.employer.phone"
                             onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                           />
                         </div>
@@ -1145,6 +1167,7 @@
                           </div>
                           <input
                             type="tel"
+                            v-model="empInfo.employer.tel"
                             maxlength="9"
                             class="
                               w-full
@@ -1158,11 +1181,11 @@
                               placeholder-black placeholder-opacity-100
                               focus:border-indigo-500
                             "
-                            placeholder="เบอร์โทรศัพท์"
+                            :placeholder="$store.state.auth.user.employer.tel"
                             onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                           />
                         </div>
-                        <p v-if="phoneInput" class="text-red-600">
+                        <p v-if="telInput" class="text-red-600">
                           กรุณากรอกเบอร์โทรศัพท์
                         </p>
                       </div>
@@ -1238,6 +1261,7 @@
                             ></i>
                           </div>
                           <input
+                            v-model="empInfo.employer.lineId"
                             type="text"
                             class="
                               w-full
@@ -1251,12 +1275,11 @@
                               placeholder-black placeholder-opacity-100
                               focus:border-indigo-500
                             "
-                            placeholder="ID Line"
+                            :placeholder="
+                              $store.state.auth.user.employer.lineId
+                            "
                           />
                         </div>
-                        <p v-if="phoneInput" class="text-red-600">
-                          กรุณากรอก ID Line
-                        </p>
                       </div>
                     </div>
 
@@ -1278,6 +1301,7 @@
         </div>
         <div class="w-full flex space-x-5 justify-center font-sans-thai">
           <button
+            @click="sendEdit()"
             type="submit"
             class="
               btn
@@ -1345,6 +1369,27 @@ export default {
   components: {},
   data() {
     return {
+      image:
+        `${process.env.VUE_APP_ROOT_API}main/image/` +
+        this.$store.state.auth.user.employer.profile,
+      UpPic: false,
+      emailInput: false,
+      passwordInput: false,
+      estnameInput: false,
+      workerTypeInput: false,
+      idenNoInput: false,
+      nationInput: false,
+      firstnameInput: false,
+      middlenameInput: false,
+      lastnameInput: false,
+      addressInput: false,
+      subdisInput: false,
+      districtInput: false,
+      provinceInput: false,
+      postCodeInput: false,
+      sexInput: false,
+      phoneInput: false,
+      telInput: false,
       sex,
       workerType,
       nationFreeze,
@@ -1353,19 +1398,122 @@ export default {
       lastname: "",
       nationality: "",
       tel: "",
-      image: "",
-      numTab: "",
+      // image: "",
+      empInfo: {},
+      provinceForm: [],
+      isEditProvince: false,
+      isEditDistrict: false,
+      isEditSubDistrict: false,
+      picture: null,
+
+      secPassInput: false,
     };
   },
   methods: {
-    async sendDelete() {
-      if (confirm("คุณต้องการจะลบบัญชีใช่หรือไม่")) {
-        console.log("idAccount = " + this.$store.state.auth.user.idAccount);
-        await axios.put(
-          `${process.env.VUE_APP_ROOT_API}worker/deleteMyWorker?idWorker=` +
-            this.$store.state.auth.user.worker.idWorker
-        ).data;
+    async sendEdit() {
+      console.log("เข้า 1")
+      this.check();
+      if(confirm('ต้องการจะส่งคำขอการแก้ไขไปให้แอดมินหรือไม่')){
+        console.log("เข้า 2")
+      if (
+        !this.UpPic &&
+        !this.emailInput &&
+        !this.passwordInput &&
+        !this.estnameInput &&
+        !this.firstnameInput &&
+        !this.lastnameInput &&
+        !this.addressInput &&
+        !this.subdisInput &&
+        !this.districtInput &&
+        !this.provinceInput &&
+        !this.postCodeInput &&
+        !this.phoneInput &&
+        !this.telInput
+      ) {
+        console.log("เข้า 3")
+        const employer = JSON.stringify(this.empInfo.employer);
+        console.log(employer)
+        const customConfig = {
+        headers: {
+          "Content-Type": "application/json",
+          },
+        }
+        
+        await axios.post(
+          `${process.env.VUE_APP_ROOT_API}emp/editMyEmployer`, employer, customConfig);
+      
+      // if (confirm("คุณต้องการจะลบบัญชีใช่หรือไม่")) {
+      //   console.log("idAccount = " + this.$store.state.auth.user.idAccount);
+      //   await axios.put(
+      //     `${process.env.VUE_APP_ROOT_API}worker/deleteMyWorker?idWorker=` +
+      //       this.$store.state.auth.user.worker.idWorker
+      //   ).data;
+      // }
+      console.log("เข้า 4")
+    }
       }
+    },
+    check() {
+      this.UpPic =
+        this.image == ''
+      this.emailInput = this.empInfo.employer.email === ""
+      this.estnameInput = this.empInfo.employer.establishmentName === ""
+      this.firstnameInput = this.empInfo.employer.entrepreneurfName === ""
+      this.lastnameInput = this.empInfo.employer.entrepreneurlName === ""
+      this.addressInput = this.empInfo.employer.address === ""
+      this.provinceInput = this.empInfo.employer.province.idProvince === ""
+      this.districtInput = this.empInfo.employer.district.idDistrict === ""
+      this.subdisInput = this.empInfo.employer.subDistrict.idSubdistrict === ""
+      this.postCodeInput = this.empInfo.employer.subDistrict.postcode === "" || this.empInfo.employer.subDistrict.postcode.length != 5
+      this.phoneInput = this.empInfo.employer.phone === "" || this.empInfo.employer.phone.length !== 10
+      this.telInput = this.empInfo.employer.tel === "" || this.empInfo.employer.tel.length != 9
+
+    },
+    async uploadImg(event) {
+      const file = event.target.files[0];
+      if (this.isImage(file.name)) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          this.image = event.target.result;
+          this.UpPic =
+            this.image ==
+            `${process.env.VUE_APP_ROOT_API}main/image/` +
+              this.$store.state.auth.user.employer.profile
+              ? true
+              : false;
+        };
+        reader.readAsDataURL(file);
+        this.imgFile = file;
+        this.picture = this.imgFile.name;
+
+        // if (this.signType == "worker") {
+        //   this.registWorker.worker.verifyPic = this.picture;
+        //   console.log(this.registWorker.worker.verifyPic);
+        // }
+        this.empInfo.employer.profile = this.picture;
+        console.log(this.empInfo.employer.profile);
+
+        // filename.split('.').slice(0, -1).join('.')
+        // this.img = file.name;
+      } else {
+        return "Please upload only picture.";
+      }
+    },
+    checkName(picFile) {
+      var checkWords = picFile.split(".");
+      return checkWords[checkWords.length - 1];
+    },
+    isImage(picFile) {
+      var realCheckName = this.checkName(picFile);
+      switch (realCheckName.toLowerCase()) {
+        case "jpg":
+        case "gif":
+        case "bmp":
+        case "png":
+        case "jpeg":
+          return true;
+      }
+      return false;
     },
     async fetch(url) {
       try {
@@ -1376,6 +1524,24 @@ export default {
         console.log(error);
       }
     },
+    editProvince(type) {
+      if (type == "province") {
+        this.isEditProvince = true;
+      } else if (type == "district") {
+        this.isEditDistrict = true;
+      } else if (type == "subDistrict") {
+        this.isEditSubDistrict = true;
+      }
+    },
+    blur(type) {
+      if (type == "province") {
+        this.isEditProvince = false;
+      } else if (type == "district") {
+        this.isEditDistrict = false;
+      } else if (type == "subDistrict") {
+        this.isEditSubDistrict = false;
+      }
+    },
   },
   async created() {
     if (
@@ -1383,12 +1549,68 @@ export default {
       this.$store.state.auth.user.role.idRole != "1"
     ) {
       if (this.$store.state.auth.user.role.idRole == "2") {
-        this.firstname = this.$store.state.auth.user.employer.entrepreneurfName;
-        this.lastname = this.$store.state.auth.user.employer.entrepreneurlName;
-        this.nationality =
-          this.$store.state.auth.user.employer.nationality.nationality_name;
-        this.tel = this.$store.state.auth.user.employer.tel;
-        this.image = "1";
+        console.log(this.$store.state.auth.user);
+        this.provinceForm = await this.fetch(
+          `${process.env.VUE_APP_ROOT_API}main/allProvince`
+        );
+        this.empInfo = {
+          employer: {
+            idEmployer: this.$store.state.auth.user.employer.idEmployer,
+            establishmentName: this.$store.state.auth.user.employer.establishmentName,
+            entrepreneurfName: this.$store.state.auth.user.employer.entrepreneurfName,
+            entrepreneurlName: this.$store.state.auth.user.employer.entrepreneurlName,
+            address: this.$store.state.auth.user.employer.address,
+            tel: this.$store.state.auth.user.employer.tel,
+            phone: this.$store.state.auth.user.employer.phone,
+            email: this.$store.state.auth.user.employer.email,
+            lineId: this.$store.state.auth.user.employer.lineId,
+            profile: this.$store.state.auth.user.employer.profile,
+            businesstype: {
+              idBusinessType:
+                this.$store.state.auth.user.employer.businesstype
+                  .idBusinessType,
+              nameType:
+                this.$store.state.auth.user.employer.businesstype.nameType,
+            },
+            account: {
+              idAccount: this.$store.state.auth.user.idAccount,
+              employer:{
+                idEmployer: this.$store.state.auth.user.employer.idEmployer,
+              },
+              role: { idRole: 2, roleName: "ROLE_EMP" },
+              email: this.$store.state.auth.user.employer.email
+
+            },
+            province: {
+              idProvince:
+                this.$store.state.auth.user.employer.province.idProvince,
+              provinceName:
+                this.$store.state.auth.user.employer.province.provinceName,
+            },
+            district: {
+              idDistrict:
+                this.$store.state.auth.user.employer.district.idDistrict,
+              districtName:
+                this.$store.state.auth.user.employer.district.districtName,
+            },
+            subDistrict: {
+              idSubdistrict:
+                this.$store.state.auth.user.employer.subDistrict.idSubdistrict,
+              subDistrict:
+                this.$store.state.auth.user.employer.subDistrict.subDistrict,
+              postcode:
+                this.$store.state.auth.user.employer.subDistrict.postcode,
+            },
+            nationality: {
+              idnationality: 1,
+              nationality_name:
+                this.$store.state.auth.user.employer.nationality
+                  .nationality_name,
+            },
+          },
+        };
+        console.log(this.empInfo.employer.profile);
+        console.log(this.$store.state.auth.user.employer.profile);
       } else {
         if (this.$store.state.auth.user.role.idRole == "3") {
           this.firstname = this.$store.state.auth.user.worker.firstName;

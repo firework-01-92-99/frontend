@@ -79,25 +79,25 @@
             <th></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody v-for="a in listApprove.data" :key="a.idApprove">
           <!-- row 1 -->
           <tr>
-            <th>1</th>
+            <th>{{ a.count }}</th>
             <td>
               <div class="flex items-center space-x-3">
-                <div class="font-bold">ชื่อแซ่</div>
+                <div class="font-bold">{{ a.name }}</div>
                 <!-- <div class="text-sm opacity-50">United States</div> -->
               </div>
             </td>
             <td>
-              WORKER/EMP
+              {{ a.workOrEmp }}
               <!-- <br>
           <span class="badge badge-ghost badge-sm">Desktop Support Technician</span> -->
             </td>
-            <td>ประเทศ</td>
+            <td>{{ a.nationlity }}</td>
             <th>
               <!-- detail -->
-              <button class="btn btn-ghost btn-xs" @click="toggleModal = !toggleModal"
+              <button class="btn btn-ghost btn-xs" @click="data(a),toggleModal = !toggleModal"
                 >รายละเอียด</button>
               <!-- <div class="modal modal-bottom sm:modal-middle">
                 <div class="modal-box">
@@ -178,9 +178,68 @@ export default {
     return {
       myAcc: [],
       toggleModal: false,
+      listApprove: [],
+      idApprove: 0,
+      confirmInput: false,
+      statusId: '',
+      info: [],
+      infoEmp: [],
+      editInfoEmp: [],
+      editInfoWorker: [],
     };
   },
-  methods: {},
+  methods: {
+    async data(data) {
+      this.idApprove = data.idApprove
+      console.log("data: ");
+      console.log(data);
+      this.confirmInput = false;
+      this.statusId = "";
+      if (data.workOrEmp == "Worker") {
+        this.iAm = data.workOrEmp
+        await axios
+          .get(
+            `${process.env.VUE_APP_ROOT_API}admin_emp/selectWorker?idWorker=${data.idWorker}`
+          )
+          .then((response) => {
+            this.info = response.data;
+            console.log(this.info);
+            this.image =
+              `${process.env.VUE_APP_ROOT_API}main/image/` +
+              this.info.verifyPic;
+          });
+        // await axios.get(`${process.env.VUE_APP_ROOT_API}main/selectEditEmployer?idEmployer=${data.idEmployer}`)
+        //   .then((response) => {
+        //     this.editInfoWorker = response.data;
+        //     console.log(this.infoEmp);
+        //     this.image =
+        //       `${process.env.VUE_APP_ROOT_API}main/image/` +
+        //       this.info.verifyPic;
+        //   });           
+      }else{
+        this.iAm = data.workOrEmp
+        await axios
+          .get(
+            `${process.env.VUE_APP_ROOT_API}main/selectEmployer?idEmployer=${data.idEmployer}`
+          )
+          .then((response) => {
+            this.infoEmp = response.data;
+            console.log(this.infoEmp);
+            this.image =
+              `${process.env.VUE_APP_ROOT_API}main/image/` +
+              this.infoEmp.profile;
+          });
+        // await axios.get(`${process.env.VUE_APP_ROOT_API}main/selectEditEmployer?idEmployer=${data.idEmployer}`)
+        //   .then((response) => {
+        //     this.editInfoEmp = response.data;
+        //     console.log(this.infoEmp);
+        //     this.image =
+        //       `${process.env.VUE_APP_ROOT_API}main/image/` +
+        //       this.infoEmp.profile;
+        //   });                  
+      }
+    },
+  },
   async created() {
     if (
       this.$store.state.auth.user &&
@@ -191,6 +250,9 @@ export default {
         `${process.env.VUE_APP_ROOT_API}admin/meAdmin`
       );
       this.idAdmin = this.myAcc.data.idAdmin;
+      this.listApprove = await axios.get(
+        `${process.env.VUE_APP_ROOT_API}admin/getAllApproveByIdStatusAndIdRole?idStatus=7&idRole=0`
+      );    
     } else {
       this.$router.push("/");
     }

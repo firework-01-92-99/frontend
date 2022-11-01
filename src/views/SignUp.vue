@@ -1206,8 +1206,8 @@
                           <input
                             @click="onFocus('เบอร์')"
                             type="tel"
-                            v-model.trim="bindPhone"
-                            maxlength="10"
+                            v-model.trim="registEmp.employer.tel"
+                            maxlength="9"
                             class="
                               w-full
                               -ml-10
@@ -1219,12 +1219,12 @@
                               outline-none
                               focus:border-indigo-500
                             "
-                            :class="{ 'bg-red-50': phoneInput }"
+                            :class="{ 'bg-red-50': telInput }"
                             onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                             placeholder="เบอร์โทรศัพท์"
                           />
                         </div>
-                        <p v-if="phoneInput" class="text-red-600">
+                        <p v-if="telInput" class="text-red-600">
                           กรุณากรอกเบอร์โทรศัพท์
                         </p>
                       </div>
@@ -1264,10 +1264,8 @@
                             ></i>
                           </div>
                           <input
-                            @click="onFocus('เบอร์')"
-                            type="tel"
-                            v-model.trim="bindPhone"
-                            maxlength="10"
+                            type="text"
+                            v-model.trim="registEmp.employer.lineId"
                             class="
                               w-full
                               -ml-10
@@ -1279,14 +1277,10 @@
                               outline-none
                               focus:border-indigo-500
                             "
-                            :class="{ 'bg-red-50': phoneInput }"
                             onkeypress="return event.charCode >= 48 && event.charCode <= 57"
-                            placeholder="ID Line"
+                            placeholder="ไอดีไลน์"
                           />
                         </div>
-                        <p v-if="phoneInput" class="text-red-600">
-                          กรุณากรอก ID LINE
-                        </p>
                       </div>
                     </div>
 
@@ -1491,6 +1485,7 @@ export default {
       postCodeInput: false,
       sexInput: false,
       phoneInput: false,
+      telInput: false,
       error: "",
       showError: false,
       errorMail: false,
@@ -1621,6 +1616,7 @@ export default {
         this.bindPhone.length !== 10
           ? true
           : false;
+          this.telInput = this.registEmp.employer.tel === "" || this.registEmp.employer.tel.length != 9
       this.tickPolicy = this.selectPolicy === "" ? true : false;
     },
     checknation() {
@@ -1732,6 +1728,7 @@ export default {
         !this.provinceInput &&
         !this.postCodeInput &&
         !this.phoneInput &&
+        !this.telInput &&
         !this.tickPolicy
       ) {
         this.registEmp.email = this.bindEmail;
@@ -1917,7 +1914,10 @@ export default {
         this.sexInput = false;
       } else if (t == "เบอร์") {
         this.phoneInput = false;
-      } else {
+      }else if(t == "เบอร์บริษัท"){
+        this.telInput = false;
+      }
+       else {
         console.log("nothing");
       }
     },
