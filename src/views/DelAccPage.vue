@@ -1473,6 +1473,110 @@
                                   </div>
                                 </div>
                               </div>
+
+ <div class="2xl:flex 2xl:-mx-3">
+                                <div class="w-full px-3 mb-5">
+                        <label
+                          for=""
+                          class="text-sm 2xl:text-base font-medium px-1"
+                          >ID Line</label
+                        >
+                        <div class="flex">
+                          <div
+                            class="
+                              w-10
+                              z-10
+                              pl-1
+                              text-center
+                              pointer-events-none
+                              flex
+                              items-center
+                              justify-center
+                            "
+                          >
+                            <i
+                              class="
+                                mdi mdi-account-outline
+                                text-gray-400 text-lg
+                              "
+                            ></i>
+                          </div>
+                          <input
+                            v-model="empInfo.employer.lineId"
+                            type="text"
+                            class="
+                              w-full
+                              -ml-10
+                              pl-5
+                              pr-3
+                              py-2
+                              rounded-lg
+                              border-2 border-gray-200
+                              outline-none
+                              placeholder-black placeholder-opacity-100
+                              focus:border-indigo-500
+                            "
+                            :placeholder="
+                              $store.state.auth.user.employer.lineId
+                            "
+                          />
+                        </div>
+                      </div>
+                              </div>
+
+                      <div class="2xl:flex 2xl:-mx-3">
+                            <div class="w-full px-3 mb-5">
+                        <label
+                          for=""
+                          class="text-sm 2xl:text-base font-medium px-1"
+                          >เบอร์โทรศัพท์</label
+                        >
+                        <div class="flex">
+                          <div
+                            class="
+                              w-10
+                              z-10
+                              pl-1
+                              text-center
+                              pointer-events-none
+                              flex
+                              items-center
+                              justify-center
+                            "
+                          >
+                            <i
+                              class="
+                                mdi mdi-account-outline
+                                text-gray-400 text-lg
+                              "
+                            ></i>
+                          </div>
+                          <input
+                            type="tel"
+                            v-model="empInfo.employer.tel"
+                            maxlength="9"
+                            class="
+                              w-full
+                              -ml-10
+                              pl-5
+                              pr-3
+                              py-2
+                              rounded-lg
+                              border-2 border-gray-200
+                              outline-none
+                              placeholder-black placeholder-opacity-100
+                              focus:border-indigo-500
+                            "
+                            :placeholder="$store.state.auth.user.employer.tel"
+                            onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                          />
+                        </div>
+                        <p v-if="telInput" class="text-red-600">
+                          กรุณากรอกเบอร์โทรศัพท์
+                        </p>
+                      </div>
+                              </div>
+
                             </div>
 
                             <div
