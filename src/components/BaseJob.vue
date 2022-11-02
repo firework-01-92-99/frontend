@@ -100,6 +100,11 @@
                     ? getPostbyEmp(job.idEmployer).establishmentName
                     : ""
                 }}
+                <div class="rating rating-sm">
+                  <span class="font-normal pr-2">|</span>
+                  <input type="radio" name="rating-2" class=" mask mask-star-2 bg-orange-400" checked />
+                  <span class="font-normal pl-1">4.5</span>
+                </div>
               </h2>
               <p>
                 <span class="inline-block align-middle"
