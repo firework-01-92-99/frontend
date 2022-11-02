@@ -879,8 +879,8 @@
 
     <!-- modal -->
     <div v-if="toggleModal" class="fixed overflow-x-hidden overflow-y-auto inset-0 flex justify-center items-center z-50">
-      <div class="relative mx-auto w-auto max-w-2xl">
-        <div class="bg-white w-full overflow-y-auto h-96 rounded shadow-2xl flex flex-col">
+      <div class="relative mx-auto 2xl:w-1/2 md:w-11/12 w-11/12 h-5/6">
+        <div class="bg-white w-full overflow-y-auto h-full rounded shadow-2xl flex flex-col">
           <div class="p-8">
                 <div class="w-11/12 2xl:max-w-xl md:max-w-sm">
                   <h3 class="font-bold text-lg">รายละเอียด</h3>
@@ -1519,6 +1519,7 @@
                             :placeholder="
                               $store.state.auth.user.employer.lineId
                             "
+                            disabled
                           />
                         </div>
                       </div>
@@ -1568,12 +1569,9 @@
                               focus:border-indigo-500
                             "
                             :placeholder="$store.state.auth.user.employer.tel"
-                            onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                            disabled
                           />
                         </div>
-                        <p v-if="telInput" class="text-red-600">
-                          กรุณากรอกเบอร์โทรศัพท์
-                        </p>
                       </div>
                               </div>
 
@@ -1668,7 +1666,7 @@
                                   v-if="iAm == 'Employer'"
                                   for=""
                                   class="text-base font-medium px-1"
-                                  >ภาพสถานประกอบการ</label
+                                  >ภาพ Logo ของสถานประกอบการ</label
                                 >
                                 <label
                                   v-if="iAm == 'Worker'"
