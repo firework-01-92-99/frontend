@@ -116,8 +116,8 @@
     </div>
     <!-- modal -->
     <div v-if="toggleModal" class="fixed overflow-x-hidden overflow-y-auto inset-0 flex justify-center items-center z-50">
-      <div class="relative mx-auto w-auto max-w-2xl">
-        <div class="bg-white w-full overflow-y-auto h-96 rounded shadow-2xl flex flex-col">
+      <div class="relative mx-auto 2xl:w-1/2 md:w-11/12 w-11/12 h-5/6">
+        <div class="bg-white w-full overflow-y-auto h-full rounded shadow-2xl flex flex-col">
           <div v-show="iAm == 'Employer' || iAm == 'Worker'" class=" p-8">
                 
                   <h3 class="font-bold text-lg">รายละเอียด</h3>
@@ -166,7 +166,7 @@
                                       placeholder-black placeholder-opacity-100
                                     "
                                     :placeholder="
-                                      infoEmp.establishmentName
+                                      infoEmp.establishmentName + ' (เก่า)' + ' → ' + infoEmp.establishmentName + ' (ใหม่)'
                                     "
                                     disabled
                                   />
@@ -174,7 +174,7 @@
                               </div>
                             </div>
 
-                            <div v-else class="flex -mx-3">
+                            <!-- <div v-else class="flex -mx-3">
 
                               <div class="w-full px-3 mb-5">
                                 <label for="" class="text-base font-medium px-1"
@@ -259,9 +259,9 @@
                                   />
                                 </div>
                               </div>
-                            </div>
+                            </div> -->
 
-                            <div
+                            <!-- <div
                               v-if="aa"
                               class="flex -mx-3"
                             >
@@ -302,9 +302,9 @@
                                   />
                                 </div>
                               </div>
-                            </div>
+                            </div> -->
 
-                            <div v-if="work" class="flex -mx-3">
+                            <!-- <div v-if="work" class="flex -mx-3">
                               <div class="w-full px-3 mb-5">
                                 <label
                                   for=""
@@ -342,7 +342,7 @@
                                   />
                                 </div>
                               </div>
-                            </div>
+                            </div> -->
 
                             <div class="2xl:flex 2xl:-mx-3">
                               <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
@@ -375,7 +375,7 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="iAm == 'Worker' ? infoWorker.firstName : infoEmp.entrepreneurfName"
+                                    :placeholder="iAm == 'Worker' ? infoWorker.firstName + ' (เก่า)' + ' → ' + infoWorker.firstName + ' (ใหม่)' : infoEmp.entrepreneurfName + ' (เก่า)' + ' → ' + infoEmp.entrepreneurfName + + ' (ใหม่)'"
                                     disabled
                                   />
                                 </div>
@@ -414,7 +414,7 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="infoWorker.middleName"
+                                    :placeholder="infoWorker.middleName + ' (เก่า)' + ' → ' + infoWorker.middleName + ' (ใหม่)'"
                                     disabled
                                   />
                                 </div>
@@ -457,7 +457,7 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="iAm == 'Worker' ? infoWorker.lastName : infoEmp.entrepreneurlName"
+                                    :placeholder="iAm == 'Worker' ? infoWorker.lastName + ' (เก่า)' + ' → ' + infoWorker.lastName + ' (ใหม่)' : infoEmp.entrepreneurlName + ' (เก่า)' + ' → ' + infoEmp.entrepreneurlName + ' (ใหม่)'"
                                     disabled
                                   />
                                 </div>
@@ -508,7 +508,7 @@
                                         placeholder-opacity-100
                                       "
                                       :placeholder="
-                                        infoEmp.address
+                                        infoEmp.address + ' (เก่า)' + ' → ' + infoEmp.address + ' (ใหม่)'
                                       "
                                       disabled
                                     />
@@ -558,7 +558,7 @@
                                         placeholder-opacity-100
                                       "
                                       :placeholder="
-                                        infoEmp.subDistrict ? infoEmp.subDistrict.subDistrict : ''
+                                        infoEmp.subDistrict ? infoEmp.subDistrict.subDistrict + ' (เก่า)' + ' → ' + infoEmp.subDistrict.subDistrict + ' (ใหม่)' : ''
                                       "
                                       disabled
                                     />
@@ -606,7 +606,7 @@
                                         placeholder-opacity-100
                                       "
                                       :placeholder="
-                                        infoEmp.district ? infoEmp.district.districtName : ''
+                                        infoEmp.district ? infoEmp.district.districtName + ' (เก่า)' + ' → ' + infoEmp.district.districtName + ' (ใหม่)' : ''
                                       "
                                       disabled
                                     />
@@ -656,7 +656,7 @@
                                         placeholder-opacity-100
                                       "
                                       :placeholder="
-                                        infoEmp.province ? infoEmp.province.provinceName : ''
+                                        infoEmp.province ? infoEmp.province.provinceName + ' (เก่า)' + ' → ' + infoEmp.province.provinceName + ' (ใหม่)' : ''
                                       "
                                       disabled
                                     />
@@ -704,7 +704,7 @@
                                         placeholder-opacity-100
                                       "
                                       :placeholder="
-                                        infoEmp.subDistrict ? infoEmp.subDistrict.postcode : ''
+                                        infoEmp.subDistrict ? infoEmp.subDistrict.postcode + ' (เก่า)' + ' → ' + infoEmp.subDistrict.postcode + ' (ใหม่)' : ''
                                       "
                                       disabled
                                     />
@@ -755,8 +755,9 @@
                               focus:border-indigo-500
                             "
                             :placeholder="
-                              $store.state.auth.user.employer.lineId
+                              $store.state.auth.user.employer.lineId + ' (เก่า)' + ' → ' + $store.state.auth.user.employer.lineId + ' (ใหม่)'
                             "
+                            disabled
                           />
                         </div>
                       </div>
@@ -805,13 +806,10 @@
                               placeholder-black placeholder-opacity-100
                               focus:border-indigo-500
                             "
-                            :placeholder="$store.state.auth.user.employer.tel"
-                            onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                            :placeholder="$store.state.auth.user.employer.tel + ' (เก่า)' + ' → ' + $store.state.auth.user.employer.tel + ' (ใหม่)' "
+                            disabled
                           />
                         </div>
-                        <p v-if="telInput" class="text-red-600">
-                          กรุณากรอกเบอร์โทรศัพท์
-                        </p>
                       </div>
                               </div>
 
@@ -820,7 +818,7 @@
                             <div
                               class="flex -mx-3"
                             >
-                              <div v-if="work" class="w-full px-3 mb-5">
+                              <!-- <div v-if="work" class="w-full px-3 mb-5">
                                 <label for="" class="text-base font-medium px-1"
                                   >เพศ</label
                                 >
@@ -854,7 +852,7 @@
                                     disabled
                                   />
                                 </div>
-                              </div>
+                              </div> -->
                               <div v-if="aa || work " class="w-full px-3 mb-5">
                                 <label for="" class="text-base font-medium px-1"
                                   >เบอร์โทรศัพท์</label
@@ -893,7 +891,7 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="iAm == 'Worker' ? infoWorker.phone : infoEmp.phone"
+                                    :placeholder="iAm == 'Worker' ? infoWorker.phone + ' (เก่า)' + ' → ' + infoWorker.phone + ' (ใหม่)' : infoEmp.phone + ' (เก่า)' + ' → ' + infoEmp.phone + ' (ใหม่)' "
                                     disabled
                                   />
                                 </div>
@@ -906,7 +904,7 @@
                                   v-if="aa"
                                   for=""
                                   class="text-base font-medium px-1"
-                                  >ภาพสถานประกอบการ</label
+                                  >ภาพ Logo ของสถานประกอบการ</label
                                 >
                                 <label
                                   v-if="work"
@@ -914,7 +912,9 @@
                                   class="text-base font-medium px-1"
                                   >ภาพยืนยันตัวตน</label
                                 >
-                                <img :src="image" />
+                                <div class="flex">
+                                <img class="object-cover w-1/3" :src="image" />
+                                <span class="px-10 font-medium text-4xl">→</span><img class="object-cover w-1/3" :src="image" /></div>
                               </div>
                             </div>
                           </div>
