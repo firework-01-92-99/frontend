@@ -513,13 +513,13 @@
         z-50
       "
     >
-      <div class="relative mx-auto w-auto max-w-2xl">
+      <div class="relative mx-auto 2xl:w-1/2 md:w-11/12 w-11/12 h-5/6">
         <div
           class="
             bg-white
             w-full
             overflow-y-auto
-            h-96
+            h-full
             rounded
             shadow-2xl
             flex flex-col
@@ -817,7 +817,7 @@
                         </div>
                         <div class="w-full px-3 mb-5">
                           <label for="" class="text-base font-medium px-1"
-                            >เบอร์โทรศัพท์</label
+                            >เบอร์โทรศัพท์ (มือถือ)</label
                           >
                           <div class="flex">
                             <div
@@ -865,7 +865,7 @@
                           <label for="" class="text-base font-medium px-1"
                             >ภาพยืนยันตัวตน</label
                           >
-                          <img :src="image" />
+                          <img class="rounded-lg object-cover 2xl:w-1/3 md:w-1/2 w-3/4" :src="image" />
                         </div>
                       </div>
                     </div>
@@ -874,6 +874,8 @@
               </div>
             </div>
             <div class="w-full px-3 mb-5">
+              
+              <div>
               <div class="2xl:flex 2xl:space-x-5">
                 <div class="form-control">
                   <label class="label cursor-pointer 2xl:space-x-2">
@@ -908,6 +910,55 @@
                 class="textarea textarea-bordered w-full h-36"
                 placeholder="หมายเหตุที่ไม่อนุมัติ"
               ></textarea>
+              </div>
+
+          <!-- rating -->
+              <div v-if="idStatus == 24" class="flex flex-col w-full">
+          <div class="rating mt-1">
+            <input
+              type="radio"
+              name="rating-2"
+              class="mask mask-star-2 bg-orange-400"
+              :value="1"
+              v-model="giveRate"
+            />
+            <input
+              type="radio"
+              name="rating-2"
+              class="mask mask-star-2 bg-orange-400"
+              :value="2"
+              v-model="giveRate"
+            />
+            <input
+              type="radio"
+              name="rating-2"
+              class="mask mask-star-2 bg-orange-400"
+              :value="3"
+              v-model="giveRate"
+            />
+            <input
+              type="radio"
+              name="rating-2"
+              class="mask mask-star-2 bg-orange-400"
+              :value="4"
+              v-model="giveRate"
+            />
+            <input
+              type="radio"
+              name="rating-2"
+              class="mask mask-star-2 bg-orange-400"
+              :value="5"
+              v-model="giveRate"
+            />
+          </div>
+          <div class="w-full mt-3">
+            <textarea
+              class="textarea textarea-bordered w-full"
+              placeholder="ระบุความคิดเห็น"
+            ></textarea>
+          </div>
+        </div>
+
             </div>
 
             <div class="">
@@ -1070,6 +1121,14 @@ export default {
         console.log(error);
       }
     },
+    async callData(){
+      this.whoApplication = await axios.get(
+            `${process.env.VUE_APP_ROOT_API}main/showAllWorker?idPosting=` +
+              this.idPost +
+              "&idStatus=" +
+              this.idStatus
+          );
+    },
   },
   async created() {
     if (
@@ -1096,12 +1155,7 @@ export default {
       if (this.idStatus == 11) {
         console.log("idStatus =" + this.idStatus);
         this.topic = "รายการผู้สมัคร";
-        this.whoApplication = await axios.get(
-          `${process.env.VUE_APP_ROOT_API}main/showAllWorker?idPosting=` +
-            this.idPost +
-            "&idStatus=" +
-            this.idStatus
-        );
+        this.callData()
         console.log(
           "ถุยให้แล้ว" +
             "idPost = " +
@@ -1110,18 +1164,19 @@ export default {
             this.idStatus
         );
         console.log(this.whoApplication);
-      } else {
-        if (this.idStatus == 12) {
+      } else if(this.idStatus == 12) {
           console.log("idStatus =" + this.idStatus);
           this.topic = "รายการที่รับสมัครแล้ว";
-          this.whoApplication = await axios.get(
-            `${process.env.VUE_APP_ROOT_API}main/showAllWorker?idPosting=` +
-              this.idPost +
-              "&idStatus=" +
-              this.idStatus
-          );
-        }
-      }
+          this.callData()
+      } else if(this.idStatus == 21) {
+          console.log("idStatus =" + this.idStatus);
+          this.topic = "รายการที่กำลังทำงาน";
+          this.callData()
+      } else if(this.idStatus == 24) {
+          console.log("idStatus =" + this.idStatus);
+          this.topic = "รายการที่รอให้คะแนน";
+          this.callData()
+      } 
     },
   },
 };

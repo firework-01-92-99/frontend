@@ -26,14 +26,14 @@
           >
           <a
             class="tab tab-bordered"
-            :class="{ 'tab-active font-medium': idStatus == 12 }"
-            @click="idStatus = 12"
+            :class="{ 'tab-active font-medium': idStatus == 21 }"
+            @click="idStatus = 21"
             >คนงานที่กำลังทำงาน</a
           >
           <a
             class="tab tab-bordered"
-            :class="{ 'tab-active font-medium': idStatus == 12 }"
-            @click="idStatus = 12"
+            :class="{ 'tab-active font-medium': idStatus == 24 }"
+            @click="idStatus = 24"
             >ให้คะแนนคนงาน</a
           >
           </template
