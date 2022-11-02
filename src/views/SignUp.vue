@@ -1171,7 +1171,7 @@
                         </p>
                       </div>
 
-                       <div class="w-full px-3 mb-5">
+                       <div v-if="signType == 'employer'" class="w-full px-3 mb-5">
                         <label
                           for=""
                           class="
@@ -1230,7 +1230,7 @@
                       </div>
                     </div>
 
-                    <div class="flex -mx-3">
+                    <div v-if="signType == 'employer'" class="flex -mx-3">
                       <div class="w-full px-3 mb-5">
                         <label
                           for=""
@@ -1277,7 +1277,6 @@
                               outline-none
                               focus:border-indigo-500
                             "
-                            onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                             placeholder="ไอดีไลน์"
                           />
                         </div>
@@ -1290,7 +1289,7 @@
                           v-if="signType == 'employer'"
                           for=""
                           class="text-base font-medium px-1"
-                          >ภาพ Logo ของบริษัท</label
+                          >ภาพ Logo ของสถานประกอบการ</label
                         >
                         <label
                           v-if="signType == 'worker'"
