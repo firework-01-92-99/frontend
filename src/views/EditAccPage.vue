@@ -23,28 +23,27 @@
             สวัสดีคุณ
             {{ myAcc.data.firstName + " " + myAcc.data.lastName }}
           </h1>
-          <!-- <p class="mb-5">ขยันทำงานด้วยนะไอสัส อย่าอู้ ขอบใจ จากเจ้านายพวกมึง ด้วยรักและห่วงใย</p> -->
         </div>
       </div>
     </div>
-    <div class="2xl:p-6 2xl:pl-32 xl:p-6 lg:p-6 md:p-6 p-3 pt-5">
+    <div class="2xl:p-6 2xl:pl-32 xl:p-6 lg:p-6 md:p-6 md:pl-14 p-3 pt-5 pl-8">
       <base-tab
         ><template
           ><a
             :class="{ 'tab-active': routes == 'ApproveAccPage' }"
-            class="tab tab-bordered"
+            class="tab tab-bordered 2xl:text-base md:text-base text-xs"
             @click="$router.push('/approve')"
           >
             ตรวจสอบบัญชี
           </a>
           <a
-            class="tab tab-bordered tab-active font-medium"
+            class="tab tab-bordered tab-active font-medium 2xl:text-base md:text-base text-xs"
             :class="{ 'tab-active': routes == 'EditAccPage' }"
             @click="$router.push('/approve/edit')"
             >คำขอแก้ไขบัญชี</a
           >
           <a
-            class="tab tab-bordered"
+            class="tab tab-bordered 2xl:text-base md:text-base text-xs"
             :class="{ 'tab-active': routes == 'DelAccPage' }"
             @click="$router.push('/approve/delete')"
             >คำขอลบบัญชี</a
@@ -52,22 +51,24 @@
         ></base-tab
       >
     </div>
-    <div class="overflow-x-auto w-10/12 mx-auto font-sans-thai">
-      <p
+    <p
         class="
-          text-2xl
+          2xl:text-2xl
+          md:text-xl
+          sm:text-lg
           font-semibold
-          2xl:p-6 2xl:pl-12
+          2xl:p-6 2xl:pl-28
           xl:p-6
           lg:p-6
-          md:p-6
+          md:p-6 md:pl-12
           p-3
           pt-5
           ml-3.5
         "
       >
         การแก้ไขบัญชี
-      </p>
+    </p>
+    <div class="overflow-x-auto w-10/12 mx-auto font-sans-thai">
       <table class="table w-full">
         <!-- head -->
         <thead>

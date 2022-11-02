@@ -561,7 +561,9 @@
                     justify-center
                   "
                 ></div>
-                <input
+                <div class="flex flex-col">
+                <div class="flex flex-row w-full">
+                  <input
                   type="text"
                   v-model.trim="postInfo.startTime"
                   class="
@@ -579,10 +581,14 @@
                   "
                   :class="{ 'bg-red-50': startTimeInput }"
                   placeholder="เวลาเริ่มงาน เช่น 9:00"
-                />
-                <p v-if="startTimeInput" class="text-red-600">
+                  />
+                </div>
+                <div class="justify-start">
+                  <p v-if="startTimeInput" class="text-red-600">
                   กรุณากรอกเวลาเริ่มงาน
-                </p>
+                  </p>
+                </div>
+                </div>
               </div>
             </div>
             <span class="pt-9 2xl:pr-1 md:pr-1 2xl:-ml-0 md:-ml-0 -ml-14">-</span>
@@ -601,7 +607,9 @@
                     justify-center
                   "
                 ></div>
-                <input
+                <div class="flex flex-col">
+                <div class="flex flex-row">
+                  <input
                   type="text"
                   v-model.trim="postInfo.endTime"
                   class="
@@ -619,10 +627,14 @@
                   "
                   :class="{ 'bg-red-50': endTimeInput }"
                   placeholder="เวลาเลิกงาน เช่น 18:00"
-                /><span class="pl-2 py-2">น.</span>
-                <p v-if="endTimeInput" class="text-red-600">
+                  /><span class="pl-2 py-2">น.</span>
+                </div>
+                <div>
+                  <p v-if="endTimeInput" class="text-red-600">
                   กรุณากรอกเวลาเลิกงาน
-                </p>
+                  </p>
+                </div>
+                </div>
               </div>
             </div>
           </div>
