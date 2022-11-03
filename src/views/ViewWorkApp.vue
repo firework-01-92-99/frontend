@@ -20,8 +20,8 @@
           </a>
           <a
             class="tab tab-bordered"
-            :class="{ 'tab-active font-medium': idStatus == 12 }"
-            @click="idStatus = 12"
+            :class="{ 'tab-active font-medium': idStatus == 14 }"
+            @click="idStatus = 14"
             >ยืนยันการรับเข้าทำงาน</a
           >
           <a
@@ -84,7 +84,7 @@ export default {
       );
       this.idPosting = this.$route.query.idPost;
       //  console.log(this.idPost + "ถ้าส่ง query(param) url มาได้ก็เรียก whoApp บ้างได้แล้ว")
-      // this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}main/showAllWorker?idPosting=` + this.$route.query.idPost + "&idStatus=" + this.idStatus);
+      // this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` + this.$route.query.idPost + "&idStatus=" + this.idStatus);
       // console.log(this.whoApplication)
     } else {
       this.$router.push("/");

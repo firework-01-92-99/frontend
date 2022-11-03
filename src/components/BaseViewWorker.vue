@@ -874,17 +874,18 @@
               </div>
             </div>
             <div class="w-full px-3 mb-5">
-              
-              <div>
+              {{statusId}}
+              <div v-if="idStatus != 24">
               <div class="2xl:flex 2xl:space-x-5">
                 <div class="form-control">
                   <label class="label cursor-pointer 2xl:space-x-2">
                     <input
+
                       type="radio"
                       v-model.trim="statusId"
                       name="radio-1"
                       class="radio checked:bg-blue-500"
-                      value="12"
+                      :value="chooseAccept"
                     />
                     <span class="label-text 2xl:pr-0 md:pr-56">อนุมัติ</span>
                   </label>
@@ -892,11 +893,12 @@
                 <div class="form-control">
                   <label class="label cursor-pointer 2xl:space-x-2">
                     <input
+
                       type="radio"
                       v-model.trim="statusId"
                       name="radio-2"
                       class="radio checked:bg-red-500"
-                      value="13"
+                      :value="chooseReject"
                     />
                     <span class="label-text 2xl:pr-0 md:pr-52">ไม่อนุมัติ</span>
                   </label>
@@ -913,50 +915,55 @@
               </div>
 
           <!-- rating -->
+
               <div v-if="idStatus == 24" class="flex flex-col w-full">
-          <div class="rating mt-1">
+                <p>กรุณาให้คะแนนแรงงาน</p>
+
+          <div class="rating mt-1">         
             <input
               type="radio"
               name="rating-2"
               class="mask mask-star-2 bg-orange-400"
               :value="1"
-              v-model="giveRate"
+              v-model="rateTo.rate"
             />
             <input
               type="radio"
               name="rating-2"
               class="mask mask-star-2 bg-orange-400"
               :value="2"
-              v-model="giveRate"
+              v-model="rateTo.rate"
             />
             <input
               type="radio"
               name="rating-2"
               class="mask mask-star-2 bg-orange-400"
               :value="3"
-              v-model="giveRate"
+              v-model="rateTo.rate"
             />
             <input
               type="radio"
               name="rating-2"
               class="mask mask-star-2 bg-orange-400"
               :value="4"
-              v-model="giveRate"
+              v-model="rateTo.rate"
             />
             <input
               type="radio"
               name="rating-2"
               class="mask mask-star-2 bg-orange-400"
               :value="5"
-              v-model="giveRate"
+              v-model="rateTo.rate"
             />
           </div>
           <div class="w-full mt-3">
             <textarea
+              v-model="rateTo.comment"
               class="textarea textarea-bordered w-full"
               placeholder="ระบุความคิดเห็น"
             ></textarea>
           </div>
+          <!-- {{timestamp}} -->
         </div>
 
             </div>
@@ -1011,6 +1018,7 @@ export default {
   props: ["idPost", "idStatus"],
   data() {
     return {
+      // timestamp: "",
       sexFreeze,
       workerType,
       ntTypeFreeze,
@@ -1029,25 +1037,76 @@ export default {
       idApplication: "",
       whatWorker: {},
       confirmInput: false,
+      chooseAccept: 12,
+      chooseReject: 13,
+      rateTo:{
+        rate: 5,
+        comment: '',
+        timestamp:'',
+        forwho: '',
+        employer:{},
+        worker:{}
+      },
     };
   },
   methods: {
+    async giveRating(){
+      const vm = this;
+      // if (confirm("ต้องการปฏิเสธบุคคลนี้เข้าทำงานหรือไม่")) {
+      const ratings = JSON.stringify(this.rateTo);
+      const customConfig = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+        const result =
+        await axios.put(
+          `${process.env.VUE_APP_ROOT_API}emp/employerGiveScoreToWorker?idApplication=${this.idApplication}`,
+          ratings,
+          customConfig
+        );
+        vm.whoApplication = axios.get(
+          `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
+            vm.idPost +
+            "&idStatus=" +
+            vm.idStatus
+        );
+        console.log(result.data)      
+    },       
     async acceptOrReject() {
       console.log(this.statusId);
       if (this.statusId != "") {
-        if (this.statusId == "12") {
+        if (this.statusId == 12) { //it's meaning equal to 12 (accept worker on web)
           this.acceptWorker();
-        } else {
-          if (this.statusId == "13") {
+        } else if (this.statusId == 13) {
             this.rejectWorker();
+          }else if(this.statusId == 15){
+            this.acceptWorkerOnSite()
+          }else if(this.statusId == 16){
+            this.rejectWorkerOnSite()
+          }else if(this.statusId == 22){
+            this.finishJob()
+          }else if(this.statusId == 23){
+            this.breakShot()
+          }else if(this.statusId == 24){
+            this.giveRating()
           }
-        }
+        
+        // window.location.reload()
       } else {
         this.confirmInput = true;
         console.log("เลือกก่อนว่าอนุมัติหรือไม่อนุมัติ");
       }
     },
+    // getNow: function() {
+    //                 const today = new Date();
+    //                 const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    //                 const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    //                 const dateTime = date +' '+ time;
+    //                 this.timestamp = dateTime;
+    //             },    
     async openPopUp(object) {
+      // setInterval(this.getNow, 1000)
       console.log(object);
       this.idApplication = object.applicationId;
       await axios
@@ -1071,7 +1130,7 @@ export default {
             `${process.env.VUE_APP_ROOT_API}emp/employerAcceptOnWeb?idApplication=${this.idApplication}`
           ).data;
           vm.whoApplication = await axios.get(
-            `${process.env.VUE_APP_ROOT_API}main/showAllWorker?idPosting=` +
+            `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
               vm.idPost +
               "&idStatus=" +
               vm.idStatus
@@ -1099,7 +1158,7 @@ export default {
           customConfig
         );
         vm.whoApplication = axios.get(
-          `${process.env.VUE_APP_ROOT_API}main/showAllWorker?idPosting=` +
+          `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
             vm.idPost +
             "&idStatus=" +
             vm.idStatus
@@ -1108,6 +1167,73 @@ export default {
         console.log(result.data.data);
       }
     },
+    async acceptWorkerOnSite(){
+      const vm = this
+      await axios.put(`${process.env.VUE_APP_ROOT_API}emp/employerAcceptOnSite?idApplication=${this.idApplication}`).data
+      vm.whoApplication = axios.get(
+          `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
+            vm.idPost +
+            "&idStatus=" +
+            vm.idStatus
+        );
+    },
+    async rejectWorkerOnSite() {
+      const vm = this;
+      // if (confirm("ต้องการปฏิเสธบุคคลนี้เข้าทำงานหรือไม่")) {
+      const comment = JSON.stringify(this.applicationHasComment);
+      const customConfig = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+        const result =
+        await axios.put(
+          `${process.env.VUE_APP_ROOT_API}emp/employerRejectOnSite?idApplication=${this.idApplication}`,
+          comment,
+          customConfig
+        );
+        vm.whoApplication = axios.get(
+          `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
+            vm.idPost +
+            "&idStatus=" +
+            vm.idStatus
+        );
+        console.log(result.data.data);
+      // }
+    },
+    async finishJob(){
+      const vm = this
+      await axios.put(`${process.env.VUE_APP_ROOT_API}emp/employerFinishJob?idApplication=${this.idApplication}`).data
+      vm.whoApplication = axios.get(
+          `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
+            vm.idPost +
+            "&idStatus=" +
+            vm.idStatus
+        );      
+    },
+    async breakShot(){
+      const vm = this;
+      // if (confirm("ต้องการปฏิเสธบุคคลนี้เข้าทำงานหรือไม่")) {
+      const comment = JSON.stringify(this.applicationHasComment);
+      const customConfig = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+        const result =
+        await axios.put(
+          `${process.env.VUE_APP_ROOT_API}emp/employerBreakShort?idApplication=${this.idApplication}`,
+          comment,
+          customConfig
+        );
+        vm.whoApplication = axios.get(
+          `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
+            vm.idPost +
+            "&idStatus=" +
+            vm.idStatus
+        );
+        console.log(result.data.data);      
+    },    
     async getPic(a) {
       console.log(a.verifyPic);
       this.image = `${process.env.VUE_APP_ROOT_API}main/image/` + a.verifyPic;
@@ -1123,12 +1249,16 @@ export default {
     },
     async callData(){
       this.whoApplication = await axios.get(
-            `${process.env.VUE_APP_ROOT_API}main/showAllWorker?idPosting=` +
+            `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
               this.idPost +
               "&idStatus=" +
               this.idStatus
           );
+          console.log(this.whoApplication)
     },
+    check(){
+      console.log(this.statusId)
+    }
   },
   async created() {
     if (
@@ -1136,7 +1266,7 @@ export default {
       this.$store.state.auth.user.role.idRole == "2"
     ) {
       this.whoApplication = await axios.get(
-        `${process.env.VUE_APP_ROOT_API}main/showAllWorker?idPosting=` +
+        `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
           this.idPost +
           "&idStatus=" +
           this.idStatus
@@ -1156,26 +1286,26 @@ export default {
         console.log("idStatus =" + this.idStatus);
         this.topic = "รายการผู้สมัคร";
         this.callData()
-        console.log(
-          "ถุยให้แล้ว" +
-            "idPost = " +
-            this.idPost +
-            "idStatus = " +
-            this.idStatus
-        );
-        console.log(this.whoApplication);
-      } else if(this.idStatus == 12) {
+        this.chooseAccept = 12
+        this.chooseReject = 13
+      } else if(this.idStatus == 14) {
           console.log("idStatus =" + this.idStatus);
           this.topic = "รายการที่รับสมัครแล้ว";
           this.callData()
+        this.chooseAccept = 15
+        this.chooseReject = 16          
       } else if(this.idStatus == 21) {
           console.log("idStatus =" + this.idStatus);
           this.topic = "รายการที่กำลังทำงาน";
           this.callData()
+        this.chooseAccept = 22
+        this.chooseReject = 23           
       } else if(this.idStatus == 24) {
           console.log("idStatus =" + this.idStatus);
           this.topic = "รายการที่รอให้คะแนน";
           this.callData()
+          this.statusId = this.idStatus;
+          console.log(this.statusId)
       } 
     },
   },
