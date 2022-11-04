@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-2 h-screen font-sans-thai">
+  <div class="bg-gray-2 font-sans-thai">
     <div>
       <button
         @click="$router.push('/posting')"
@@ -8,30 +8,30 @@
         <i class="material-icons"> arrow_back_ios </i>ประกาศรับสมัครงาน
       </button>
     </div>
-    <div class="2xl:p-6 2xl:pl-32 xl:p-6 lg:p-6 md:p-6 p-3 pt-5">
+    <div class="2xl:p-6 2xl:pl-32 xl:p-6 lg:p-6 md:p-6 md:pl-14 p-3 pt-5 pl-8">
       <base-tab
         ><template
           ><a
             :class="{ 'tab-active font-medium': idStatus == 11 }"
-            class="tab tab-bordered"
+            class="tab tab-bordered 2xl:text-base md:text-base text-xs"
             @click="idStatus = 11"
           >
             ผู้ที่รอรับสมัคร
           </a>
           <a
-            class="tab tab-bordered"
+            class="tab tab-bordered 2xl:text-base md:text-base text-xs"
             :class="{ 'tab-active font-medium': idStatus == 14 }"
             @click="idStatus = 14"
             >ยืนยันการรับเข้าทำงาน</a
           >
           <a
-            class="tab tab-bordered"
+            class="tab tab-bordered 2xl:text-base md:text-base text-xs"
             :class="{ 'tab-active font-medium': idStatus == 21 }"
             @click="idStatus = 21"
             >คนงานที่กำลังทำงาน</a
           >
           <a
-            class="tab tab-bordered"
+            class="tab tab-bordered 2xl:text-base md:text-base text-xs"
             :class="{ 'tab-active font-medium': idStatus == 24 }"
             @click="idStatus = 24"
             >ให้คะแนนคนงาน</a

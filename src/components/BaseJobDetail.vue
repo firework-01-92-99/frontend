@@ -87,7 +87,7 @@
                   <span class="font-normal pl-1">4.5</span>
                 </div>
         </h2>
-        <p class="font-medium">
+        <p class="">
           <span class="inline-block align-middle"
             ><i class="material-icons pr-2"> place </i></span
           >
@@ -103,7 +103,7 @@
             employer.subDistrict.postcode
           }}</span>
         </p>
-        <p class="font-medium">
+        <p class="">
           <span class="inline-block align-middle"
             ><i class="material-icons pr-2"> paid </i></span
           >
@@ -122,13 +122,13 @@
             บาท</span
           >
         </p>
-        <p class="font-medium">
+        <p class="">
           <span class="inline-block align-middle"
             ><i class="material-icons pr-2"> call </i></span
           >
           <span class="inline-block align-middle"> {{ employer.phone }}</span>
         </p>
-        <p class="font-medium">
+        <p class="">
           <span class="inline-block align-middle"
             ><i class="material-icons pr-2"> email </i></span
           >

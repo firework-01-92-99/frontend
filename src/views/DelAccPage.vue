@@ -27,23 +27,23 @@
         </div>
       </div>
     </div>
-    <div class="2xl:p-6 2xl:pl-32 xl:p-6 lg:p-6 md:p-6 md:pl-14 p-3 pt-5">
+    <div class="2xl:p-6 2xl:pl-32 xl:p-6 lg:p-6 md:p-6 md:pl-14 p-3 pt-5 pl-8">
       <base-tab>
         <template
           ><a
-            class="tab tab-bordered"
+            class="tab tab-bordered 2xl:text-base md:text-base text-xs"
             @click="$router.push('/approve')"
           >
             ตรวจสอบบัญชี
           </a>
           <a
-            class="tab tab-bordered"
+            class="tab tab-bordered 2xl:text-base md:text-base text-xs"
             :class="{ 'tab-active': routes == 'EditAccPage' }"
             @click="$router.push('/approve/edit')"
       >คำขอแก้ไขบัญชี</a
     >
           <a
-            class="tab tab-bordered text-black tab-active font-medium"
+            class="tab tab-bordered tab-active font-medium 2xl:text-base md:text-base text-xs"
             @click="$router.push('/approve/delete')"
             >คำขอลบบัญชี</a
           ></template
@@ -62,7 +62,9 @@
           md:p-6 md:pl-12
           p-3
           pt-5
-          ml-3.5
+          2xl:ml-3.5
+          md:ml-3.5
+          ml-5
         "
       >
         การขอลบบัญชี

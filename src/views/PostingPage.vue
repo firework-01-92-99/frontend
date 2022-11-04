@@ -74,7 +74,6 @@
               2xl:text-base
               md:text-xs
               font-normal
-              text-gray-400
             "
           >
             <option :value="''" disabled selected>จังหวัด</option>
@@ -111,7 +110,6 @@
               2xl:text-base
               md:text-xs
               font-normal
-              text-gray-400
             "
           >
             <option :value="''" disabled selected>รูปแบบงาน</option>
@@ -148,7 +146,6 @@
               2xl:text-base
               md:text-xs
               font-normal
-              text-gray-400
             "
           >
             <option class="text-black" :value="''" disabled selected>

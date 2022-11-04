@@ -120,26 +120,14 @@
               </p>
             </div>
           </div>
-          <!-- {{jobDetail.position.positionName}} -->
           <h2 class="card-title">
             {{ this.$store.state.auth.user.employer.establishmentName }}
           </h2>
-          <p class="font-medium">
+          <p class="">
             <span class="inline-block align-middle"
               ><i class="material-icons pr-2"> place </i></span
             >
             <span class="inline-block align-middle">
-              <!-- {{
-            employer.address +
-            " " +
-            employer.subDistrict.subDistrict +
-            " " +
-            employer.district.districtName +
-            " " +
-            employer.province.provinceName +
-            " " +
-            employer.subDistrict.postcode
-          }} -->
               {{
                 this.$store.state.auth.user.employer.address +
                 " " +
@@ -153,7 +141,7 @@
               }}
             </span>
           </p>
-          <p class="font-medium">
+          <p class="">
             <span class="inline-block align-middle"
               ><i class="material-icons pr-2"> paid </i></span
             >
@@ -189,8 +177,8 @@
                     for=""
                     class="text-sm 2xl:text-base font-medium px-1"
                   ></label>
-                  <div class="flex">
-                    <div
+                  <div class="">
+                    <!-- <div
                       class="
                         w-10
                         z-10
@@ -201,7 +189,9 @@
                         items-center
                         justify-center
                       "
-                    ></div>
+                    ></div> -->
+                    <div class="flex flex-col">
+                    <div class="ml-10 flex flex-row w-full">
                     <input
                       type="tel"
                       v-if="jobDetail"
@@ -225,9 +215,13 @@
                       placeholder="กรอกเงินเดือนที่ต่ำที่สุด"
                       onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                     />
-                    <p v-if="minSalaryInput" class="text-red-600">
+                  </div>
+                  <div class="justify-start">
+                    <p v-if="minSalaryInput" class="font-normal text-red-600">
                       กรุณากรอกเงินเดือนที่ต่ำที่สุด
                     </p>
+                  </div>
+                  </div>
                   </div>
                 </div>
                 <span class="pt-9 2xl:pr-1 md:pr-1 2xl:-ml-0 md:-ml-0 -ml-7">-</span>
@@ -237,7 +231,7 @@
                     class="text-sm 2xl:text-base font-medium px-1"
                   ></label>
                   <div class="flex">
-                    <div
+                    <!-- <div
                       class="
                         w-10
                         z-10
@@ -248,7 +242,9 @@
                         items-center
                         justify-center
                       "
-                    ></div>
+                    ></div> -->
+                    <div class="flex flex-col">
+                    <div class="ml-10 w-full flex flex-row">
                     <input
                       type="tel"
                       v-if="jobDetail"
@@ -272,15 +268,19 @@
                       placeholder="กรอกเงินเดือนที่มากที่สุด"
                       onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                     /><span class="pl-2 py-2">บาท</span>
-                    <p v-if="maxSalaryInput" class="text-red-600">
+                    </div>
+                    <div>
+                    <p v-if="maxSalaryInput" class="font-normal text-red-600">
                       กรุณากรอกเงินเดือนที่มากที่สุด
                     </p>
+                    </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </span>
           </p>
-          <p class="font-medium">
+          <p class="">
             <span class="inline-block align-middle"
               ><i class="material-icons pr-2"> call </i></span
             >
@@ -288,7 +288,7 @@
               {{ this.$store.state.auth.user.employer.phone }}
             </span>
           </p>
-          <p class="font-medium">
+          <p class="">
             <span class="inline-block align-middle"
               ><i class="material-icons pr-2"> email </i></span
             >
@@ -489,8 +489,8 @@
               <label for="" class="text-sm 2xl:text-base font-medium px-1"
                 >อายุ</label
               >
-              <div class="flex">
-                <div
+              <div class="">
+                <!-- <div
                   class="
                     w-10
                     z-10
@@ -501,7 +501,9 @@
                     items-center
                     justify-center
                   "
-                ></div>
+                ></div> -->
+                <div class="flex flex-col">
+                <div class="ml-10 w-full flex flex-row">
                 <input
                   type="number"
                   min="18"
@@ -524,9 +526,13 @@
                   :class="{ 'bg-red-50': minAgeInput }"
                   placeholder="อายุขั้นต่ำ"
                 />
+                </div>
+                <div>
                 <p v-if="minAgeInput" class="text-red-600">
                   กรุณากรอกอายุขั้นต่ำและอายุต้องไม่ต่ำกว่า 18 ปี
                 </p>
+                </div>
+                </div>
               </div>
             </div>
             <span class="pt-9 2xl:pr-1 md:pr-1 2xl:-ml-0 md:-ml-0 -ml-14">-</span>
@@ -536,7 +542,7 @@
                 class="text-sm 2xl:text-base font-medium px-1"
               ></label>
               <div class="flex">
-                <div
+                <!-- <div
                   class="
                     w-10
                     z-10
@@ -547,7 +553,9 @@
                     items-center
                     justify-center
                   "
-                ></div>
+                ></div> -->
+                <div class="flex flex-col">
+                <div class="ml-10 w-full flex flex-row">
                 <input
                   type="number"
                   max="60"
@@ -570,9 +578,13 @@
                   :class="{ 'bg-red-50': maxAgeInput }"
                   placeholder="อายุมากที่สุด"
                 /><span class="pl-2 py-2">ปี</span>
+                </div>
+                <div>
                 <p v-if="maxAgeInput" class="text-red-600">
                   กรุณากรอกอายุขั้นต่ำและอายุต้องไม่มากกว่า 60 ปี
                 </p>
+                </div>
+                </div>
               </div>
             </div>
           </div>
@@ -588,7 +600,7 @@
                 >เวลาทำงาน</label
               >
               <div class="flex">
-                <div
+                <!-- <div
                   class="
                     w-10
                     z-10
@@ -599,7 +611,9 @@
                     items-center
                     justify-center
                   "
-                ></div>
+                ></div> -->
+                <div class="flex flex-col">
+                <div class="ml-10 flex flex-row w-full">
                 <input
                   type="text"
                   v-if="jobDetail"
@@ -620,16 +634,20 @@
                   :class="{ 'bg-red-50': startTimeInput }"
                   placeholder="เวลาเริ่มงาน เช่น 9:00"
                 />
+                </div>
+                <div class="justify-start w-10/12">
                 <p v-if="startTimeInput" class="text-red-600">
                   กรุณากรอกเวลาเริ่มงาน
                 </p>
+                </div>
+                </div>
               </div>
             </div>
             <span class="pt-9 2xl:pr-1 md:pr-1 2xl:-ml-0 md:-ml-0 -ml-14">-</span>
             <div class="w-1/2 px-3 mb-5">
               <label class="text-sm 2xl:text-base font-medium px-1"></label>
               <div class="flex">
-                <div
+                <!-- <div
                   class="
                     w-10
                     z-10
@@ -640,7 +658,9 @@
                     items-center
                     justify-center
                   "
-                ></div>
+                ></div> -->
+                <div class="flex flex-col">
+                <div class="ml-10 w-full flex flex-row">
                 <input
                   type="text"
                   v-if="jobDetail"
@@ -661,9 +681,13 @@
                   :class="{ 'bg-red-50': endTimeInput }"
                   placeholder="เวลาเลิกงาน เช่น 18:00"
                 /><span class="pl-2 py-2">น.</span>
+                </div>
+                <div>
                 <p v-if="endTimeInput" class="text-red-600">
                   กรุณากรอกเวลาเลิกงาน
                 </p>
+                </div>
+                </div>
               </div>
             </div>
           </div>

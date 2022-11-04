@@ -63,7 +63,9 @@
           md:p-6 md:pl-12
           p-3
           pt-5
-          ml-3.5
+          2xl:ml-3.5
+          md:ml-3.5
+          ml-5
         "
       >
         การแก้ไขบัญชี
@@ -914,8 +916,8 @@
                                   >ภาพยืนยันตัวตน</label
                                 >
                                 <div class="flex">
-                                <img class="object-cover w-1/3" :src="image" />
-                                <span class="px-10 font-medium text-4xl">→</span><img class="object-cover w-1/3" :src="image" /></div>
+                                <img class="rounded-lg object-cover 2xl:w-1/3 md:w-1/2 w-3/4" :src="image" />
+                                <span class="px-10 font-medium text-4xl">→</span><img class="rounded-lg object-cover 2xl:w-1/3 md:w-1/2 w-3/4" :src="image" /></div>
                               </div>
                             </div>
                           </div>
@@ -965,14 +967,14 @@
                     ></textarea>
                   </div>
 
-                  <div class="">
+                  <div class="flex justify-between">
                     <button
                       @click="sendApprove(idApprove)"
-                      class="btn w-1/2 bg-orange-1 hover:bg-orange-2"
+                      class="btn w-2/5 bg-orange-1 hover:bg-orange-2 border-orange-1 hover:border-orange-1"
                     >
                       ยืนยัน
                     </button>
-                    <button @click="toggleModal = false" class="btn w-1/2">ปิด</button>
+                    <button @click="toggleModal = false" class="btn w-2/5">ปิด</button>
                   </div>
           
               </div>

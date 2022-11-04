@@ -64,6 +64,8 @@
           md:p-6 md:pl-12
           p-3
           pt-5
+          2xl:ml-3.5
+          md:ml-3.5
           ml-5
         "
       >
@@ -824,9 +826,9 @@
                             </div>
 
                             <div
-                              class="flex -mx-3"
+                              class="2xl:flex 2xl:-mx-3"
                             >
-                              <div v-if="work" class="w-full px-3 mb-5">
+                              <div v-if="work" class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                                 <label for="" class="text-base font-medium px-1"
                                   >เพศ</label
                                 >
@@ -861,7 +863,7 @@
                                   />
                                 </div>
                               </div>
-                              <div v-if="aa || work " class="w-full px-3 mb-5">
+                              <div v-if="aa || work " class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                                 <label for="" class="text-base font-medium px-1"
                                   >เบอร์โทรศัพท์ (มือถือ)</label
                                 >

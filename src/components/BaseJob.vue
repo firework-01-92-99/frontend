@@ -111,7 +111,7 @@
                   ><i class="material-icons pr-2"> paid </i></span
                 >
                 <span class="hidden font-semibold text-base">ค่าตอบแทน : </span>
-                <span class="text-base font-medium inline-block align-middle"
+                <span class="text-base inline-block align-middle"
                   >{{
                     job.minSalary
                       .toString()
@@ -134,7 +134,7 @@
                   <span class="hidden font-semibold text-base">ที่อยู่ : </span>
                   <span
                     v-if="getPostbyEmp(job.idEmployer)"
-                    class="text-base font-medium inline-block align-middle"
+                    class="text-base inline-block align-middle"
                     >{{
                       getPostbyEmp(job.idEmployer).address +
                       " " +

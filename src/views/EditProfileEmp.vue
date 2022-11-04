@@ -7,13 +7,8 @@
           lg:pt-4
           md:pt-3
           pt-3
-          flex flex-col
-          items-center
-          flex-1
           h-full
           justify-center
-          px-4
-          sm:px-0
         "
       >
         <div
@@ -24,14 +19,13 @@
             rounded-lg
             shadow-lg
             w-full
-            sm:w-3/4
             lg:w-full lg:h-full
             sm:mx-0
             justify-center
           "
         >
           <div class="lg:w-1/2 p-4">
-            <div class="flex flex-col flex-1 justify-center mb-8">
+            <div class="flex flex-col flex-1 justify-center">
               <h1 class="font-bold text-4xl text-center">แก้ไขบัญชี</h1>
               <div class="w-full mt-10">
                 <div class="w-3/4 mx-auto">
@@ -224,9 +218,9 @@
             </div>
           </div>
 
-          <!-- worker -->
+          <!-- emp -->
           <div class="flex flex-col w-full lg:w-1/2 p-4">
-            <div class="flex flex-col flex-1 justify-center mb-8">
+            <div class="flex flex-col flex-1 justify-center">
               <!-- <h1 class="font-bold text-4xl text-center">แก้ไขบัญชี</h1> -->
               <div class="w-full mt-10">
                 <form class="form-horizontal w-3/4 mx-auto">
@@ -1271,12 +1265,7 @@
                       </div>
                     </div> -->
                   </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="w-full flex space-x-5 justify-center font-sans-thai">
+                  <div class="w-full flex space-x-5 justify-center font-sans-thai">
           <button
             @click="sendEdit()"
             type="submit"
@@ -1319,6 +1308,12 @@
           </button>
           <!-- {{ this.$store.state.auth.user.employer }} -->
         </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        
       </div>
     </div>
   </div>
