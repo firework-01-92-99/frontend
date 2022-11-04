@@ -500,6 +500,42 @@
                     <span class="label-text 2xl:pr-0 md:pl-5 pl-5">ไม่อนุมัติ</span>
                   </label>
                 </div>
+                <div class="form-control">
+                  <label class="label cursor-pointer 2xl:space-x-2">
+                    <input
+                      type="radio"
+                      v-model.trim="statusId"
+                      name="radio-2"
+                      class="radio checked:bg-orange-1"
+                      :value="chooseReject"
+                    />
+                    <span class="label-text 2xl:pr-0 md:pl-5 pl-5">นายจ้างไม่รับคนต่างด้าวนั้นเข้าทํางาน</span>
+                  </label>
+                </div>
+                <div class="form-control">
+                  <label class="label cursor-pointer 2xl:space-x-2">
+                    <input
+                      type="radio"
+                      v-model.trim="statusId"
+                      name="radio-2"
+                      class="radio checked:bg-orange-1"
+                      :value="chooseReject"
+                    />
+                    <span class="label-text 2xl:pr-0 md:pl-5 pl-5">คนต่างด้าวไม่ยินยอมทํางานกับนายจ้าง</span>
+                  </label>
+                </div>
+                <div class="form-control">
+                  <label class="label cursor-pointer 2xl:space-x-2">
+                    <input
+                      type="radio"
+                      v-model.trim="statusId"
+                      name="radio-2"
+                      class="radio checked:bg-orange-1"
+                      :value="chooseReject"
+                    />
+                    <span class="label-text 2xl:pr-0 md:pl-5 pl-5">คนต่างด้าวออกจากงานไม่ว่าด้วยเหตุใด</span>
+                  </label>
+                </div>
                 </div>
                 <div class="flex">
                 <p v-if="confirmInput" class="text-red-600">
