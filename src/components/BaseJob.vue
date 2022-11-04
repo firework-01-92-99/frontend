@@ -337,9 +337,14 @@ export default {
     }),
   },
   async created() {
+    const size = this.$route.name == 'JobDetail' ? 4 : 3
     const allPost = await this.fetch(
-      `${process.env.VUE_APP_ROOT_API}main/allPosting`
+      `${process.env.VUE_APP_ROOT_API}main/allPosting` + '?size=' + size
     );
+    if(this.$route.name == 'JobDetail' && allPost.content.filter((j) => j.idPosting != this.idPost).length == 4){
+      allPost.content.pop()
+    }
+    console.log("10")
     console.log(allPost);
     if (!this.idEmp) {
       const allPicture1 = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getImageEveryEmployer`);
@@ -383,11 +388,6 @@ this.getInactivePost = await this.fetch(
     this.allEmployer = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/allEmployer`
     );
-    // if(localStorage.isBookmark){
-    //   this.isBookmark = localStorage.isBookmark;
-    //   console.log("this.isBookmark = " + this.isBookmark)
-    //   localStorage.removeItem('isBookmark');
-    //   }
     if (this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == "3") {
       this.fav1 = await axios.get(
         `${process.env.VUE_APP_ROOT_API}worker/getMyFavorite?idWorker=` +

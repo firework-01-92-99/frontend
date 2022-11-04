@@ -358,9 +358,41 @@ export default {
       tel: "",
       image: "",
       numTab: "",
+      rateTo:{
+        rate: 5,
+        comment: '',
+        timestamp:'',
+        forwho: '',
+        employer:{},
+        worker:{}
+      },      
     };
   },
+  // this.$store.commit("setWorkingHistory", this.getInactivePost);
   methods: {
+    async giveRating(){
+      const vm = this;
+      // if (confirm("ต้องการปฏิเสธบุคคลนี้เข้าทำงานหรือไม่")) {
+      const ratings = JSON.stringify(this.rateTo);
+      const customConfig = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+        const result =
+        await axios.put(
+          `${process.env.VUE_APP_ROOT_API}emp/employerGiveScoreToWorker?idApplication=${this.idApplication}`,
+          ratings,
+          customConfig
+        );
+        vm.whoApplication = axios.get(
+          `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
+            vm.idPost +
+            "&idStatus=" +
+            vm.idStatus
+        );
+        console.log(result.data)      
+    },    
     async sendDelete() {
       if (this.$store.state.auth.user) {
         if (this.$store.state.auth.user.role.idRole == "3") {

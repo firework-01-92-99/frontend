@@ -686,7 +686,7 @@ export default {
     this.favoriteList = this.fav1.data
       this.getActivePost = await this.fetch(
         `${process.env.VUE_APP_ROOT_API}main/getPostingActiveByIdEmployer?idEmployer=` +
-          this.$store.state.auth.user.employer.idEmployer);
+          this.$store.state.auth.user.employer.idEmployer + '&size=4');
       this.getInactivePost = await this.fetch(
         `${process.env.VUE_APP_ROOT_API}main/getPostingInActiveByIdEmployer?idEmployer=` +
           this.$store.state.auth.user.employer.idEmployer);                 

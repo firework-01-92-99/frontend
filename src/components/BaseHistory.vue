@@ -130,12 +130,30 @@
 </template>
 
 <script>
+// import axios from "axios";
+import { mapGetters } from "vuex";
 export default {
   data(){
     return{
-      giveRate: 0
+      giveRate: 0,
+      // whatWorkerDo: [],
+
     }
-  }
+  },
+  methods: {
+    
+  },
+  computed: {
+    ...mapGetters({
+      whatWorkerDo: "getWorkingHistory",
+    }),
+  },  
+  created(){
+    if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == '3'){
+      console.log(this.$store.getters.getWorkingHistory)
+      
+    }
+  },
 };
 </script>
 

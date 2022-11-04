@@ -653,11 +653,12 @@ export default {
         employer:{},
         worker:{}
       },
+      finishWork: {}
     };
   },
   methods: {
     async giveRating(){
-      const vm = this;
+      // const vm = this;
       // if (confirm("ต้องการปฏิเสธบุคคลนี้เข้าทำงานหรือไม่")) {
       const ratings = JSON.stringify(this.rateTo);
       const customConfig = {
@@ -671,11 +672,11 @@ export default {
           ratings,
           customConfig
         );
-        vm.whoApplication = axios.get(
+        this.whoApplication = axios.get(
           `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
-            vm.idPost +
+            this.idPost +
             "&idStatus=" +
-            vm.idStatus
+            this.idStatus
         );
         console.log(result.data)      
     },       
@@ -729,18 +730,14 @@ export default {
     },
     async acceptWorker() {
       console.log("idApplication = " + this.idApplication);
-      const vm = this;
+      // const vm = this;
       if (confirm("ต้องการรับบุคคลนี้เข้าทำงานหรือไม่")) {
         try {
           await axios.put(
             `${process.env.VUE_APP_ROOT_API}emp/employerAcceptOnWeb?idApplication=${this.idApplication}`
           ).data;
-          vm.whoApplication = await axios.get(
-            `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
-              vm.idPost +
-              "&idStatus=" +
-              vm.idStatus
-          );
+          this.toggleModal = false
+          this.callData()
         } catch (error) {
           console.log(error);
         }
@@ -748,7 +745,7 @@ export default {
     },
     async rejectWorker() {
       console.log("idApplication = " + this.idApplication);
-      const vm = this;
+      // const vm = this;
       if (confirm("ต้องการปฏิเสธบุคคลนี้เข้าทำงานหรือไม่")) {
       const comment = JSON.stringify(this.applicationHasComment);
       const customConfig = {
@@ -763,28 +760,18 @@ export default {
           comment,
           customConfig
         );
-        vm.whoApplication = axios.get(
-          `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
-            vm.idPost +
-            "&idStatus=" +
-            vm.idStatus
-        );
+        this.callData()
         // res.headers['content-type'];
         console.log(result.data.data);
       }
     },
     async acceptWorkerOnSite(){
-      const vm = this
+      // const vm = this
       await axios.put(`${process.env.VUE_APP_ROOT_API}emp/employerAcceptOnSite?idApplication=${this.idApplication}`).data
-      vm.whoApplication = axios.get(
-          `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
-            vm.idPost +
-            "&idStatus=" +
-            vm.idStatus
-        );
+      this.callData()
     },
     async rejectWorkerOnSite() {
-      const vm = this;
+      // const vm = this;
       // if (confirm("ต้องการปฏิเสธบุคคลนี้เข้าทำงานหรือไม่")) {
       const comment = JSON.stringify(this.applicationHasComment);
       const customConfig = {
@@ -798,27 +785,32 @@ export default {
           comment,
           customConfig
         );
-        vm.whoApplication = axios.get(
-          `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
-            vm.idPost +
-            "&idStatus=" +
-            vm.idStatus
-        );
+        this.callData()
         console.log(result.data.data);
       // }
     },
     async finishJob(){
-      const vm = this
-      await axios.put(`${process.env.VUE_APP_ROOT_API}emp/employerFinishJob?idApplication=${this.idApplication}`).data
-      vm.whoApplication = axios.get(
-          `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
-            vm.idPost +
-            "&idStatus=" +
-            vm.idStatus
-        );      
+      // const vm = this
+      const finishWork = await axios.put(`${process.env.VUE_APP_ROOT_API}emp/employerFinishJob?idApplication=${this.idApplication}`)
+      this.finishWork = finishWork.data
+      console.log(this.finishWork)
+      const workerWork = {
+        idApp: this.finishWork.idApplication,
+        idWorker: this.finishWork.idWorker
+      }
+      console.log(workerWork)
+      // vm.whoApplication = axios.get(
+      //     `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
+      //       vm.idPost +
+      //       "&idStatus=" +
+      //       vm.idStatus
+      //   );
+      this.$store.commit("setWorkingHistory", workerWork);
+      this.callData()
+
     },
     async breakShot(){
-      const vm = this;
+      // const vm = this;
       // if (confirm("ต้องการปฏิเสธบุคคลนี้เข้าทำงานหรือไม่")) {
       const comment = JSON.stringify(this.applicationHasComment);
       const customConfig = {
@@ -832,12 +824,7 @@ export default {
           comment,
           customConfig
         );
-        vm.whoApplication = axios.get(
-          `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
-            vm.idPost +
-            "&idStatus=" +
-            vm.idStatus
-        );
+        this.callData()
         console.log(result.data.data);      
     },    
     async getPic(a) {
@@ -861,6 +848,11 @@ export default {
               this.idStatus
           );
           console.log(this.whoApplication)
+    if(this.whoApplication.data.whoApplicationList.length != 0){
+      this.noValue = false
+    }else{
+      this.noValue = true
+    }
     },
     check(){
       console.log(this.statusId)
@@ -892,24 +884,25 @@ export default {
         console.log("idStatus =" + this.idStatus);
         this.topic = "รายการผู้สมัคร";
         this.callData()
+        console.log(this.noValue)        
         this.chooseAccept = 12
         this.chooseReject = 13
       } else if(this.idStatus == 14) {
           console.log("idStatus =" + this.idStatus);
           this.topic = "รายการที่รับสมัครแล้ว";
-          this.callData()
+          this.callData()          
         this.chooseAccept = 15
         this.chooseReject = 16          
       } else if(this.idStatus == 21) {
           console.log("idStatus =" + this.idStatus);
           this.topic = "รายการที่กำลังทำงาน";
-          this.callData()
+          this.callData()        
         this.chooseAccept = 22
         this.chooseReject = 23           
       } else if(this.idStatus == 24) {
           console.log("idStatus =" + this.idStatus);
           this.topic = "รายการที่รอให้คะแนน";
-          this.callData()
+          this.callData()         
           this.statusId = this.idStatus;
           console.log(this.statusId)
       } 
