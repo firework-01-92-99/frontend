@@ -35,9 +35,8 @@
           </tr>
         </thead>
         <tbody
-          v-for="a in whoApplication.data.whoApplicationList"
-          :key="a.applicationId"
-        >
+          v-for="a in whoApplication.data.whoApplicationList.filter((s) => (s.status_idStatus == this.idStatus) || (this.idStatus== 24 && s.status_idStatus == 25))"
+          :key="a.applicationId">
           <!-- row 1 -->
           <!-- <div v-if="listApprove.lenght == null">
             ไม่มีรายการที่ต้องทำ
@@ -841,6 +840,7 @@ export default {
       }
     },
     async callData(){
+      if(this.idStatus != 24){
       this.whoApplication = await axios.get(
             `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
               this.idPost +
@@ -848,6 +848,12 @@ export default {
               this.idStatus
           );
           console.log(this.whoApplication)
+      }else{
+        console.log("idStatus = 24")
+        if(this.idStatus == 24){
+          this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
+        }
+      }
     if(this.whoApplication.data.whoApplicationList.length != 0){
       this.noValue = false
     }else{
@@ -900,6 +906,7 @@ export default {
         this.chooseAccept = 22
         this.chooseReject = 23           
       } else if(this.idStatus == 24) {
+        //status_idStatus = 24,25
           console.log("idStatus =" + this.idStatus);
           this.topic = "รายการที่รอให้คะแนน";
           this.callData()         
