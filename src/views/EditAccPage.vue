@@ -124,7 +124,7 @@
           <div v-show="iAm == 'Employer' || iAm == 'Worker'" class=" p-8">
                 
                   <h3 class="font-bold text-lg">รายละเอียด</h3>
-                 
+                 {{iAm}}
                   <div class="flex flex-col 2xl:w-full mt-4">
                     <div
                       class="flex flex-col w-full flex-1 justify-between mb-8"
@@ -133,11 +133,11 @@
                         <form class="form-horizontal 2xl:w-full md:w-full">
                           <div>
                             <div
-                              v-if="aa"
+                            v-if="iAm == 'Employer' && infoEmp.establishmentName !=lastEditEmp.establishmentName"
                               class="flex -mx-3"
                             >
                               <div class="w-full px-3 mb-5">
-                                <label
+                                <label 
                                   for=""
                                   class="text-base font-medium 2xl:px-1"
                                   >ชื่อสถานประกอบการ</label
@@ -169,7 +169,7 @@
                                       placeholder-black placeholder-opacity-100
                                     "
                                     :placeholder="
-                                      infoEmp.establishmentName + ' (เก่า)' + ' → ' + infoEmp.establishmentName + ' (ใหม่)'
+                                      infoEmp.establishmentName + ' (เก่า)' + ' → ' + lastEditEmp.establishmentName + ' (ใหม่)'
                                     "
                                     disabled
                                   />
@@ -348,7 +348,7 @@
                             </div> -->
 
                             <div class="2xl:flex 2xl:-mx-3">
-                              <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                              <div v-if="(iAm=='Employer' && infoEmp.entrepreneurfName !=lastEditEmp.entrepreneurfName) || (iAm=='Worker' && infoWorker.firstName !==lastEditWorker.firstName)" class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                                 <label for="" class="text-base font-medium px-1"
                                   >ชื่อ</label
                                 >
@@ -378,14 +378,14 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="iAm == 'Worker' ? infoWorker.firstName + ' (เก่า)' + ' → ' + infoWorker.firstName + ' (ใหม่)' : infoEmp.entrepreneurfName + ' (เก่า)' + ' → ' + infoEmp.entrepreneurfName + + ' (ใหม่)'"
+                                    :placeholder="iAm == 'Worker' ? infoWorker.firstName + ' (เก่า)' + ' → ' + lastEditWorker.firstName + ' (ใหม่)' : infoEmp.entrepreneurfName + ' (เก่า)' + ' → ' + lastEditEmp.entrepreneurfName + ' (ใหม่)'"
                                     disabled
                                   />
                                 </div>
                               </div>
 
                               <div
-                                v-if="work"
+                                v-if="iAm == 'Worker' && infoWorker.middleName != lastEditWorker.middleName"
                                 class="2xl:w-1/2 w-full 2xl:px-3 mb-5"
                               >
                                 <label for="" class="text-base font-medium px-1"
@@ -417,13 +417,13 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="infoWorker.middleName + ' (เก่า)' + ' → ' + infoWorker.middleName + ' (ใหม่)'"
+                                    :placeholder="infoWorker.middleName + ' (เก่า)' + ' → ' + lastEditWorker.middleName + ' (ใหม่)'"
                                     disabled
                                   />
                                 </div>
                               </div>
 
-                              <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                              <div v-if="(iAm=='Employer' && infoEmp.entrepreneurlName !=lastEditEmp.entrepreneurlName) || (iAm=='Worker' && infoWorker.lastName !==lastEditWorker.lastName)" class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                                 <label for="" class="text-base font-medium px-1"
                                   >นามสกุล</label
                                 >
@@ -460,15 +460,15 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="iAm == 'Worker' ? infoWorker.lastName + ' (เก่า)' + ' → ' + infoWorker.lastName + ' (ใหม่)' : infoEmp.entrepreneurlName + ' (เก่า)' + ' → ' + infoEmp.entrepreneurlName + ' (ใหม่)'"
+                                    :placeholder="iAm == 'Worker' ? infoWorker.lastName + ' (เก่า)' + ' → ' + lastEditWorker.lastName + ' (ใหม่)' : infoEmp.entrepreneurlName + ' (เก่า)' + ' → ' + lastEditEmp.entrepreneurlName + ' (ใหม่)'"
                                     disabled
                                   />
                                 </div>
                               </div>
                             </div>
 
-                            <div v-if="aa">
-                              <div class="flex -mx-3">
+                            <div>
+                              <div v-if="iAm == 'Employer' && infoEmp.address != lastEditEmp.address" class="flex -mx-3">
                                 <div class="w-full px-3 mb-5">
                                   <label
                                     for=""
@@ -511,7 +511,7 @@
                                         placeholder-opacity-100
                                       "
                                       :placeholder="
-                                        infoEmp.address + ' (เก่า)' + ' → ' + infoEmp.address + ' (ใหม่)'
+                                        infoEmp.address + ' (เก่า)' + ' → ' + lastEditEmp.address + ' (ใหม่)'
                                       "
                                       disabled
                                     />
@@ -520,7 +520,7 @@
                               </div>
 
                               <div class="2xl:flex 2xl:-mx-3">
-                                <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                                <div v-if="iAm == 'Employer' && infoEmp.subDistrict.subDistrict != lastEditEmp.subDistrict" class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                                   <label
                                     for=""
                                     class="text-base font-medium px-1"
@@ -561,14 +561,14 @@
                                         placeholder-opacity-100
                                       "
                                       :placeholder="
-                                        infoEmp.subDistrict ? infoEmp.subDistrict.subDistrict + ' (เก่า)' + ' → ' + infoEmp.subDistrict.subDistrict + ' (ใหม่)' : ''
+                                        infoEmp.subDistrict ? infoEmp.subDistrict.subDistrict + ' (เก่า)' + ' → ' + lastEditEmp.subDistrict + ' (ใหม่)' : ''
                                       "
                                       disabled
                                     />
                                   </div>
                                 </div>
 
-                                <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                                <div v-if="iAm == 'Employer' && infoEmp.district.districtName != lastEditEmp.districtName" class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                                   <label
                                     for=""
                                     class="text-base font-medium px-1"
@@ -609,7 +609,7 @@
                                         placeholder-opacity-100
                                       "
                                       :placeholder="
-                                        infoEmp.district ? infoEmp.district.districtName + ' (เก่า)' + ' → ' + infoEmp.district.districtName + ' (ใหม่)' : ''
+                                        infoEmp.district ? infoEmp.district.districtName + ' (เก่า)' + ' → ' + lastEditEmp.districtName + ' (ใหม่)' : ''
                                       "
                                       disabled
                                     />
@@ -618,7 +618,7 @@
                               </div>
 
                               <div class="2xl:flex 2xl:-mx-3">
-                                <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                                <div v-if="iAm == 'Employer' && infoEmp.province.provinceName != lastEditEmp.provinceName" class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                                   <label
                                     for=""
                                     class="text-base font-medium px-1"
@@ -659,14 +659,14 @@
                                         placeholder-opacity-100
                                       "
                                       :placeholder="
-                                        infoEmp.province ? infoEmp.province.provinceName + ' (เก่า)' + ' → ' + infoEmp.province.provinceName + ' (ใหม่)' : ''
+                                        infoEmp.province ? infoEmp.province.provinceName + ' (เก่า)' + ' → ' + lastEditEmp.provinceName + ' (ใหม่)' : ''
                                       "
                                       disabled
                                     />
                                   </div>
                                 </div>
 
-                                <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                                <div v-if="iAm == 'Employer' && infoEmp.subDistrict.postcode != lastEditEmp.postcode" class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                                   <label
                                     for=""
                                     class="text-base font-medium px-1"
@@ -707,7 +707,7 @@
                                         placeholder-opacity-100
                                       "
                                       :placeholder="
-                                        infoEmp.subDistrict ? infoEmp.subDistrict.postcode + ' (เก่า)' + ' → ' + infoEmp.subDistrict.postcode + ' (ใหม่)' : ''
+                                        infoEmp.subDistrict ? infoEmp.subDistrict.postcode + ' (เก่า)' + ' → ' + lastEditEmp.postcode + ' (ใหม่)' : ''
                                       "
                                       disabled
                                     />
@@ -715,7 +715,7 @@
                                 </div>
                               </div>
 
-                              <div class="2xl:flex 2xl:-mx-3">
+                              <div v-if="iAm == 'Employer' && infoEmp.lineId != lastEditEmp.lineId" class="2xl:flex 2xl:-mx-3">
                                 <div class="w-full px-3 mb-5">
                         <label
                           for=""
@@ -743,7 +743,7 @@
                             ></i>
                           </div>
                           <input
-                            v-model="empInfo.employer.lineId"
+                            v-model="infoEmp.lineId"
                             type="text"
                             class="
                               w-full
@@ -758,7 +758,7 @@
                               focus:border-indigo-500
                             "
                             :placeholder="
-                              $store.state.auth.user.employer.lineId + ' (เก่า)' + ' → ' + $store.state.auth.user.employer.lineId + ' (ใหม่)'
+                              infoEmp.lineId + ' (เก่า)' + ' → ' + lastEditEmp.lineId + ' (ใหม่)'
                             "
                             disabled
                           />
@@ -766,7 +766,7 @@
                       </div>
                               </div>
 
-                      <div class="2xl:flex 2xl:-mx-3">
+                      <div v-if="iAm == 'Employer' && infoEmp.tel != lastEditEmp.tel" class="2xl:flex 2xl:-mx-3">
                             <div class="w-full px-3 mb-5">
                         <label
                           for=""
@@ -795,7 +795,7 @@
                           </div>
                           <input
                             type="tel"
-                            v-model="empInfo.employer.tel"
+                            v-model="infoEmp.tel"
                             maxlength="9"
                             class="
                               w-full
@@ -809,7 +809,7 @@
                               placeholder-black placeholder-opacity-100
                               focus:border-indigo-500
                             "
-                            :placeholder="$store.state.auth.user.employer.tel + ' (เก่า)' + ' → ' + $store.state.auth.user.employer.tel + ' (ใหม่)' "
+                            :placeholder="infoEmp.tel + ' (เก่า)' + ' → ' + lastEditEmp.tel + ' (ใหม่)' "
                             disabled
                           />
                         </div>
@@ -856,9 +856,9 @@
                                   />
                                 </div>
                               </div> -->
-                              <div v-if="aa || work " class="w-full px-3 mb-5">
+                              <div v-if="(iAm=='Employer' && infoEmp.phone !=lastEditEmp.phone) || (iAm=='Worker' && infoWorker.phone !==lastEditWorker.phone)" class="w-full px-3 mb-5">
                                 <label for="" class="text-base font-medium px-1"
-                                  >เบอร์โทรศัพท์</label
+                                  >เบอร์โทรศัพท์ (มือถือ)</label
                                 >
                                 <div class="flex">
                                   <div
@@ -894,23 +894,23 @@
                                       outline-none
                                       placeholder-black placeholder-opacity-100
                                     "
-                                    :placeholder="iAm == 'Worker' ? infoWorker.phone + ' (เก่า)' + ' → ' + infoWorker.phone + ' (ใหม่)' : infoEmp.phone + ' (เก่า)' + ' → ' + infoEmp.phone + ' (ใหม่)' "
+                                    :placeholder="iAm == 'Worker' ? infoWorker.phone + ' (เก่า)' + ' → ' + lastEditWorker.phone + ' (ใหม่)' : infoEmp.phone + ' (เก่า)' + ' → ' + lastEditEmp.phone + ' (ใหม่)' "
                                     disabled
                                   />
                                 </div>
                               </div>
                             </div>
-
-                            <div class="flex -mx-3">
+                            
+                            <div v-if="(iAm == 'Employer' && infoEmp.profile !=lastEditEmp.profile) || (iAm == 'Worker' && infoWorker.verifyPic != lastEditWorker.verifyPic.slice(33,500))" class="flex -mx-3">
                               <div class="w-full px-3 mb-5">
                                 <label
-                                  v-if="aa"
+                                v-if="iAm == 'Employer'"
                                   for=""
                                   class="text-base font-medium px-1"
                                   >ภาพ Logo ของสถานประกอบการ</label
                                 >
                                 <label
-                                  v-if="work"
+                                  v-if="iAm == 'Worker'"
                                   for=""
                                   class="text-base font-medium px-1"
                                   >ภาพยืนยันตัวตน</label
@@ -957,9 +957,11 @@
                           >
                         </label>
                       </div>
+                      <div class="flex">
                       <p v-if="confirmInput" class="text-red-600">
                         กรุณาเลือกรูปแบบการอนุมัติ
                       </p>
+                      </div>
                     </div>
                     <textarea
                       class="textarea textarea-bordered w-full h-36"
@@ -969,7 +971,7 @@
 
                   <div class="flex justify-between">
                     <button
-                      @click="sendApprove(idApprove)"
+                      @click="approveEdit(idApprove)"
                       class="btn w-2/5 bg-orange-1 hover:bg-orange-2 border-orange-1 hover:border-orange-1"
                     >
                       ยืนยัน
@@ -994,6 +996,7 @@ export default {
   components: { BaseTab },
   data() {
     return {
+      routes: "",
       myAcc: [],
       toggleModal: false,
       listApprove: [],
@@ -1004,6 +1007,9 @@ export default {
       infoEmp: [],
       editInfoEmp: [],
       editInfoWorker: [],
+      infoWorker:{},
+      lastEditWorker:{},
+      lastEditEmp:{}
     };
   },
   methods: {
@@ -1016,30 +1022,24 @@ export default {
       if (data.workOrEmp == "Worker") {
         this.iAm = data.workOrEmp
         await axios
-          .get(
-            `${process.env.VUE_APP_ROOT_API}admin_emp/selectWorker?idWorker=${data.idWorker}`
-          )
+          .get(`${process.env.VUE_APP_ROOT_API}admin_emp/selectWorker?idWorker=${data.idWorker}`)
           .then((response) => {
-            this.info = response.data;
-            console.log(this.info);
+            this.infoWorker = response.data;
+            console.log(this.infoWorker);
             this.image =
               `${process.env.VUE_APP_ROOT_API}main/image/` +
-              this.info.verifyPic;
+              this.infoWorker.verifyPic;
           });
-        // await axios.get(`${process.env.VUE_APP_ROOT_API}main/selectEditEmployer?idEmployer=${data.idEmployer}`)
-        //   .then((response) => {
-        //     this.editInfoWorker = response.data;
-        //     console.log(this.infoEmp);
-        //     this.image =
-        //       `${process.env.VUE_APP_ROOT_API}main/image/` +
-        //       this.info.verifyPic;
-        //   });           
+        await axios.get(`${process.env.VUE_APP_ROOT_API}admin/getEditWorkerByIdWorker?idWorker=${data.idWorker}`)
+          .then((response) => {
+            this.editInfoWorker = response.data;
+            this.lastEditWorker = this.editInfoWorker[this.editInfoWorker.length - 1]
+            this.image = this.lastEditWorker.verifyPic;
+          });      
       }else{
         this.iAm = data.workOrEmp
         await axios
-          .get(
-            `${process.env.VUE_APP_ROOT_API}main/selectEmployer?idEmployer=${data.idEmployer}`
-          )
+          .get(`${process.env.VUE_APP_ROOT_API}main/selectEmployer?idEmployer=${data.idEmployer}`)
           .then((response) => {
             this.infoEmp = response.data;
             console.log(this.infoEmp);
@@ -1047,16 +1047,30 @@ export default {
               `${process.env.VUE_APP_ROOT_API}main/image/` +
               this.infoEmp.profile;
           });
-        // await axios.get(`${process.env.VUE_APP_ROOT_API}main/selectEditEmployer?idEmployer=${data.idEmployer}`)
-        //   .then((response) => {
-        //     this.editInfoEmp = response.data;
-        //     console.log(this.infoEmp);
-        //     this.image =
-        //       `${process.env.VUE_APP_ROOT_API}main/image/` +
-        //       this.infoEmp.profile;
-        //   });                  
+        await axios.get(`${process.env.VUE_APP_ROOT_API}admin/getEditEmployerByIdEmployer?idEmployer=${data.idEmployer}`)
+          .then((response) => {
+            this.editInfoEmp = response.data;
+            this.lastEditEmp = this.editInfoEmp[this.editInfoEmp.length - 1]
+            this.image =
+              `${process.env.VUE_APP_ROOT_API}main/image/` +
+              this.lastEditEmp.profile;
+          });                  
       }
     },
+    async approveEdit(idApprove){
+      if(this.statusId != ''){
+      if(this.statusId == 4){
+        if(confirm("ต้องการจะอนุมัติการแก้ไขข้อมูลบัญชีนี้หรือไม่")){
+          await axios.put(`${process.env.VUE_APP_ROOT_API}admin/editApprove?idApprove=${idApprove}`)
+          this.listApprove = await axios.get(`${process.env.VUE_APP_ROOT_API}admin/getAllApproveByIdStatusAndIdRole?idStatus=7&idRole=0`);
+          this.toggleModal = false          
+        }
+      }
+      }else{
+        this.confirmInput = true
+        console.log("เลือกก่อนว่าอนุมัติไม่อนุมัติ")
+      }
+    }
   },
   async created() {
     if (
@@ -1070,7 +1084,8 @@ export default {
       this.idAdmin = this.myAcc.data.idAdmin;
       this.listApprove = await axios.get(
         `${process.env.VUE_APP_ROOT_API}admin/getAllApproveByIdStatusAndIdRole?idStatus=7&idRole=0`
-      );    
+      );
+      
     } else {
       this.$router.push("/");
     }
