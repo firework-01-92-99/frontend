@@ -1403,16 +1403,27 @@ export default {
         !this.telInput
       ) {
         console.log("เข้า 3")
-        const employer = JSON.stringify(this.empInfo.employer);
-        console.log(employer)
-        const customConfig = {
-        headers: {
-          "Content-Type": "application/json",
-          },
-        }
+        this.empInfo.employer.profile = `${process.env.VUE_APP_ROOT_API}main/image/` + this.empInfo.employer.profile
+        console.log(this.empInfo.employer.profile)
+        //ส่งแบบ requestBody
+        // const employer = JSON.stringify(this.empInfo.employer);
+        // const customConfig = {
+        // headers: {
+        //   "Content-Type": "application/json",
+        //   },
+        // }
         
+      const formData = new FormData();
+        const blob = await new Blob([JSON.stringify(this.empInfo.employer)], {
+          type: "application/json",
+        });
+      formData.append('image', this.imgFile)
+      console.log(this.imgFile)
+      await formData.append('employer', blob);  
+
+
         await axios.post(
-          `${process.env.VUE_APP_ROOT_API}emp/editMyEmployer`, employer, customConfig);
+          `${process.env.VUE_APP_ROOT_API}emp/editMyEmployer`, formData);
       
       // if (confirm("คุณต้องการจะลบบัญชีใช่หรือไม่")) {
       //   console.log("idAccount = " + this.$store.state.auth.user.idAccount);

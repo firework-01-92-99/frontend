@@ -45,10 +45,9 @@
             <figure>
               <img
                 class="object-cover"
-                :src="!$store.state.auth.user || $store.state.auth.user.role.idRole == '3' ? env + allPicture.find(a=>a.idEmployer == job.idEmployer).imageName : image"
+                :src=" !$store.state.auth.user || $store.state.auth.user.role.idRole == '3' ? env + allPicture.find((a) => a.idEmployer == job.idEmployer).imageName : image"
               />
             </figure>
-
             <!-- <div v-for="e in allEmployer" :key="e.idEmployer"> -->
             <div class="card-body space-y-3">
               <div class="flex justify-between">
@@ -67,7 +66,7 @@
                     class="material-icons z-10 cursor-pointer select-none"
                   >
                     bookmark_border
-                  </i>                 
+                  </i>
                 </div>
                 <div
                   v-else-if="
@@ -85,14 +84,22 @@
                 <div
                   v-if="
                     $store.state.auth.user &&
-                    $store.state.auth.user.role.idRole == '2'
-                    && job.status.statusName == 'Inactive'
+                    $store.state.auth.user.role.idRole == '2' &&
+                    job.status.statusName == 'Inactive'
                   "
                 >
-                  <i @click="babyBin(job.idPosting)" class="material-icons cursor-pointer select-none text-red-800" >
-                      delete
+                  <i
+                    @click="babyBin(job.idPosting)"
+                    class="
+                      material-icons
+                      cursor-pointer
+                      select-none
+                      text-red-800
+                    "
+                  >
+                    delete
                   </i>
-                </div>                
+                </div>
               </div>
               <h2 class="card-title text-base">
                 {{
@@ -102,8 +109,13 @@
                 }}
                 <div class="rating rating-sm">
                   <span class="font-normal pr-2">|</span>
-                  <input type="radio" name="rating-2" class=" mask mask-star-2 bg-orange-400" checked />
-                  <span class="font-normal pl-1">4.5</span>
+                  <input
+                    type="radio"
+                    name="rating-2"
+                    class="mask mask-star-2 bg-orange-400"
+                    checked
+                  />
+                  <span class="font-normal pl-1">{{!$store.state.auth.user || $store.state.auth.user.role.idRole == '3' ? 4.5 : scoreEmp}}</span>
                 </div>
               </h2>
               <p>
@@ -232,23 +244,28 @@ export default {
       getInactivePost: [],
       image: null,
       allPicture: [],
-      env: `${process.env.VUE_APP_ROOT_API}main/image/`
+      env: `${process.env.VUE_APP_ROOT_API}main/image/`,
+      scoreEmp: '',
+      scoreAllEmp: [],
     };
   },
   methods: {
-    async babyBin(idPost){
-      const vm = this
-      if(confirm("ยืนยันที่จะลบประกาศรับสมัครหรือไม่")){
-        await axios.put(`${process.env.VUE_APP_ROOT_API}emp/deletePosting?idPosting=${idPost}`)
-        if(vm.status == "Inactive" ){
+    async babyBin(idPost) {
+      const vm = this;
+      if (confirm("ยืนยันที่จะลบประกาศรับสมัครหรือไม่")) {
+        await axios.put(
+          `${process.env.VUE_APP_ROOT_API}emp/deletePosting?idPosting=${idPost}`
+        );
+        if (vm.status == "Inactive") {
           vm.getInactivePost = await this.fetch(
-        `${process.env.VUE_APP_ROOT_API}main/getPostingInActiveByIdEmployer?idEmployer=` +
-          this.$store.state.auth.user.employer.idEmployer);
+            `${process.env.VUE_APP_ROOT_API}main/getPostingInActiveByIdEmployer?idEmployer=` +
+              this.$store.state.auth.user.employer.idEmployer
+          );
           this.$store.commit("setPosting", this.getInactivePost);
         }
         // location.reload()
       }
-    },    
+    },
     linkTo(idPost, idEmp) {
       if (
         !this.$store.state.auth.user ||
@@ -337,58 +354,61 @@ export default {
     }),
   },
   async created() {
-    const size = this.$route.name == 'JobDetail' ? 4 : 3
+    const size = this.$route.name == "JobDetail" ? 4 : 3;
     const allPost = await this.fetch(
-      `${process.env.VUE_APP_ROOT_API}main/allPosting` + '?size=' + size
+      `${process.env.VUE_APP_ROOT_API}main/allPosting` + "?size=" + size
     );
-    if(this.$route.name == 'JobDetail' && allPost.content.filter((j) => j.idPosting != this.idPost).length == 4){
-      allPost.content.pop()
+    if (
+      this.$route.name == "JobDetail" &&
+      allPost.content.filter((j) => j.idPosting != this.idPost).length == 4
+    ) {
+      allPost.content.pop();
     }
-    console.log("10")
-    console.log(allPost);
     if (!this.idEmp) {
-      const allPicture1 = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getImageEveryEmployer`);
-      this.allPicture = allPicture1.data
-      console.log(this.allPicture)
-      console.log(this.allPicture[0].imageName)
-
+      const allPicture1 = await axios.get(
+        `${process.env.VUE_APP_ROOT_API}main/getImageEveryEmployer`
+      );
+      this.allPicture = allPicture1.data;
+      console.log(this.allPicture);
+      console.log(this.allPicture[0].imageName);
 
       for (let i = 0; i < this.allJobs.content.length; i++) {
-          this.allJobs.content[i].image == this.allPicture.find(a=>a.idEmployer == this.allJobs.content[i].idEmployer).imageName
+        this.allJobs.content[i].image ==
+          this.allPicture.find(
+            (a) => a.idEmployer == this.allJobs.content[i].idEmployer
+          ).imageName;
       }
-      // this.env + allPicture.find(a=>a.idEmployer == job.idEmployer).imageName
-      // }
-
-      // if(this.allPicture
-      //       .map((m) => m.idEmp)
-      //       .includes(this.allJobs.content.idEmployer)){
-      
-      // }
-     
+      // this.scoreAllEmp = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getEmployerScoreList?idEmployer=` + this.$store.state.auth.user.employer.idEmployer);
       this.$store.commit("setPosting", allPost);
     } else {
       if (this.idEmp) {
-        console.log("เข้าไหม")
-            const image1 = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getImageByIdEmployer` + "?idEmployer=" + this.$store.state.auth.user.employer.idEmployer);
-    const imageName = image1.data
-          this.image =
-            (await `${process.env.VUE_APP_ROOT_API}main/image/`) +
-            imageName;   
+        const image1 = await axios.get(
+          `${process.env.VUE_APP_ROOT_API}main/getImageByIdEmployer` +
+            "?idEmployer=" +
+            this.$store.state.auth.user.employer.idEmployer
+        );
+        const imageName = image1.data;
+        this.image =
+          (await `${process.env.VUE_APP_ROOT_API}main/image/`) + imageName;
         this.getActivePost = await this.fetch(
           `${process.env.VUE_APP_ROOT_API}main/getPostingActiveByIdEmployer?idEmployer=` +
             this.$store.state.auth.user.employer.idEmployer
         );
         this.$store.commit("setPosting", this.getActivePost);
-this.getInactivePost = await this.fetch(
-        `${process.env.VUE_APP_ROOT_API}main/getPostingInActiveByIdEmployer?idEmployer=` +
-          this.$store.state.auth.user.employer.idEmployer);        
+        this.getInactivePost = await this.fetch(
+          `${process.env.VUE_APP_ROOT_API}main/getPostingInActiveByIdEmployer?idEmployer=` +
+            this.$store.state.auth.user.employer.idEmployer
+        );
+        this.scoreEmp = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getEmpTotalScore?idEmployer=` + this.$store.state.auth.user.employer.idEmployer);
       }
     }
-    console.log(this.allJobs);
     this.allEmployer = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/allEmployer`
     );
-    if (this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == "3") {
+    if (
+      this.$store.state.auth.user &&
+      this.$store.state.auth.user.role.idRole == "3"
+    ) {
       this.fav1 = await axios.get(
         `${process.env.VUE_APP_ROOT_API}worker/getMyFavorite?idWorker=` +
           this.$store.state.auth.user.worker.idWorker

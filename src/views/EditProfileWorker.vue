@@ -1342,8 +1342,7 @@ export default {
   data() {
     return {
       image:
-        `${process.env.VUE_APP_ROOT_API}main/image/` +
-        this.$store.state.auth.user.worker.verifyPic,
+        `${process.env.VUE_APP_ROOT_API}main/image/` + this.$store.state.auth.user.worker.verifyPic,
       UpPic: false,
       emailInput: false,
       passwordInput: false,
@@ -1388,24 +1387,29 @@ export default {
         !this.phoneInput
       ) {
         console.log("เข้า 3")
-        const worker = JSON.stringify(this.worker);
-        console.log(worker)
-        const customConfig = {
-        headers: {
-          "Content-Type": "application/json",
-          },
-        }
-        
+        this.worker.verifyPic = `${process.env.VUE_APP_ROOT_API}main/image/` + this.worker.verifyPic
+        console.log(this.worker.verifyPic)
+        //ส่งแบบ requestBody
+        // const worker = JSON.stringify(this.worker);
+        // console.log(worker)
+        // const customConfig = {
+        // headers: {
+        //   "Content-Type": "application/json",
+        //   },
+        // }
+
+      const formData = new FormData();
+      console.log("this.whoRegist" + this.whoRegist)
+        const blob = await new Blob([JSON.stringify(this.worker)], {
+          type: "application/json",
+        });
+      formData.append('image', this.imgFile)
+      console.log(this.imgFile)
+      await formData.append('worker', blob);        
+        console.log(formData)
         await axios.post(
-          `${process.env.VUE_APP_ROOT_API}worker/editMyWorker`, worker, customConfig);
+          `${process.env.VUE_APP_ROOT_API}worker/editMyWorker`, formData);
       
-      // if (confirm("คุณต้องการจะลบบัญชีใช่หรือไม่")) {
-      //   console.log("idAccount = " + this.$store.state.auth.user.idAccount);
-      //   await axios.put(
-      //     `${process.env.VUE_APP_ROOT_API}worker/deleteMyWorker?idWorker=` +
-      //       this.$store.state.auth.user.worker.idWorker
-      //   ).data;
-      // }
       console.log("เข้า 4")
     }
       }
@@ -1424,22 +1428,20 @@ export default {
         reader.onload = (event) => {
           this.image = event.target.result;
           this.UpPic =
-            this.image ==
-            `${process.env.VUE_APP_ROOT_API}main/image/` +
-              this.$store.state.auth.user.employer.profile
-              ? true
-              : false;
+            this.image == this.$store.state.auth.user.worker.verifyPic ? true : false;
+            console.log(this.image)
         };
         reader.readAsDataURL(file);
         this.imgFile = file;
+        console.log(this.imgFile)
         this.picture = this.imgFile.name;
-
+        console.log(this.picture) //ชื่อภาพปกติ
         // if (this.signType == "worker") {
         //   this.registWorker.worker.verifyPic = this.picture;
         //   console.log(this.registWorker.worker.verifyPic);
         // }
-        this.empInfo.employer.profile = this.picture;
-        console.log(this.empInfo.employer.profile);
+        this.worker.verifyPic = this.picture;
+        console.log(this.worker.verifyPic); // ชื่อภาพปกติ
 
         // filename.split('.').slice(0, -1).join('.')
         // this.img = file.name;
@@ -1499,8 +1501,10 @@ export default {
           middleName: this.$store.state.auth.user.worker.middleName,
           lastName: this.$store.state.auth.user.worker.lastName,
           phone: this.$store.state.auth.user.worker.phone,
-          verifyPic: (await `${process.env.VUE_APP_ROOT_API}main/image/`) + this.$store.state.auth.user.worker.verifyPic
+          verifyPic: this.$store.state.auth.user.worker.verifyPic
             }
+            console.log(this.worker)
+            console.log(this.worker.verifyPic)
         }
      else {
       if (this.$store.state.auth.user.role.idRole == "1") {

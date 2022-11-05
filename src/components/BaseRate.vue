@@ -21,13 +21,13 @@
       <div class="stats bg-orange-1 shadow w-11/12">
         <div class="stat text-white">
           <div class="stat-title">คะแนน</div>
-          <div class="stat-value">4.5 จาก 5</div>
+          <div class="stat-value">{{workerScore}} จาก 5</div>
           <div class="stat-desc">1 รีวิว</div>
         </div>
       </div>
     </div>
 
-    <div class="flex flex-wrap justify-start space-y-5">
+    <div v-for="s in scoreList" :key='s.idRating' class="flex flex-wrap justify-start space-y-5">
       <div class="card w-11/12 bg-base-100 border border-black shadow-lg">
         <div class="card-body">
           <h2 class="card-title">ชื่อสถานประกอบการ</h2>
@@ -36,7 +36,7 @@
               type="radio"
               name="rating-2"
               class="mask mask-star-2 bg-orange-400"
-              v-model="giveRate"
+              v-model="s.rate"
               :value="1"
               disabled
             />
@@ -44,7 +44,7 @@
               type="radio"
               name="rating-2"
               class="mask mask-star-2 bg-orange-400"
-              v-model="giveRate"
+              v-model="s.rate"
               :value="2"
               disabled
             />
@@ -52,7 +52,7 @@
               type="radio"
               name="rating-2"
               class="mask mask-star-2 bg-orange-400"
-              v-model="giveRate"
+              v-model="s.rate"
               :value="3"
               disabled
             />
@@ -60,7 +60,7 @@
               type="radio"
               name="rating-2"
               class="mask mask-star-2 bg-orange-400"
-              v-model="giveRate"
+              v-model="s.rate"
               :value="4"
               disabled
             />
@@ -68,14 +68,13 @@
               type="radio"
               name="rating-2"
               class="mask mask-star-2 bg-orange-400"
-              v-model="giveRate"
+              v-model="s.rate"
               :value="5"
               disabled
             />
-            <span class="">•</span><span class="">timestamp</span>
+            <span class="">•</span><span class="">{{s.timestamp}}</span>
           </div>
-          {{giveRate}}
-          <p>ความคิดเห็นความคิดเห็นความคิดเห็นความคิดเห็นความคิดเห็น</p>
+          <p>{{s.comment}}</p>
           <div class="card-actions justify-end"></div>
         </div>
       </div>
@@ -88,11 +87,25 @@
 export default {
     data() {
     return {
-      giveRate: 4,
+      workerScore: 0,
+      scoreList:[], 
     };
   },
-  methods(){
-    
+  methods: {
+    async fetch(url) {
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
+  async created(){
+    this.workerScore = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getWorkerTotalScore?idWorker=` + this.$store.state.auth.user.worker.idWorker);
+    this.scoreList = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getWorkerScoreList?idWorker=` + this.$store.state.auth.user.worker.idWorker);
+    console.log(this.scoreList)
   }
 };
 </script>

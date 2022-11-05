@@ -124,7 +124,6 @@
           <div v-show="iAm == 'Employer' || iAm == 'Worker'" class=" p-8">
                 
                   <h3 class="font-bold text-lg">รายละเอียด</h3>
-                 {{iAm}}
                   <div class="flex flex-col 2xl:w-full mt-4">
                     <div
                       class="flex flex-col w-full flex-1 justify-between mb-8"
@@ -714,7 +713,6 @@
                                   </div>
                                 </div>
                               </div>
-
                               <div v-if="iAm == 'Employer' && infoEmp.lineId != lastEditEmp.lineId" class="2xl:flex 2xl:-mx-3">
                                 <div class="w-full px-3 mb-5">
                         <label
@@ -743,7 +741,6 @@
                             ></i>
                           </div>
                           <input
-                            v-model="infoEmp.lineId"
                             type="text"
                             class="
                               w-full
@@ -795,7 +792,6 @@
                           </div>
                           <input
                             type="tel"
-                            v-model="infoEmp.tel"
                             maxlength="9"
                             class="
                               w-full
@@ -901,7 +897,7 @@
                               </div>
                             </div>
                             
-                            <div v-if="(iAm == 'Employer' && infoEmp.profile !=lastEditEmp.profile) || (iAm == 'Worker' && infoWorker.verifyPic != lastEditWorker.verifyPic.slice(33,500))" class="flex -mx-3">
+                            <div v-if="(iAm == 'Employer' && infoEmp.profile !=lastEditEmp.profile) || (iAm == 'Worker' && infoWorker.verifyPic != lastEditWorker.verifyPic.slice(33,1000))" class="flex -mx-3">
                               <div class="w-full px-3 mb-5">
                                 <label
                                 v-if="iAm == 'Employer'"
@@ -917,7 +913,7 @@
                                 >
                                 <div class="flex">
                                 <img class="rounded-lg object-cover 2xl:w-1/3 md:w-1/2 w-3/4" :src="image" />
-                                <span class="px-10 font-medium text-4xl">→</span><img class="rounded-lg object-cover 2xl:w-1/3 md:w-1/2 w-3/4" :src="image" /></div>
+                                <span class="px-10 font-medium text-4xl">→</span><img class="rounded-lg object-cover 2xl:w-1/3 md:w-1/2 w-3/4" :src="editImage" /></div>
                               </div>
                             </div>
                           </div>
@@ -971,7 +967,7 @@
 
                   <div class="flex justify-between">
                     <button
-                      @click="approveEdit(idApprove)"
+                      @click="approveEdit()"
                       class="btn w-2/5 bg-orange-1 hover:bg-orange-2 border-orange-1 hover:border-orange-1"
                     >
                       ยืนยัน
@@ -1009,7 +1005,9 @@ export default {
       editInfoWorker: [],
       infoWorker:{},
       lastEditWorker:{},
-      lastEditEmp:{}
+      lastEditEmp:{},
+      idWorker: 0,
+      idEmp: 0,
     };
   },
   methods: {
@@ -1021,6 +1019,8 @@ export default {
       this.statusId = "";
       if (data.workOrEmp == "Worker") {
         this.iAm = data.workOrEmp
+        this.idWorker = data.idWorker
+        console.log("id = "  +  this.idWorker)
         await axios
           .get(`${process.env.VUE_APP_ROOT_API}admin_emp/selectWorker?idWorker=${data.idWorker}`)
           .then((response) => {
@@ -1029,15 +1029,22 @@ export default {
             this.image =
               `${process.env.VUE_APP_ROOT_API}main/image/` +
               this.infoWorker.verifyPic;
+               console.log(this.infoWorker.verifyPic)
+              console.log(this.image)
           });
         await axios.get(`${process.env.VUE_APP_ROOT_API}admin/getEditWorkerByIdWorker?idWorker=${data.idWorker}`)
           .then((response) => {
             this.editInfoWorker = response.data;
+            console.log(this.editInfoWorker)
             this.lastEditWorker = this.editInfoWorker[this.editInfoWorker.length - 1]
-            this.image = this.lastEditWorker.verifyPic;
+            this.editImage = `${process.env.VUE_APP_ROOT_API}main/image/` + this.lastEditWorker.verifyPic;
+            console.log(this.lastEditWorker.verifyPic)
+            console.log(this.editImage)
           });      
       }else{
         this.iAm = data.workOrEmp
+        this.idEmp = data.idEmployer
+        console.log("id = "  +  this.idEmp)
         await axios
           .get(`${process.env.VUE_APP_ROOT_API}main/selectEmployer?idEmployer=${data.idEmployer}`)
           .then((response) => {
@@ -1046,26 +1053,39 @@ export default {
             this.image =
               `${process.env.VUE_APP_ROOT_API}main/image/` +
               this.infoEmp.profile;
+              console.log(this.image)
           });
         await axios.get(`${process.env.VUE_APP_ROOT_API}admin/getEditEmployerByIdEmployer?idEmployer=${data.idEmployer}`)
           .then((response) => {
             this.editInfoEmp = response.data;
             this.lastEditEmp = this.editInfoEmp[this.editInfoEmp.length - 1]
-            this.image =
+            this.editImage =
               `${process.env.VUE_APP_ROOT_API}main/image/` +
               this.lastEditEmp.profile;
+              console.log(this.editImage)
           });                  
       }
     },
-    async approveEdit(idApprove){
+    async approveEdit(){
       if(this.statusId != ''){
-      if(this.statusId == 4){
+      if(this.statusId == 4 && this.iAm == 'Worker'){
         if(confirm("ต้องการจะอนุมัติการแก้ไขข้อมูลบัญชีนี้หรือไม่")){
-          await axios.put(`${process.env.VUE_APP_ROOT_API}admin/editApprove?idApprove=${idApprove}`)
-          this.listApprove = await axios.get(`${process.env.VUE_APP_ROOT_API}admin/getAllApproveByIdStatusAndIdRole?idStatus=7&idRole=0`);
+          await axios.put(`${process.env.VUE_APP_ROOT_API}admin/youCanEditWorker?idWorker=${this.idWorker}`)
           this.toggleModal = false          
         }
+      }else if(this.statusId == 5 && this.iAm == 'Worker'){
+          await axios.delete(`${process.env.VUE_APP_ROOT_API}admin/youCanNotEditWorker?idWorker=${this.idWorker}`)
+          this.toggleModal = false           
+      }else if(this.statusId == 4 && this.iAm == 'Employer'){
+        if(confirm("ต้องการจะอนุมัติการแก้ไขข้อมูลบัญชีนี้หรือไม่")){
+          await axios.put(`${process.env.VUE_APP_ROOT_API}admin/youCanEditEmployer?idEmployer=${this.idEmp}`)
+          this.toggleModal = false          
+        }
+      }else if(this.statusId == 5 && this.iAm == 'Employer'){
+          await axios.delete(`${process.env.VUE_APP_ROOT_API}admin/youCanNotEditEmployer?idEmployer=${this.idEmp}`)
+          this.toggleModal = false          
       }
+      this.listApprove = await axios.get(`${process.env.VUE_APP_ROOT_API}admin/getAllApproveByIdStatusAndIdRole?idStatus=7&idRole=0`);
       }else{
         this.confirmInput = true
         console.log("เลือกก่อนว่าอนุมัติไม่อนุมัติ")
@@ -1085,6 +1105,7 @@ export default {
       this.listApprove = await axios.get(
         `${process.env.VUE_APP_ROOT_API}admin/getAllApproveByIdStatusAndIdRole?idStatus=7&idRole=0`
       );
+      console.log(this.listApprove)
       
     } else {
       this.$router.push("/");

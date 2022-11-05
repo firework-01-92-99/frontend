@@ -291,7 +291,7 @@
               :class="{
                 'tab-active font-medium ': numTab == 2,
               }"
-              >ประวัติงานที่เคยทำ</a
+              >ให้คะแนน</a
             >
             <a
               class="tab tab-bordered 2xl:px-16 xl:px-16 lg:px-16 md:px-16 px-0.5"
@@ -365,7 +365,7 @@ export default {
         forwho: '',
         employer:{},
         worker:{}
-      },      
+      },     
     };
   },
   // this.$store.commit("setWorkingHistory", this.getInactivePost);
@@ -430,6 +430,7 @@ export default {
       this.$store.state.auth.user.role.idRole != "1"
     ) {
       if (this.$store.state.auth.user.role.idRole == "2") {
+        console.log(this.$store.state.auth.user.employer)
         this.firstname = this.$store.state.auth.user.employer.entrepreneurfName;
         this.lastname = this.$store.state.auth.user.employer.entrepreneurlName;
         this.nationality =

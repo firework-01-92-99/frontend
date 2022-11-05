@@ -35,7 +35,7 @@
           </tr>
         </thead>
         <tbody
-          v-for="a in whoApplication.data.whoApplicationList.filter((s) => (s.status_idStatus == this.idStatus) || (this.idStatus== 24 && s.status_idStatus == 25))"
+          v-for="a in whoApplication.data.whoApplicationList"
           :key="a.applicationId">
           <!-- row 1 -->
           <!-- <div v-if="listApprove.lenght == null">
@@ -723,9 +723,9 @@ export default {
           this.whatWorker = response.data;
           console.log(this.whatWorker);
           this.image =
-            `${process.env.VUE_APP_ROOT_API}main/image/` +
             this.whatWorker.verifyPic;
         });
+        console.log(this.whatWorker.verifyPic)
     },
     async acceptWorker() {
       console.log("idApplication = " + this.idApplication);
@@ -852,6 +852,7 @@ export default {
         console.log("idStatus = 24")
         if(this.idStatus == 24){
           this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
+          console.log(this.whoApplication)
         }
       }
     if(this.whoApplication.data.whoApplicationList.length != 0){
