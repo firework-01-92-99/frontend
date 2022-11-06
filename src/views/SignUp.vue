@@ -1,6 +1,37 @@
 <template>
   <div class="SignUp">
     <div class="font-sans-thai bg-gray-2 h-full">
+      <!-- toast -->
+      <transition name="toast">
+        <div v-if="showToast" class="flex justify-center">
+          <div
+            class="absolute z-10 2xl:w-2/5 w-full alert alert-success shadow-lg"
+          >
+            <div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="stroke-current flex-shrink-0 h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <p class="font-sans-thai">
+                การลงทะเบียนสำเร็จเรียบร้อย โปรดรอรหัส OTP เพื่อยืนยันตัวตนของคุณ 
+                <!-- <span class="font-medium">เมนู "สถานะการสมัครงาน"</span> -->
+              </p>
+            </div>
+            <div class="flex-none">
+              <button @click="$router.push('/otp' + '/?email=' + bindEmail), showToast = false" class="btn btn-sm">ปิด</button>
+            </div>
+          </div>
+        </div>
+      </transition>
       <div
         class="
           2xl:pt-0
@@ -1126,8 +1157,8 @@
                       </div>
                     </div>
 
-                    <div class="2xl:flex 2xl:-mx-3">
-                      <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                    <div class="flex">
+                      <div class="w-full mb-5">
                         <label
                           for=""
                           class="
@@ -1184,8 +1215,10 @@
                           กรุณากรอกเบอร์โทรศัพท์ (มือถือ)
                         </p>
                       </div>
+                    </div>
 
-                       <div v-if="signType == 'employer'" class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                    <div class="flex">
+                    <div v-if="signType == 'employer'" class="w-full mb-5">
                         <label
                           for=""
                           class="
@@ -1242,7 +1275,7 @@
                           กรุณากรอกเบอร์โทรศัพท์
                         </p>
                       </div>
-                    </div>
+                      </div>
 
                     <div v-if="signType == 'employer'" class="flex -mx-3">
                       <div class="w-full px-3 mb-5">
@@ -1383,6 +1416,8 @@
                   </div>
 
                   <label class="label cursor-pointer space-x-2">
+                    <div class="flex flex-col">
+                    <div class="flex space-x-3">
                     <input
                       type="checkbox"
                       v-model.trim="selectPolicy"
@@ -1419,9 +1454,13 @@
                         >ผู้สมัครงาน</span
                       ><span v-else>ผู้ประกอบการ</span>ทุกประการ
                     </span>
+                    </div>
+                    <div>
                     <p v-if="tickPolicy" class="text-red-600">
                       กรุณายอมรับข้อกำหนดและเงื่อนไขของ Firework
                     </p>
+                    </div>
+                    </div>
                   </label>
 
                   <div class="flex flex-col mt-8">
@@ -1476,6 +1515,7 @@ export default {
   props: ["signType"],
   data() {
     return {
+      showToast: false,
       ntTypeFreeze,
       type: "password",
       eye: require("../assets/hide.png"),
@@ -1774,9 +1814,12 @@ export default {
         .then(function (response) {
           console.log(response);
           vm.errIden = false;
-          alert("Finish Sign up");
+          vm.showToast = true;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          // setTimeout(() => (vm.showToast = false), 3000);
+          // alert("Finish Sign up");
           vm.clear();
-          vm.$router.push("/otp" + "/?email=" + vm.bindEmail);
+          // vm.$router.push("/otp" + "/?email=" + vm.bindEmail);
         })
         .catch(function (error) {
           console.log(error)
@@ -1978,3 +2021,29 @@ export default {
   },
 };
 </script>
+
+<style>
+.toast-app {
+  opacity: 0;
+  transform: translateY(-60px);
+}
+.toast-to {
+  opacity: 1;
+  transform: translateY(0);
+}
+.toast-active {
+  transform: all 0.3s ease;
+}
+
+.toast-leave-app {
+  opacity: 1;
+  transform: translateY(0);
+}
+.toast-leave-to {
+  opacity: 0;
+  transform: translateY(-60px);
+}
+.toast-leave-active {
+  transform: all 0.3s ease;
+}
+</style>

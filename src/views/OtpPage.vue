@@ -1,6 +1,37 @@
 <template>
   <div>
     <div class="font-sans-thai bg-gray-2 h-screen">
+      <!-- toast -->
+      <transition name="toast">
+        <div v-if="showToast" class="flex justify-center">
+          <div
+            class="absolute z-10 2xl:w-2/5 w-full alert alert-success shadow-lg"
+          >
+            <div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="stroke-current flex-shrink-0 h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <p class="font-sans-thai">
+                ยืนยันตัวตนสำเร็จเรียบร้อย กรุณารอ Admin ตรวจสอบบัญชีของคุณ
+                <!-- <span class="font-medium">เมนู "สถานะการสมัครงาน"</span> -->
+              </p>
+            </div>
+            <div class="flex-none">
+              <button @click="showToast = false, closeToast()" class="btn btn-sm">ปิด</button>
+            </div>
+          </div>
+        </div>
+      </transition>
       <div
         class="
           flex flex-col
@@ -162,6 +193,7 @@ export default {
       btnDisable: false,
       timeCount: 60,
       nowCount: false,
+      showToast: false,
     };
   },
   methods: {
@@ -208,7 +240,8 @@ export default {
     },
     async sendOTP() {
       let errorResponse;
-      let res;
+      // let res;
+      const vm = this;
       // const toLoginPage = this.$router.push("/signin");
       await axios
         .post(
@@ -221,27 +254,44 @@ export default {
           console.log("1.");
           console.log(response);
           console.log("2.");
+          vm.showToast = true;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
           console.log(response.data);
-          alert(
-            "ยืนยัน OTP เรียบร้อย กรุณารอ Admin ยืนยันและตรวจสอบบัญชีของท่าน"
-          );
-          res = response.status;
+          // alert(
+          //   "ยืนยัน OTP เรียบร้อย กรุณารอ Admin ยืนยันและตรวจสอบบัญชีของท่าน"
+          // );
+          // res = response.status;
         })
         .catch(function (error) {
           console.log(error);
           errorResponse = error.response.data.errorCode;
         });
-      if (res == 200 && this.$route.query.forgetPass != 'yes') {  //it's mean for signup
-        this.$router.push("/signin")
-      }else{
-        if(res == 200 && this.$route.query.forgetPass == 'yes'){  //it's mean for forgetPassword
-        this.$router.push("/forgetPass?changePass=yes")
-        }
-      }
+      // if (res == 200 && this.$route.query.forgetPass != 'yes') {  //it's mean for signup
+      //   // vm.showToast = true;
+      //   // window.scrollTo({ top: 0, behavior: 'smooth' });
+      //   this.$router.push("/signin")
+      // }else{
+      //   if(res == 200 && this.$route.query.forgetPass == 'yes'){  //it's mean for forgetPassword
+      //   this.$router.push("/forgetPass?changePass=yes")
+      //   }
+      // }
       if (errorResponse == "OTP_INCORRECT") {
         this.wrongOTP = true;
       }
     },
+    closeToast() {
+      if(this.showToast == false) {
+        if (this.$route.query.forgetPass != 'yes') {  //it's mean for signup
+        // vm.showToast = true;
+        // window.scrollTo({ top: 0, behavior: 'smooth' });
+        this.$router.push("/signin")
+      } else {
+        if(this.$route.query.forgetPass == 'yes') {  //it's mean for forgetPassword
+        this.$router.push("/forgetPass?changePass=yes")
+        }
+      }
+      }
+    }
   },
   created() {
     console.log(this.$route.query.email);
