@@ -285,6 +285,16 @@
                         </p>
                       </div>
                     </div>
+
+
+
+
+
+
+
+
+
+<!-- page 2 -->
                     <div v-if="signType == 'employer'" class="flex -mx-3">
                       <div class="w-full px-3 mb-5">
                         <label for="" class="2xl:text-base
@@ -1330,6 +1340,15 @@
                       </div>
                     </div>
 
+
+
+
+
+
+
+
+
+<!-- page 3 -->
                     <div class="flex -mx-3">
                       <div class="w-full px-3 mb-5">
                         <label
