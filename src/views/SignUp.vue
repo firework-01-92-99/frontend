@@ -110,272 +110,279 @@
                 <ul class="steps">
                   <li
                     class="step"
-                    :class="{ 'step-primary': step == item }"
-                    v-for="item in 4"
+                    :class="[{ 'step-primary': step == item }]"
+                    v-for="item in signType == 'worker' ? 3 : 4"
                     :key="item"
                   >
-                    <!-- {{ item }} -->
+                    <button @click="nextStep()">
+                      <img :src="item.selectedImg" />
+                    </button>
+                    <!-- {{ item  กูคือ Step}} -->
                   </li>
                 </ul>
                 <button @click="backStep()">back</button>
                 <button @click="nextStep()" class="pl-5">next</button>
                 <form class="form-horizontal w-3/4 mx-auto">
                   <div>
-                    <div class="2xl:flex 2xl:-mx-3">
-                      <div class="w-full 2xl:px-3 mb-5">
-                        <label
-                          for=""
-                          class="
-                            2xl:text-base
-                            md:text-base
-                            text-sm
-                            font-medium
-                            px-1
-                          "
-                          >อีเมล</label
-                        >
-                        <div class="flex">
-                          <div
+                    <div v-if="step == 1">
+                      <div class="2xl:flex 2xl:-mx-3">
+                        <div class="w-full 2xl:px-3 mb-5">
+                          <label
+                            for=""
                             class="
-                              w-10
-                              z-10
-                              pl-1
-                              text-center
-                              pointer-events-none
-                              flex
-                              items-center
-                              justify-center
+                              2xl:text-base
+                              md:text-base
+                              text-sm
+                              font-medium
+                              px-1
                             "
+                            >อีเมล</label
                           >
-                            <i
+                          <div class="flex">
+                            <div
                               class="
-                                mdi mdi-account-outline
-                                text-gray-400 text-lg
+                                w-10
+                                z-10
+                                pl-1
+                                text-center
+                                pointer-events-none
+                                flex
+                                items-center
+                                justify-center
                               "
-                            ></i>
-                          </div>
-                          <input
-                            @click="onFocus('อีเมล')"
-                            @keydown="checkMail"
-                            type="email"
-                            v-model.trim="bindEmail"
-                            class="
-                              w-full
-                              -ml-10
-                              pl-5
-                              pr-3
-                              py-2
-                              rounded-lg
-                              border-2 border-gray-200
-                              outline-none
-                              focus:border-indigo-500
-                            "
-                            :class="[
-                              { 'bg-red-50': emailInput },
-                              { 'bg-red-50': showError },
-                              { 'bg-red-50': errorMail },
-                            ]"
-                            placeholder="อีเมล"
-                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-                            required
-                          />
-                        </div>
-                        <p v-if="emailInput" class="text-red-600">
-                          กรุณากรอกอีเมลของคุณ
-                        </p>
-                        <p v-if="showError || errorMail" class="text-red-600">
-                          {{ errorMessage }}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div class="2xl:flex 2xl:-mx-3">
-                      <div class="w-full 2xl:px-3 mb-5">
-                        <label
-                          for=""
-                          class="
-                            2xl:text-base
-                            md:text-base
-                            text-sm
-                            font-medium
-                            px-1
-                          "
-                          >รหัสผ่าน</label
-                        >
-                        <div class="flex">
-                          <div
-                            class="
-                              w-10
-                              z-10
-                              pl-1
-                              text-center
-                              pointer-events-none
-                              flex
-                              items-center
-                              justify-center
-                            "
-                          >
-                            <i
-                              class="
-                                mdi mdi-account-outline
-                                text-gray-400 text-lg
-                              "
-                            ></i>
-                          </div>
-                          <input
-                            @click="onFocus('รหัสผ่าน')"
-                            maxlength="15"
-                            :type="type"
-                            v-model.trim="bindPass"
-                            class="
-                              w-full
-                              -ml-10
-                              pl-5
-                              pr-3
-                              py-2
-                              rounded-lg
-                              border-2 border-gray-200
-                              outline-none
-                              focus:border-indigo-500
-                            "
-                            :class="{ 'bg-red-50': passwordInput }"
-                            placeholder="รหัสผ่าน"
-                          />
-                        </div>
-                        <p v-if="passwordInput" class="text-red-600">
-                          กรุณากรอกรหัสผ่านและรหัสผ่านจำเป็นต้องมีอย่างน้อย 8
-                          ตัว
-                        </p>
-                      </div>
-                    </div>
-
-                    <div class="2xl:flex 2xl:-mx-3">
-                      <div class="w-full 2xl:px-3 mb-5">
-                        <label
-                          for=""
-                          class="
-                            2xl:text-base
-                            md:text-base
-                            text-sm
-                            font-medium
-                            px-1
-                          "
-                          >ยืนยันรหัสผ่าน</label
-                        >
-                        <div class="flex">
-                          <div
-                            class="
-                              w-10
-                              z-10
-                              pl-1
-                              text-center
-                              pointer-events-none
-                              flex
-                              items-center
-                              justify-center
-                            "
-                          >
-                            <i
-                              class="
-                                mdi mdi-account-outline
-                                text-gray-400 text-lg
-                              "
-                            ></i>
-                          </div>
-                          <input
-                            @click="onFocus('รหัสผ่าน')"
-                            maxlength="15"
-                            :type="type"
-                            v-model.trim="secondPass"
-                            class="
-                              w-full
-                              -ml-10
-                              pl-5
-                              pr-3
-                              py-2
-                              rounded-lg
-                              border-2 border-gray-200
-                              outline-none
-                              focus:border-indigo-500
-                            "
-                            :class="{ 'bg-red-50': secPassInput }"
-                            placeholder="ยืนยันรหัสผ่าน"
-                          />
-                          <div class="relative">
-                            <button
-                              class="
-                                absolute
-                                inset-y-0
-                                right-0
-                                w-8
-                                border-2 border-gray-200
-                                rounded-r-lg
-                              "
-                              @click.prevent="showPassword"
                             >
-                              <img class="" :src="eye" />
-                            </button>
+                              <i
+                                class="
+                                  mdi mdi-account-outline
+                                  text-gray-400 text-lg
+                                "
+                              ></i>
+                            </div>
+                            <input
+                              @click="onFocus('อีเมล')"
+                              @keydown="checkMail"
+                              type="email"
+                              v-model.trim="bindEmail"
+                              class="
+                                w-full
+                                -ml-10
+                                pl-5
+                                pr-3
+                                py-2
+                                rounded-lg
+                                border-2 border-gray-200
+                                outline-none
+                                focus:border-indigo-500
+                              "
+                              :class="[
+                                { 'bg-red-50': emailInput },
+                                { 'bg-red-50': showError },
+                                { 'bg-red-50': errorMail },
+                              ]"
+                              placeholder="อีเมล"
+                              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                              required
+                            />
                           </div>
+                          <p v-if="emailInput" class="text-red-600">
+                            กรุณากรอกอีเมลของคุณ
+                          </p>
+                          <p v-if="showError || errorMail" class="text-red-600">
+                            {{ errorMessage }}
+                          </p>
                         </div>
-                        <p v-if="secPassInput" class="text-red-600">
-                          กรุณากรอกช่องยืนยันรหัสผ่านให้ตรงกับช่องรหัสผ่าน
-                        </p>
+                      </div>
+
+                      <div class="2xl:flex 2xl:-mx-3">
+                        <div class="w-full 2xl:px-3 mb-5">
+                          <label
+                            for=""
+                            class="
+                              2xl:text-base
+                              md:text-base
+                              text-sm
+                              font-medium
+                              px-1
+                            "
+                            >รหัสผ่าน</label
+                          >
+                          <div class="flex">
+                            <div
+                              class="
+                                w-10
+                                z-10
+                                pl-1
+                                text-center
+                                pointer-events-none
+                                flex
+                                items-center
+                                justify-center
+                              "
+                            >
+                              <i
+                                class="
+                                  mdi mdi-account-outline
+                                  text-gray-400 text-lg
+                                "
+                              ></i>
+                            </div>
+                            <input
+                              @click="onFocus('รหัสผ่าน')"
+                              maxlength="15"
+                              :type="type"
+                              v-model.trim="bindPass"
+                              class="
+                                w-full
+                                -ml-10
+                                pl-5
+                                pr-3
+                                py-2
+                                rounded-lg
+                                border-2 border-gray-200
+                                outline-none
+                                focus:border-indigo-500
+                              "
+                              :class="{ 'bg-red-50': passwordInput }"
+                              placeholder="รหัสผ่าน"
+                            />
+                          </div>
+                          <p v-if="passwordInput" class="text-red-600">
+                            กรุณากรอกรหัสผ่านและรหัสผ่านจำเป็นต้องมีอย่างน้อย 8
+                            ตัว
+                          </p>
+                        </div>
+                      </div>
+
+                      <div class="2xl:flex 2xl:-mx-3">
+                        <div class="w-full 2xl:px-3 mb-5">
+                          <label
+                            for=""
+                            class="
+                              2xl:text-base
+                              md:text-base
+                              text-sm
+                              font-medium
+                              px-1
+                            "
+                            >ยืนยันรหัสผ่าน</label
+                          >
+                          <div class="flex">
+                            <div
+                              class="
+                                w-10
+                                z-10
+                                pl-1
+                                text-center
+                                pointer-events-none
+                                flex
+                                items-center
+                                justify-center
+                              "
+                            >
+                              <i
+                                class="
+                                  mdi mdi-account-outline
+                                  text-gray-400 text-lg
+                                "
+                              ></i>
+                            </div>
+                            <input
+                              @click="onFocus('รหัสผ่าน')"
+                              maxlength="15"
+                              :type="type"
+                              v-model.trim="secondPass"
+                              class="
+                                w-full
+                                -ml-10
+                                pl-5
+                                pr-3
+                                py-2
+                                rounded-lg
+                                border-2 border-gray-200
+                                outline-none
+                                focus:border-indigo-500
+                              "
+                              :class="{ 'bg-red-50': secPassInput }"
+                              placeholder="ยืนยันรหัสผ่าน"
+                            />
+                            <div class="relative">
+                              <button
+                                class="
+                                  absolute
+                                  inset-y-0
+                                  right-0
+                                  w-8
+                                  border-2 border-gray-200
+                                  rounded-r-lg
+                                "
+                                @click.prevent="showPassword"
+                              >
+                                <img class="" :src="eye" />
+                              </button>
+                            </div>
+                          </div>
+                          <p v-if="secPassInput" class="text-red-600">
+                            กรุณากรอกช่องยืนยันรหัสผ่านให้ตรงกับช่องรหัสผ่าน
+                          </p>
+                        </div>
                       </div>
                     </div>
-
                     <!-- page 2 -->
-                    <div v-if="signType == 'employer'" class="flex -mx-3">
-                      <div class="w-full px-3 mb-5">
-                        <label
-                          for=""
-                          class="
-                            2xl:text-base
-                            md:text-base
-                            text-sm
-                            font-medium
-                            2xl:px-1
-                          "
-                          >ชื่อสถานประกอบการ</label
-                        >
-                        <div class="flex">
-                          <div
+                    <div v-if="step == 2">
+                      <div v-if="signType == 'employer'" class="flex -mx-3">
+                        <div class="w-full px-3 mb-5">
+                          <label
+                            for=""
                             class="
-                              w-10
-                              z-10
-                              pl-1
-                              text-center
-                              pointer-events-none
-                              flex
-                              items-center
-                              justify-center
+                              2xl:text-base
+                              md:text-base
+                              text-sm
+                              font-medium
+                              2xl:px-1
                             "
-                          ></div>
-                          <input
-                            type="text"
-                            v-model.trim="registEmp.employer.establishmentName"
-                            class="
-                              w-full
-                              -ml-10
-                              pl-5
-                              pr-3
-                              py-2
-                              rounded-lg
-                              border-2 border-gray-200
-                              outline-none
-                              focus:border-indigo-500
-                            "
-                            :class="{ 'bg-red-50': estnameInput }"
-                            placeholder="ชื่อสถานประกอบการ"
-                          />
+                            >ชื่อสถานประกอบการ</label
+                          >
+                          <div class="flex">
+                            <div
+                              class="
+                                w-10
+                                z-10
+                                pl-1
+                                text-center
+                                pointer-events-none
+                                flex
+                                items-center
+                                justify-center
+                              "
+                            ></div>
+                            <input
+                              type="text"
+                              v-model.trim="
+                                registEmp.employer.establishmentName
+                              "
+                              class="
+                                w-full
+                                -ml-10
+                                pl-5
+                                pr-3
+                                py-2
+                                rounded-lg
+                                border-2 border-gray-200
+                                outline-none
+                                focus:border-indigo-500
+                              "
+                              :class="{ 'bg-red-50': estnameInput }"
+                              placeholder="ชื่อสถานประกอบการ"
+                            />
+                          </div>
+                          <p v-if="estnameInput" class="text-red-600">
+                            กรุณากรอกชื่อสถานประกอบการ
+                          </p>
                         </div>
-                        <p v-if="estnameInput" class="text-red-600">
-                          กรุณากรอกชื่อสถานประกอบการ
-                        </p>
                       </div>
-                    </div>
 
-                    <div v-else class="flex -mx-3">
-                      <!-- <select
+                      <div v-else class="flex -mx-3">
+                        <!-- <select
                             type="text"
                             v-model.trim="person.accLname"
                             class="
@@ -405,461 +412,6 @@
                             </option>
                           </select> -->
 
-                      <div class="w-full px-3 mb-5">
-                        <label
-                          for=""
-                          class="
-                            2xl:text-base
-                            md:text-base
-                            text-sm
-                            font-medium
-                            px-1
-                          "
-                          >ประเภทแรงงาน</label
-                        >
-                        <div
-                          @click="clearIdenNum(), onFocus('ประเภทแรงงาน')"
-                          class="flex 2xl:space-x-5"
-                        >
-                          <div
-                            class="form-control"
-                            @click="whenselectNation('migrant')"
-                          >
-                            <label
-                              @click="
-                                registWorker.worker.nationality.idnationality =
-                                  ''
-                              "
-                              class="label cursor-pointer 2xl:space-x-2"
-                            >
-                              <input
-                                type="radio"
-                                v-model.trim="
-                                  registWorker.worker.workerType.idWorkerType
-                                "
-                                name="radio-5"
-                                class="radio checked:bg-orange-1"
-                                :class="{ 'bg-red-50': workerTypeInput }"
-                                value="1"
-                              />
-                              <span class="label-text 2xl:pr-0 md:pl-2 md:pr-4"
-                                >แรงงานต่างด้าว</span
-                              >
-                            </label>
-                          </div>
-                          <div
-                            class="form-control"
-                            @click="whenselectNation('Thai')"
-                          >
-                            <label
-                              @click="
-                                registWorker.worker.nationality.idnationality = 1
-                              "
-                              class="label cursor-pointer 2xl:space-x-2"
-                            >
-                              <input
-                                type="radio"
-                                v-model.trim="
-                                  registWorker.worker.workerType.idWorkerType
-                                "
-                                name="radio-5"
-                                class="radio checked:bg-orange-1"
-                                :class="{ 'bg-red-50': workerTypeInput }"
-                                value="2"
-                              />
-                              <span class="label-text 2xl:pr-0 md:pl-2 md:pr-4"
-                                >แรงงานไทย</span
-                              >
-                            </label>
-                          </div>
-                        </div>
-                        <p v-if="workerTypeInput" class="text-red-600">
-                          กรุณาเลือกประเภทแรงงาน
-                        </p>
-                      </div>
-                    </div>
-
-                    <div v-if="signType == 'employer'" class="flex -mx-3">
-                      <div class="w-full px-3 mb-5">
-                        <label
-                          for=""
-                          class="
-                            2xl:text-base
-                            md:text-base
-                            text-sm
-                            font-medium
-                            2xl:px-1
-                          "
-                          >ประเภทธุรกิจ</label
-                        >
-                        <div class="flex">
-                          <div
-                            class="
-                              w-10
-                              z-10
-                              pl-1
-                              text-center
-                              pointer-events-none
-                              flex
-                              items-center
-                              justify-center
-                            "
-                          ></div>
-                          <select
-                            type="text"
-                            v-model.trim="
-                              registEmp.employer.businesstype.idBusinessType
-                            "
-                            class="
-                              select select-bordered
-                              w-full
-                              -ml-10
-                              pl-5
-                              pr-3
-                              py-2
-                              rounded-lg
-                              border-2 border-gray-200
-                              outline-none
-                              focus:border-indigo-500
-                            "
-                            :class="{ 'bg-red-50': businessTypeInput }"
-                          >
-                            <!-- แก้ด้วย -->
-                            <option :value="''" disabled selected>
-                              กรุณาเลือกประเภทธุรกิจ
-                            </option>
-                            <option
-                              class="text-black"
-                              v-for="b in businesstype"
-                              :key="b.idBusinessType"
-                              :value="b.idBusinessType"
-                            >
-                              {{ b.nameType }}
-                            </option>
-                            <!-- แก้ด้วย -->
-                          </select>
-                        </div>
-                        <p v-if="businessTypeInput" class="text-red-600">
-                          กรุณาเลือกประเภทธุรกิจ
-                        </p>
-                      </div>
-                    </div>
-
-                    <div v-else class="flex">
-                      <div class="w-full mb-5">
-                        <label
-                          v-if="
-                            registWorker.worker.workerType.idWorkerType !== ''
-                          "
-                          for=""
-                          class="
-                            2xl:text-base
-                            md:text-base
-                            text-sm
-                            font-medium
-                            2xl:px-1
-                          "
-                          >สัญชาติ</label
-                        >
-                        <div class="flex">
-                          <div
-                            class="
-                              w-10
-                              z-10
-                              pl-1
-                              text-center
-                              pointer-events-none
-                              flex
-                              items-center
-                              justify-center
-                            "
-                          ></div>
-                          <select
-                            v-if="
-                              registWorker.worker.workerType.idWorkerType == 1
-                            "
-                            type="text"
-                            v-model.trim="
-                              registWorker.worker.nationality.idnationality
-                            "
-                            class="
-                              select select-bordered
-                              w-full
-                              -ml-10
-                              pl-5
-                              pr-3
-                              py-2
-                              rounded-lg
-                              border-2 border-gray-200
-                              outline-none
-                              focus:border-indigo-500
-                            "
-                            :class="{ 'bg-red-50': nationInput }"
-                            placeholder="สัญชาติ"
-                          >
-                            <option :value="''" disabled selected>
-                              สัญชาติ
-                            </option>
-                            <option
-                              class="text-black"
-                              v-for="nt in ntType.filter((nt) => {
-                                return nt.nationality_name != 'Thai';
-                              })"
-                              :key="nt.idnationality"
-                              :value="nt.idnationality"
-                            >
-                              {{ ntTypeFreeze[nt.nationality_name] }}
-                            </option>
-                          </select>
-                          <select
-                            v-if="
-                              registWorker.worker.workerType.idWorkerType == 2
-                            "
-                            type="text"
-                            v-model.trim="
-                              registWorker.worker.nationality.idnationality
-                            "
-                            class="
-                              select select-bordered
-                              w-full
-                              -ml-10
-                              pl-5
-                              pr-3
-                              py-2
-                              rounded-lg
-                              border-2 border-gray-200
-                              outline-none
-                              focus:border-indigo-500
-                            "
-                            :class="{ 'bg-red-50': nationInput }"
-                            placeholder="สัญชาติ"
-                          >
-                            <option selected class="text-black" :value="1">
-                              ไทย
-                            </option>
-                          </select>
-                        </div>
-                        <p v-if="nationInput" class="text-red-600">
-                          กรุณาเลือกสัญชาติ
-                        </p>
-                      </div>
-                    </div>
-
-                    <div v-if="signType == 'worker'" class="w-full mb-5">
-                      <label
-                        for=""
-                        class="
-                          2xl:text-base
-                          md:text-base
-                          text-sm
-                          font-medium
-                          2xl:px-1
-                        "
-                        >เลขบัตรประชาชน/เลขหนังสือเดินทาง</label
-                      >
-                      <div class="flex">
-                        <div
-                          class="
-                            w-10
-                            z-10
-                            pl-1
-                            text-center
-                            pointer-events-none
-                            flex
-                            items-center
-                            justify-center
-                          "
-                        ></div>
-                        <input
-                          @click="onFocus('เลข')"
-                          type="text"
-                          v-model.trim="
-                            registWorker.worker.identificationNumber
-                          "
-                          :maxlength="chaLength"
-                          class="
-                            w-full
-                            -ml-10
-                            pl-5
-                            pr-3
-                            py-2
-                            rounded-lg
-                            border-2 border-gray-200
-                            outline-none
-                            focus:border-indigo-500
-                          "
-                          :class="{ 'bg-red-50': idenNoInput }"
-                          placeholder="เลขบัตรประชาชน/เลขหนังสือเดินทาง"
-                        />
-                      </div>
-                      <p v-if="idenNoInput" class="text-red-600">
-                        กรุณากรอกเลขบัตรประชาชน/เลขหนังสือเดินทาง
-                      </p>
-                      <p v-if="errIden" class="text-red-600">
-                        {{ errorMessage }}
-                      </p>
-                    </div>
-
-                    <div class="2xl:flex 2xl:-mx-3">
-                      <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                        <label
-                          for=""
-                          class="
-                            2xl:text-base
-                            md:text-base
-                            text-sm
-                            font-medium
-                            px-1
-                          "
-                          >ชื่อ</label
-                        >
-                        <div class="flex">
-                          <div
-                            class="
-                              w-10
-                              z-10
-                              pl-1
-                              text-center
-                              pointer-events-none
-                              flex
-                              items-center
-                              justify-center
-                            "
-                          ></div>
-                          <input
-                            @click="onFocus('ชื่อจริง')"
-                            type="text"
-                            v-model.trim="bindFname"
-                            class="
-                              w-full
-                              -ml-10
-                              pl-5
-                              pr-3
-                              py-2
-                              rounded-lg
-                              border-2 border-gray-200
-                              outline-none
-                              focus:border-indigo-500
-                            "
-                            :class="{ 'bg-red-50': firstnameInput }"
-                            placeholder="ชื่อ"
-                          />
-                        </div>
-                        <p v-if="firstnameInput" class="text-red-600">
-                          กรุณากรอกชื่อ
-                        </p>
-                      </div>
-
-                      <div
-                        v-if="signType == 'worker'"
-                        class="2xl:w-1/2 w-full 2xl:px-3 mb-5"
-                      >
-                        <label
-                          for=""
-                          class="
-                            2xl:text-base
-                            md:text-base
-                            text-sm
-                            font-medium
-                            px-1
-                          "
-                          >ชื่อกลาง</label
-                        >
-                        <div class="flex">
-                          <div
-                            class="
-                              w-10
-                              z-10
-                              pl-1
-                              text-center
-                              pointer-events-none
-                              flex
-                              items-center
-                              justify-center
-                            "
-                          ></div>
-                          <input
-                            @click="onFocus('ชื่อกลาง')"
-                            type="text"
-                            v-model.trim="registWorker.worker.middleName"
-                            class="
-                              w-full
-                              -ml-10
-                              pl-5
-                              pr-3
-                              py-2
-                              rounded-lg
-                              border-2 border-gray-200
-                              outline-none
-                              focus:border-indigo-500
-                            "
-                            :class="{ 'bg-red-50': middlenameInput }"
-                            placeholder="ชื่อกลาง"
-                          />
-                        </div>
-                        <p v-if="middlenameInput" class="text-red-600">
-                          กรุณากรอกชื่อ
-                        </p>
-                      </div>
-
-                      <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                        <label
-                          for=""
-                          class="
-                            2xl:text-base
-                            md:text-base
-                            text-sm
-                            font-medium
-                            px-1
-                          "
-                          >นามสกุล</label
-                        >
-                        <div class="flex">
-                          <div
-                            class="
-                              w-10
-                              z-10
-                              pl-1
-                              text-center
-                              pointer-events-none
-                              flex
-                              items-center
-                              justify-center
-                            "
-                          >
-                            <i
-                              class="
-                                mdi mdi-account-outline
-                                text-gray-400 text-lg
-                              "
-                            ></i>
-                          </div>
-                          <input
-                            @click="onFocus('นามสกุล')"
-                            type="text"
-                            v-model.trim="bindLname"
-                            class="
-                              w-full
-                              -ml-10
-                              pl-5
-                              pr-3
-                              py-2
-                              rounded-lg
-                              border-2 border-gray-200
-                              outline-none
-                              focus:border-indigo-500
-                            "
-                            placeholder="นามสกุล"
-                          />
-                        </div>
-                        <!-- <p v-if="lastnameInput" class="text-red-600">
-                          กรุณากรอกนามสกุล
-                        </p> -->
-                      </div>
-                    </div>
-
-                    <div v-if="signType == 'employer'">
-                      <div class="flex -mx-3">
                         <div class="w-full px-3 mb-5">
                           <label
                             for=""
@@ -870,7 +422,84 @@
                               font-medium
                               px-1
                             "
-                            >ที่อยู่</label
+                            >ประเภทแรงงาน</label
+                          >
+                          <div
+                            @click="clearIdenNum(), onFocus('ประเภทแรงงาน')"
+                            class="flex 2xl:space-x-5"
+                          >
+                            <div
+                              class="form-control"
+                              @click="whenselectNation('migrant')"
+                            >
+                              <label
+                                @click="
+                                  registWorker.worker.nationality.idnationality =
+                                    ''
+                                "
+                                class="label cursor-pointer 2xl:space-x-2"
+                              >
+                                <input
+                                  type="radio"
+                                  v-model.trim="
+                                    registWorker.worker.workerType.idWorkerType
+                                  "
+                                  name="radio-5"
+                                  class="radio checked:bg-orange-1"
+                                  :class="{ 'bg-red-50': workerTypeInput }"
+                                  value="1"
+                                />
+                                <span
+                                  class="label-text 2xl:pr-0 md:pl-2 md:pr-4"
+                                  >แรงงานต่างด้าว</span
+                                >
+                              </label>
+                            </div>
+                            <div
+                              class="form-control"
+                              @click="whenselectNation('Thai')"
+                            >
+                              <label
+                                @click="
+                                  registWorker.worker.nationality.idnationality = 1
+                                "
+                                class="label cursor-pointer 2xl:space-x-2"
+                              >
+                                <input
+                                  type="radio"
+                                  v-model.trim="
+                                    registWorker.worker.workerType.idWorkerType
+                                  "
+                                  name="radio-5"
+                                  class="radio checked:bg-orange-1"
+                                  :class="{ 'bg-red-50': workerTypeInput }"
+                                  value="2"
+                                />
+                                <span
+                                  class="label-text 2xl:pr-0 md:pl-2 md:pr-4"
+                                  >แรงงานไทย</span
+                                >
+                              </label>
+                            </div>
+                          </div>
+                          <p v-if="workerTypeInput" class="text-red-600">
+                            กรุณาเลือกประเภทแรงงาน
+                          </p>
+                        </div>
+                      </div>
+
+                      <div v-if="signType == 'employer'" class="flex -mx-3">
+                        <div class="w-full px-3 mb-5">
+                          <label
+                            for=""
+                            class="
+                              2xl:text-base
+                              md:text-base
+                              text-sm
+                              font-medium
+                              2xl:px-1
+                            "
+                            >ประเภทธุรกิจ</label
                           >
                           <div class="flex">
                             <div
@@ -884,19 +513,14 @@
                                 items-center
                                 justify-center
                               "
-                            >
-                              <i
-                                class="
-                                  mdi mdi-account-outline
-                                  text-gray-400 text-lg
-                                "
-                              ></i>
-                            </div>
-                            <textarea
-                              type="tel"
-                              v-model.trim="registEmp.employer.address"
+                            ></div>
+                            <select
+                              type="text"
+                              v-model.trim="
+                                registEmp.employer.businesstype.idBusinessType
+                              "
                               class="
-                                textarea
+                                select select-bordered
                                 w-full
                                 -ml-10
                                 pl-5
@@ -907,18 +531,238 @@
                                 outline-none
                                 focus:border-indigo-500
                               "
-                              :class="{ 'bg-red-50': addressInput }"
-                              placeholder="ที่อยู่"
+                              :class="{ 'bg-red-50': businessTypeInput }"
+                            >
+                              <!-- แก้ด้วย -->
+                              <option :value="''" disabled selected>
+                                กรุณาเลือกประเภทธุรกิจ
+                              </option>
+                              <option
+                                class="text-black"
+                                v-for="b in businesstype"
+                                :key="b.idBusinessType"
+                                :value="b.idBusinessType"
+                              >
+                                {{ b.nameType }}
+                              </option>
+                              <!-- แก้ด้วย -->
+                            </select>
+                          </div>
+                          <p v-if="businessTypeInput" class="text-red-600">
+                            กรุณาเลือกประเภทธุรกิจ
+                          </p>
+                        </div>
+                      </div>
+
+                      <div v-else class="flex">
+                        <div class="w-full mb-5">
+                          <label
+                            v-if="
+                              registWorker.worker.workerType.idWorkerType !== ''
+                            "
+                            for=""
+                            class="
+                              2xl:text-base
+                              md:text-base
+                              text-sm
+                              font-medium
+                              2xl:px-1
+                            "
+                            >สัญชาติ</label
+                          >
+                          <div class="flex">
+                            <div
+                              class="
+                                w-10
+                                z-10
+                                pl-1
+                                text-center
+                                pointer-events-none
+                                flex
+                                items-center
+                                justify-center
+                              "
+                            ></div>
+                            <select
+                              v-if="
+                                registWorker.worker.workerType.idWorkerType == 1
+                              "
+                              type="text"
+                              v-model.trim="
+                                registWorker.worker.nationality.idnationality
+                              "
+                              class="
+                                select select-bordered
+                                w-full
+                                -ml-10
+                                pl-5
+                                pr-3
+                                py-2
+                                rounded-lg
+                                border-2 border-gray-200
+                                outline-none
+                                focus:border-indigo-500
+                              "
+                              :class="{ 'bg-red-50': nationInput }"
+                              placeholder="สัญชาติ"
+                            >
+                              <option :value="''" disabled selected>
+                                สัญชาติ
+                              </option>
+                              <option
+                                class="text-black"
+                                v-for="nt in ntType.filter((nt) => {
+                                  return nt.nationality_name != 'Thai';
+                                })"
+                                :key="nt.idnationality"
+                                :value="nt.idnationality"
+                              >
+                                {{ ntTypeFreeze[nt.nationality_name] }}
+                              </option>
+                            </select>
+                            <select
+                              v-if="
+                                registWorker.worker.workerType.idWorkerType == 2
+                              "
+                              type="text"
+                              v-model.trim="
+                                registWorker.worker.nationality.idnationality
+                              "
+                              class="
+                                select select-bordered
+                                w-full
+                                -ml-10
+                                pl-5
+                                pr-3
+                                py-2
+                                rounded-lg
+                                border-2 border-gray-200
+                                outline-none
+                                focus:border-indigo-500
+                              "
+                              :class="{ 'bg-red-50': nationInput }"
+                              placeholder="สัญชาติ"
+                            >
+                              <option selected class="text-black" :value="1">
+                                ไทย
+                              </option>
+                            </select>
+                          </div>
+                          <p v-if="nationInput" class="text-red-600">
+                            กรุณาเลือกสัญชาติ
+                          </p>
+                        </div>
+                      </div>
+
+                      <div v-if="signType == 'worker'" class="w-full mb-5">
+                        <label
+                          for=""
+                          class="
+                            2xl:text-base
+                            md:text-base
+                            text-sm
+                            font-medium
+                            2xl:px-1
+                          "
+                          >เลขบัตรประชาชน/เลขหนังสือเดินทาง</label
+                        >
+                        <div class="flex">
+                          <div
+                            class="
+                              w-10
+                              z-10
+                              pl-1
+                              text-center
+                              pointer-events-none
+                              flex
+                              items-center
+                              justify-center
+                            "
+                          ></div>
+                          <input
+                            @click="onFocus('เลข')"
+                            type="text"
+                            v-model.trim="
+                              registWorker.worker.identificationNumber
+                            "
+                            :maxlength="chaLength"
+                            class="
+                              w-full
+                              -ml-10
+                              pl-5
+                              pr-3
+                              py-2
+                              rounded-lg
+                              border-2 border-gray-200
+                              outline-none
+                              focus:border-indigo-500
+                            "
+                            :class="{ 'bg-red-50': idenNoInput }"
+                            placeholder="เลขบัตรประชาชน/เลขหนังสือเดินทาง"
+                          />
+                        </div>
+                        <p v-if="idenNoInput" class="text-red-600">
+                          กรุณากรอกเลขบัตรประชาชน/เลขหนังสือเดินทาง
+                        </p>
+                        <p v-if="errIden" class="text-red-600">
+                          {{ errorMessage }}
+                        </p>
+                      </div>
+
+                      <div class="2xl:flex 2xl:-mx-3">
+                        <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                          <label
+                            for=""
+                            class="
+                              2xl:text-base
+                              md:text-base
+                              text-sm
+                              font-medium
+                              px-1
+                            "
+                            >ชื่อ</label
+                          >
+                          <div class="flex">
+                            <div
+                              class="
+                                w-10
+                                z-10
+                                pl-1
+                                text-center
+                                pointer-events-none
+                                flex
+                                items-center
+                                justify-center
+                              "
+                            ></div>
+                            <input
+                              @click="onFocus('ชื่อจริง')"
+                              type="text"
+                              v-model.trim="bindFname"
+                              class="
+                                w-full
+                                -ml-10
+                                pl-5
+                                pr-3
+                                py-2
+                                rounded-lg
+                                border-2 border-gray-200
+                                outline-none
+                                focus:border-indigo-500
+                              "
+                              :class="{ 'bg-red-50': firstnameInput }"
+                              placeholder="ชื่อ"
                             />
                           </div>
-                          <p v-if="addressInput" class="text-red-600">
-                            กรุณากรอกที่อยู่
+                          <p v-if="firstnameInput" class="text-red-600">
+                            กรุณากรอกชื่อ
                           </p>
                         </div>
-                      </div>
 
-                      <div class="2xl:flex 2xl:-mx-3">
-                        <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                        <div
+                          v-if="signType == 'worker'"
+                          class="2xl:w-1/2 w-full 2xl:px-3 mb-5"
+                        >
                           <label
                             for=""
                             class="
@@ -928,7 +772,7 @@
                               font-medium
                               px-1
                             "
-                            >จังหวัด</label
+                            >ชื่อกลาง</label
                           >
                           <div class="flex">
                             <div
@@ -942,19 +786,12 @@
                                 items-center
                                 justify-center
                               "
-                            >
-                              <i
-                                class="
-                                  mdi mdi-account-outline
-                                  text-gray-400 text-lg
-                                "
-                              ></i>
-                            </div>
-                            <select
+                            ></div>
+                            <input
+                              @click="onFocus('ชื่อกลาง')"
                               type="text"
-                              v-model.trim="registEmp.employer.province"
+                              v-model.trim="registWorker.worker.middleName"
                               class="
-                                select select-bordered
                                 w-full
                                 -ml-10
                                 pl-5
@@ -965,23 +802,12 @@
                                 outline-none
                                 focus:border-indigo-500
                               "
-                              :class="{ 'bg-red-50': provinceInput }"
-                            >
-                              <option class="" value="''" disabled selected>
-                                กรุณาเลือกจังหวัด
-                              </option>
-                              <option
-                                class="text-black"
-                                v-for="p in provinceForm"
-                                :key="p.idProvince"
-                                :value="p"
-                              >
-                                {{ p.provinceName }}
-                              </option>
-                            </select>
+                              :class="{ 'bg-red-50': middlenameInput }"
+                              placeholder="ชื่อกลาง"
+                            />
                           </div>
-                          <p v-if="provinceInput" class="text-red-600">
-                            กรุณาเลือกจังหวัด
+                          <p v-if="middlenameInput" class="text-red-600">
+                            กรุณากรอกชื่อ
                           </p>
                         </div>
 
@@ -995,145 +821,7 @@
                               font-medium
                               px-1
                             "
-                            >อำเภอ/เขต</label
-                          >
-                          <div class="flex">
-                            <div
-                              class="
-                                w-10
-                                z-10
-                                pl-1
-                                text-center
-                                pointer-events-none
-                                flex
-                                items-center
-                                justify-center
-                              "
-                            >
-                              <i
-                                class="
-                                  mdi mdi-account-outline
-                                  text-gray-400 text-lg
-                                "
-                              ></i>
-                            </div>
-                            <select
-                              type="text"
-                              v-model.trim="registEmp.employer.district"
-                              class="
-                                select select-bordered
-                                w-full
-                                -ml-10
-                                pl-5
-                                pr-3
-                                py-2
-                                rounded-lg
-                                border-2 border-gray-200
-                                outline-none
-                                focus:border-indigo-500
-                              "
-                              :class="{ 'bg-red-50': districtInput }"
-                            >
-                              <option class="" :value="''" disabled selected>
-                                กรุณาเลือกอำเภอ/เขต
-                              </option>
-                              <option
-                                class="text-black"
-                                v-for="d in this.registEmp.employer.province
-                                  .districtList"
-                                :key="d.idDistrict"
-                                :value="d"
-                              >
-                                {{ d.districtName }}
-                              </option>
-                            </select>
-                          </div>
-                          <p v-if="districtInput" class="text-red-600">
-                            กรุณาเลือกอำเภอ/เขต
-                          </p>
-                        </div>
-                      </div>
-
-                      <div class="2xl:flex 2xl:-mx-3">
-                        <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                          <label
-                            for=""
-                            class="
-                              2xl:text-base
-                              md:text-base
-                              text-sm
-                              font-medium
-                              px-1
-                            "
-                            >ตำบล/แขวง</label
-                          >
-                          <div class="flex">
-                            <div
-                              class="
-                                w-10
-                                z-10
-                                pl-1
-                                text-center
-                                pointer-events-none
-                                flex
-                                items-center
-                                justify-center
-                              "
-                            >
-                              <i
-                                class="
-                                  mdi mdi-account-outline
-                                  text-gray-400 text-lg
-                                "
-                              ></i>
-                            </div>
-                            <select
-                              type="text"
-                              v-model.trim="registEmp.employer.subDistrict"
-                              class="
-                                select select-bordered
-                                w-full
-                                -ml-10
-                                pl-5
-                                pr-3
-                                py-2
-                                rounded-lg
-                                border-2 border-gray-200
-                                outline-none
-                                focus:border-indigo-500
-                              "
-                              :class="{ 'bg-red-50': subdisInput }"
-                            >
-                              <option class="" :value="''" disabled selected>
-                                กรุณาเลือกตำบล/แขวง
-                              </option>
-                              <option
-                                class="text-black"
-                                v-for="sd in registEmp.employer.district
-                                  .subDistrictList"
-                                :key="sd.idSubdistrict"
-                                :value="sd"
-                              >
-                                {{ sd.subDistrict }}
-                              </option>
-                            </select>
-                          </div>
-                          <p v-if="subdisInput" class="text-red-600">
-                            กรุณาเลือกตำบล/แขวง
-                          </p>
-                        </div>
-
-                        <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                          <label
-                            for=""
-                            class="
-                              2xl:text-base
-                              md:text-base
-                              text-sm
-                              font-medium
-                              px-1
-                            "
-                            >รหัสไปรษณีย์</label
+                            >นามสกุล</label
                           >
                           <div class="flex">
                             <div
@@ -1156,11 +844,9 @@
                               ></i>
                             </div>
                             <input
-                              type="tel"
-                              v-model.trim="
-                                registEmp.employer.subDistrict.postcode
-                              "
-                              onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                              @click="onFocus('นามสกุล')"
+                              type="text"
+                              v-model.trim="bindLname"
                               class="
                                 w-full
                                 -ml-10
@@ -1172,380 +858,712 @@
                                 outline-none
                                 focus:border-indigo-500
                               "
-                              :class="{ 'bg-red-50': postCodeInput }"
-                              placeholder="กรุณากรอกเลขไปรษณีย์"
+                              placeholder="นามสกุล"
                             />
                           </div>
-                          <p v-if="postCodeInput" class="text-red-600">
-                            กรุณากรอกเลขไปรษณีย์หรือกรอกให้ครบ 5 หลัก
+                          <!-- <p v-if="lastnameInput" class="text-red-600">
+                          กรุณากรอกนามสกุล
+                        </p> -->
+                        </div>
+                      </div>
+
+                      <div v-if="signType == 'employer'">
+                        <div class="flex -mx-3">
+                          <div class="w-full px-3 mb-5">
+                            <label
+                              for=""
+                              class="
+                                2xl:text-base
+                                md:text-base
+                                text-sm
+                                font-medium
+                                px-1
+                              "
+                              >ที่อยู่</label
+                            >
+                            <div class="flex">
+                              <div
+                                class="
+                                  w-10
+                                  z-10
+                                  pl-1
+                                  text-center
+                                  pointer-events-none
+                                  flex
+                                  items-center
+                                  justify-center
+                                "
+                              >
+                                <i
+                                  class="
+                                    mdi mdi-account-outline
+                                    text-gray-400 text-lg
+                                  "
+                                ></i>
+                              </div>
+                              <textarea
+                                type="tel"
+                                v-model.trim="registEmp.employer.address"
+                                class="
+                                  textarea
+                                  w-full
+                                  -ml-10
+                                  pl-5
+                                  pr-3
+                                  py-2
+                                  rounded-lg
+                                  border-2 border-gray-200
+                                  outline-none
+                                  focus:border-indigo-500
+                                "
+                                :class="{ 'bg-red-50': addressInput }"
+                                placeholder="ที่อยู่"
+                              />
+                            </div>
+                            <p v-if="addressInput" class="text-red-600">
+                              กรุณากรอกที่อยู่
+                            </p>
+                          </div>
+                        </div>
+
+                        <div class="2xl:flex 2xl:-mx-3">
+                          <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                            <label
+                              for=""
+                              class="
+                                2xl:text-base
+                                md:text-base
+                                text-sm
+                                font-medium
+                                px-1
+                              "
+                              >จังหวัด</label
+                            >
+                            <div class="flex">
+                              <div
+                                class="
+                                  w-10
+                                  z-10
+                                  pl-1
+                                  text-center
+                                  pointer-events-none
+                                  flex
+                                  items-center
+                                  justify-center
+                                "
+                              >
+                                <i
+                                  class="
+                                    mdi mdi-account-outline
+                                    text-gray-400 text-lg
+                                  "
+                                ></i>
+                              </div>
+                              <select
+                                type="text"
+                                v-model.trim="registEmp.employer.province"
+                                class="
+                                  select select-bordered
+                                  w-full
+                                  -ml-10
+                                  pl-5
+                                  pr-3
+                                  py-2
+                                  rounded-lg
+                                  border-2 border-gray-200
+                                  outline-none
+                                  focus:border-indigo-500
+                                "
+                                :class="{ 'bg-red-50': provinceInput }"
+                              >
+                                <option class="" value="''" disabled selected>
+                                  กรุณาเลือกจังหวัด
+                                </option>
+                                <option
+                                  class="text-black"
+                                  v-for="p in provinceForm"
+                                  :key="p.idProvince"
+                                  :value="p"
+                                >
+                                  {{ p.provinceName }}
+                                </option>
+                              </select>
+                            </div>
+                            <p v-if="provinceInput" class="text-red-600">
+                              กรุณาเลือกจังหวัด
+                            </p>
+                          </div>
+
+                          <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                            <label
+                              for=""
+                              class="
+                                2xl:text-base
+                                md:text-base
+                                text-sm
+                                font-medium
+                                px-1
+                              "
+                              >อำเภอ/เขต</label
+                            >
+                            <div class="flex">
+                              <div
+                                class="
+                                  w-10
+                                  z-10
+                                  pl-1
+                                  text-center
+                                  pointer-events-none
+                                  flex
+                                  items-center
+                                  justify-center
+                                "
+                              >
+                                <i
+                                  class="
+                                    mdi mdi-account-outline
+                                    text-gray-400 text-lg
+                                  "
+                                ></i>
+                              </div>
+                              <select
+                                type="text"
+                                v-model.trim="registEmp.employer.district"
+                                class="
+                                  select select-bordered
+                                  w-full
+                                  -ml-10
+                                  pl-5
+                                  pr-3
+                                  py-2
+                                  rounded-lg
+                                  border-2 border-gray-200
+                                  outline-none
+                                  focus:border-indigo-500
+                                "
+                                :class="{ 'bg-red-50': districtInput }"
+                              >
+                                <option class="" :value="''" disabled selected>
+                                  กรุณาเลือกอำเภอ/เขต
+                                </option>
+                                <option
+                                  class="text-black"
+                                  v-for="d in this.registEmp.employer.province
+                                    .districtList"
+                                  :key="d.idDistrict"
+                                  :value="d"
+                                >
+                                  {{ d.districtName }}
+                                </option>
+                              </select>
+                            </div>
+                            <p v-if="districtInput" class="text-red-600">
+                              กรุณาเลือกอำเภอ/เขต
+                            </p>
+                          </div>
+                        </div>
+
+                        <div class="2xl:flex 2xl:-mx-3">
+                          <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                            <label
+                              for=""
+                              class="
+                                2xl:text-base
+                                md:text-base
+                                text-sm
+                                font-medium
+                                px-1
+                              "
+                              >ตำบล/แขวง</label
+                            >
+                            <div class="flex">
+                              <div
+                                class="
+                                  w-10
+                                  z-10
+                                  pl-1
+                                  text-center
+                                  pointer-events-none
+                                  flex
+                                  items-center
+                                  justify-center
+                                "
+                              >
+                                <i
+                                  class="
+                                    mdi mdi-account-outline
+                                    text-gray-400 text-lg
+                                  "
+                                ></i>
+                              </div>
+                              <select
+                                type="text"
+                                v-model.trim="registEmp.employer.subDistrict"
+                                class="
+                                  select select-bordered
+                                  w-full
+                                  -ml-10
+                                  pl-5
+                                  pr-3
+                                  py-2
+                                  rounded-lg
+                                  border-2 border-gray-200
+                                  outline-none
+                                  focus:border-indigo-500
+                                "
+                                :class="{ 'bg-red-50': subdisInput }"
+                              >
+                                <option class="" :value="''" disabled selected>
+                                  กรุณาเลือกตำบล/แขวง
+                                </option>
+                                <option
+                                  class="text-black"
+                                  v-for="sd in registEmp.employer.district
+                                    .subDistrictList"
+                                  :key="sd.idSubdistrict"
+                                  :value="sd"
+                                >
+                                  {{ sd.subDistrict }}
+                                </option>
+                              </select>
+                            </div>
+                            <p v-if="subdisInput" class="text-red-600">
+                              กรุณาเลือกตำบล/แขวง
+                            </p>
+                          </div>
+
+                          <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                            <label
+                              for=""
+                              class="
+                                2xl:text-base
+                                md:text-base
+                                text-sm
+                                font-medium
+                                px-1
+                              "
+                              >รหัสไปรษณีย์</label
+                            >
+                            <div class="flex">
+                              <div
+                                class="
+                                  w-10
+                                  z-10
+                                  pl-1
+                                  text-center
+                                  pointer-events-none
+                                  flex
+                                  items-center
+                                  justify-center
+                                "
+                              >
+                                <i
+                                  class="
+                                    mdi mdi-account-outline
+                                    text-gray-400 text-lg
+                                  "
+                                ></i>
+                              </div>
+                              <input
+                                type="tel"
+                                v-model.trim="
+                                  registEmp.employer.subDistrict.postcode
+                                "
+                                onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                                class="
+                                  w-full
+                                  -ml-10
+                                  pl-5
+                                  pr-3
+                                  py-2
+                                  rounded-lg
+                                  border-2 border-gray-200
+                                  outline-none
+                                  focus:border-indigo-500
+                                "
+                                :class="{ 'bg-red-50': postCodeInput }"
+                                placeholder="กรุณากรอกเลขไปรษณีย์"
+                              />
+                            </div>
+                            <p v-if="postCodeInput" class="text-red-600">
+                              กรุณากรอกเลขไปรษณีย์หรือกรอกให้ครบ 5 หลัก
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div v-if="signType == 'worker'" class="flex -mx-3">
+                        <div @click="onFocus('เพศ')" class="w-1/2 px-3 mb-5">
+                          <label
+                            for=""
+                            class="
+                              2xl:text-base
+                              md:text-base
+                              text-sm
+                              font-medium
+                              px-1
+                            "
+                            >เพศ</label
+                          >
+                          <div class="flex space-x-5">
+                            <div class="form-control">
+                              <label
+                                for="male"
+                                class="label cursor-pointer space-x-2"
+                              >
+                                <input
+                                  id="male"
+                                  type="radio"
+                                  v-model.trim="registWorker.worker.sex"
+                                  name="radio-6"
+                                  class="radio checked:bg-orange-1"
+                                  :class="{ 'bg-red-50': sexInput }"
+                                  value="M"
+                                />
+                                <span class="label-text">ชาย</span>
+                              </label>
+                            </div>
+                            <div class="form-control">
+                              <label
+                                for="female"
+                                class="label cursor-pointer space-x-2"
+                              >
+                                <input
+                                  id="female"
+                                  type="radio"
+                                  v-model.trim="registWorker.worker.sex"
+                                  name="radio-7"
+                                  class="radio checked:bg-orange-1"
+                                  :class="{ 'bg-red-50': sexInput }"
+                                  value="F"
+                                />
+                                <span class="label-text">หญิง</span>
+                              </label>
+                            </div>
+                          </div>
+                          <p v-if="sexInput" class="text-red-600">
+                            กรุณาเลือกเพศ
                           </p>
                         </div>
                       </div>
-                    </div>
 
-                    <div v-if="signType == 'worker'" class="flex -mx-3">
-                      <div @click="onFocus('เพศ')" class="w-1/2 px-3 mb-5">
-                        <label
-                          for=""
-                          class="
-                            2xl:text-base
-                            md:text-base
-                            text-sm
-                            font-medium
-                            px-1
-                          "
-                          >เพศ</label
-                        >
-                        <div class="flex space-x-5">
-                          <div class="form-control">
-                            <label
-                              for="male"
-                              class="label cursor-pointer space-x-2"
+                      <div class="flex">
+                        <div class="w-full mb-5">
+                          <label
+                            for=""
+                            class="
+                              2xl:text-base
+                              md:text-base
+                              text-sm
+                              font-medium
+                              px-1
+                            "
+                            >เบอร์โทรศัพท์ (มือถือ)</label
+                          >
+                          <div class="flex">
+                            <div
+                              class="
+                                w-10
+                                z-10
+                                pl-1
+                                text-center
+                                pointer-events-none
+                                flex
+                                items-center
+                                justify-center
+                              "
                             >
-                              <input
-                                id="male"
-                                type="radio"
-                                v-model.trim="registWorker.worker.sex"
-                                name="radio-6"
-                                class="radio checked:bg-orange-1"
-                                :class="{ 'bg-red-50': sexInput }"
-                                value="M"
-                              />
-                              <span class="label-text">ชาย</span>
-                            </label>
+                              <i
+                                class="
+                                  mdi mdi-account-outline
+                                  text-gray-400 text-lg
+                                "
+                              ></i>
+                            </div>
+                            <input
+                              @click="onFocus('เบอร์')"
+                              type="tel"
+                              v-model.trim="bindPhone"
+                              maxlength="10"
+                              class="
+                                w-full
+                                -ml-10
+                                pl-5
+                                pr-3
+                                py-2
+                                rounded-lg
+                                border-2 border-gray-200
+                                outline-none
+                                focus:border-indigo-500
+                              "
+                              :class="{ 'bg-red-50': phoneInput }"
+                              onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                              placeholder="เบอร์โทรศัพท์ (มือถือ)"
+                            />
                           </div>
-                          <div class="form-control">
-                            <label
-                              for="female"
-                              class="label cursor-pointer space-x-2"
+                          <p v-if="phoneInput" class="text-red-600">
+                            กรุณากรอกเบอร์โทรศัพท์ (มือถือ)
+                          </p>
+                        </div>
+                      </div>
+
+                      <div class="flex">
+                        <div v-if="signType == 'employer'" class="w-full mb-5">
+                          <label
+                            for=""
+                            class="
+                              2xl:text-base
+                              md:text-base
+                              text-sm
+                              font-medium
+                              px-1
+                            "
+                            >เบอร์โทรศัพท์</label
+                          >
+                          <div class="flex">
+                            <div
+                              class="
+                                w-10
+                                z-10
+                                pl-1
+                                text-center
+                                pointer-events-none
+                                flex
+                                items-center
+                                justify-center
+                              "
                             >
-                              <input
-                                id="female"
-                                type="radio"
-                                v-model.trim="registWorker.worker.sex"
-                                name="radio-7"
-                                class="radio checked:bg-orange-1"
-                                :class="{ 'bg-red-50': sexInput }"
-                                value="F"
-                              />
-                              <span class="label-text">หญิง</span>
-                            </label>
-                          </div>
-                        </div>
-                        <p v-if="sexInput" class="text-red-600">
-                          กรุณาเลือกเพศ
-                        </p>
-                      </div>
-                    </div>
-
-                    <div class="flex">
-                      <div class="w-full mb-5">
-                        <label
-                          for=""
-                          class="
-                            2xl:text-base
-                            md:text-base
-                            text-sm
-                            font-medium
-                            px-1
-                          "
-                          >เบอร์โทรศัพท์ (มือถือ)</label
-                        >
-                        <div class="flex">
-                          <div
-                            class="
-                              w-10
-                              z-10
-                              pl-1
-                              text-center
-                              pointer-events-none
-                              flex
-                              items-center
-                              justify-center
-                            "
-                          >
-                            <i
+                              <i
+                                class="
+                                  mdi mdi-account-outline
+                                  text-gray-400 text-lg
+                                "
+                              ></i>
+                            </div>
+                            <input
+                              @click="onFocus('เบอร์')"
+                              type="tel"
+                              v-model.trim="registEmp.employer.tel"
+                              maxlength="9"
                               class="
-                                mdi mdi-account-outline
-                                text-gray-400 text-lg
+                                w-full
+                                -ml-10
+                                pl-5
+                                pr-3
+                                py-2
+                                rounded-lg
+                                border-2 border-gray-200
+                                outline-none
+                                focus:border-indigo-500
                               "
-                            ></i>
+                              :class="{ 'bg-red-50': telInput }"
+                              onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                              placeholder="เบอร์โทรศัพท์"
+                            />
                           </div>
-                          <input
-                            @click="onFocus('เบอร์')"
-                            type="tel"
-                            v-model.trim="bindPhone"
-                            maxlength="10"
-                            class="
-                              w-full
-                              -ml-10
-                              pl-5
-                              pr-3
-                              py-2
-                              rounded-lg
-                              border-2 border-gray-200
-                              outline-none
-                              focus:border-indigo-500
-                            "
-                            :class="{ 'bg-red-50': phoneInput }"
-                            onkeypress="return event.charCode >= 48 && event.charCode <= 57"
-                            placeholder="เบอร์โทรศัพท์ (มือถือ)"
-                          />
+                          <p v-if="telInput" class="text-red-600">
+                            กรุณากรอกเบอร์โทรศัพท์
+                          </p>
                         </div>
-                        <p v-if="phoneInput" class="text-red-600">
-                          กรุณากรอกเบอร์โทรศัพท์ (มือถือ)
-                        </p>
                       </div>
-                    </div>
 
-                    <div class="flex">
-                      <div v-if="signType == 'employer'" class="w-full mb-5">
-                        <label
-                          for=""
-                          class="
-                            2xl:text-base
-                            md:text-base
-                            text-sm
-                            font-medium
-                            px-1
-                          "
-                          >เบอร์โทรศัพท์</label
-                        >
-                        <div class="flex">
-                          <div
+                      <div v-if="signType == 'employer'" class="flex -mx-3">
+                        <div class="w-full px-3 mb-5">
+                          <label
+                            for=""
                             class="
-                              w-10
-                              z-10
-                              pl-1
-                              text-center
-                              pointer-events-none
-                              flex
-                              items-center
-                              justify-center
+                              2xl:text-base
+                              md:text-base
+                              text-sm
+                              font-medium
+                              px-1
                             "
+                            >ID Line</label
                           >
-                            <i
+                          <div class="flex">
+                            <div
                               class="
-                                mdi mdi-account-outline
-                                text-gray-400 text-lg
+                                w-10
+                                z-10
+                                pl-1
+                                text-center
+                                pointer-events-none
+                                flex
+                                items-center
+                                justify-center
                               "
-                            ></i>
-                          </div>
-                          <input
-                            @click="onFocus('เบอร์')"
-                            type="tel"
-                            v-model.trim="registEmp.employer.tel"
-                            maxlength="9"
-                            class="
-                              w-full
-                              -ml-10
-                              pl-5
-                              pr-3
-                              py-2
-                              rounded-lg
-                              border-2 border-gray-200
-                              outline-none
-                              focus:border-indigo-500
-                            "
-                            :class="{ 'bg-red-50': telInput }"
-                            onkeypress="return event.charCode >= 48 && event.charCode <= 57"
-                            placeholder="เบอร์โทรศัพท์"
-                          />
-                        </div>
-                        <p v-if="telInput" class="text-red-600">
-                          กรุณากรอกเบอร์โทรศัพท์
-                        </p>
-                      </div>
-                    </div>
-
-                    <div v-if="signType == 'employer'" class="flex -mx-3">
-                      <div class="w-full px-3 mb-5">
-                        <label
-                          for=""
-                          class="
-                            2xl:text-base
-                            md:text-base
-                            text-sm
-                            font-medium
-                            px-1
-                          "
-                          >ID Line</label
-                        >
-                        <div class="flex">
-                          <div
-                            class="
-                              w-10
-                              z-10
-                              pl-1
-                              text-center
-                              pointer-events-none
-                              flex
-                              items-center
-                              justify-center
-                            "
-                          >
-                            <i
+                            >
+                              <i
+                                class="
+                                  mdi mdi-account-outline
+                                  text-gray-400 text-lg
+                                "
+                              ></i>
+                            </div>
+                            <input
+                              type="text"
+                              v-model.trim="registEmp.employer.lineId"
                               class="
-                                mdi mdi-account-outline
-                                text-gray-400 text-lg
+                                w-full
+                                -ml-10
+                                pl-5
+                                pr-3
+                                py-2
+                                rounded-lg
+                                border-2 border-gray-200
+                                outline-none
+                                focus:border-indigo-500
                               "
-                            ></i>
+                              placeholder="ไอดีไลน์"
+                            />
                           </div>
-                          <input
-                            type="text"
-                            v-model.trim="registEmp.employer.lineId"
-                            class="
-                              w-full
-                              -ml-10
-                              pl-5
-                              pr-3
-                              py-2
-                              rounded-lg
-                              border-2 border-gray-200
-                              outline-none
-                              focus:border-indigo-500
-                            "
-                            placeholder="ไอดีไลน์"
-                          />
                         </div>
                       </div>
                     </div>
+                    <!-- page 2 -->
 
                     <!-- page 3 -->
-                    <div class="flex -mx-3">
-                      <div class="w-full px-3 mb-5">
-                        <label
-                          v-if="signType == 'employer'"
-                          for=""
-                          class="text-base font-medium px-1"
-                          >ภาพ Logo ของสถานประกอบการ</label
-                        >
-                        <label
-                          v-if="signType == 'worker'"
-                          for=""
-                          class="
-                            2xl:text-base
-                            md:text-base
-                            text-sm
-                            font-medium
-                            px-1
-                          "
-                          >ภาพยืนยันตัวตน</label
-                        >
-                        <div class="flex">
-                          <div
-                            class="
-                              w-10
-                              z-10
-                              pl-1
-                              text-center
-                              pointer-events-none
-                              flex
-                              items-center
-                              justify-center
-                            "
-                          >
-                            <i
-                              class="
-                                mdi mdi-account-outline
-                                text-gray-400 text-lg
-                              "
-                            ></i>
-                          </div>
-                          <div class="flex flex-col w-full">
-                            <img
-                              :src="image"
-                              class="
-                                mt-2
-                                mb-3
-                                2xl:w-1/5
-                                lg:w-2/5
-                                md:w-2/5
-                                w-5/6
-                                mx-auto
-                              "
-                            />
-                            <input
-                              type="file"
-                              class="
-                                w-full
-                                -ml-10
-                                pr-3
-                                py-2
-                                rounded-lg
-                                outline-none
-                                focus:border-indigo-500
-                              "
-                              @change="uploadImg"
-                              :class="{ 'bg-red-50': UpPic }"
-                            />
-                          </div>
-                        </div>
-                        <p
-                          v-if="UpPic && signType == 'employer'"
-                          class="text-red-600"
-                        >
-                          กรุณาอัปโหลดภาพสถานประกอบการ
-                        </p>
-                        <p
-                          v-if="UpPic && signType == 'worker'"
-                          class="text-red-600"
-                        >
-                          กรุณาอัปโหลดภาพยืนยันตัวตน
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <label class="label cursor-pointer space-x-2">
-                    <div class="flex flex-col">
-                      <div class="flex space-x-3">
-                        <input
-                          type="checkbox"
-                          v-model.trim="selectPolicy"
-                          class="checkbox checkbox-sm"
-                          value="T"
-                        />
-                        <span class="label-text"
-                          >ฉันยอมรับ
+                    <div v-if="step == 3">
+                      <div class="flex -mx-3">
+                        <div class="w-full px-3 mb-5">
                           <label
-                            for="my-modal-5"
-                            class="
-                              text-blue-600
-                              cursor-pointer
-                              underline
-                              hover:text-blue-700
-                              font-medium
-                            "
-                            >ข้อกำหนดและเงื่อนไข</label
+                            v-if="signType == 'employer'"
+                            for=""
+                            class="text-base font-medium px-1"
+                            >ภาพ Logo ของสถานประกอบการ</label
                           >
-                          <input
-                            type="checkbox"
-                            id="my-modal-5"
-                            class="modal-toggle"
-                          />
-                          <div class="modal">
-                            <div class="modal-box w-11/12 max-w-5xl rounded-lg">
-                              <term-and-condi></term-and-condi>
-                              <div class="modal-action">
-                                <label for="my-modal-5" class="btn">ปิด</label>
-                              </div>
+                          <label
+                            v-if="signType == 'worker'"
+                            for=""
+                            class="
+                              2xl:text-base
+                              md:text-base
+                              text-sm
+                              font-medium
+                              px-1
+                            "
+                            >ภาพยืนยันตัวตน</label
+                          >
+                          <div class="flex">
+                            <div
+                              class="
+                                w-10
+                                z-10
+                                pl-1
+                                text-center
+                                pointer-events-none
+                                flex
+                                items-center
+                                justify-center
+                              "
+                            >
+                              <i
+                                class="
+                                  mdi mdi-account-outline
+                                  text-gray-400 text-lg
+                                "
+                              ></i>
+                            </div>
+                            <div class="flex flex-col w-full">
+                              <img
+                                :src="image"
+                                class="
+                                  mt-2
+                                  mb-3
+                                  2xl:w-1/5
+                                  lg:w-2/5
+                                  md:w-2/5
+                                  w-5/6
+                                  mx-auto
+                                "
+                              />
+                              <input
+                                type="file"
+                                class="
+                                  w-full
+                                  -ml-10
+                                  pr-3
+                                  py-2
+                                  rounded-lg
+                                  outline-none
+                                  focus:border-indigo-500
+                                "
+                                @change="uploadImg"
+                                :class="{ 'bg-red-50': UpPic }"
+                              />
                             </div>
                           </div>
-                          การเป็นสมาชิก<span v-if="signType == 'worker'"
-                            >ผู้สมัครงาน</span
-                          ><span v-else>ผู้ประกอบการ</span>ทุกประการ
-                        </span>
-                      </div>
-                      <div>
-                        <p v-if="tickPolicy" class="text-red-600">
-                          กรุณายอมรับข้อกำหนดและเงื่อนไขของ Firework
-                        </p>
+                          <p
+                            v-if="UpPic && signType == 'employer'"
+                            class="text-red-600"
+                          >
+                            กรุณาอัปโหลดภาพสถานประกอบการ
+                          </p>
+                          <p
+                            v-if="UpPic && signType == 'worker'"
+                            class="text-red-600"
+                          >
+                            กรุณาอัปโหลดภาพยืนยันตัวตน
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </label>
 
-                  <div class="flex flex-col mt-8">
+                    <label class="label cursor-pointer space-x-2">
+                      <div class="flex flex-col">
+                        <div class="flex space-x-3">
+                          <input
+                            type="checkbox"
+                            v-model.trim="selectPolicy"
+                            class="checkbox checkbox-sm"
+                            value="T"
+                          />
+                          <span class="label-text"
+                            >ฉันยอมรับ
+                            <label
+                              for="my-modal-5"
+                              class="
+                                text-blue-600
+                                cursor-pointer
+                                underline
+                                hover:text-blue-700
+                                font-medium
+                              "
+                              >ข้อกำหนดและเงื่อนไข</label
+                            >
+                            <input
+                              type="checkbox"
+                              id="my-modal-5"
+                              class="modal-toggle"
+                            />
+                            <div class="modal">
+                              <div
+                                class="modal-box w-11/12 max-w-5xl rounded-lg"
+                              >
+                                <term-and-condi></term-and-condi>
+                                <div class="modal-action">
+                                  <label for="my-modal-5" class="btn"
+                                    >ปิด</label
+                                  >
+                                </div>
+                              </div>
+                            </div>
+                            การเป็นสมาชิก<span v-if="signType == 'worker'"
+                              >ผู้สมัครงาน</span
+                            ><span v-else>ผู้ประกอบการ</span>ทุกประการ
+                          </span>
+                        </div>
+                        <div>
+                          <p v-if="tickPolicy" class="text-red-600">
+                            กรุณายอมรับข้อกำหนดและเงื่อนไขของ Firework
+                          </p>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                  <!-- page 3 -->
+
+                  <div v-if="signType == 'worker'" class="flex flex-col mt-8">
                     <button
                       @click.prevent="signUp()"
                       type="submit"
@@ -1559,9 +1577,26 @@
                         rounded
                       "
                     >
-                      ลงทะเบียน
+                      {{(signType == 'worker' && (step == 1 || step == 2)) ? 'ต่อไป' : 'ลงทะเบียน'}}
                     </button>
                   </div>
+                  <div v-if="signType == 'employer'" class="flex flex-col mt-8">
+                    <button
+                      @click.prevent="signUp()"
+                      type="submit"
+                      class="
+                        bg-orange-1
+                        hover:bg-orange-2
+                        text-white text-base
+                        font-medium
+                        py-2
+                        px-4
+                        rounded
+                      "
+                    >
+                      {{(signType == 'employer' && (step == 1 || step == 2 || step == 3)) ? 'ต่อไป' : 'ลงทะเบียน'}}
+                    </button>
+                  </div>                  
                 </form>
                 <div class="text-center mt-4">
                   <div @click="$router.push('/signin')" class="text-sm">
@@ -1709,7 +1744,7 @@ export default {
       bindPhone: "",
       picture: null,
       step: 1,
-      allStep: 4,
+      allStep: 3,
     };
   },
   methods: {
@@ -1719,9 +1754,130 @@ export default {
       }
     },
     nextStep() {
-      if (this.step < this.allStep) {
-        this.step++;
+      if (this.signType == "worker") {
+        this.checknation();
+        if (this.step < this.allStep) {
+          if (this.step == 1) {
+            this.checkPageOne();
+            if (!this.emailInput && !this.passwordInput && !this.secPassInput) {
+              this.step++;
+            }
+          } else if (this.step == 2) {
+            this.checkPageTwoWorker();
+            if (
+              !this.workerTypeInput &&
+              !this.idenNoInput &&
+              !this.nationInput &&
+              !this.firstnameInput &&
+              !this.sexInput &&
+              !this.phoneInput
+            ) {
+              this.step++;
+            }
+          } else if (this.step == 3) {
+            this.checkLastPage();
+            if (!this.UpPic && !this.tickPolicy) {
+              console.log("หน้าสุดท้ายแล้ว");
+              // this.signUp() ได้แล้ว
+            }
+          }
+        }
+      } else {
+        if (this.step < this.allStep) {
+          if (this.step == 1) {
+            this.checkPageOne();
+            if (!this.emailInput && !this.passwordInput && !this.secPassInput) {
+              this.step++;
+            }
+          } else if (this.step == 2) {
+            this.checkPageTwoEmp();
+            if (
+        !this.estnameInput &&
+        !this.businessTypeInput &&
+        !this.firstnameInput &&
+        !this.lastnameInput &&
+        !this.addressInput &&
+        !this.subdisInput &&
+        !this.districtInput &&
+        !this.provinceInput &&
+        !this.postCodeInput &&
+        !this.telInput
+            ) {
+              this.step++;
+            }
+          } else if (this.step == 3) {
+            this.checkPageThreeEmp();
+            if (!this.firstnameInput && !this.lastnameInput && !this.phoneInput) {
+              this.step++;
+            }
+          } else if (this.step == 4) {
+            this.checkLastPage();
+            if(!this.UpPic && !this.tickPolicy){
+              console.log("หน้าสุดท้ายแล้ว");
+              // this.signUp() ได้แล้ว              
+            }
+          }
+        }
       }
+    },
+    checkPageThreeEmp(){
+      this.firstnameInput = this.bindFname === "" ? true : false;
+      this.lastnameInput = this.bindLname === "" ? true : false;
+      this.phoneInput =
+        (this.bindPhone === "" || this.bindPhone !== "") &&
+        this.bindPhone.length !== 10
+          ? true
+          : false;
+    },
+    checkPageTwoEmp() {
+      this.estnameInput =
+        this.registEmp.employer.establishmentName === "" ? true : false;
+      this.businessTypeInput =
+        this.registEmp.employer.businesstype.idBusinessType === ""
+          ? true
+          : false;
+      this.addressInput = this.registEmp.employer.address === "" ? true : false;
+      this.subdisInput =
+        this.registEmp.employer.subDistrict.idSubdistrict === "" ? true : false;
+      this.districtInput =
+        this.registEmp.employer.district.idDistrict === "" ? true : false;
+      this.provinceInput =
+        this.registEmp.employer.province.idProvince === "" ? true : false;
+      this.postCodeInput =
+        this.registEmp.employer.subDistrict.postcode === "" ||
+        this.registEmp.employer.subDistrict.postcode.length != 5
+          ? true
+          : false;
+          this.telInput =
+        this.registEmp.employer.tel === "" ||
+        this.registEmp.employer.tel.length != 9;
+    },
+    checkPageOne() {
+      this.emailInput = this.bindEmail === "" ? true : false;
+      this.passwordInput =
+        this.bindPass === "" || this.bindPass.length < 8 ? true : false;
+      this.secPassInput =
+        this.secondPass === "" || this.secondPass !== this.bindPass;
+    },
+    checkPageTwoWorker() {
+      this.idenNoInput =
+        this.registWorker.worker.identificationNumber === "" ? true : false;
+      this.nationInput =
+        this.registWorker.worker.nationality.idnationality === ""
+          ? true
+          : false;
+      this.firstnameInput = this.bindFname === "" ? true : false;
+      this.sexInput = this.registWorker.worker.sex === "" ? true : false;
+      this.phoneInput =
+        (this.bindPhone === "" || this.bindPhone !== "") &&
+        this.bindPhone.length !== 10
+          ? true
+          : false;
+    },
+    checkLastPage() {
+      this.UpPic =
+        this.image == require("../assets/icon/face-2.png") ? true : false;
+      this.tickPolicy = this.selectPolicy === "" ? true : false;
     },
     check() {
       this.UpPic =
@@ -1822,6 +1978,11 @@ export default {
       }
     },
     async signUp() {
+      if(this.signType == 'worker' && (this.step == 1 || this.step == 2)){
+        this.nextStep()
+      }else if(this.signType == 'employer' && (this.step == 1 || this.step == 2 || this.step == 3)){
+        this.nextStep()
+      }else{
       console.log("signupkrub");
       console.log(this.selectPolicy);
       // console.log(this.registWorker.worker.sex)
@@ -1893,6 +2054,7 @@ export default {
         this.whoRegist = this.registEmp;
         console.log(this.whoRegist);
         this.signUpAxios();
+      }
       }
     },
     async signUpAxios() {
