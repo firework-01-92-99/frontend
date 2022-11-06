@@ -117,6 +117,7 @@
                     checked
                   />
                   <span class="font-normal pl-1">{{!$store.state.auth.user || $store.state.auth.user.role.idRole == '3' ? 4.5 : scoreEmp}}</span>
+                  <!-- scoreAllEmp.find((a) => a.idEmployer == job.idEmployer).rate -->
                 </div>
               </h2>
               <p>
@@ -379,8 +380,9 @@ export default {
             (a) => a.idEmployer == this.allJobs.content[i].idEmployer
           ).imageName;
       }
-      // this.scoreAllEmp = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getEmployerScoreList?idEmployer=` + this.$store.state.auth.user.employer.idEmployer);
+      // this.scoreAllEmp = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allEmployer);
       this.$store.commit("setPosting", allPost);
+      
     } else {
       if (this.idEmp) {
         const image1 = await axios.get(

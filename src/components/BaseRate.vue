@@ -1,9 +1,9 @@
 <template>
 <div>
-  <!-- <div v-if="noValue" class="text-center mt-10">
+  <div v-if="noValue" class="text-center mt-10">
       <div><img src="../assets/icon/inbox.png" class="w-20 mx-auto" /></div>
       <div class="pt-5">คุณยังไม่มีคะแนน</div>
-    </div> -->
+    </div>
   <!-- คะแนนของฉัน -->
   <div class="flex-col space-y-5">
     <!-- <div class="flex justify-center">
@@ -22,12 +22,12 @@
 
     <!-- <div class="collapse"> -->
     <!-- <input class="w-1/3" type="checkbox" /> -->
-    <div class="flex justify-start">
+    <div v-if="!noValue" class="flex justify-start">
       <div class="stats bg-orange-1 shadow w-11/12">
         <div class="stat text-white">
           <div class="stat-title">คะแนน</div>
           <div class="stat-value">{{workerScore}} จาก 5</div>
-          <div class="stat-desc">1 รีวิว</div>
+          <div class="stat-desc">{{totalReview}} รีวิว</div>
         </div>
       </div>
     </div>
@@ -35,7 +35,7 @@
     <div v-for="s in scoreList" :key='s.idRating' class="flex flex-wrap justify-start space-y-5">
       <div class="card w-11/12 bg-base-100 border border-black shadow-lg">
         <div class="card-body">
-          <h2 class="card-title">ชื่อสถานประกอบการ</h2>
+          <h2 class="card-title">{{s.employerNameOrWorkerName}}</h2>
           <div class="rating rating-sm">
             <input
               type="radio"
@@ -94,7 +94,9 @@ export default {
     data() {
     return {
       workerScore: 0,
-      scoreList:[], 
+      scoreList:[],
+      noValue: false,
+      totalReview: '', 
     };
   },
   methods: {
@@ -111,7 +113,8 @@ export default {
   async created(){
     this.workerScore = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getWorkerTotalScore?idWorker=` + this.$store.state.auth.user.worker.idWorker);
     this.scoreList = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getWorkerScoreList?idWorker=` + this.$store.state.auth.user.worker.idWorker);
-    console.log(this.scoreList)
+    this.noValue = this.scoreList.length == 0
+    this.totalReview = this.scoreList.length
   }
 };
 </script>

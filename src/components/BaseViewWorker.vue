@@ -35,8 +35,9 @@
           </tr>
         </thead>
         <tbody
-          v-for="a in whoApplication.data.whoApplicationList"
-          :key="a.applicationId">
+          v-for="a in whoApplication.data.whoApplicationList.filter((s) => (s.idStatus == this.idStatus) || (s.statusName == 'Waiting_Rating' || s.statusName == 'workerRated' ))"
+          :key='a.applicationId'>
+          {{a}}
           <!-- row 1 -->
           <!-- <div v-if="listApprove.lenght == null">
             ไม่มีรายการที่ต้องทำ
@@ -722,7 +723,7 @@ export default {
         .then((response) => {
           this.whatWorker = response.data;
           console.log(this.whatWorker);
-          this.image =
+          this.image = `${process.env.VUE_APP_ROOT_API}main/image/` +
             this.whatWorker.verifyPic;
         });
         console.log(this.whatWorker.verifyPic)
@@ -840,8 +841,25 @@ export default {
       }
     },
     async callData(){
+      // if(this.idStatus != 24){
+      // this.whoApplication = await axios.get(
+      //       `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
+      //         this.idPost +
+      //         "&idStatus=" +
+      //         this.idStatus
+      //     );
+      //     console.log(this.whoApplication)
+      // }else{
+      //   console.log("idStatus = 24")
+      //   if(this.idStatus == 24){
+      //     this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
+      //     console.log(this.whoApplication)
+      //   }
+      // }
+    if(this.whoApplication.data.whoApplicationList.length != 0){
+      this.noValue = false
       if(this.idStatus != 24){
-      this.whoApplication = await axios.get(
+        this.whoApplication = await axios.get(
             `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
               this.idPost +
               "&idStatus=" +
@@ -849,14 +867,12 @@ export default {
           );
           console.log(this.whoApplication)
       }else{
-        console.log("idStatus = 24")
+       console.log("idStatus = 24")
         if(this.idStatus == 24){
           this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
           console.log(this.whoApplication)
-        }
+        } 
       }
-    if(this.whoApplication.data.whoApplicationList.length != 0){
-      this.noValue = false
     }else{
       this.noValue = true
     }
@@ -890,8 +906,7 @@ export default {
       if (this.idStatus == 11) {
         console.log("idStatus =" + this.idStatus);
         this.topic = "รายการผู้สมัคร";
-        this.callData()
-        console.log(this.noValue)        
+        this.callData()      
         this.chooseAccept = 12
         this.chooseReject = 13
       } else if(this.idStatus == 14) {

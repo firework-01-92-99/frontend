@@ -1083,12 +1083,15 @@ export default {
           .then(function (response) {
             console.log(response);
             res = response.status
-            alert("ประกาศโพสหางานของคุณเรียบร้อยแล้ว");        
+            // alert("ประกาศโพสหางานของคุณเรียบร้อยแล้ว");        
           })
           .catch(function (error) {
             console.log(error);
           });
           if(res == 200){
+            this.showToast = true;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(() => (this.showToast = false), 5000);
             this.clear()
           }
           this.$store.commit("setPosting", this.post);

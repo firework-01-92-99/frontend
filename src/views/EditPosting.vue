@@ -22,10 +22,7 @@
                 />
               </svg>
               <p class="font-sans-thai">
-                สร้างประกาศรับสมัครงานเรียบร้อยแล้ว สามารถดูได้ที่<span
-                  class="font-medium"
-                  >เมนู "ประกาศรับสมัครงาน"</span
-                >
+                แก้ไขประกาศรับสมัครงานเรียบร้อยแล้ว
               </p>
             </div>
           </div>
@@ -1212,8 +1209,11 @@ export default {
           .put(`${process.env.VUE_APP_ROOT_API}emp/editPosting`, this.postInfo)
           .then(function (response) {
             console.log(response);
-            alert("ประกาศโพสหางานของคุณเรียบร้อยแล้ว");
-            vm.$router.push('/posting')
+            vm.showToast = true;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(() => (vm.showToast = false), 5000);
+            // alert("ประกาศโพสหางานของคุณเรียบร้อยแล้ว");
+            // vm.$router.push('/posting')
           })
           .catch(function (error) {
             console.log(error);
