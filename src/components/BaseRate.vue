@@ -1,4 +1,9 @@
 <template>
+<div>
+  <!-- <div v-if="noValue" class="text-center mt-10">
+      <div><img src="../assets/icon/inbox.png" class="w-20 mx-auto" /></div>
+      <div class="pt-5">คุณยังไม่มีคะแนน</div>
+    </div> -->
   <!-- คะแนนของฉัน -->
   <div class="flex-col space-y-5">
     <!-- <div class="flex justify-center">
@@ -80,6 +85,7 @@
       </div>
     </div>
     <!-- </div> -->
+  </div>
   </div>
 </template>
 

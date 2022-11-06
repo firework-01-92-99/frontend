@@ -1,4 +1,9 @@
 <template>
+  <div>
+    <!-- <div v-if="noValue" class="text-center mt-10">
+      <div><img src="../assets/icon/inbox.png" class="w-20 mx-auto" /></div>
+      <div class="pt-5">ไม่มีรายการที่ต้องให้คะแนน</div>
+    </div> -->
   <!-- ประวัติงานที่เคยทำ -->
   <div class="card card-side w-11/12 bg-base-100 shadow-xl">
     <!-- <figure>
@@ -110,6 +115,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>

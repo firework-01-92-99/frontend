@@ -1,4 +1,14 @@
 <template>
+<div>
+  <!-- <div v-if="noValue" class="text-center mb-10">
+      <div><img src="../assets/icon/inbox.png" class="w-20 mx-auto" /></div>
+      <div class="pt-3">
+        คุณยังไม่มีรายการงานโปรด <br />สามารถหางานโปรดของคุณได้<span
+          class="text-blue-700 cursor-pointer underline hover:text-blue-800" @click="$router.push('/')"
+          >ที่นี่</span
+        >
+      </div>
+    </div> -->
   <div class="cursor-pointer">
   <!-- "/detail?idPosting=" + idPost + "&idEmployer=" + idEmp -->
     <!-- <figure>
@@ -20,8 +30,10 @@
           ><i class="material-icons pr-2"> paid </i></span
         >
         <span class="hidden font-semibold text-base">ค่าตอบแทน : </span>
-        <span class="text-base font-medium inline-block align-middle">
-        {{f.posting.minSalary + " - " + f.posting.maxSalary}}
+        <span class="text-base inline-block align-middle">
+        {{f.posting.minSalary.toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " - " + f.posting.maxSalary.toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}}
           บาท</span
         >
       </p>
@@ -31,7 +43,7 @@
             ><i class="material-icons pr-2"> place </i></span
           >
           <span class="hidden font-semibold text-base">ที่อยู่ : </span>
-          <span class="text-base font-medium inline-block align-middle">
+          <span class="text-base inline-block align-middle">
             {{f.employer.address + " " + f.employer.district.districtName + " " + f.employer.subDistrict.subDistrict + " " + f.employer.province.provinceName + " " + f.employer.subDistrict.postcode}}
             <!-- {{
                   getPostbyEmp(job.idEmployer).address +
@@ -51,6 +63,7 @@
                   <button class="btn btn-primary">Watch</button>
                 </div> -->
     </div>
+  </div>
   </div>
   </div>
 </template>
