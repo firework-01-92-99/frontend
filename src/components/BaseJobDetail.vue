@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <!-- toast -->
+      <!-- toast application -->
       <transition name="toast">
         <div v-if="showToast" class="flex justify-center">
           <div
@@ -31,6 +31,47 @@
           </div>
         </div>
       </transition>
+
+      <!-- toast inactive posting -->
+      <transition name="toast">
+        <div v-if="showToast1" class="flex justify-center font-sans-thai">
+          <div
+            class="absolute z-10 2xl:w-2/5 w-full alert shadow-lg shadow-gray-400"
+          >
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <p class="">
+                คุณต้องการ<span class="font-medium">ปิดประกาศรับสมัคร</span>ใช่หรือไม่
+              </p>
+            </div>
+            <div class="flex-none">
+              <button class="btn btn-sm btn-ghost px-5">ไม่</button>
+              <button class="btn btn-sm bg-orange-1 border-orange-1 hover:bg-orange-2 hover:border-orange-2 px-5">ใช่</button>
+            </div>
+          </div>
+        </div>
+      </transition>
+
+      <!-- toast active posting -->
+      <transition name="toast">
+        <div v-if="showToast2" class="flex justify-center font-sans-thai">
+          <div
+            class="absolute z-10 2xl:w-2/5 w-full alert shadow-lg shadow-gray-400"
+          >
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <p class="">
+                คุณต้องการ<span class="font-medium">เปิดประกาศรับสมัคร</span>ใช่หรือไม่
+              </p>
+            </div>
+            <div class="flex-none">
+              <button class="btn btn-sm btn-ghost px-5">ไม่</button>
+              <button class="btn btn-sm bg-orange-1 border-orange-1 hover:bg-orange-2 hover:border-orange-2 px-5">ใช่</button>
+            </div>
+          </div>
+        </div>
+      </transition>
+
       <!-- <router-link to="/findJob"> -->
       <!-- back btn -->
       <div>
@@ -489,6 +530,8 @@ export default {
       typeNotice: true,
       conditionNotTrue: true,
       showToast: false,
+      // showToast1: false,
+      // showToast2: false,
       hideYourSelf: true,
       defNext: true,
       YNextBtn: true,
@@ -545,6 +588,7 @@ export default {
       console.log("InorAct = " + OnorOff);
       if(OnorOff == 'Off'){
         if (confirm("ต้องการปิดประกาศรับสมัครใช่หรือไม่")) {
+          // this.showToast1 = true;
         console.log("Inactive Post");
         await axios.put(
           `${process.env.VUE_APP_ROOT_API}emp/inActivePosting?idPosting=${this.idPosting}`
@@ -559,6 +603,7 @@ export default {
       }else {
         if(OnorOff == 'On'){
       if (confirm("ต้องการจเปิดประกาศรับสมัคร")) {
+        // this.showToast2 = true;
         console.log("Active Post");
         await axios.put(
           `${process.env.VUE_APP_ROOT_API}emp/ActivePosting?idPosting=${this.idPosting}`

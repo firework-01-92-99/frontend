@@ -1,5 +1,26 @@
 <template>
   <div v-if="$store.state.auth.user" class="bg-gray-2 h-screen font-sans-thai">
+
+    <!-- toast send form -->
+      <transition name="toast">
+        <div v-if="showToast" class="flex justify-center font-sans-thai">
+          <div
+            class="absolute z-10 2xl:w-2/5 w-full alert shadow-lg"
+          >
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <p class="">
+                คุณต้องการ<span class="font-medium">ส่งฟอร์มอนุมัติบัญชี</span>ใช่หรือไม่
+              </p>
+            </div>
+            <div class="flex-none">
+              <button class="btn btn-sm btn-ghost px-5">ไม่</button>
+              <button class="btn btn-sm bg-orange-1 border-orange-1 hover:bg-orange-2 hover:border-orange-2 px-5">ใช่</button>
+            </div>
+          </div>
+        </div>
+      </transition>
+
     <div
       class="hero 2xl:h-64 xl:h-64 lg:h-64 md:h-64 h-32"
       style="
@@ -1040,6 +1061,7 @@ export default {
       toggleModal: false,
       iAm: "",
       idApprove: "",
+      // showToast: false,
     };
   },
   methods: {
@@ -1088,6 +1110,7 @@ export default {
     },
     async sendApprove(idApprove) {
       if (this.statusId != "") {
+        // this.showToast = true;
         if (confirm("ต้องการจะส่งฟอร์มอนุมัติบัญชีหรือไม่")) {
           try {
             await axios.put(
