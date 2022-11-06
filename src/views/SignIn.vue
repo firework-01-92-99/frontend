@@ -36,6 +36,19 @@
           <div class="flex flex-col w-full lg:w-1/2 p-4">
             <div class="flex flex-col flex-1 justify-center mt-8 mb-8">
               <h1 class="font-bold 2xl:text-4xl xl:text-4xl lg:text-3xl md:text-3xl text-2xl text-center text-orange-1">เข้าสู่ระบบ</h1>
+              
+<ul class="steps steps-vertical">
+  <li class="step" :class="{ 'step-primary': step == 1 || step == 2 }">Register</li>
+  <li class="step" :class="{ 'step-primary': step == 2 || step == 3 }">Choose plan</li>
+  <li class="step" :class="{ 'step-primary': step == 3 }">Purchase</li>
+  <li class="step" :class="{ 'step-primary': step == 4 }">Receive Product</li>
+</ul>
+<div class="flex justify-start">
+<button @click="backStep()">back</button>
+<button @click="nextStep()" class="pl-5">next</button>
+</div>
+{{step}}
+
               <div class="w-full mt-4">
                 <form
                   autocomplete="off"
@@ -237,9 +250,22 @@ export default {
       showError: false,
       errorWaitingApprove: false,
       numTab: "",
+      step: 1,
+      allStep: 4
     };
   },
   methods: {
+    backStep(){
+      if(this.step > 1){
+        this.step--
+      }
+      console.log(this.step)
+    },
+    nextStep(){
+      if(this.step < this.allStep){
+        this.step++
+      }      
+    },
     showPassword() {
       console.log("Show Pass");
       if (this.type === "password") {
