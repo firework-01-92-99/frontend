@@ -63,7 +63,7 @@
     </div>
     <!-- card header -->
     <form>
-      <div class="mx-auto card 2xl:card-side bg-base-100 font-sans-thai w-full">
+      <div class="rounded-lg mx-auto card 2xl:card-side bg-base-100 font-sans-thai w-full">
         <figure class="2xl:w-1/4">
           <img
             class="2xl:h-full object-cover w-full"
@@ -144,7 +144,7 @@
                   </option>
                 </select> -->
               </div>
-              <p v-if="positionInput" class="text-red-600">
+              <p v-if="positionInput" class="text-sm text-red-600">
                 กรุณากรอกชื่อตำแหน่ง
               </p>
             </div>
@@ -243,10 +243,10 @@
                     />
                     </div>
                     <div class="justify-start">
-                    <p v-if="minSalaryAlert" class="font-normal text-red-600">
+                    <p v-if="minSalaryAlert" class="text-sm font-normal text-red-600">
                       เงินขั้นต่ำต้องไม่ต่ำกว่า 300 บาท
                     </p>                    
-                    <p v-if="minSalaryInput" class="font-normal text-red-600">
+                    <p v-if="minSalaryInput" class="text-sm font-normal text-red-600">
                       กรุณากรอกเงินเดือนที่ต่ำที่สุด
                     </p>
                     </div>
@@ -299,10 +299,10 @@
                     /><span class="pl-2 py-2">บาท</span>
                     </div>
                     <div>
-                    <p v-if="maxWrong" class="font-normal text-red-600">
+                    <p v-if="maxWrong" class="font-normal text-sm text-red-600">
                       กรุณากรอกเงินเดือนที่มากสุดให้น้อยกว่าเงินเดือนที่ต่ำสุด
                     </p>
-                    <p v-if="maxSalaryInput" class="font-normal text-red-600">
+                    <p v-if="maxSalaryInput" class="text-sm font-normal text-red-600">
                       กรุณากรอกเงินเดือนที่มากสุด
                     </p>
                     </div>
@@ -334,7 +334,7 @@
       <div class="mx-auto flex flex-col w-full font-sans-thai mt-5">
         <!-- <div v-if="openForm"><base-application></base-application></div> -->
         <div
-          class="card card-side bg-base-100 p-6 grid h-full place-items-start"
+          class="rounded-lg card card-side bg-base-100 p-6 grid h-full place-items-start"
         >
           <!-- <p> -->
           <!-- <span class="font-semibold">แรงงานที่รับ: </span> -->
@@ -357,7 +357,7 @@
                     :class="{ 'bg-red-50': workerTypeInput }"
                     value="1"
                   />
-                  <span class="label-text 2xl:pr-0 md:pl-2 md:pr-4 pr-48"
+                  <span class="label-text 2xl:pr-0 md:pl-2 md:pr-4 pr-48 2xl:text-base xl:text-base lg:text-base md:text-base text-sm"
                     >แรงงานต่างด้าว</span
                   >
                 </label>
@@ -372,7 +372,7 @@
                     :class="{ 'bg-red-50': workerTypeInput }"
                     value="2"
                   />
-                  <span class="label-text 2xl:pr-0 md:pl-2 md:pr-4 pr-52 mr-2.5"
+                  <span class="label-text 2xl:pr-0 md:pl-2 md:pr-4 pr-52 mr-2.5 2xl:text-base xl:text-base lg:text-base md:text-base text-sm"
                     >แรงงานไทย</span
                   >
                 </label>
@@ -387,13 +387,13 @@
                     :class="{ 'bg-red-50': workerTypeInput }"
                     value="3"
                   />
-                  <span class="label-text 2xl:pr-0 md:pl-2 md:pr-4 pr-36 mr-1"
+                  <span class="label-text 2xl:pr-0 md:pl-2 md:pr-4 pr-36 mr-1 2xl:text-base xl:text-base lg:text-base md:text-base text-sm"
                     >แรงงานไทยและต่างด้าว</span
                   >
                 </label>
               </div>
             </div>
-            <p v-if="workerTypeInput" class="text-red-600">
+            <p v-if="workerTypeInput" class="text-sm text-red-600">
               กรุณาเลือกประเภทแรงงาน
             </p>
           </div>
@@ -420,7 +420,7 @@
                     :class="{ 'bg-red-50': sexInput }"
                     value="M"
                   />
-                  <span class="label-text">ชาย</span>
+                  <span class="label-text 2xl:text-base xl:text-base lg:text-base md:text-base text-sm">ชาย</span>
                 </label>
               </div>
               <div class="form-control">
@@ -433,7 +433,7 @@
                     :class="{ 'bg-red-50': sexInput }"
                     value="F"
                   />
-                  <span class="label-text">หญิง</span>
+                  <span class="label-text 2xl:text-base xl:text-base lg:text-base md:text-base text-sm">หญิง</span>
                 </label>
               </div>
               <div class="form-control">
@@ -446,11 +446,11 @@
                     :class="{ 'bg-red-50': sexInput }"
                     value="A"
                   />
-                  <span class="label-text">ทั้งหมด</span>
+                  <span class="label-text 2xl:text-base xl:text-base lg:text-base md:text-base text-sm">ทั้งหมด</span>
                 </label>
               </div>
             </div>
-            <p v-if="sexInput" class="text-red-600">กรุณาเลือกเพศ</p>
+            <p v-if="sexInput" class="text-sm text-red-600">กรุณาเลือกเพศ</p>
           </div>
           <!-- </p> -->
 
@@ -502,7 +502,7 @@
                 />
                 </div>
                 <div>
-                <p v-if="minAgeInput" class="text-red-600">
+                <p v-if="minAgeInput" class="text-sm text-red-600">
                   กรุณากรอกอายุขั้นต่ำและอายุต้องไม่ต่ำกว่า 18 ปี
                 </p>
                 </div>
@@ -553,7 +553,7 @@
                 /><span class="pl-2 py-2">ปี</span>
                 </div>
                 <div>
-                <p v-if="maxAgeInput" class="text-red-600">
+                <p v-if="maxAgeInput" class="text-sm text-red-600">
                   กรุณากรอกอายุขั้นต่ำและอายุต้องไม่มากกว่า 60 ปี
                 </p>
                 </div>
@@ -608,7 +608,7 @@
                   />
                 </div>
                 <div class="justify-start w-10/12">
-                  <p v-if="startTimeInput" class="text-red-600">
+                  <p v-if="startTimeInput" class="text-sm text-red-600">
                   กรุณากรอกเวลาเริ่มงาน
                   </p>
                 </div>
@@ -654,7 +654,7 @@
                   /><span class="pl-2 py-2">น.</span>
                 </div>
                 <div>
-                  <p v-if="endTimeInput" class="text-red-600">
+                  <p v-if="endTimeInput" class="text-sm text-red-600">
                   กรุณากรอกเวลาเลิกงาน
                   </p>
                 </div>
@@ -699,16 +699,16 @@
                       :value="{day:pd}"
                       type="checkbox"
                       v-model="postInfo.postingHasDayList"
-                      class="checkbox checkbox-sm inline-block align-middle checkbox-primary"
+                      class="checkbox checkbox-sm inline-block align-middle"
                       :class="{ 'bg-red-50': postingHasDayListInput }"
                     />
-                    <span class="label-text pl-2">{{ pd.dayName }}</span>
+                    <span class="label-text pl-2 2xl:text-base xl:text-base lg:text-base md:text-base text-sm">{{ pd.dayName }}</span>
                   </span>
                 </label>
                 <!-- <span>Selected day: {{ postInfo.postingHasDayList }}</span> -->
               </div>
             </div>
-            <p v-if="postingHasDayListInput" class="text-red-600">
+            <p v-if="postingHasDayListInput" class="text-sm text-red-600">
               กรุณาเลือกวันทำงาน
             </p>
           </div>
@@ -753,7 +753,7 @@
                   </ckeditor>
                 </div>
               </div>
-              <p v-if="descriptInput" class="text-red-600">
+              <p v-if="descriptInput" class="text-sm text-red-600">
                 กรุณากรอกรายละเอียดงาน
               </p>
             </div>
@@ -816,7 +816,7 @@
                 </select>
               </div>
             </div>
-            <p v-if="hiringTypeInput" class="text-red-600">
+            <p v-if="hiringTypeInput" class="text-sm text-red-600">
               กรุณาเลือกรูปแบบงาน
             </p>
           </div>
@@ -843,7 +843,7 @@
                     :class="{ 'bg-red-50': otPayInput }"
                     value="y"
                   />
-                  <span class="label-text">มี</span>
+                  <span class="label-text 2xl:text-base xl:text-base lg:text-base md:text-base text-sm">มี</span>
                 </label>
               </div>
               <div class="form-control">
@@ -856,11 +856,11 @@
                     :class="{ 'bg-red-50': otPayInput }"
                     value="n"
                   />
-                  <span class="label-text">ไม่มี</span>
+                  <span class="label-text 2xl:text-base xl:text-base lg:text-base md:text-base text-sm">ไม่มี</span>
                 </label>
               </div>
             </div>
-            <p v-if="otPayInput" class="text-red-600">กรุณาเลือกค่าล่วงเวลา</p>
+            <p v-if="otPayInput" class="text-sm text-red-600">กรุณาเลือกค่าล่วงเวลา</p>
           </div>
           <!-- </p> -->
 
@@ -926,7 +926,7 @@
                   </ckeditor>
               </div>
               </div>
-              <p v-if="welfareInput" class="text-red-600">กรุณากรอกสวัสดิการ</p>
+              <p v-if="welfareInput" class="text-sm text-red-600">กรุณากรอกสวัสดิการ</p>
             </div>
           </div>
 

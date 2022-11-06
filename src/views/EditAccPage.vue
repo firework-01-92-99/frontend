@@ -120,7 +120,7 @@
     <!-- modal -->
     <div v-if="toggleModal" class="fixed overflow-x-hidden overflow-y-auto inset-0 flex justify-center items-center z-50">
       <div class="relative mx-auto 2xl:w-1/2 md:w-11/12 w-11/12 h-5/6">
-        <div class="bg-white w-full overflow-y-auto h-full rounded shadow-2xl flex flex-col">
+        <div class="bg-white w-full overflow-y-auto h-full rounded-lg shadow-2xl flex flex-col">
           <div v-show="iAm == 'Employer' || iAm == 'Worker'" class=" p-8">
                 
                   <h3 class="font-bold text-lg">รายละเอียด</h3>

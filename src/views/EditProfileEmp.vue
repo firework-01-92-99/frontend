@@ -15,6 +15,8 @@
           class="
             flex flex-col
             md:flex-col
+            lg:flex-row
+            xl:flex-row
             2xl:flex-row
             rounded-lg
             shadow-lg
@@ -52,11 +54,14 @@
                       class="
                         mt-2
                         mb-3
-                        2xl:w-1/5
+                        2xl:w-3/5
+                        xl:w-3/5
                         lg:w-2/5
                         md:w-2/5
                         w-5/6
                         mx-auto
+                        rounded-lg
+                        object-cover
                       "
                     />
                     <div class="mx-auto">

@@ -277,7 +277,7 @@
         <base-tab>
           <template v-if="this.$store.state.auth.user.role.idRole == '3'"
             ><a
-              class="tab tab-bordered 2xl:px-16 xl:px-16 lg:px-16 md:px-16 px-0.5"
+              class="tab tab-bordered 2xl:px-16 xl:px-16 lg:px-16 md:px-16 px-4 2xl:text-base md:text-base text-xs"
               @click="numTab = 1"
               :class="{
                 'tab-active font-medium': numTab == 1 || numTab == '',
@@ -286,7 +286,7 @@
               งานโปรดของฉัน
             </a>
             <a
-              class="tab tab-bordered 2xl:px-16 xl:px-16 lg:px-16 md:px-14 px-0.5"
+              class="tab tab-bordered 2xl:px-16 xl:px-16 lg:px-16 md:px-14 px-4 2xl:text-base md:text-base text-xs"
               @click="numTab = 2"
               :class="{
                 'tab-active font-medium ': numTab == 2,
@@ -294,7 +294,7 @@
               >ให้คะแนน</a
             >
             <a
-              class="tab tab-bordered 2xl:px-16 xl:px-16 lg:px-16 md:px-16 px-0.5"
+              class="tab tab-bordered 2xl:px-16 xl:px-16 lg:px-16 md:px-16 px-4 2xl:text-base md:text-base text-xs"
               @click="numTab = 3"
               :class="{
                 'tab-active font-medium': numTab == 3,

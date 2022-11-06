@@ -119,7 +119,7 @@
             w-full
             overflow-y-auto
             h-full
-            rounded
+            rounded-lg
             shadow-2xl
             flex flex-col
           "

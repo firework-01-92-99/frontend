@@ -222,7 +222,7 @@
           </span>          
           ผลลัพธ์
         </p>
-        <div class="w-full pt-10 2xl:-mt-0 md:-mt-0 -mt-3 2xl:-ml-0 md:-ml-0 -ml-16">
+        <div class="w-full pt-10 2xl:-mt-0 md:-mt-0 -mt-3 2xl:-ml-0 lg:-ml-36 md:-ml-0 -ml-16">
           <!-- <p
             class="
               font-semibold

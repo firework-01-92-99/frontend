@@ -16,14 +16,18 @@
               2xl:text-5xl
               xl:text-5xl
               lg:text-5xl
-              md:text-5xl
+              md:text-4xl
               text-2xl
               font-bold
             "
           >
             สมัครงาน
           </h1>
-          <p class="mb-5">ค้นหางานที่ใช่ ให้คุณได้ทำงานที่ชอบ</p>
+          <p class="2xl:text-xl
+              xl:text-xl
+              lg:text-lg
+              md:text-base
+              text-sm mb-5">ค้นหางานที่ใช่ ให้คุณได้ทำงานที่ชอบ</p>
         </div>
       </div>
     </div>
@@ -242,8 +246,8 @@
               w-full
               mt-2
               2xl:mt-6
-              xl:mt-0
-              lg:mt-0
+              xl:mt-4
+              lg:mt-4
               md:mt-4
               2xl:text-base
               md:text-xs
@@ -258,8 +262,8 @@
               w-full
               -mb-5
               2xl:mt-6
-              xl:mt-0
-              lg:mt-0
+              xl:mt-4
+              lg:mt-4
               md:mt-4
               2xl:text-base
               md:text-xs

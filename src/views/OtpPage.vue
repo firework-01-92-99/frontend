@@ -34,7 +34,7 @@
           ></div>
           <div class="flex flex-col w-full lg:w-1/2 p-4">
             <div class="flex flex-col flex-1 justify-center mt-8 mb-8">
-              <h1 class="font-bold text-4xl text-center text-orange-1">ยืนยันรหัส OTP</h1>
+              <h1 class="font-bold 2xl:text-4xl xl:text-4xl lg:text-3xl md:text-3xl text-2xl text-center text-orange-1">ยืนยันรหัส OTP</h1>
               <p class="text-center mt-5 mb-5">
                 รหัส OTP จะถูกส่งไปยังอีเมลของคุณ
               </p>
@@ -97,7 +97,7 @@
                   <button
                     @click="resendOTP()"
                     :disabled="btnDisable"
-                    class="text-base 2xl:px-1 xl:px-1 lg:px-1 md:px-1 px-0 mt-8 underline text-blue-600 hover:text-blue-700"
+                    class="text-base 2xl:px-1 xl:px-1 lg:px-1 md:px-1 px-0 mt-8 underline text-blue-600 hover:text-blue-700 font-medium"
                   >
                     ส่งรหัส OTP อีกครั้ง
                   </button>

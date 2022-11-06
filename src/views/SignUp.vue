@@ -40,13 +40,13 @@
             <div class="flex flex-col flex-1 justify-center mt-8 mb-8">
               <h1
                 v-if="signType == 'employer'"
-                class="text-orange-1 font-bold 2xl:text-4xl md:text-4xl text-xl text-center"
+                class="text-orange-1 font-bold 2xl:text-4xl xl:text-4xl lg:text-3xl md:text-3xl text-xl text-center"
               >
                 ลงทะเบียนสำหรับผู้ประกอบการ
               </h1>
               <h1
                 v-else
-                class="text-orange-1 font-bold 2xl:text-4xl md:text-4xl text-2xl text-center"
+                class="text-orange-1 font-bold 2xl:text-4xl xl:text-4xl lg:text-3xl md:text-3xl text-2xl text-center"
               >
                 ลงทะเบียนสำหรับผู้สมัครงาน
               </h1>
@@ -256,7 +256,9 @@
                     </div>
                     <div v-if="signType == 'employer'" class="flex -mx-3">
                       <div class="w-full px-3 mb-5">
-                        <label for="" class="text-base font-medium 2xl:px-1"
+                        <label for="" class="2xl:text-base
+                            md:text-base
+                            text-sm font-medium 2xl:px-1"
                           >ชื่อสถานประกอบการ</label
                         >
                         <div class="flex">
@@ -403,7 +405,9 @@
 
                     <div v-if="signType == 'employer'" class="flex -mx-3">
                       <div class="w-full px-3 mb-5">
-                        <label for="" class="text-base font-medium 2xl:px-1"
+                        <label for="" class="2xl:text-base
+                            md:text-base
+                            text-sm font-medium 2xl:px-1"
                           >ประเภทธุรกิจ</label
                         >
                         <div class="flex">
@@ -775,7 +779,9 @@
                     <div v-if="signType == 'employer'">
                       <div class="flex -mx-3">
                         <div class="w-full px-3 mb-5">
-                          <label for="" class="text-base font-medium px-1"
+                          <label for="" class="2xl:text-base
+                            md:text-base
+                            text-sm font-medium px-1"
                             >ที่อยู่</label
                           >
                           <div class="flex">
@@ -825,7 +831,9 @@
 
                       <div class="2xl:flex 2xl:-mx-3">
                         <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                          <label for="" class="text-base font-medium px-1"
+                          <label for="" class="2xl:text-base
+                            md:text-base
+                            text-sm font-medium px-1"
                             >จังหวัด</label
                           >
                           <div class="flex">
@@ -884,7 +892,9 @@
                         </div>
 
                         <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                          <label for="" class="text-base font-medium px-1"
+                          <label for="" class="2xl:text-base
+                            md:text-base
+                            text-sm font-medium px-1"
                             >อำเภอ/เขต</label
                           >
                           <div class="flex">
@@ -946,7 +956,9 @@
 
                       <div class="2xl:flex 2xl:-mx-3">
                         <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                          <label for="" class="text-base font-medium px-1"
+                          <label for="" class="2xl:text-base
+                            md:text-base
+                            text-sm font-medium px-1"
                             >ตำบล/แขวง</label
                           >
                           <div class="flex">
@@ -1006,7 +1018,9 @@
                         </div>
 
                         <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                          <label for="" class="text-base font-medium px-1"
+                          <label for="" class="2xl:text-base
+                            md:text-base
+                            text-sm font-medium px-1"
                             >รหัสไปรษณีย์</label
                           >
                           <div class="flex">
@@ -1112,8 +1126,8 @@
                       </div>
                     </div>
 
-                    <div class="flex -mx-3">
-                      <div class="w-full px-3 mb-5">
+                    <div class="2xl:flex 2xl:-mx-3">
+                      <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                         <label
                           for=""
                           class="
@@ -1171,7 +1185,7 @@
                         </p>
                       </div>
 
-                       <div v-if="signType == 'employer'" class="w-full px-3 mb-5">
+                       <div v-if="signType == 'employer'" class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                         <label
                           for=""
                           class="
@@ -1394,7 +1408,7 @@
                         class="modal-toggle"
                       />
                       <div class="modal">
-                        <div class="modal-box w-11/12 max-w-5xl">
+                        <div class="modal-box w-11/12 max-w-5xl rounded-lg">
                           <term-and-condi></term-and-condi>
                           <div class="modal-action">
                             <label for="my-modal-5" class="btn">ปิด</label>

@@ -8,6 +8,7 @@
       <div>
         <div
           class="
+            rounded-lg
             font-sans-thai
             card
             2xl:w-96

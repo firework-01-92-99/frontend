@@ -52,7 +52,7 @@
       <!-- </router-link> -->
     </div>
     <!-- card header -->
-    <div class="mx-auto card 2xl:card-side bg-base-100 font-sans-thai w-full">
+    <div class="mx-auto card 2xl:card-side bg-base-100 font-sans-thai w-full rounded-lg">
       <figure class="2xl:w-1/4">
         <img
           class="2xl:h-full object-cover w-full"
@@ -374,7 +374,7 @@
     <!-- card description -->
     <div class="mx-auto flex flex-col w-full font-sans-thai mt-5">
       <!-- <div v-if="openForm"><base-application></base-application></div> -->
-      <div class="card card-side bg-base-100 p-6 grid h-full place-items-start">
+      <div class="rounded-lg card card-side bg-base-100 p-6 grid h-full place-items-start">
         <p>
           <span class="font-semibold">แรงงานที่รับ: </span
           >{{ workerType[jobDetail.workerType.typeName] }}
