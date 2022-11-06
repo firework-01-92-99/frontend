@@ -111,6 +111,7 @@ export default {
     },
   },
   async created(){
+    this.noValue = this.scoreList.length == 0
     this.workerScore = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getWorkerTotalScore?idWorker=` + this.$store.state.auth.user.worker.idWorker);
     this.scoreList = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getWorkerScoreList?idWorker=` + this.$store.state.auth.user.worker.idWorker);
     this.noValue = this.scoreList.length == 0
