@@ -137,8 +137,9 @@
                     class="mask mask-star-2 bg-orange-400"
                     checked
                   />
-                  <span class="font-normal pl-1">{{!$store.state.auth.user || $store.state.auth.user.role.idRole == '3' ? 4.5 : scoreEmp}}</span>
-                  <!-- scoreAllEmp.find((a) => a.idEmployer == job.idEmployer).rate -->
+                  <!-- <span class="font-normal pl-1">{{!$store.state.auth.user || $store.state.auth.user.role.idRole == '3' ? scoreAllEmp.find((a) => a.idEmployer == job.idEmployer).rate : isNaN(scoreEmp) ? 'ยังไม่มีคะแนน' : scoreEmp}}</span> -->
+                  <span class="font-normal pl-1">{{!$store.state.auth.user || $store.state.auth.user.role.idRole == '3' ? scoreAllEmp.find((a) => a.idEmployer == job.idEmployer).rate == null ? 'ยังไม่มีคะแนน' : scoreAllEmp.find((a) => a.idEmployer == job.idEmployer).rate : isNaN(scoreEmp) ? 'ยังไม่มีคะแนน' : scoreEmp}}</span>
+                  <!-- {{scoreAllEmp.find((a) => a.idEmployer == job.idEmployer).rate}} -->
                 </div>
               </h2>
               <p>
@@ -390,25 +391,8 @@ export default {
     ) {
       allPost.content.pop();
     }
-    if (!this.idEmp) {
-      const allPicture1 = await axios.get(
-        `${process.env.VUE_APP_ROOT_API}main/getImageEveryEmployer`
-      );
-      this.allPicture = allPicture1.data;
-      console.log(this.allPicture);
-      console.log(this.allPicture[0].imageName);
-
-      for (let i = 0; i < this.allJobs.content.length; i++) {
-        this.allJobs.content[i].image ==
-          this.allPicture.find(
-            (a) => a.idEmployer == this.allJobs.content[i].idEmployer
-          ).imageName;
-      }
-      // this.scoreAllEmp = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allEmployer);
-      this.$store.commit("setPosting", allPost);
-      
-    } else {
       if (this.idEmp) {
+        if(this.$store.state.auth.user){
         const image1 = await axios.get(
           `${process.env.VUE_APP_ROOT_API}main/getImageByIdEmployer` +
             "?idEmployer=" +
@@ -427,8 +411,30 @@ export default {
             this.$store.state.auth.user.employer.idEmployer
         );
         this.scoreEmp = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getEmpTotalScore?idEmployer=` + this.$store.state.auth.user.employer.idEmployer);
+        }
+      }else{
+      if(!this.$store.state.auth.user || (this.$store.state.auth.user &&
+      this.$store.state.auth.user.role.idRole == "3")){
+      const allPicture1 = await axios.get(
+        `${process.env.VUE_APP_ROOT_API}main/getImageEveryEmployer`
+      );
+      this.allPicture = allPicture1.data;
+      console.log(this.allPicture[0].imageName);
+
+      for (let i = 0; i < this.allJobs.content.length; i++) {
+        this.allJobs.content[i].image ==
+          this.allPicture.find(
+            (a) => a.idEmployer == this.allJobs.content[i].idEmployer
+          ).imageName;
       }
-    }
+      this.scoreAllEmp = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allEmployer`);
+      this.$store.commit("setPosting", allPost);
+      }
+      
+      }
+
+
+
     this.allEmployer = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/allEmployer`
     );
@@ -442,7 +448,6 @@ export default {
       );
       this.favoriteList = this.fav1.data;
     }
-    console.log(this.favoriteList);
   },
 };
 </script>

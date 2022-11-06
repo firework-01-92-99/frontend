@@ -22,12 +22,21 @@
                 />
               </svg>
               <p class="font-sans-thai">
-                การลงทะเบียนสำเร็จเรียบร้อย โปรดรอรหัส OTP เพื่อยืนยันตัวตนของคุณ 
+                การลงทะเบียนสำเร็จเรียบร้อย โปรดรอรหัส OTP
+                เพื่อยืนยันตัวตนของคุณ
                 <!-- <span class="font-medium">เมนู "สถานะการสมัครงาน"</span> -->
               </p>
             </div>
             <div class="flex-none">
-              <button @click="$router.push('/otp' + '/?email=' + bindEmail), showToast = false" class="btn btn-sm">ปิด</button>
+              <button
+                @click="
+                  $router.push('/otp' + '/?email=' + bindEmail),
+                    (showToast = false)
+                "
+                class="btn btn-sm"
+              >
+                ปิด
+              </button>
             </div>
           </div>
         </div>
@@ -71,17 +80,45 @@
             <div class="flex flex-col flex-1 justify-center mt-8 mb-8">
               <h1
                 v-if="signType == 'employer'"
-                class="text-orange-1 font-bold 2xl:text-4xl xl:text-4xl lg:text-3xl md:text-3xl text-xl text-center"
+                class="
+                  text-orange-1
+                  font-bold
+                  2xl:text-4xl
+                  xl:text-4xl
+                  lg:text-3xl
+                  md:text-3xl
+                  text-xl text-center
+                "
               >
                 ลงทะเบียนสำหรับผู้ประกอบการ
               </h1>
               <h1
                 v-else
-                class="text-orange-1 font-bold 2xl:text-4xl xl:text-4xl lg:text-3xl md:text-3xl text-2xl text-center"
+                class="
+                  text-orange-1
+                  font-bold
+                  2xl:text-4xl
+                  xl:text-4xl
+                  lg:text-3xl
+                  md:text-3xl
+                  text-2xl text-center
+                "
               >
                 ลงทะเบียนสำหรับผู้สมัครงาน
               </h1>
               <div class="w-full mt-10">
+                <ul class="steps">
+                  <li
+                    class="step"
+                    :class="{ 'step-primary': step == item }"
+                    v-for="item in 4"
+                    :key="item"
+                  >
+                    <!-- {{ item }} -->
+                  </li>
+                </ul>
+                <button @click="backStep()">back</button>
+                <button @click="nextStep()" class="pl-5">next</button>
                 <form class="form-horizontal w-3/4 mx-auto">
                   <div>
                     <div class="2xl:flex 2xl:-mx-3">
@@ -286,20 +323,18 @@
                       </div>
                     </div>
 
-
-
-
-
-
-
-
-
-<!-- page 2 -->
+                    <!-- page 2 -->
                     <div v-if="signType == 'employer'" class="flex -mx-3">
                       <div class="w-full px-3 mb-5">
-                        <label for="" class="2xl:text-base
+                        <label
+                          for=""
+                          class="
+                            2xl:text-base
                             md:text-base
-                            text-sm font-medium 2xl:px-1"
+                            text-sm
+                            font-medium
+                            2xl:px-1
+                          "
                           >ชื่อสถานประกอบการ</label
                         >
                         <div class="flex">
@@ -446,9 +481,15 @@
 
                     <div v-if="signType == 'employer'" class="flex -mx-3">
                       <div class="w-full px-3 mb-5">
-                        <label for="" class="2xl:text-base
+                        <label
+                          for=""
+                          class="
+                            2xl:text-base
                             md:text-base
-                            text-sm font-medium 2xl:px-1"
+                            text-sm
+                            font-medium
+                            2xl:px-1
+                          "
                           >ประเภทธุรกิจ</label
                         >
                         <div class="flex">
@@ -820,9 +861,15 @@
                     <div v-if="signType == 'employer'">
                       <div class="flex -mx-3">
                         <div class="w-full px-3 mb-5">
-                          <label for="" class="2xl:text-base
-                            md:text-base
-                            text-sm font-medium px-1"
+                          <label
+                            for=""
+                            class="
+                              2xl:text-base
+                              md:text-base
+                              text-sm
+                              font-medium
+                              px-1
+                            "
                             >ที่อยู่</label
                           >
                           <div class="flex">
@@ -872,9 +919,15 @@
 
                       <div class="2xl:flex 2xl:-mx-3">
                         <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                          <label for="" class="2xl:text-base
-                            md:text-base
-                            text-sm font-medium px-1"
+                          <label
+                            for=""
+                            class="
+                              2xl:text-base
+                              md:text-base
+                              text-sm
+                              font-medium
+                              px-1
+                            "
                             >จังหวัด</label
                           >
                           <div class="flex">
@@ -933,9 +986,15 @@
                         </div>
 
                         <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                          <label for="" class="2xl:text-base
-                            md:text-base
-                            text-sm font-medium px-1"
+                          <label
+                            for=""
+                            class="
+                              2xl:text-base
+                              md:text-base
+                              text-sm
+                              font-medium
+                              px-1
+                            "
                             >อำเภอ/เขต</label
                           >
                           <div class="flex">
@@ -997,9 +1056,15 @@
 
                       <div class="2xl:flex 2xl:-mx-3">
                         <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                          <label for="" class="2xl:text-base
-                            md:text-base
-                            text-sm font-medium px-1"
+                          <label
+                            for=""
+                            class="
+                              2xl:text-base
+                              md:text-base
+                              text-sm
+                              font-medium
+                              px-1
+                            "
                             >ตำบล/แขวง</label
                           >
                           <div class="flex">
@@ -1059,9 +1124,15 @@
                         </div>
 
                         <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
-                          <label for="" class="2xl:text-base
-                            md:text-base
-                            text-sm font-medium px-1"
+                          <label
+                            for=""
+                            class="
+                              2xl:text-base
+                              md:text-base
+                              text-sm
+                              font-medium
+                              px-1
+                            "
                             >รหัสไปรษณีย์</label
                           >
                           <div class="flex">
@@ -1132,7 +1203,7 @@
                               class="label cursor-pointer space-x-2"
                             >
                               <input
-                              id="male"
+                                id="male"
                                 type="radio"
                                 v-model.trim="registWorker.worker.sex"
                                 name="radio-6"
@@ -1149,7 +1220,7 @@
                               class="label cursor-pointer space-x-2"
                             >
                               <input
-                              id="female"
+                                id="female"
                                 type="radio"
                                 v-model.trim="registWorker.worker.sex"
                                 name="radio-7"
@@ -1228,7 +1299,7 @@
                     </div>
 
                     <div class="flex">
-                    <div v-if="signType == 'employer'" class="w-full mb-5">
+                      <div v-if="signType == 'employer'" class="w-full mb-5">
                         <label
                           for=""
                           class="
@@ -1285,7 +1356,7 @@
                           กรุณากรอกเบอร์โทรศัพท์
                         </p>
                       </div>
-                      </div>
+                    </div>
 
                     <div v-if="signType == 'employer'" class="flex -mx-3">
                       <div class="w-full px-3 mb-5">
@@ -1340,15 +1411,7 @@
                       </div>
                     </div>
 
-
-
-
-
-
-
-
-
-<!-- page 3 -->
+                    <!-- page 3 -->
                     <div class="flex -mx-3">
                       <div class="w-full px-3 mb-5">
                         <label
@@ -1436,49 +1499,49 @@
 
                   <label class="label cursor-pointer space-x-2">
                     <div class="flex flex-col">
-                    <div class="flex space-x-3">
-                    <input
-                      type="checkbox"
-                      v-model.trim="selectPolicy"
-                      class="checkbox checkbox-sm"
-                      value="T"
-                    />
-                    <span class="label-text"
-                      >ฉันยอมรับ
-                      <label
-                        for="my-modal-5"
-                        class="
-                          text-blue-600
-                          cursor-pointer
-                          underline
-                          hover:text-blue-700
-                          font-medium
-                        "
-                        >ข้อกำหนดและเงื่อนไข</label
-                      >
-                      <input
-                        type="checkbox"
-                        id="my-modal-5"
-                        class="modal-toggle"
-                      />
-                      <div class="modal">
-                        <div class="modal-box w-11/12 max-w-5xl rounded-lg">
-                          <term-and-condi></term-and-condi>
-                          <div class="modal-action">
-                            <label for="my-modal-5" class="btn">ปิด</label>
+                      <div class="flex space-x-3">
+                        <input
+                          type="checkbox"
+                          v-model.trim="selectPolicy"
+                          class="checkbox checkbox-sm"
+                          value="T"
+                        />
+                        <span class="label-text"
+                          >ฉันยอมรับ
+                          <label
+                            for="my-modal-5"
+                            class="
+                              text-blue-600
+                              cursor-pointer
+                              underline
+                              hover:text-blue-700
+                              font-medium
+                            "
+                            >ข้อกำหนดและเงื่อนไข</label
+                          >
+                          <input
+                            type="checkbox"
+                            id="my-modal-5"
+                            class="modal-toggle"
+                          />
+                          <div class="modal">
+                            <div class="modal-box w-11/12 max-w-5xl rounded-lg">
+                              <term-and-condi></term-and-condi>
+                              <div class="modal-action">
+                                <label for="my-modal-5" class="btn">ปิด</label>
+                              </div>
+                            </div>
                           </div>
-                        </div>
+                          การเป็นสมาชิก<span v-if="signType == 'worker'"
+                            >ผู้สมัครงาน</span
+                          ><span v-else>ผู้ประกอบการ</span>ทุกประการ
+                        </span>
                       </div>
-                      การเป็นสมาชิก<span v-if="signType == 'worker'"
-                        >ผู้สมัครงาน</span
-                      ><span v-else>ผู้ประกอบการ</span>ทุกประการ
-                    </span>
-                    </div>
-                    <div>
-                    <p v-if="tickPolicy" class="text-red-600">
-                      กรุณายอมรับข้อกำหนดและเงื่อนไขของ Firework
-                    </p>
-                    </div>
+                      <div>
+                        <p v-if="tickPolicy" class="text-red-600">
+                          กรุณายอมรับข้อกำหนดและเงื่อนไขของ Firework
+                        </p>
+                      </div>
                     </div>
                   </label>
 
@@ -1501,15 +1564,18 @@
                   </div>
                 </form>
                 <div class="text-center mt-4">
-                  <div
-                    @click="$router.push('/signin')"
-                    class="text-sm"
-                  >
-                    มีบัญชีอยู่แล้ว? <span class="cursor-pointer
+                  <div @click="$router.push('/signin')" class="text-sm">
+                    มีบัญชีอยู่แล้ว?
+                    <span
+                      class="
+                        cursor-pointer
                         underline
                         text-blue-600
                         hover:text-blue-700
-                        font-medium">เข้าสู่ระบบ</span>
+                        font-medium
+                      "
+                      >เข้าสู่ระบบ</span
+                    >
                   </div>
                 </div>
               </div>
@@ -1642,9 +1708,21 @@ export default {
       bindLname: "",
       bindPhone: "",
       picture: null,
+      step: 1,
+      allStep: 4,
     };
   },
   methods: {
+    backStep() {
+      if (this.step > 1) {
+        this.step--;
+      }
+    },
+    nextStep() {
+      if (this.step < this.allStep) {
+        this.step++;
+      }
+    },
     check() {
       this.UpPic =
         this.image == require("../assets/icon/face-2.png") ? true : false;
@@ -1688,7 +1766,9 @@ export default {
         this.bindPhone.length !== 10
           ? true
           : false;
-          this.telInput = this.registEmp.employer.tel === "" || this.registEmp.employer.tel.length != 9
+      this.telInput =
+        this.registEmp.employer.tel === "" ||
+        this.registEmp.employer.tel.length != 9;
       this.tickPolicy = this.selectPolicy === "" ? true : false;
     },
     checknation() {
@@ -1779,9 +1859,9 @@ export default {
         // }
 
         this.whoRegist = this.registWorker;
-        console.log("workerRegist")
+        console.log("workerRegist");
         console.log(this.whoRegist);
-        console.log(this.whoRegist.worker.verifyPic)
+        console.log(this.whoRegist.worker.verifyPic);
         this.signUpAxios();
       }
       if (
@@ -1818,15 +1898,15 @@ export default {
     async signUpAxios() {
       console.log("signup");
       let errorResponse;
-      const vm = this
+      const vm = this;
 
       const formData = new FormData();
-      console.log("this.whoRegist" + this.whoRegist)
-        const blob = await new Blob([JSON.stringify(this.whoRegist)], {
-          type: "application/json",
-        });
-      formData.append('image', this.imgFile)
-      await formData.append('account', blob);
+      console.log("this.whoRegist" + this.whoRegist);
+      const blob = await new Blob([JSON.stringify(this.whoRegist)], {
+        type: "application/json",
+      });
+      formData.append("image", this.imgFile);
+      await formData.append("account", blob);
 
       await axios
         .post(`${process.env.VUE_APP_ROOT_API}main/register`, formData)
@@ -1834,23 +1914,22 @@ export default {
           console.log(response);
           vm.errIden = false;
           vm.showToast = true;
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          window.scrollTo({ top: 0, behavior: "smooth" });
           // setTimeout(() => (vm.showToast = false), 3000);
           // alert("Finish Sign up");
           vm.clear();
           // vm.$router.push("/otp" + "/?email=" + vm.bindEmail);
         })
         .catch(function (error) {
-          console.log(error)
+          console.log(error);
           errorResponse = error.response.data.errorCode;
         });
-       console.log("errorResponse = " + errorResponse);
+      console.log("errorResponse = " + errorResponse);
       if (errorResponse == "ACCOUNT_EMAIL_HAVE_ALREADY") {
         this.errIden = false;
         this.errorMail = true;
         this.errorMessage = "อีเมลนี้ถูกใช้แล้ว";
       }
-
     },
     async uploadImg(event) {
       const file = event.target.files[0];
@@ -1899,7 +1978,7 @@ export default {
       this.registWorker.worker.identificationNumber = "";
     },
     clear() {
-      this.registWorker = {
+      (this.registWorker = {
         email: "",
         password: "",
         role: { idRole: 3, roleName: "ROLE_WORKER" },
@@ -1920,44 +1999,44 @@ export default {
             typeName: "",
           },
         },
-      },
-      this.registEmp = {
-        email: "",
-        password: "",
-        role: { idRole: 2, roleName: "ROLE_EMP" },
-        employer: {
-          establishmentName: "",
-          entrepreneurfName: "",
-          entrepreneurlName: "",
-          address: "",
-          tel: "",
-          phone: "",
+      }),
+        (this.registEmp = {
           email: "",
-          lineId: "",
-          profile: null,
-          businesstype: {
-            idBusinessType: "",
-            nameType: "",
+          password: "",
+          role: { idRole: 2, roleName: "ROLE_EMP" },
+          employer: {
+            establishmentName: "",
+            entrepreneurfName: "",
+            entrepreneurlName: "",
+            address: "",
+            tel: "",
+            phone: "",
+            email: "",
+            lineId: "",
+            profile: null,
+            businesstype: {
+              idBusinessType: "",
+              nameType: "",
+            },
+            province: {
+              idProvince: "",
+              provinceName: "",
+            },
+            district: {
+              idDistrict: "",
+              districtName: "",
+            },
+            subDistrict: {
+              idSubdistrict: "",
+              subDistrict: "",
+              postcode: "",
+            },
+            nationality: {
+              idnationality: 1,
+              nationality_name: "",
+            },
           },
-          province: {
-            idProvince: "",
-            provinceName: "",
-          },
-          district: {
-            idDistrict: "",
-            districtName: "",
-          },
-          subDistrict: {
-            idSubdistrict: "",
-            subDistrict: "",
-            postcode: "",
-          },
-          nationality: {
-            idnationality: 1,
-            nationality_name: "",
-          },
-        },
-      }
+        });
     },
     async fetch(url) {
       try {
@@ -1989,10 +2068,9 @@ export default {
         this.sexInput = false;
       } else if (t == "เบอร์") {
         this.phoneInput = false;
-      }else if(t == "เบอร์บริษัท"){
+      } else if (t == "เบอร์บริษัท") {
         this.telInput = false;
-      }
-       else {
+      } else {
         console.log("nothing");
       }
     },

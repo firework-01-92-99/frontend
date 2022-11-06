@@ -1,9 +1,9 @@
 <template>
   <div>
-    <!-- <div v-if="noValue" class="text-center mt-10">
+    <div v-if="noValue == true" class="text-center mt-10">
       <div><img src="../assets/icon/inbox.png" class="w-20 mx-auto" /></div>
       <div class="pt-5">ไม่มีรายการที่ต้องให้คะแนน</div>
-    </div> -->
+    </div>
   <!-- ประวัติงานที่เคยทำ -->
   <div class="card card-side w-11/12 bg-base-100 shadow-xl">
     <!-- <figure>
@@ -133,6 +133,7 @@ export default {
         forwho: '',
         employer:{},
         worker:{},
+        noValue: false,
 
       },
     }
@@ -159,6 +160,7 @@ export default {
           this.$store.state.auth.user.worker.idWorker
       );
       this.status = this.status1.data;
+      console.log(result)
         console.log(result.data)
     // }      
     }    
@@ -173,8 +175,10 @@ export default {
           this.$store.state.auth.user.worker.idWorker
       );
       this.status = this.status1.data;
+      console.log(this.status)
       this.alreadyGiveScore = this.status.map((s) => s.status_idStatus == 25 || s.status_idStatus == 26)
-      console.log(this.alreadyGiveScore)      
+      this.noValue = this.status.filter((s) => s.statusName == 'Waiting_Rating' || s.statusName == 'empRated').length == 0
+      console.log(this.noValue)  
     }
   },
 };

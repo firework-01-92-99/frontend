@@ -26,9 +26,10 @@
       </div> -->
       <table class="table w-full">
         <!-- head -->
-        <thead>
+        <thead v-if="closeColumnName">
           <tr>
             <th></th>
+            <th>คะแนน</th>
             <th>ชื่อ</th>
             <th>สัญชาติ</th>
             <th></th>
@@ -37,7 +38,6 @@
         <tbody
           v-for="a in whoApplication.data.whoApplicationList.filter((s) => (s.idStatus == this.idStatus) || (s.statusName == 'Waiting_Rating' || s.statusName == 'workerRated' ))"
           :key='a.applicationId'>
-          {{a}}
           <!-- row 1 -->
           <!-- <div v-if="listApprove.lenght == null">
             ไม่มีรายการที่ต้องทำ
@@ -51,6 +51,7 @@
           }} -->
           <tr>
             <th>{{ a.count }}</th>
+            <td class="flex justify-items-center"> <div class="rating rating-md"><input type="radio" name="rating-2" class=" mask mask-star-2 bg-orange-400" checked /></div> {{a.rate == null ? 'ผู้ใช้นี้ยังไม่มีคะแนน' : a.rate}}</td>
             <td>
               <div class="flex items-center space-x-3">
                 <div class="">
@@ -128,7 +129,10 @@
           "
         >
           <div class="p-8">
+            <div class="flex justify-between">
             <h3 class="font-bold text-lg">รายละเอียด</h3>
+            <div class="rating rating-md"><input type="radio" name="rating-2" class=" mask mask-star-2 bg-orange-400" checked /> {{whatWorker.rate == null ? 'ผู้ใช้นี้ยังไม่มีคะแนน' : whatWorker.rate}}</div>
+            </div>
             <div class="flex flex-col 2xl:w-full mt-4">
               <div class="flex flex-col w-full flex-1 justify-between mb-8">
                 <div class="w-full">
@@ -583,7 +587,7 @@
               </button>
               <button
                 @click="
-                  (toggleModal = false), (statusId = ''), (confirmInput = false)
+                  (toggleModal = false), (confirmInput = false)
                 "
                 class="btn w-2/5"
               >
@@ -653,7 +657,8 @@ export default {
         employer:{},
         worker:{}
       },
-      finishWork: {}
+      finishWork: {},
+      closeColumnName: false
     };
   },
   methods: {
@@ -685,23 +690,38 @@ export default {
       if (this.statusId != "") {
         if (this.statusId == 12) { //it's meaning equal to 12 (accept worker on web)
           this.acceptWorker();
+          this.toggleModal = false;
+          this.closeColumnName = false;
         } else if (this.statusId == 13) {
             this.rejectWorker();
+            this.toggleModal = false;
+            this.closeColumnName = false;
           }else if(this.statusId == 15){
             this.acceptWorkerOnSite()
+            this.toggleModal = false;
+            this.closeColumnName = false;
           }else if(this.statusId == 16){
             this.rejectWorkerOnSite()
+            this.toggleModal = false;
+            this.closeColumnName = false;
           }else if(this.statusId == 22){
             this.finishJob()
+            this.toggleModal = false;
+            this.closeColumnName = false;
           }else if(this.statusId == 23){
             this.breakShot()
+            this.toggleModal = false;
+            this.closeColumnName = false;
           }else if(this.statusId == 24){
             this.giveRating()
+            this.toggleModal = false;
+            this.closeColumnName = false;
           }
         
         // window.location.reload()
       } else {
         this.confirmInput = true;
+        this.closeColumnName = true;
         console.log("เลือกก่อนว่าอนุมัติหรือไม่อนุมัติ");
       }
     },
@@ -841,6 +861,12 @@ export default {
       }
     },
     async callData(){
+            this.whoApplication = await axios.get(
+        `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
+          this.idPost +
+          "&idStatus=" +
+          this.idStatus
+      );
       // if(this.idStatus != 24){
       // this.whoApplication = await axios.get(
       //       `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +

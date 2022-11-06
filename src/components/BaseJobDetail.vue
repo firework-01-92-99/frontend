@@ -125,9 +125,11 @@
           <div class="rating rating-md">
                   <span class="font-normal pr-2">|</span>
                   <input type="radio" name="rating-2" class=" mask mask-star-2 bg-orange-400" checked />
-                  <span class="font-normal pl-1">4.5</span>
+                  <span class="font-normal pl-1">{{score}}</span>
                 </div>
         </h2>
+         <!-- empId employer -->
+         <!-- {{employer}} -->
         <p class="">
           <span class="inline-block align-middle"
             ><i class="material-icons pr-2"> place </i></span
@@ -537,6 +539,7 @@ export default {
       YNextBtn: true,
       favoriteList: [],
       image: null,
+      score: 0
     };
   },
   methods: {
@@ -722,6 +725,7 @@ export default {
             imageName;    
     console.log(this.image)
     this.employer = await this.fetch(this.urlEmp + "?idEmployer=" + this.empId);
+    this.score = this.employer.rate
         this.alreadyApp = this.jobDetail.applicationList
       .map((a) => a.idWorker)
       .includes(this.$store.state.auth.user.worker.idWorker);

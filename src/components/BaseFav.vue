@@ -1,6 +1,6 @@
 <template>
 <div>
-  <!-- <div v-if="noValue" class="text-center mb-10">
+  <div v-if="noValue" class="text-center mb-10">
       <div><img src="../assets/icon/inbox.png" class="w-20 mx-auto" /></div>
       <div class="pt-3">
         คุณยังไม่มีรายการงานโปรด <br />สามารถหางานโปรดของคุณได้<span
@@ -8,7 +8,7 @@
           >ที่นี่</span
         >
       </div>
-    </div> -->
+    </div>
   <div class="cursor-pointer">
   <!-- "/detail?idPosting=" + idPost + "&idEmployer=" + idEmp -->
     <!-- <figure>
@@ -76,6 +76,7 @@ export default {
     return {
       myFav: [],
       response: {},
+      noValue: false
     };
   },
   methods: {
@@ -105,6 +106,7 @@ async created(){
       const myFav1 = await axios.get(`${process.env.VUE_APP_ROOT_API}worker/getMyFavorite?idWorker=` + this.$store.state.auth.user.worker.idWorker)
       this.myFav = myFav1.data
       console.log(this.myFav)
+      this.noValue = this.myFav.length == 0
     }else{
       this.$router.push('/')
     }
