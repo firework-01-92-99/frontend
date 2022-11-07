@@ -18,7 +18,7 @@
           ml-5
         "
       >
-        {{ topic }}
+        {{ topic + " (" +")"}}
       </p>
       <div class="overflow-x-auto w-10/12 mx-auto font-sans-thai">
       <!-- <div v-for="who in whoApplication.data" :key="who.applicationId">
@@ -51,7 +51,14 @@
           }} -->
           <tr>
             <th>{{ a.count }}</th>
-            <td class="flex justify-items-center"> <div class="rating rating-md"><input type="radio" name="rating-2" class=" mask mask-star-2 bg-orange-400" checked /></div> {{a.rate == null ? 'ผู้ใช้นี้ยังไม่มีคะแนน' : a.rate}}</td>
+            <td class="flex justify-items-center">
+              <div class="rating rating-md">
+                <input type="radio" name="rating-2" class="cursor-default mask mask-star-2 bg-orange-400" checked disabled />
+              </div>
+              <span class="pl-2">
+                {{a.rate == null ? 'ผู้ใช้นี้ยังไม่มีคะแนน' : a.rate}}
+              </span>
+            </td>
             <td>
               <div class="flex items-center space-x-3">
                 <div class="">
@@ -130,8 +137,11 @@
         >
           <div class="p-8">
             <div class="flex justify-between">
-            <h3 class="font-bold text-lg">รายละเอียด</h3>
-            <div class="rating rating-md"><input type="radio" name="rating-2" class=" mask mask-star-2 bg-orange-400" checked /> {{whatWorker.rate == null ? 'ผู้ใช้นี้ยังไม่มีคะแนน' : whatWorker.rate}}</div>
+              <h3 class="font-bold text-lg">รายละเอียด</h3>
+              <div class="rating rating-md">
+                <input type="radio" name="rating-2" class=" mask mask-star-2 bg-orange-400 cursor-default" checked disabled/> 
+                <span class="pl-2">{{whatWorker.rate == null ? 'ผู้ใช้นี้ยังไม่มีคะแนน' : whatWorker.rate}}</span>
+              </div>
             </div>
             <div class="flex flex-col 2xl:w-full mt-4">
               <div class="flex flex-col w-full flex-1 justify-between mb-8">
