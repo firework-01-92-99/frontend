@@ -122,8 +122,8 @@
                   </li>
                 </ul>
                 </div>
-                <button @click="backStep()">back</button>
-                <button @click="nextStep()" class="pl-5">next</button>
+                <!-- <button @click="backStep()">back</button>
+                <button @click="nextStep()" class="pl-5">next</button> -->
 
                 <form class="form-horizontal w-3/4 mx-auto">
                   <div>
@@ -712,7 +712,7 @@
                         </p>
                       </div>
 
-                      <div class="2xl:flex 2xl:-mx-3">
+                      <!-- <div class="2xl:flex 2xl:-mx-3">
                         <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                           <label
                             for=""
@@ -864,11 +864,9 @@
                               placeholder="นามสกุล"
                             />
                           </div>
-                          <!-- <p v-if="lastnameInput" class="text-red-600">
-                          กรุณากรอกนามสกุล
-                        </p> -->
+                          
                         </div>
-                      </div>
+                      </div> -->
 
                       <div v-if="signType == 'employer'">
                         <div class="flex -mx-3">
@@ -1250,7 +1248,7 @@
                         </div>
                       </div>
 
-                      <div class="flex">
+                      <!-- <div class="flex">
                         <div class="w-full mb-5">
                           <label
                             for=""
@@ -1308,7 +1306,7 @@
                             กรุณากรอกเบอร์โทรศัพท์ (มือถือ)
                           </p>
                         </div>
-                      </div>
+                      </div> -->
 
                       <div class="flex">
                         <div v-if="signType == 'employer'" class="w-full mb-5">
@@ -1370,7 +1368,7 @@
                         </div>
                       </div>
 
-                      <div v-if="signType == 'employer'" class="flex -mx-3">
+                      <!-- <div v-if="signType == 'employer'" class="flex -mx-3">
                         <div class="w-full px-3 mb-5">
                           <label
                             for=""
@@ -1421,20 +1419,20 @@
                             />
                           </div>
                         </div>
-                      </div>
+                      </div> -->
                     </div>
                     <!-- page 2 -->
 
-                    <!-- page 3 -->
-                    <div v-if="step == 3">
+                    <!-- page 3 worker-->
+                    <div v-if="signType == 'worker' && step == 3">
                       <div class="flex -mx-3">
                         <div class="w-full px-3 mb-5">
-                          <label
+                          <!-- <label
                             v-if="signType == 'employer'"
                             for=""
                             class="text-base font-medium px-1"
                             >ภาพ Logo ของสถานประกอบการ</label
-                          >
+                          > -->
                           <label
                             v-if="signType == 'worker'"
                             for=""
@@ -1496,12 +1494,12 @@
                               />
                             </div>
                           </div>
-                          <p
+                          <!-- <p
                             v-if="UpPic && signType == 'employer'"
                             class="text-red-600"
                           >
                             กรุณาอัปโหลดภาพสถานประกอบการ
-                          </p>
+                          </p> -->
                           <p
                             v-if="UpPic && signType == 'worker'"
                             class="text-red-600"
@@ -1565,7 +1563,372 @@
                     </label>
 </div>
                   </div>
-                  <!-- page 3 -->
+                  <!-- page 3 worker -->
+
+                  <!-- page 3 emp -->
+                  <div v-if="signType == 'employer' && step == 3">
+                    <div class="2xl:flex 2xl:-mx-3">
+                        <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                          <label
+                            for=""
+                            class="
+                              2xl:text-base
+                              md:text-base
+                              text-sm
+                              font-medium
+                              px-1
+                            "
+                            >ชื่อ</label
+                          >
+                          <div class="flex">
+                            <div
+                              class="
+                                w-10
+                                z-10
+                                pl-1
+                                text-center
+                                pointer-events-none
+                                flex
+                                items-center
+                                justify-center
+                              "
+                            ></div>
+                            <input
+                              @click="onFocus('ชื่อจริง')"
+                              type="text"
+                              v-model.trim="bindFname"
+                              class="
+                                w-full
+                                -ml-10
+                                pl-5
+                                pr-3
+                                py-2
+                                rounded-lg
+                                border-2 border-gray-200
+                                outline-none
+                                focus:border-indigo-500
+                              "
+                              :class="{ 'bg-red-50': firstnameInput }"
+                              placeholder="ชื่อ"
+                            />
+                          </div>
+                          <p v-if="firstnameInput" class="text-red-600">
+                            กรุณากรอกชื่อ
+                          </p>
+                        </div>
+
+                        <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
+                          <label
+                            for=""
+                            class="
+                              2xl:text-base
+                              md:text-base
+                              text-sm
+                              font-medium
+                              px-1
+                            "
+                            >นามสกุล</label
+                          >
+                          <div class="flex">
+                            <div
+                              class="
+                                w-10
+                                z-10
+                                pl-1
+                                text-center
+                                pointer-events-none
+                                flex
+                                items-center
+                                justify-center
+                              "
+                            >
+                              <i
+                                class="
+                                  mdi mdi-account-outline
+                                  text-gray-400 text-lg
+                                "
+                              ></i>
+                            </div>
+                            <input
+                              @click="onFocus('นามสกุล')"
+                              type="text"
+                              v-model.trim="bindLname"
+                              class="
+                                w-full
+                                -ml-10
+                                pl-5
+                                pr-3
+                                py-2
+                                rounded-lg
+                                border-2 border-gray-200
+                                outline-none
+                                focus:border-indigo-500
+                              "
+                              placeholder="นามสกุล"
+                            />
+                          </div>
+                          <!-- <p v-if="lastnameInput" class="text-red-600">
+                          กรุณากรอกนามสกุล
+                        </p> -->
+                        </div>
+                      </div>
+
+                      <div class="flex">
+                        <div class="w-full mb-5">
+                          <label
+                            for=""
+                            class="
+                              2xl:text-base
+                              md:text-base
+                              text-sm
+                              font-medium
+                              px-1
+                            "
+                            >เบอร์โทรศัพท์ (มือถือ)</label
+                          >
+                          <div class="flex">
+                            <div
+                              class="
+                                w-10
+                                z-10
+                                pl-1
+                                text-center
+                                pointer-events-none
+                                flex
+                                items-center
+                                justify-center
+                              "
+                            >
+                              <i
+                                class="
+                                  mdi mdi-account-outline
+                                  text-gray-400 text-lg
+                                "
+                              ></i>
+                            </div>
+                            <input
+                              @click="onFocus('เบอร์')"
+                              type="tel"
+                              v-model.trim="bindPhone"
+                              maxlength="10"
+                              class="
+                                w-full
+                                -ml-10
+                                pl-5
+                                pr-3
+                                py-2
+                                rounded-lg
+                                border-2 border-gray-200
+                                outline-none
+                                focus:border-indigo-500
+                              "
+                              :class="{ 'bg-red-50': phoneInput }"
+                              onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                              placeholder="เบอร์โทรศัพท์ (มือถือ)"
+                            />
+                          </div>
+                          <p v-if="phoneInput" class="text-red-600">
+                            กรุณากรอกเบอร์โทรศัพท์ (มือถือ)
+                          </p>
+                        </div>
+                      </div>
+
+                      <div class="flex -mx-3">
+                        <div class="w-full px-3 mb-5">
+                          <label
+                            for=""
+                            class="
+                              2xl:text-base
+                              md:text-base
+                              text-sm
+                              font-medium
+                              px-1
+                            "
+                            >ID Line</label
+                          >
+                          <div class="flex">
+                            <div
+                              class="
+                                w-10
+                                z-10
+                                pl-1
+                                text-center
+                                pointer-events-none
+                                flex
+                                items-center
+                                justify-center
+                              "
+                            >
+                              <i
+                                class="
+                                  mdi mdi-account-outline
+                                  text-gray-400 text-lg
+                                "
+                              ></i>
+                            </div>
+                            <input
+                              type="text"
+                              v-model.trim="registEmp.employer.lineId"
+                              class="
+                                w-full
+                                -ml-10
+                                pl-5
+                                pr-3
+                                py-2
+                                rounded-lg
+                                border-2 border-gray-200
+                                outline-none
+                                focus:border-indigo-500
+                              "
+                              placeholder="ไอดีไลน์"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                  </div>
+                  <!-- page 3 emp -->
+
+                  <!-- page 4 -->
+                    <div v-if="signType == 'employer' && step == 4">
+                      <div class="flex -mx-3">
+                        <div class="w-full px-3 mb-5">
+                          <label
+                            v-if="signType == 'employer'"
+                            for=""
+                            class="text-base font-medium px-1"
+                            >ภาพ Logo ของสถานประกอบการ</label
+                          >
+                          <!-- <label
+                            v-if="signType == 'worker'"
+                            for=""
+                            class="
+                              2xl:text-base
+                              md:text-base
+                              text-sm
+                              font-medium
+                              px-1
+                            "
+                            >ภาพยืนยันตัวตน</label
+                          > -->
+                          <div class="flex">
+                            <div
+                              class="
+                                w-10
+                                z-10
+                                pl-1
+                                text-center
+                                pointer-events-none
+                                flex
+                                items-center
+                                justify-center
+                              "
+                            >
+                              <i
+                                class="
+                                  mdi mdi-account-outline
+                                  text-gray-400 text-lg
+                                "
+                              ></i>
+                            </div>
+                            <div class="flex flex-col w-full">
+                              <img
+                                :src="image"
+                                class="
+                                  mt-2
+                                  mb-3
+                                  2xl:w-1/5
+                                  lg:w-2/5
+                                  md:w-2/5
+                                  w-5/6
+                                  mx-auto
+                                "
+                              />
+                              <input
+                                type="file"
+                                class="
+                                  w-full
+                                  -ml-10
+                                  pr-3
+                                  py-2
+                                  rounded-lg
+                                  outline-none
+                                  focus:border-indigo-500
+                                "
+                                @change="uploadImg"
+                                :class="{ 'bg-red-50': UpPic }"
+                              />
+                            </div>
+                          </div>
+                          <p
+                            v-if="UpPic && signType == 'employer'"
+                            class="text-red-600"
+                          >
+                            กรุณาอัปโหลดภาพสถานประกอบการ
+                          </p>
+                          <!-- <p
+                            v-if="UpPic && signType == 'worker'"
+                            class="text-red-600"
+                          >
+                            กรุณาอัปโหลดภาพยืนยันตัวตน
+                          </p> -->
+                        </div>
+                      </div>
+                    
+
+                    <label class="label cursor-pointer space-x-2">
+                      <div class="flex flex-col">
+                        <div class="flex space-x-3">
+                          <input
+                            type="checkbox"
+                            v-model.trim="selectPolicy"
+                            class="checkbox checkbox-sm"
+                            value="T"
+                          />
+                          <span class="label-text"
+                            >ฉันยอมรับ
+                            <label
+                              for="my-modal-5"
+                              class="
+                                text-blue-600
+                                cursor-pointer
+                                underline
+                                hover:text-blue-700
+                                font-medium
+                              "
+                              >ข้อกำหนดและเงื่อนไข</label
+                            >
+                            <input
+                              type="checkbox"
+                              id="my-modal-5"
+                              class="modal-toggle"
+                            />
+                            <div class="modal">
+                              <div
+                                class="modal-box w-11/12 max-w-5xl rounded-lg"
+                              >
+                                <term-and-condi></term-and-condi>
+                                <div class="modal-action">
+                                  <label for="my-modal-5" class="btn"
+                                    >ปิด</label
+                                  >
+                                </div>
+                              </div>
+                            </div>
+                            การเป็นสมาชิก<span v-if="signType == 'worker'"
+                              >ผู้สมัครงาน</span
+                            ><span v-else>ผู้ประกอบการ</span>ทุกประการ
+                          </span>
+                        </div>
+                        <div>
+                          <p v-if="tickPolicy" class="text-red-600">
+                            กรุณายอมรับข้อกำหนดและเงื่อนไขของ Firework
+                          </p>
+                        </div>
+                      </div>
+                    </label>
+</div>
+<!-- page 4 -->
 
                   <div v-if="signType == 'worker'" class="flex flex-col mt-8 space-y-3">
                     <button
@@ -1585,11 +1948,10 @@
                     </button>
                     <button
                       v-if="signType == 'worker' && (step == 2 || step == 3)"
-                      @click="backStep()"
+                      @click.prevent="backStep()"
                       class="
                         btn btn-ghost text-base
                         font-medium
-                        
                         px-4
                         rounded
                       "
@@ -1615,7 +1977,7 @@
                     </button>
                     <button
                       v-if="signType == 'employer' && (step == 2 || step == 3 || step == 4)"
-                      @click="backStep()"
+                      @click.prevent="backStep()"
                       class="
                         btn btn-ghost text-base
                         font-medium
@@ -1773,13 +2135,15 @@ export default {
       bindPhone: "",
       picture: null,
       step: 1,
-      allStep: 3,
+      allStep: 0,
     };
   },
   methods: {
     backStep() {
       if (this.step > 1) {
+        console.log("before" + this.step);
         this.step--;
+        console.log("after" + this.step);
       }
     },
     nextStep() {
@@ -2120,6 +2484,7 @@ export default {
         this.errIden = false;
         this.errorMail = true;
         this.errorMessage = "อีเมลนี้ถูกใช้แล้ว";
+        this.step = 1;
       }
     },
     async uploadImg(event) {
@@ -2304,6 +2669,13 @@ export default {
         this.ntType = await this.fetch(
           `${process.env.VUE_APP_ROOT_API}main/allNationality`
         );
+      }
+    }
+    if(this.signType == 'employer'){
+      this.allStep = 4;
+    } else {
+      if(this.signType == 'worker'){
+        this.allStep = 3;
       }
     }
   },
