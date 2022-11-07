@@ -518,7 +518,6 @@
                                     <textarea
                                       type="tel"
                                       class="
-                                        textarea
                                         w-full
                                         -ml-10
                                         pl-5
@@ -734,7 +733,7 @@
                                   </div>
                                 </div>
                               </div>
-                              <div v-if="iAm == 'Employer' && infoEmp.lineId != lastEditEmp.lineId" class="2xl:flex 2xl:-mx-3">
+                              <div v-if="iAm == 'Employer' && infoEmp.lineId != lastEditEmp.lineId" class="flex -mx-3">
                                 <div class="w-full px-3 mb-5">
                         <label
                           for=""
@@ -784,7 +783,7 @@
                       </div>
                               </div>
 
-                      <div v-if="iAm == 'Employer' && infoEmp.tel != lastEditEmp.tel" class="2xl:flex 2xl:-mx-3">
+                      <div v-if="iAm == 'Employer' && infoEmp.tel != lastEditEmp.tel" class="flex -mx-3">
                             <div class="w-full px-3 mb-5">
                         <label
                           for=""
@@ -933,8 +932,8 @@
                                   >ภาพยืนยันตัวตน</label
                                 >
                                 <div class="flex">
-                                <img class="rounded-lg object-cover 2xl:w-1/3 md:w-1/2 w-3/4" :src="image" />
-                                <span class="px-10 font-medium text-4xl">→</span><img class="rounded-lg object-cover 2xl:w-1/3 md:w-1/2 w-3/4" :src="editImage" /></div>
+                                <img class="rounded-lg object-cover  w-1/3" :src="image" />
+                                <span class="2xl:px-10 xl:px-10 lg:px-10 md:px-10 px-5 font-medium text-4xl">→</span><img class="rounded-lg object-cover  w-1/3" :src="editImage" /></div>
                               </div>
                             </div>
                           </div>
@@ -944,8 +943,9 @@
                     </div>
                   </div>
                   
-                  <div class="w-full px-3 mb-5">
-                    <div class="2xl:flex 2xl:space-x-5">
+                  <div class="w-full mb-5">
+                    <div class="flex-col w-full">
+                    <div class="flex space-x-10">
                       <div class="form-control">
                         <label class="label cursor-pointer 2xl:space-x-2">
                           <input
@@ -955,7 +955,7 @@
                             class="radio checked:bg-orange-1"
                             value="4"
                           />
-                          <span class="label-text 2xl:pr-0 md:pr-56"
+                          <span class="label-text 2xl:pr-0 md:pl-5 pl-5"
                             >อนุมัติ</span
                           >
                         </label>
@@ -969,7 +969,7 @@
                             class="radio checked:bg-orange-1"
                             value="5"
                           />
-                          <span class="label-text 2xl:pr-0 md:pr-52"
+                          <span class="label-text 2xl:pr-0 md:pl-5 pl-5"
                             >ไม่อนุมัติ</span
                           >
                         </label>
@@ -979,6 +979,7 @@
                         กรุณาเลือกรูปแบบการอนุมัติ
                       </p>
                       </div>
+                    </div>
                     </div>
                     <textarea
                       class="textarea textarea-bordered w-full h-36"
