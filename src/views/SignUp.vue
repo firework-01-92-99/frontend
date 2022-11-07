@@ -107,7 +107,8 @@
                 ลงทะเบียนสำหรับผู้สมัครงาน
               </h1>
               <div class="w-full mt-10">
-                <ul class="steps">
+                <div class="w-3/4 mx-auto mb-5">
+                <ul class="steps w-full">
                   <li
                     class="step"
                     :class="[{ 'step-primary': step == item }]"
@@ -120,8 +121,10 @@
                     <!-- {{ item  กูคือ Step}} -->
                   </li>
                 </ul>
+                </div>
                 <button @click="backStep()">back</button>
                 <button @click="nextStep()" class="pl-5">next</button>
+
                 <form class="form-horizontal w-3/4 mx-auto">
                   <div>
                     <div v-if="step == 1">
@@ -1507,7 +1510,7 @@
                           </p>
                         </div>
                       </div>
-                    </div>
+                    
 
                     <label class="label cursor-pointer space-x-2">
                       <div class="flex flex-col">
@@ -1560,10 +1563,11 @@
                         </div>
                       </div>
                     </label>
+</div>
                   </div>
                   <!-- page 3 -->
 
-                  <div v-if="signType == 'worker'" class="flex flex-col mt-8">
+                  <div v-if="signType == 'worker'" class="flex flex-col mt-8 space-y-3">
                     <button
                       @click.prevent="signUp()"
                       type="submit"
@@ -1579,8 +1583,21 @@
                     >
                       {{(signType == 'worker' && (step == 1 || step == 2)) ? 'ต่อไป' : 'ลงทะเบียน'}}
                     </button>
+                    <button
+                      v-if="signType == 'worker' && (step == 2 || step == 3)"
+                      @click="backStep()"
+                      class="
+                        btn btn-ghost text-base
+                        font-medium
+                        
+                        px-4
+                        rounded
+                      "
+                    >
+                      ย้อนกลับ
+                    </button>
                   </div>
-                  <div v-if="signType == 'employer'" class="flex flex-col mt-8">
+                  <div v-if="signType == 'employer'" class="flex flex-col mt-8 space-y-3">
                     <button
                       @click.prevent="signUp()"
                       type="submit"
@@ -1595,6 +1612,18 @@
                       "
                     >
                       {{(signType == 'employer' && (step == 1 || step == 2 || step == 3)) ? 'ต่อไป' : 'ลงทะเบียน'}}
+                    </button>
+                    <button
+                      v-if="signType == 'employer' && (step == 2 || step == 3 || step == 4)"
+                      @click="backStep()"
+                      class="
+                        btn btn-ghost text-base
+                        font-medium
+                        px-4
+                        rounded
+                      "
+                    >
+                      ย้อนกลับ
                     </button>
                   </div>                  
                 </form>
