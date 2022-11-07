@@ -66,7 +66,7 @@
           > -->
             <figure>
               <img
-                class="object-cover"
+                class="object-cover w-full h-56"
                 :src=" !$store.state.auth.user || $store.state.auth.user.role.idRole == '3' ? env + allPicture.find((a) => a.idEmployer == job.idEmployer).imageName : image"
               />
             </figure>
@@ -134,7 +134,7 @@
                   <input
                     type="radio"
                     name="rating-2"
-                    class="mask mask-star-2 bg-orange-400"
+                    class="cursor-default mask mask-star-2 bg-orange-400"
                     checked
                     disabled
                   />
