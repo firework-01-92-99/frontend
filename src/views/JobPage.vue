@@ -191,6 +191,16 @@
             </option>
             <option class="text-black" value="300">300</option>
             <option class="text-black" value="400">400</option>
+            <option class="text-black" value="500">500</option>
+            <option class="text-black" value="1000">1000</option>
+            <option class="text-black" value="2000">2000</option>
+            <option class="text-black" value="3000">3000</option>
+            <option class="text-black" value="4000">4000</option>
+            <option class="text-black" value="5000">5000</option>
+            <option class="text-black" value="6000">6000</option>
+            <option class="text-black" value="7000">7000</option>
+            <option class="text-black" value="8000">8000</option>
+            <option class="text-black" value="9000">9000</option>
           </select>
         </div>
         <div class="w-full flex-col">
@@ -223,6 +233,16 @@
             </option>
             <option class="text-black" value="300">300</option>
             <option class="text-black" value="400">400</option>
+            <option class="text-black" value="500">500</option>
+            <option class="text-black" value="1000">1000</option>
+            <option class="text-black" value="2000">2000</option>
+            <option class="text-black" value="3000">3000</option>
+            <option class="text-black" value="4000">4000</option>
+            <option class="text-black" value="5000">5000</option>
+            <option class="text-black" value="6000">6000</option>
+            <option class="text-black" value="7000">7000</option>
+            <option class="text-black" value="8000">8000</option>
+            <option class="text-black" value="9000">9000</option>
           </select>
         </div>
         <div
