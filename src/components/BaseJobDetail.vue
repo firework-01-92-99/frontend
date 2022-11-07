@@ -3,7 +3,7 @@
     <div>
       <!-- toast application -->
       <transition name="toast">
-        <div v-if="showToast" class="flex justify-center">
+        <div v-if="showToast && ($store.state.auth.user && $store.state.auth.user.role.idRole == '3')" class="flex justify-center">
           <div
             class="absolute z-10 2xl:w-2/5 w-full alert alert-success shadow-lg"
           >
@@ -125,7 +125,7 @@
           <div class="rating rating-md">
                   <span class="font-normal pr-2">|</span>
                   <input type="radio" name="rating-2" class="cursor-default mask mask-star-2 bg-orange-400" checked disabled />
-                  <span class="font-normal pl-1">{{score}}</span>
+                  <span class="font-normal pl-1">{{score == null ? 'ยังไม่มีคะแนน' : score}}</span>
                 </div>
         </h2>
          <!-- empId employer -->
@@ -515,7 +515,7 @@ export default {
       workerType,
       ot,
       empId: null,
-      jobDetail: {position:{}, minSalary:0, maxSalary:0, workerType:{}, hiringType:{}},
+      jobDetail: {position:{}, minSalary:0, maxSalary:0, workerType:{}, hiringType:{}, status:{}},
       // urlJobDetail: "http://localhost:3000/main/selectPosting",
       urlJobDetail: `${process.env.VUE_APP_ROOT_API}main/selectPosting`,
       idPosting: 0,
@@ -536,8 +536,8 @@ export default {
       typeNotice: true,
       conditionNotTrue: true,
       showToast: false,
-      // showToast1: false,
-      // showToast2: false,
+      showToast1: false,
+      showToast2: false,
       hideYourSelf: true,
       defNext: true,
       YNextBtn: true,
@@ -650,6 +650,7 @@ export default {
     this.application()
     },
     async application() {
+      if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == '3'){
       this.defNext = true;
       if (this.canApp % 2 == 0) {
         if (
@@ -708,6 +709,7 @@ export default {
       } else {
         console.log("สมัครไม่สำเร็จ");
       }
+      }
     },
     closePopup() {
       this.openForm = false;
@@ -730,13 +732,14 @@ export default {
     console.log(this.image)
     this.employer = await this.fetch(this.urlEmp + "?idEmployer=" + this.empId);
     this.score = this.employer.rate
+    if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == '3'){
         this.alreadyApp = this.jobDetail.applicationList
       .map((a) => a.idWorker)
       .includes(this.$store.state.auth.user.worker.idWorker);
-    console.log(this.alreadyApp);
     this.fav1= await axios.get(
         `${process.env.VUE_APP_ROOT_API}worker/getMyFavorite?idWorker=` + this.$store.state.auth.user.worker.idWorker);
-    this.favoriteList = this.fav1.data
+    this.favoriteList = this.fav1.data      
+    }
       this.getActivePost = await this.fetch(
         `${process.env.VUE_APP_ROOT_API}main/getPostingActiveByIdEmployer?idEmployer=` +
           this.$store.state.auth.user.employer.idEmployer + '&size=4');

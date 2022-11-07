@@ -192,6 +192,7 @@
                     <input
                       type="tel"
                       v-if="jobDetail"
+                      @change="salaryType()"
                       v-model.trim="jobDetail.minSalary"
                       maxlength="5"
                       class="
@@ -209,11 +210,17 @@
                         focus:border-indigo-500
                       "
                       :class="{ 'bg-red-50': minSalaryInput }"
-                      placeholder="กรอกเงินเดือนที่ต่ำที่สุด"
+                      placeholder="กรอกเงินที่ต่ำที่สุด"
                       onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                     />
                   </div>
                   <div class="justify-start">
+                    <p v-if="minSalaryAlert" class="text-sm font-normal text-red-600">
+                      เงินขั้นต่ำต้องไม่ต่ำกว่า 300 บาท
+                    </p>
+                    <p v-if="minMoreThanMax" class="text-sm font-normal text-red-600">
+                      เงินขั้นต่ำต้องน้อยกว่าเงินที่มากสุด
+                    </p>                                           
                     <p v-if="minSalaryInput" class="text-sm font-normal text-red-600">
                       กรุณากรอกเงินเดือนที่ต่ำที่สุด
                     </p>
@@ -245,6 +252,7 @@
                     <input
                       type="tel"
                       v-if="jobDetail"
+                      @change="salaryType()"
                       v-model.trim="jobDetail.maxSalary"
                       maxlength="5"
                       class="
@@ -262,13 +270,16 @@
                         focus:border-indigo-500
                       "
                       :class="{ 'bg-red-50': maxSalaryInput }"
-                      placeholder="กรอกเงินเดือนที่มากที่สุด"
+                      placeholder="กรอกเงินที่มากที่สุด"
                       onkeypress="return event.charCode >= 48 && event.charCode <= 57"
                     /><span class="pl-2 py-2">บาท</span>
                     </div>
                     <div>
+                    <p v-if="maxWrong" class="font-normal text-sm text-red-600">
+                      กรุณากรอกเงินที่มากสุดให้มากกว่าเงินที่ต่ำสุด
+                    </p>                      
                     <p v-if="maxSalaryInput" class="text-sm font-normal text-red-600">
-                      กรุณากรอกเงินเดือนที่มากที่สุด
+                      กรุณากรอกเงินที่มากที่สุด
                     </p>
                     </div>
                     </div>
@@ -741,8 +752,8 @@
 
             <div class="flex space-x-5">
               <div class="form-control">
-                <label class="flex flex-col items-start label cursor-pointer space-y-2">
-                  <span v-for="pd in sevenDay" :key="pd.idDay">
+                <label v-for="pd in sevenDay" :key="pd.idDay" class="flex flex-col items-start label cursor-pointer space-y-2">
+                  <span>
                     <!-- {{pd}} -->
                     <input
                       :id="pd.idDay"
@@ -1139,9 +1150,26 @@ export default {
       hiringTypeArray: [],
       sevenDay: [],
       image: null,
+      minSalaryAlert: false,
+      maxWrong: false,
+      minMoreThanMax: false,
     };
   },
   methods: {
+    salaryType(){
+        if(parseInt(this.jobDetail.minSalary) < 300){
+          this.postInfo.minSalary = 300
+          this.minSalaryAlert = true
+          setTimeout(() => (this.minSalaryAlert = false), 2000);
+        }     
+      if(this.jobDetail.minSalary && this.jobDetail.maxSalary != ''){
+        if(parseInt(this.jobDetail.maxSalary) < parseInt(this.jobDetail.minSalary)){
+        // this.postInfo.maxSalary = parseInt(this.postInfo.minSalary) + 100
+        this.maxWrong = true
+        setTimeout(() => (this.maxWrong = false), 3000);
+        }
+      }
+    },    
     // async closePost(OnorOff) {
     //   console.log("InorAct = " + OnorOff);
     //   if(OnorOff == 'Off'){
@@ -1168,7 +1196,6 @@ export default {
     //   }
     // },
     async editPost() {
-      this.checkValidate();
       console.log("postInfo")
       this.postInfo = {
         idPosting: this.idPosting,
@@ -1176,8 +1203,8 @@ export default {
         workDescription: this.jobDetail?.workDescription,
         minAge: this.jobDetail?.minAge,
         maxAge: this.jobDetail?.maxAge,
-        minSalary: this.jobDetail?.minSalary,
-        maxSalary: this.jobDetail?.maxSalary,
+        minSalary: parseInt(this.jobDetail?.minSalary),
+        maxSalary: parseInt(this.jobDetail?.maxSalary),
         overtimePayment: this.jobDetail?.overtimePayment,
         startTime: this.jobDetail?.startTime,
         endTime: this.jobDetail?.endTime,
@@ -1201,9 +1228,15 @@ export default {
           idposition: "",
           positionName: this.jobDetail?.position?.positionName,
         },
-      }      
+      }
+      this.checkValidate();      
       console.log(this.postInfo)
-      if (!this.checkValidate()) {
+
+      if(!this.maxWrong || !this.minMoreThanMax &&
+        !this.positionInput && !this.sexInput && !this.descriptInput && !this.minAgeInput &&
+        !this.maxAgeInput && !this.maxSalaryInput && !this.minSalaryInput && !this.otPayInput &&
+        !this.startTimeInput && !this.endTimeInput && !this.welfareInput && !this.hiringTypeInput &&
+        !this.statusInput && !this.workerTypeInput && !this.postingHasDayListInput){
         const vm = this
         await axios
           .put(`${process.env.VUE_APP_ROOT_API}emp/editPosting`, this.postInfo)
@@ -1211,13 +1244,18 @@ export default {
             console.log(response);
             vm.showToast = true;
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            setTimeout(() => (vm.showToast = false), 5000);
+            setTimeout(() => (vm.showToast = false), 2750);
             // alert("ประกาศโพสหางานของคุณเรียบร้อยแล้ว");
             // vm.$router.push('/posting')
           })
           .catch(function (error) {
             console.log(error);
           });
+
+      }
+      else{
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        console.log("ไม่ทำ")
       }
     },
 
@@ -1231,7 +1269,9 @@ export default {
       this.maxAgeInput =
         this.postInfo.maxAge === "" || this.postInfo.maxAge > 60 ? true : false;
       this.minSalaryInput = this.postInfo.minSalary === "" ? true : false;
+      this.minMoreThanMax = (parseInt(this.postInfo.minSalary) > parseInt(this.postInfo.maxSalary)) ? true : false
       this.maxSalaryInput = this.postInfo.maxSalary === "" ? true : false;
+      this.maxWrong = (parseInt(this.postInfo.maxSalary) < parseInt(this.postInfo.minSalary)) ? true : false
       this.otPayInput = this.postInfo.overtimePayment === "" ? true : false;
       this.startTimeInput = this.postInfo.startTime === "" ? true : false;
       this.endTimeInput = this.postInfo.endTime === "" ? true : false;
@@ -1239,10 +1279,11 @@ export default {
       this.hiringTypeInput =
         this.postInfo.hiringType.idHiringtype === "" ? true : false;
       this.statusInput = this.postInfo.status.idStatus === "" ? true : false;
-      this.workerType =
+      this.workerTypeInput =
         this.postInfo.workerType.idWorkerType === "" ? true : false;
       this.postingHasDayListInput =
-        this.postInfo.postingHasDayList.day?.idDay === "" ? true : false;
+        this.postInfo.postingHasDayList.length == 0 ? true : false;
+        console.log(this.postInfo.postingHasDayList.length)
     },
     clear() {
       this.postInfo = {

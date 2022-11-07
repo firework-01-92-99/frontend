@@ -113,7 +113,7 @@
                       กรุณาอัปโหลดภาพยืนยันตัวตน
                     </p> -->
                   </div>
-
+                   <div>
                   <div class="2xl:flex -mx-3">
                     <div class="w-full px-3 mb-5">
                       <label
@@ -136,6 +136,7 @@
                         ></div>
                         <input
                           type="text"
+                          v-model="editPass.currPass"
                           class="
                             w-full
                             -ml-10
@@ -178,6 +179,7 @@
                         ></div>
                         <input
                           type="text"
+                          v-model="editPass.newPass"
                           class="
                             w-full
                             -ml-10
@@ -220,6 +222,7 @@
                         ></div>
                         <input
                           type="text"
+                          v-model="editPass.confirmPass"
                           class="
                             w-full
                             -ml-10
@@ -239,6 +242,8 @@
                       </p>
                     </div>
                   </div>
+                  <button @click="editPassword()">แก้ไขรหัสผ่าน</button>
+                </div>
                 </div>
               </div>
             </div>
@@ -1398,9 +1403,29 @@ export default {
       picture: null,
       secPassInput: false,
       // showToast: false,
+        editPass: {
+          currPass: '',
+          newPass: '',
+          confirmPass: '',
+          email: '',
+        },
+        currPassInput: false,
+        newPassInput: false,
+        confirmPassInput: false,               
     };
   },
   methods: {
+  async editPassword(){
+    console.log(this.$store.state.auth.user.worker)
+    this.currPassInput = this.editPass.currPass === '' || this.editPass.currPass.length < 8 ? true : false
+    this.newPassInput = this.editPass.newPass === '' || this.editPass.newPass.length < 8
+    this.confirmPassInput = this.editPass.confirmPass === '' || this.editPass.confirmPass.length < 8 || this.editPass.newPass != this.editPass.confirmPass
+    if(!this.confirmPassInput && !this.newPassInput && !this.currPassInput){
+      //รอ BE แก้ method
+    await axios.post(
+          `${process.env.VUE_APP_ROOT_API}main/editPassword?currentPassword=` + this.editPass.currPass + '&newPassword=' + this.editPass.newPass + '&idWorker=' + this.$store.state.auth.user.worker.idWorker);
+    }
+  },    
     async sendEdit() {
       console.log("เข้า 1")
       this.check();
@@ -1414,7 +1439,7 @@ export default {
         !this.phoneInput
       ) {
         console.log("เข้า 3")
-        this.worker.verifyPic = `${process.env.VUE_APP_ROOT_API}main/image/` + this.worker.verifyPic
+        // this.worker.verifyPic = `${process.env.VUE_APP_ROOT_API}main/image/` + this.worker.verifyPic
         console.log(this.worker.verifyPic)
         //ส่งแบบ requestBody
         // const worker = JSON.stringify(this.worker);
@@ -1430,14 +1455,17 @@ export default {
         const blob = await new Blob([JSON.stringify(this.worker)], {
           type: "application/json",
         });
-      formData.append('image', this.imgFile)
-      console.log(this.imgFile)
-      await formData.append('worker', blob);        
-        console.log(formData)
+      await formData.append('worker', blob);
+        //ส่งภาพ+ข้อมูลแก้ไข
+        if(this.imgFile != undefined){
+      formData.append('image', this.imgFile)    
         await axios.post(
           `${process.env.VUE_APP_ROOT_API}worker/editMyWorker`, formData);
-      
-      console.log("เข้า 4")
+        }else{
+          //ส่งแต่ข้อมูลที่แก้ไข
+          await axios.post(
+          `${process.env.VUE_APP_ROOT_API}worker/editMyWorkerWithOutImage`, formData);
+        }
     }
       }
     },

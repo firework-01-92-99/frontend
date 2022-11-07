@@ -53,21 +53,21 @@
           ><a
             :class="{ 'tab-active': routes == 'ApproveAccPage' }"
             class="tab tab-bordered tab-active font-medium 2xl:text-base md:text-base text-xs"
-            @click="$router.push('/approve')"
+            @click.prevent="$router.push('/approve')"
           >
             ตรวจสอบบัญชี
           </a>
           <a
       class="tab tab-bordered 2xl:text-base md:text-base text-xs"
       :class="{ 'tab-active': routes == 'EditAccPage' }"
-      @click="$router.push('/approve/edit')"
+      @click.prevent="$router.push('/approve/edit')"
       
       >คำขอแก้ไขบัญชี</a
     >
           <a
             class="tab tab-bordered 2xl:text-base md:text-base text-xs"
             :class="{ 'tab-active': routes == 'DelAccPage' }"
-            @click="$router.push('/approve/delete')"
+            @click.prevent="$router.push('/approve/delete')"
             >คำขอลบบัญชี</a
           ></template
         >
@@ -1129,6 +1129,12 @@ export default {
         this.confirmInput = true;
         console.log("เลือกก่อนว่าอนุมัติไม่อนุมัติ");
       }
+      this.listApprove = await axios.get(`${process.env.VUE_APP_ROOT_API}admin/getAllApproveByIdStatusAndIdRole?idStatus=6&idRole=0`);
+      if (this.listApprove.data.length == 0) {
+        this.noValue = true;
+      } else {
+        this.noValue = false;
+      }      
     },
     async fetch(url) {
       try {
@@ -1146,9 +1152,7 @@ export default {
       this.$store.state.auth.user &&
       this.$store.state.auth.user.role.idRole == "1"
     ) {
-      this.listApprove = await axios.get(
-        `${process.env.VUE_APP_ROOT_API}admin/getAllApproveByIdStatusAndIdRole?idStatus=6&idRole=0`
-      );
+      this.listApprove = await axios.get(`${process.env.VUE_APP_ROOT_API}admin/getAllApproveByIdStatusAndIdRole?idStatus=6&idRole=0`);
       console.log(this.listApprove.data);
       this.status = await this.fetch(
         `${process.env.VUE_APP_ROOT_API}main/allStatus`

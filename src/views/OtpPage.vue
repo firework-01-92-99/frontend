@@ -22,7 +22,7 @@
                 />
               </svg>
               <p class="font-sans-thai">
-                ยืนยันตัวตนสำเร็จเรียบร้อย กรุณารอ Admin ตรวจสอบบัญชีของคุณ
+                {{$route.query.forgetPass != 'yes' ? 'ยืนยันตัวตนสำเร็จ กรุณารอ Admin ตรวจสอบบัญชีของคุณ' : 'ยืนยันตัวตนสำเร็จ'}}
                 <!-- <span class="font-medium">เมนู "สถานะการสมัครงาน"</span> -->
               </p>
             </div>
@@ -180,11 +180,9 @@
 </template>
 
 	<script>
-// import OTP from "@/components/OTP.vue";
 import axios from "axios";
 export default {
   components: {
-    // OTP
   },
   data() {
     return {
@@ -194,6 +192,7 @@ export default {
       timeCount: 60,
       nowCount: false,
       showToast: false,
+      responseStatus: 0,
     };
   },
   methods: {
@@ -240,7 +239,7 @@ export default {
     },
     async sendOTP() {
       let errorResponse;
-      // let res;
+      let res;
       const vm = this;
       // const toLoginPage = this.$router.push("/signin");
       await axios
@@ -260,7 +259,8 @@ export default {
           // alert(
           //   "ยืนยัน OTP เรียบร้อย กรุณารอ Admin ยืนยันและตรวจสอบบัญชีของท่าน"
           // );
-          // res = response.status;
+          res = response.status;
+          vm.responseStatus = res
         })
         .catch(function (error) {
           console.log(error);
@@ -281,12 +281,12 @@ export default {
     },
     closeToast() {
       if(this.showToast == false) {
-        if (this.$route.query.forgetPass != 'yes') {  //it's mean for signup
+        if (this.responseStatus == 200 && this.$route.query.forgetPass != 'yes') {  //it's mean for signup
         // vm.showToast = true;
         // window.scrollTo({ top: 0, behavior: 'smooth' });
         this.$router.push("/signin")
       } else {
-        if(this.$route.query.forgetPass == 'yes') {  //it's mean for forgetPassword
+        if(this.responseStatus == 200 && this.$route.query.forgetPass == 'yes') {  //it's mean for forgetPassword
         this.$router.push("/forgetPass?changePass=yes")
         }
       }

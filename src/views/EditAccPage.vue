@@ -95,7 +95,7 @@
       <table class="table w-full">
         <!-- head -->
         <thead>
-          <tr>
+          <tr v-if="!noValue">
             <th></th>
             <th>ชื่อ</th>
             <th>ประเภทบัญชี</th>
@@ -137,6 +137,10 @@
           </tr>
         </tfoot> -->
       </table>
+    </div>
+        <div v-if="noValue" class="text-center mt-10">
+      <div><img src="../assets/icon/inbox.png" class="w-20 mx-auto" /></div>
+      <div class="pt-5">ไม่มีรายการที่ต้องทำ</div>
     </div>
     <!-- modal -->
     <div v-if="toggleModal" class="fixed overflow-x-hidden overflow-y-auto inset-0 flex justify-center items-center z-50">
@@ -916,8 +920,8 @@
                                 </div>
                               </div>
                             </div>
-                            
-                            <div v-if="(iAm == 'Employer' && infoEmp.profile !=lastEditEmp.profile) || (iAm == 'Worker' && infoWorker.verifyPic != lastEditWorker.verifyPic.slice(33,1000))" class="flex -mx-3">
+                            <!-- <div v-if="(iAm == 'Employer' && infoEmp.profile !=lastEditEmp.profile) || (iAm == 'Worker' && infoWorker.verifyPic != lastEditWorker.verifyPic.slice(33,1000))" class="flex -mx-3"> -->
+                              <div v-if="image != editImage" class="flex -mx-3">
                               <div class="w-full px-3 mb-5">
                                 <label
                                 v-if="iAm == 'Employer'"
@@ -1031,6 +1035,7 @@ export default {
       idWorker: 0,
       idEmp: 0,
       showToast:false,
+      noValue: false,
     };
   },
   methods: {
@@ -1109,6 +1114,12 @@ export default {
           this.toggleModal = false          
       }
       this.listApprove = await axios.get(`${process.env.VUE_APP_ROOT_API}admin/getAllApproveByIdStatusAndIdRole?idStatus=7&idRole=0`);
+      if (this.listApprove.data.length == 0) {
+        this.noValue = true;
+      } else {
+        this.noValue = false;
+      }
+      console.log("ไม่อยากจะถามมม")
       }else{
         this.confirmInput = true
         console.log("เลือกก่อนว่าอนุมัติไม่อนุมัติ")
@@ -1128,6 +1139,11 @@ export default {
       this.listApprove = await axios.get(
         `${process.env.VUE_APP_ROOT_API}admin/getAllApproveByIdStatusAndIdRole?idStatus=7&idRole=0`
       );
+      if (this.listApprove.data.length == 0) {
+        this.noValue = true;
+      } else {
+        this.noValue = false;
+      }      
       console.log(this.listApprove)
       
     } else {

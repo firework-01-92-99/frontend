@@ -1125,6 +1125,14 @@ export default {
         this.confirmInput = true;
         console.log("เลือกก่อนว่าอนุมัติไม่อนุมัติ");
       }
+      this.listApprove = await axios.get(
+        `${process.env.VUE_APP_ROOT_API}admin/getAllApproveByIdStatusAndIdRole?idStatus=8&idRole=0`
+      );      
+      if (this.listApprove.data.length == 0) {
+        this.noValue = true;
+      } else {
+        this.noValue = false;
+      }      
     },
     async fetch(url) {
       try {

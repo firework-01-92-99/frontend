@@ -712,7 +712,7 @@
                         </p>
                       </div>
 
-                      <!-- <div class="2xl:flex 2xl:-mx-3">
+                      <div v-if="signType == 'worker'" class="2xl:flex 2xl:-mx-3">
                         <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                           <label
                             for=""
@@ -866,7 +866,7 @@
                           </div>
                           
                         </div>
-                      </div> -->
+                      </div>
 
                       <div v-if="signType == 'employer'">
                         <div class="flex -mx-3">
@@ -1247,8 +1247,7 @@
                           </p>
                         </div>
                       </div>
-
-                      <!-- <div class="flex">
+                      <div v-if="signType == 'worker'" class="flex">
                         <div class="w-full mb-5">
                           <label
                             for=""
@@ -1306,7 +1305,7 @@
                             กรุณากรอกเบอร์โทรศัพท์ (มือถือ)
                           </p>
                         </div>
-                      </div> -->
+                      </div>
 
                       <div class="flex">
                         <div v-if="signType == 'employer'" class="w-full mb-5">

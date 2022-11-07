@@ -12,7 +12,6 @@ import DelAccPage from '../views/DelAccPage.vue'
 import EditAccPage from '../views/EditAccPage.vue'
 import PostingPage from '../views/PostingPage.vue'
 import ViewWorkApp from '../views/ViewWorkApp.vue'
-import AcceptWorker from '../views/AcceptWorker.vue'
 import AddPosting from '../views/AddPosting.vue'
 import OtpPage from '../views/OtpPage.vue'
 import PageNotFound from '../views/PageNotFound.vue'
@@ -109,11 +108,6 @@ const routes = [
     path: '/viewworkapp',
     name: 'ViewWorkApp',
     component: ViewWorkApp
-  },
-  {
-    path: '/viewworkapp/accept',
-    name: 'AcceptWorker',
-    component: AcceptWorker
   },
   {
     path: '/addPost',

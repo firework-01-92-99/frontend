@@ -65,7 +65,7 @@
                             class="mdi mdi-email-outline text-gray-400 text-lg"
                           ></i>
                         </div>
-                        <input @focus="errorNoEmail = false, errorNull = false, emailInput = ''"
+                        <input @focus="whenFocusTrue()"
                           type="text"
                           name="email"
                           id="email"
@@ -141,7 +141,7 @@
                   class="form-horizontal w-3/4 mx-auto"
                 >
                   <div class="-mx-3">
-                    <div class="w-full 2xl:px-3 mb-5">
+                    <!-- <div class="w-full 2xl:px-3 mb-5">
                       <label for="email" class="text-base font-medium px-1"
                         >รหัสผ่านปัจจุบัน</label
                       >
@@ -186,7 +186,7 @@
                       <p v-if="currPassInput" class="text-red-600">
                     กรุณากรอกรหัสผ่านปัจจุบัน
                   </p> 
-                    </div>
+                    </div> -->
 
                         <div class="w-full 2xl:px-3 mb-5">       
                       <label for="email" class="text-base font-medium px-1"
@@ -354,25 +354,38 @@ data(){
         errorNoEmail: false,
         errorNull: false,
         reset:{
-          currPass: '',
           newPass: '',
           confirmPass: '',
-        },
+        },        
         currPassInput: false,
         newPassInput: false,
         confirmPassInput: false,
     }
 },
 methods: {
+    whenFocusTrue(){
+      if(this.errorNoEmail == true || this.errorNull == true){
+        this.emailInput = ''
+        this.errorNull = false
+        this.errorNoEmail = false
+      }else{
+        this.emailInput
+      }
+    },
     async resetPassword(){
-      console.log(1)
-      this.currPassInput = this.reset.currPass === '' || this.reset.currPass.length < 8 ? true : false
+      const vm = this
+      let res
       this.newPassInput = this.reset.newPass === '' || this.reset.newPass.length < 8 ? true : false
-      this.confirmPassInput = this.reset.confirmPass === '' || this.reset.confirmPass.length < 8 ? true : false
-      if(!this.confirmPassInput && !this.newPassInput && !this.currPassInput){
-        console.log(1)
-        const edit = await axios.post(`${process.env.VUE_APP_ROOT_API}main/editPassword?currentPassword=` + this.reset.currPass + "&newPassword=" + this.reset.newPass + "&email=" + this.emailInput )
-        console.log(edit.data)
+      this.confirmPassInput = this.reset.confirmPass === '' || this.reset.confirmPass.length < 8 || this.reset.newPass != this.reset.confirmPass
+        if(!this.confirmPassInput && !this.newPassInput){
+          await axios.post(`${process.env.VUE_APP_ROOT_API}main/newPassword?newPassword=` + this.reset.newPass + "&email=" + this.emailInput ).then(function (response) {
+          console.log(response);
+          console.log(response.data)
+          res = response.status;
+          if(res == 200){
+            vm.$router.push("/signin"); 
+          }
+        })
       }
     },  
   async sendMailToBackEnd(){
@@ -380,13 +393,13 @@ methods: {
     let errorResponse;
     let email
     email = this.emailInput
-    const linkTo = this.$router.push("/otp" + "/?email=" + email + "&forgetPass=yes"); 
+    const vm = this
       await axios.post(`${process.env.VUE_APP_ROOT_API}main/forgetPassword?email=` + email)
         .then(function (response) {
           console.log(response);
           console.log(response.data)
           if(response.data == 'Wait OTP in email ' + email){
-            linkTo
+            vm.$router.push("/otp" + "/?email=" + email + "&forgetPass=yes"); 
           }
         })
         .catch(function (error) {

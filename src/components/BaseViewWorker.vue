@@ -18,7 +18,7 @@
           ml-5
         "
       >
-        {{ topic + " (" +")"}}
+        {{ topic + " ตำแหน่ง: " + namePost }}
       </p>
       <div class="overflow-x-auto w-10/12 mx-auto font-sans-thai">
       <!-- <div v-for="who in whoApplication.data" :key="who.applicationId">
@@ -26,7 +26,7 @@
       </div> -->
       <table class="table w-full">
         <!-- head -->
-        <thead v-if="closeColumnName">
+        <thead v-if="!closeColumnName">
           <tr>
             <th></th>
             <th>คะแนน</th>
@@ -528,7 +528,8 @@
                 </div>
               </div>
               <textarea
-                v-model="applicationHasComment.description"
+                @change="allRejectCase()"
+                v-model="description"
                 class="textarea textarea-bordered w-full h-36"
                 placeholder="หมายเหตุที่ไม่อนุมัติ"
               ></textarea>
@@ -649,8 +650,11 @@ export default {
       statusId: "",
       image: "",
       topic: "รายการผู้สมัคร",
+      description: "",
       applicationHasComment: {
-        description: "",
+        descriptionRejectOnWeb: '',
+        descriptionRejectOnSite: '',
+        descriptionBreakShort: '',
       },
       toggleModal: false,
       noValue: false,
@@ -668,10 +672,22 @@ export default {
         worker:{}
       },
       finishWork: {},
-      closeColumnName: false
+      closeColumnName: false,
+      namePost1: {},
+      namePost: '',
     };
   },
   methods: {
+    allRejectCase(){
+      if(this.chooseReject == 13){
+        this.applicationHasComment.descriptionRejectOnWeb = this.description
+        console.log(this.applicationHasComment.descriptionRejectOnWeb)
+      }else if(this.chooseReject == 16){
+        this.applicationHasComment.descriptionRejectOnSite = this.description
+      }else if(this.chooseReject == 23){
+        this.applicationHasComment.descriptionBreakShort = this.description
+      }
+    },  
     async giveRating(){
       // const vm = this;
       // if (confirm("ต้องการปฏิเสธบุคคลนี้เข้าทำงานหรือไม่")) {
@@ -693,6 +709,7 @@ export default {
             "&idStatus=" +
             this.idStatus
         );
+        this.callData()
         console.log(result.data)      
     },       
     async acceptOrReject() {
@@ -727,11 +744,10 @@ export default {
             this.toggleModal = false;
             this.closeColumnName = false;
           }
-        
+        this.description = ''
         // window.location.reload()
       } else {
         this.confirmInput = true;
-        this.closeColumnName = true;
         console.log("เลือกก่อนว่าอนุมัติหรือไม่อนุมัติ");
       }
     },
@@ -792,7 +808,7 @@ export default {
         );
         this.callData()
         // res.headers['content-type'];
-        console.log(result.data.data);
+        console.log(result.data);
       }
     },
     async acceptWorkerOnSite(){
@@ -894,6 +910,7 @@ export default {
       // }
     if(this.whoApplication.data.whoApplicationList.length != 0){
       this.noValue = false
+      this.closeColumnName = false;
       if(this.idStatus != 24){
         this.whoApplication = await axios.get(
             `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
@@ -911,6 +928,7 @@ export default {
       }
     }else{
       this.noValue = true
+      this.closeColumnName = true;
     }
     },
     check(){
@@ -930,7 +948,10 @@ export default {
       );
       if (this.whoApplication.data.whoApplicationList.length == 0) {
         this.noValue = true;
+        this.closeColumnName = true;
       }
+      this.namePost1 = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/selectPosting?idPosting=` + this.idPost);
+      this.namePost =  this.namePost1.position?.positionName
       console.log(this.whoApplication);
       console.log("idPost = " + this.idPost, "idStatus = " + this.idStatus);
     } else {

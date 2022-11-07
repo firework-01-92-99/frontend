@@ -282,7 +282,7 @@
     </div>
         <div v-if="noPost" class="text-center mt-10">
       <div><img src="../assets/icon/inbox.png" class="w-20 mx-auto" /></div>
-      <div class="pt-5">ไม่มีโพสที่ปิดประกาศ</div>
+      <div class="pt-5">{{actOrInPost == 'Active' ? 'ไม่มีประกาศที่เปิดรับสมัคร' : 'ไม่มีประกาศที่ปิดรับสมัคร'}}</div>
     </div>
 
     <base-job :idEmp="$store.state.auth.user.employer.idEmployer" :status="actOrInPost">
@@ -420,11 +420,13 @@ export default {
     async resetShowJob() {
       this.clearSearching();
       this.actOrInPost = "Active"
+      this.page = 1
       if(this.$store.state.auth.user.role.idRole == "2"){
         if(this.getActivePost.content.length == 0){
           this.noPost = true
         }           
         this.$store.commit("setPosting", this.getActivePost);
+        this.page = 1
       }
       // const allPost = await this.fetch(
       //   `${process.env.VUE_APP_ROOT_API}main/allPosting`

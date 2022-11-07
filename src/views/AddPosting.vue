@@ -245,7 +245,10 @@
                     <div class="justify-start">
                     <p v-if="minSalaryAlert" class="text-sm font-normal text-red-600">
                       เงินขั้นต่ำต้องไม่ต่ำกว่า 300 บาท
-                    </p>                    
+                    </p>
+                    <p v-if="minMoreThanMax" class="text-sm font-normal text-red-600">
+                      เงินขั้นต่ำต้องน้อยกว่าเงินที่มากสุด
+                    </p>                                            
                     <p v-if="minSalaryInput" class="text-sm font-normal text-red-600">
                       กรุณากรอกเงินเดือนที่ต่ำที่สุด
                     </p>
@@ -300,7 +303,7 @@
                     </div>
                     <div>
                     <p v-if="maxWrong" class="font-normal text-sm text-red-600">
-                      กรุณากรอกเงินเดือนที่มากสุดให้น้อยกว่าเงินเดือนที่ต่ำสุด
+                      กรุณากรอกเงินเดือนที่มากสุดให้มากกว่าเงินเดือนที่ต่ำสุด
                     </p>
                     <p v-if="maxSalaryInput" class="text-sm font-normal text-red-600">
                       กรุณากรอกเงินเดือนที่มากสุด
@@ -1074,7 +1077,11 @@ export default {
     async createPost() {
       this.checkValidate();
       let res;
-      if (!this.checkValidate()) {
+      if (!this.maxWrong || !this.minMoreThanMax &&
+        !this.positionInput && !this.sexInput && !this.descriptInput && !this.minAgeInput &&
+        !this.maxAgeInput && !this.maxSalaryInput && !this.minSalaryInput && !this.otPayInput &&
+        !this.startTimeInput && !this.endTimeInput && !this.welfareInput && !this.hiringTypeInput &&
+        !this.statusInput && !this.workerTypeInput && !this.postingHasDayListInput) {
         await axios
           .post(
             `${process.env.VUE_APP_ROOT_API}emp/createPosting?idEmployer=${this.$store.state.auth.user.employer.idEmployer}`,
@@ -1095,6 +1102,8 @@ export default {
             this.clear()
           }
           this.$store.commit("setPosting", this.post);
+      }else{
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
     },
 
@@ -1108,7 +1117,9 @@ export default {
       this.maxAgeInput =
         this.postInfo.maxAge === "" || this.postInfo.maxAge > 60 ? true : false;
       this.minSalaryInput = this.postInfo.minSalary === "" ? true : false;
+      this.minMoreThanMax = (parseInt(this.postInfo.minSalary) > parseInt(this.postInfo.maxSalary)) ? true : false
       this.maxSalaryInput = this.postInfo.maxSalary === "" ? true : false;
+      this.maxWrong = (parseInt(this.postInfo.maxSalary) < parseInt(this.postInfo.minSalary)) ? true : false
       this.otPayInput = this.postInfo.overtimePayment === "" ? true : false;
       this.startTimeInput = this.postInfo.startTime === "" ? true : false;
       this.endTimeInput = this.postInfo.endTime === "" ? true : false;
@@ -1116,10 +1127,10 @@ export default {
       this.hiringTypeInput =
         this.postInfo.hiringType.idHiringtype === "" ? true : false;
       this.statusInput = this.postInfo.status.idStatus === "" ? true : false;
-      this.workerType =
+      this.workerTypeInput =
         this.postInfo.workerType.idWorkerType === "" ? true : false;
       this.postingHasDayListInput =
-        this.postInfo.postingHasDayList.day?.idDay === "" ? true : false;
+        this.postInfo.postingHasDayList.length == 0 ? true : false;
     },
     clear() {
       this.postInfo = {
@@ -1161,10 +1172,6 @@ export default {
           setTimeout(() => (this.minSalaryAlert = false), 2000);
         }     
       if(this.postInfo.minSalary && this.postInfo.maxSalary != ''){
-        console.log("ไม่เข้าเรอะ")
-        console.log("min Sal = " + this.postInfo.minSalary)
-        console.log("max Sal = " + this.postInfo.maxSalary)
-        console.log("max < min เป็น True or False " + this.postInfo.maxSalary < this.postInfo.minSalary)
       if(parseInt(this.postInfo.maxSalary) < parseInt(this.postInfo.minSalary)){
         // this.postInfo.maxSalary = parseInt(this.postInfo.minSalary) + 100
         this.maxWrong = true

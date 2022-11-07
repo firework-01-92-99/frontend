@@ -114,6 +114,7 @@
                     </p> -->
                   </div>
 
+                  <div>
                   <div class="2xl:flex -mx-3">
                     <div class="w-full px-3 mb-5">
                       <label
@@ -136,6 +137,7 @@
                         ></div>
                         <input
                           type="text"
+                          v-model="editPass.currPass"
                           class="
                             w-full
                             -ml-10
@@ -178,6 +180,7 @@
                         ></div>
                         <input
                           type="text"
+                          v-model="editPass.newPass"
                           class="
                             w-full
                             -ml-10
@@ -220,6 +223,7 @@
                         ></div>
                         <input
                           type="text"
+                          v-model="editPass.confirmPass"
                           class="
                             w-full
                             -ml-10
@@ -239,6 +243,8 @@
                       </p>
                     </div>
                   </div>
+                  <button @click="editPassword()">แก้ไขรหัสผ่าน</button>
+                </div>
                 </div>
               </div>
             </div>
@@ -1293,7 +1299,7 @@
                   </div>
                   <div class="w-full flex space-x-5 justify-center font-sans-thai">
           <button
-            @click="sendEdit()"
+            @click.prevent="sendEdit()"
             type="submit"
             class="
               btn
@@ -1396,7 +1402,6 @@ export default {
       lastname: "",
       nationality: "",
       tel: "",
-      // image: "",
       empInfo: {},
       provinceForm: [],
       isEditProvince: false,
@@ -1405,9 +1410,29 @@ export default {
       picture: null,
       secPassInput: false,
       // showToast: false,
+        editPass: {
+          currPass: '',
+          newPass: '',
+          confirmPass: '',
+          email: '',
+        },
+        currPassInput: false,
+        newPassInput: false,
+        confirmPassInput: false,        
     };
   },
   methods: {
+  async editPassword(){
+    console.log(this.$store.state.auth.user.employer)
+    this.currPassInput = this.editPass.currPass === '' || this.editPass.currPass.length < 8 ? true : false
+    this.newPassInput = this.editPass.newPass === '' || this.editPass.newPass.length < 8
+    this.confirmPassInput = this.editPass.confirmPass === '' || this.editPass.confirmPass.length < 8 || this.editPass.newPass != this.editPass.confirmPass
+    if(!this.confirmPassInput && !this.newPassInput && !this.currPassInput){
+      //รอ BE แก้ method
+    await axios.post(
+          `${process.env.VUE_APP_ROOT_API}main/editPassword?currentPassword=` + this.editPass.currPass + '&newPassword=' + this.editPass.newPass + '&idEmployer=' + this.$store.state.auth.user.employer.idEmployer);
+    }
+  },     
     async sendEdit() {
       console.log("เข้า 1")
       this.check();
@@ -1429,8 +1454,8 @@ export default {
         !this.telInput
       ) {
         console.log("เข้า 3")
-        this.empInfo.employer.profile = `${process.env.VUE_APP_ROOT_API}main/image/` + this.empInfo.employer.profile
-        console.log(this.empInfo.employer.profile)
+        // this.empInfo.employer.profile = `${process.env.VUE_APP_ROOT_API}main/image/` + this.empInfo.employer.profile
+        // console.log(this.empInfo.employer.profile)
         //ส่งแบบ requestBody
         // const employer = JSON.stringify(this.empInfo.employer);
         // const customConfig = {
@@ -1438,18 +1463,22 @@ export default {
         //   "Content-Type": "application/json",
         //   },
         // }
-        
+
       const formData = new FormData();
         const blob = await new Blob([JSON.stringify(this.empInfo.employer)], {
           type: "application/json",
         });
+      await formData.append('employer', blob);
+      //ส่งภาพ+ข้อมูลแก้ไข
+      if(this.imgFile != undefined){
       formData.append('image', this.imgFile)
-      console.log(this.imgFile)
-      await formData.append('employer', blob);  
-
-
         await axios.post(
-          `${process.env.VUE_APP_ROOT_API}emp/editMyEmployer`, formData);
+          `${process.env.VUE_APP_ROOT_API}emp/editMyEmployer`, formData);        
+      }else{
+        //ส่งแต่ข้อมูลที่แก้ไข
+        await axios.post(
+          `${process.env.VUE_APP_ROOT_API}emp/editMyEmployerWithOutImage`, formData);
+      }   
       
       // if (confirm("คุณต้องการจะลบบัญชีใช่หรือไม่")) {
       //   console.log("idAccount = " + this.$store.state.auth.user.idAccount);
@@ -1464,7 +1493,7 @@ export default {
     },
     check() {
       this.UpPic =
-        this.image == ''
+        this.empInfo.employer.profile == ''
       this.emailInput = this.empInfo.employer.email === ""
       this.estnameInput = this.empInfo.employer.establishmentName === ""
       this.firstnameInput = this.empInfo.employer.entrepreneurfName === ""
@@ -1491,8 +1520,11 @@ export default {
               ? true
               : false;
         };
+        console.log(file)
         reader.readAsDataURL(file);
+        console.log(file)
         this.imgFile = file;
+        console.log(this.imgFile)
         this.picture = this.imgFile.name;
 
         // if (this.signType == "worker") {
@@ -1620,19 +1652,21 @@ export default {
         };
         console.log(this.empInfo.employer.profile);
         console.log(this.$store.state.auth.user.employer.profile);
-      } else {
-        if (this.$store.state.auth.user.role.idRole == "3") {
-          this.firstname = this.$store.state.auth.user.worker.firstName;
-          this.middlename = this.$store.state.auth.user.worker.middleName;
-          this.lastname = this.$store.state.auth.user.worker.lastName;
-          this.nationality =
-            this.$store.state.auth.user.worker.nationality.nationality_name;
-          this.tel = this.$store.state.auth.user.worker.phone;
-          this.image =
-            (await `${process.env.VUE_APP_ROOT_API}main/image/`) +
-            this.$store.state.auth.user.worker.verifyPic;
-        }
-      }
+      } 
+      // else {
+      //   if (this.$store.state.auth.user.role.idRole == "3") {
+      //     this.firstname = this.$store.state.auth.user.worker.firstName;
+      //     this.middlename = this.$store.state.auth.user.worker.middleName;
+      //     this.lastname = this.$store.state.auth.user.worker.lastName;
+      //     this.nationality =
+      //       this.$store.state.auth.user.worker.nationality.nationality_name;
+      //     this.tel = this.$store.state.auth.user.worker.phone;
+      //     this.image =
+      //       (await `${process.env.VUE_APP_ROOT_API}main/image/`) +
+      //       this.$store.state.auth.user.worker.verifyPic;
+      //       console.log(this.image)
+      //   }
+      // }
     } else {
       if (this.$store.state.auth.user.role.idRole == "1") {
         this.$router.push("/approve");

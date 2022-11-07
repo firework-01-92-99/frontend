@@ -393,19 +393,23 @@ export default {
       allPost.content.pop();
     }
       if (this.idEmp) {
+        console.log("เข้านะ")
         if(this.$store.state.auth.user){
+          console.log("เข้าอันนี้")
         const image1 = await axios.get(
           `${process.env.VUE_APP_ROOT_API}main/getImageByIdEmployer` +
             "?idEmployer=" +
             this.$store.state.auth.user.employer.idEmployer
         );
         const imageName = image1.data;
+        console.log(imageName)
         this.image =
           (await `${process.env.VUE_APP_ROOT_API}main/image/`) + imageName;
         this.getActivePost = await this.fetch(
           `${process.env.VUE_APP_ROOT_API}main/getPostingActiveByIdEmployer?idEmployer=` +
             this.$store.state.auth.user.employer.idEmployer
         );
+        console.log(this.image)
         this.$store.commit("setPosting", this.getActivePost);
         this.getInactivePost = await this.fetch(
           `${process.env.VUE_APP_ROOT_API}main/getPostingInActiveByIdEmployer?idEmployer=` +
@@ -433,9 +437,6 @@ export default {
       }
       
       }
-
-
-
     this.allEmployer = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/allEmployer`
     );
