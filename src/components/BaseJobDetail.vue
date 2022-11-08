@@ -102,15 +102,15 @@
       </figure>
       <div class="card-body">
         <div class="flex justify-between">
-          <h2 class="card-title text-orange-1">
+          <h2 class="card-title text-orange-1 2xl:text-base xl:text-base lg:text-base md:text-base text-lg">
             {{ jobDetail.position.positionName }}
           </h2>
           <!-- status -->
           <div v-if="jobDetail.status.statusName == 'Active' && $store.state.auth.user && $store.state.auth.user.role.idRole == '2'" class="badge badge-lg 2xl:w-1/6 2xl:text-base md:text-base text-xs bg-green-200 text-green-600 border-0">
-            <span class="2xl:block md:block hidden">เปิดประกาศรับสมัคร</span>
+            <span class="">เปิดประกาศรับสมัคร</span>
           </div>
           <div v-if="jobDetail.status.statusName == 'Inactive' && $store.state.auth.user && $store.state.auth.user.role.idRole == '2'" class="badge badge-lg 2xl:w-1/6 2xl:text-base md:text-base text-xs bg-gray-200 text-gray-600 border-0">
-            <span class="2xl:block md:block hidden">ปิดประกาศรับสมัคร</span>
+            <span class="">ปิดประกาศรับสมัคร</span>
           </div>
           <!-- bookmark -->
           <div v-if="!showFlag($route.query.idPosting) && $store.state.auth.user && $store.state.auth.user.role.idRole == '3'">
@@ -120,7 +120,7 @@
             <i @click="unFav($route.query.idPosting)" class="material-icons cursor-pointer select-none"> bookmark </i>
           </div>
         </div>
-        <h2 class="card-title">
+        <h2 class="card-title 2xl:text-base xl:text-base lg:text-base md:text-base text-lg">
           {{ employer.establishmentName }}
           <div class="rating rating-md">
                   <span class="font-normal pr-2">|</span>
