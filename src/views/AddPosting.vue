@@ -591,7 +591,7 @@
                 <div class="flex flex-col">
                 <div class="ml-10 flex flex-row w-full">
                   <input
-                  type="text"
+                  type="time"
                   v-model.trim="postInfo.startTime"
                   class="
                     2xl:w-full
@@ -608,6 +608,7 @@
                   "
                   :class="{ 'bg-red-50': startTimeInput }"
                   placeholder="เวลาเริ่มงาน เช่น 9:00"
+                  min="09:00" max="18:00" required
                   />
                 </div>
                 <div class="justify-start w-10/12">
@@ -637,7 +638,7 @@
                 <div class="flex flex-col">
                 <div class="ml-10 w-full flex flex-row">
                   <input
-                  type="text"
+                  type="time"
                   v-model.trim="postInfo.endTime"
                   class="
                     2xl:w-full
@@ -654,6 +655,7 @@
                   "
                   :class="{ 'bg-red-50': endTimeInput }"
                   placeholder="เวลาเลิกงาน เช่น 18:00"
+                  min="09:00" max="18:00" required
                   /><span class="pl-2 py-2">น.</span>
                 </div>
                 <div>
