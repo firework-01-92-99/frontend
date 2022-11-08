@@ -135,6 +135,7 @@
                       "
                     >
                       <li @click="$router.push('/editProfile/worker')" class="font-normal text-black hover:text-orange-1"><a>แก้ไขบัญชี</a></li>
+                      <li @click="$router.push('/forgetPass')" class="font-normal text-black hover:text-orange-1"><a>แก้ไขรหัสผ่าน</a></li>
                       <li @click.prevent="sendDelete()" class="font-normal text-black hover:text-orange-1"><a>ขอลบบัญชี</a></li>
                     </ul>
                   </div>
