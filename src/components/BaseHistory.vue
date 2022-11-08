@@ -5,7 +5,7 @@
       <div class="pt-5">ไม่มีรายการที่ต้องให้คะแนน</div>
     </div>
   <!-- ประวัติงานที่เคยทำ -->
-  <div class="card card-side w-11/12 bg-base-100 shadow-xl">
+  <div class="card card-side w-full bg-base-100 shadow-xl my-10">
     <!-- <figure>
                 <img src="https://placeimg.com/200/280/arch" alt="Movie" />
               </figure> -->
@@ -22,7 +22,7 @@
             ><i class="material-icons pr-2"> place </i></span
           >
           <span class="hidden font-semibold text-base">ที่อยู่ : </span>
-          <span class="text-base font-medium inline-block align-middle">
+          <span class="text-base inline-block align-middle">
             {{
                   s.address +
                   " " +

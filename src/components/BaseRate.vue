@@ -23,7 +23,7 @@
     <!-- <div class="collapse"> -->
     <!-- <input class="w-1/3" type="checkbox" /> -->
     <div v-if="!noValue" class="flex justify-start">
-      <div class="stats bg-orange-1 shadow w-11/12">
+      <div class="stats bg-orange-1 shadow w-full">
         <div class="stat text-white">
           <div class="stat-title">คะแนน</div>
           <div class="stat-value">{{workerScore}} จาก 5</div>
@@ -33,14 +33,14 @@
     </div>
 
     <div v-for="s in scoreList" :key='s.idRating' class="flex flex-wrap justify-start space-y-5">
-      <div class="card w-11/12 bg-base-100 border border-black shadow-lg">
+      <div class="card card-side w-full bg-base-100 shadow-xl">
         <div class="card-body">
           <h2 class="card-title">{{s.employerNameOrWorkerName}}</h2>
           <div class="rating rating-sm">
             <input
               type="radio"
               name="rating-2"
-              class="mask mask-star-2 bg-orange-400"
+              class="cursor-default mask mask-star-2 bg-orange-400"
               v-model="s.rate"
               :value="1"
               disabled
@@ -48,7 +48,7 @@
             <input
               type="radio"
               name="rating-2"
-              class="mask mask-star-2 bg-orange-400"
+              class="cursor-default mask mask-star-2 bg-orange-400"
               v-model="s.rate"
               :value="2"
               disabled
@@ -56,7 +56,7 @@
             <input
               type="radio"
               name="rating-2"
-              class="mask mask-star-2 bg-orange-400"
+              class="cursor-default mask mask-star-2 bg-orange-400"
               v-model="s.rate"
               :value="3"
               disabled
@@ -64,7 +64,7 @@
             <input
               type="radio"
               name="rating-2"
-              class="mask mask-star-2 bg-orange-400"
+              class="cursor-default mask mask-star-2 bg-orange-400"
               v-model="s.rate"
               :value="4"
               disabled
@@ -72,12 +72,12 @@
             <input
               type="radio"
               name="rating-2"
-              class="mask mask-star-2 bg-orange-400"
+              class="cursor-default mask mask-star-2 bg-orange-400"
               v-model="s.rate"
               :value="5"
               disabled
             />
-            <span class="">•</span><span class="">{{s.timestamp}}</span>
+            <span class="pl-2">|</span><span class="pl-2">{{s.timestamp}}</span>
           </div>
           <p>{{s.comment}}</p>
           <div class="card-actions justify-end"></div>
