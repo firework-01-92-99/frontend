@@ -1,5 +1,13 @@
 <template>
   <div class="bg-gray-2 h-full font-sans-thai">
+    <div class="">
+      <button
+        @click="$router.push('/')"
+        class="btn btn-ghost font-sans-thai flex justify-start ml-7 mt-5"
+      >
+        <i class="material-icons"> arrow_back_ios </i>หางาน
+      </button>
+    </div>
     <p
       class="
         text-2xl
