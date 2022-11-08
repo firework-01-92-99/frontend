@@ -109,7 +109,7 @@
             <th>{{ a.count }}</th>
             <td>
               <div class="flex items-center space-x-3">
-                <div class="font-bold">{{ a.name }}</div>
+                <div class="">{{ a.name }}</div>
                 <!-- <div class="text-sm opacity-50">United States</div> -->
               </div>
             </td>
