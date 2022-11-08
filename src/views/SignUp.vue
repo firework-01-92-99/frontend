@@ -183,6 +183,7 @@
                                 { 'bg-red-50': errorMail },
                               ]"
                               placeholder="อีเมล"
+                              maxlength="45"
                               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                               required
                             />
@@ -360,6 +361,7 @@
                             ></div>
                             <input
                               type="text"
+                              maxlength="45"
                               v-model.trim="
                                 registEmp.employer.establishmentName
                               "
@@ -740,6 +742,7 @@
                             ></div>
                             <input
                               @click="onFocus('ชื่อจริง')"
+                              maxlength="45"
                               type="text"
                               v-model.trim="bindFname"
                               class="
@@ -792,6 +795,7 @@
                             ></div>
                             <input
                               @click="onFocus('ชื่อกลาง')"
+                              maxlength="45"
                               type="text"
                               v-model.trim="registWorker.worker.middleName"
                               class="
@@ -848,6 +852,7 @@
                             </div>
                             <input
                               @click="onFocus('นามสกุล')"
+                              maxlength="45"
                               type="text"
                               v-model.trim="bindLname"
                               class="
@@ -904,6 +909,7 @@
                               </div>
                               <textarea
                                 type="tel"
+                                maxlength="100"
                                 v-model.trim="registEmp.employer.address"
                                 class="
                                   textarea
@@ -1594,6 +1600,7 @@
                             ></div>
                             <input
                               @click="onFocus('ชื่อจริง')"
+                              maxlength="45"
                               type="text"
                               v-model.trim="bindFname"
                               class="
@@ -1650,6 +1657,7 @@
                             </div>
                             <input
                               @click="onFocus('นามสกุล')"
+                              maxlength="45"
                               type="text"
                               v-model.trim="bindLname"
                               class="
@@ -1663,12 +1671,13 @@
                                 outline-none
                                 focus:border-indigo-500
                               "
+                              :class="{ 'bg-red-50': lastnameInput }"
                               placeholder="นามสกุล"
                             />
                           </div>
-                          <!-- <p v-if="lastnameInput" class="text-red-600">
+                          <p v-if="lastnameInput" class="text-red-600">
                           กรุณากรอกนามสกุล
-                        </p> -->
+                        </p>
                         </div>
                       </div>
 
@@ -1767,6 +1776,7 @@
                             </div>
                             <input
                               type="text"
+                              maxlength="45"
                               v-model.trim="registEmp.employer.lineId"
                               class="
                                 w-full
@@ -2199,6 +2209,9 @@ export default {
             }
           } else if (this.step == 3) {
             this.checkPageThreeEmp();
+            console.log(this.firstnameInput)
+            console.log(this.phoneInput)
+            console.log(this.lastnameInput)
             if (!this.firstnameInput && !this.lastnameInput && !this.phoneInput) {
               this.step++;
             }

@@ -87,6 +87,7 @@
                         <input
                           type="text"
                           name="email"
+                          maxlength="45"
                           id="email"
                           v-model="form.username"
                           class="
@@ -134,6 +135,7 @@
                           :type="type"
                           name="password"
                           id="password"
+                          maxlength="15"
                           v-model="form.password"
                           class="
                             w-full
