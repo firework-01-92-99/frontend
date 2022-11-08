@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-if="!noValue">
    <!-- toast delete posting -->
       <transition name="toast">
         <div v-if="showToast" class="flex justify-center font-sans-thai">
@@ -250,6 +250,16 @@
     </div>
   </div>
 </div>
+<div v-else>
+      <div v-if="noValue">
+      <div class="text-center mt-10 mb-10">
+        <div>
+          <img src="../assets/icon/not-found.svg" class="w-20 mx-auto" />
+        </div>
+        <div class="pt-5">ไม่มีผลลัพธ์</div>
+      </div>
+    </div>
+</div>
 </template>
 
 <script>
@@ -273,6 +283,7 @@ export default {
       env: `${process.env.VUE_APP_ROOT_API}main/image/`,
       scoreEmp: '',
       scoreAllEmp: [],
+      noValue: false,
       // showToast: false,
     };
   },
@@ -434,6 +445,7 @@ export default {
       }
       this.scoreAllEmp = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allEmployer`);
       this.$store.commit("setPosting", allPost);
+      this.noValue = allPost.content.length == 0
       }
       
       }

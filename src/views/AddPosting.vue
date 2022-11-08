@@ -590,7 +590,7 @@
                 ></div> -->
                 <div class="flex flex-col">
                 <div class="ml-10 flex flex-row w-full">
-                  <input
+                  <!-- <input
                   type="time"
                   v-model.trim="postInfo.startTime"
                   class="
@@ -608,7 +608,26 @@
                   "
                   :class="{ 'bg-red-50': startTimeInput }"
                   placeholder="เวลาเริ่มงาน เช่น 9:00"
-                  min="09:00" max="18:00" required
+                  min="09:00" required
+                  /> -->
+                  <input
+                  type="text"
+                  v-model.trim="postInfo.startTime"
+                  class="
+                    2xl:w-full
+                    md:w-full
+                    w-4/6
+                    -ml-10
+                    pl-5
+                    pr-3
+                    py-2
+                    rounded-lg
+                    border-2 border-gray-200
+                    outline-none
+                    focus:border-indigo-500
+                  "
+                  :class="{ 'bg-red-50': startTimeInput }"
+                  placeholder="เวลาเริ่มงาน เช่น 9:00"
                   />
                 </div>
                 <div class="justify-start w-10/12">
@@ -637,7 +656,7 @@
                 ></div> -->
                 <div class="flex flex-col">
                 <div class="ml-10 w-full flex flex-row">
-                  <input
+                  <!-- <input
                   type="time"
                   v-model.trim="postInfo.endTime"
                   class="
@@ -655,8 +674,28 @@
                   "
                   :class="{ 'bg-red-50': endTimeInput }"
                   placeholder="เวลาเลิกงาน เช่น 18:00"
-                  min="09:00" max="18:00" required
-                  /><span class="pl-2 py-2">น.</span>
+                  max="24:00" required
+                  /> -->
+                  <input
+                  type="text"
+                  v-model.trim="postInfo.endTime"
+                  class="
+                    2xl:w-full
+                    md:w-full
+                    w-4/6
+                    -ml-10
+                    pl-5
+                    pr-3
+                    py-2
+                    rounded-lg
+                    border-2 border-gray-200
+                    outline-none
+                    focus:border-indigo-500
+                  "
+                  :class="{ 'bg-red-50': endTimeInput }"
+                  placeholder="เวลาเลิกงาน เช่น 18:00"
+                  />
+                  <span class="pl-2 py-2">น.</span>
                 </div>
                 <div>
                   <p v-if="endTimeInput" class="text-sm text-red-600">
@@ -1034,7 +1073,7 @@ export default {
         minSalary: 300,
         maxSalary: '',
         overtimePayment: "",
-        startTime: "",
+        startTime: "09:00",
         endTime: "",
         properties: "",
         welfare: "",

@@ -1062,6 +1062,7 @@ export default {
       infoEmp : {businesstype:{}},
       toggleModal: false,
       idApprove: 0,
+      idEmp: 0,
       // showToast: false,
     };
   },
@@ -1088,6 +1089,8 @@ export default {
           });
       }else{
         this.iAm = data.workOrEmp
+        console.log(data)
+        this.idEmp = data.idEmployer
         await axios
           .get(
             `${process.env.VUE_APP_ROOT_API}main/selectEmployer?idEmployer=${data.idEmployer}`
@@ -1102,13 +1105,38 @@ export default {
           });        
       }
     },
-    async sendApprove() {
-      if (this.statusId != "") {
-        // this.showToast = true;
-        if (confirm("ต้องการจะส่งฟอร์มอนุมัติบัญชีหรือไม่")) {
+    async approveAccount(){
           try {
             await axios.put(
               `${process.env.VUE_APP_ROOT_API}admin/approveAccount?idApprove=${this.idApprove}&idAdmin=${this.idAdmin}&idStatus=${this.statusId}`
+              // ,
+              // {
+              //   method: "PUT",
+              // }
+            ).data;
+            // window.location.reload();
+            this.listApprove = await axios.get(
+        `${process.env.VUE_APP_ROOT_API}admin/getAllApproveByIdStatusAndIdRole?idStatus=8&idRole=0`)
+          } catch (error) {
+            console.log(error);
+          }
+    },
+    async sendApprove() {
+      if (this.statusId != "") {
+        // this.showToast = true;
+        if(this.iAm == 'Worker'){
+        if (confirm("ต้องการจะส่งฟอร์มอนุมัติบัญชีหรือไม่")) {
+          this.approveAccount()
+        }else{
+          console.log("ไม่อนุมัติให้ลบ")
+        }
+        }else{
+          //อนุมัติให้ลบ
+          if(this.statusId == 9){
+            if (confirm("ต้องการจะส่งฟอร์มอนุมัติบัญชีหรือไม่")) {
+          try {
+            await axios.put(
+              `${process.env.VUE_APP_ROOT_API}admin/deleteEmployer?idEmployer=${this.idEmp}`
               // ,
               // {
               //   method: "PUT",
@@ -1118,8 +1146,13 @@ export default {
           } catch (error) {
             console.log(error);
           }
-        }else{
-          console.log("ไม่อนุมัติให้ลบ")
+        }   
+            }else{
+              //ไม่อนุมัติให้ลบ
+              if(this.statusId == 1){
+                this.approveAccount()
+              }
+            }       
         }
       } else {
         this.confirmInput = true;
