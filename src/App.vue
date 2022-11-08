@@ -2,7 +2,7 @@
   <div id="app" class="bg-gray-2 w-full min-h-screen">
     <div class="navbar bg-dark-blue font-sans-thai">
       <div class="navbar-start">
-        <div class="dropdown dropdown-hover">
+        <div class="dropdown dropdown-hover" :class="{'block 2xl:hidden xl:hidden lg:hidden md:hidden': !$store.state.auth.user || ($store.state.auth.user.role.idRole == '2')}">
           <label
             tabindex="0"
             class="btn btn-ghost btn-circle m-1 text-white 2xl:ml-5"
