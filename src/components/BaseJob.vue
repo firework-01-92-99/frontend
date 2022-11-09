@@ -64,9 +64,9 @@
             v-if="$store.state.auth.user.role.idRole == '2'"
             to="/viewworkapp"
           > -->
-            <figure>
+            <figure v-if="$route.name != 'JobDetail'">
               <img
-                class="object-cover w-full h-56"
+                class="object-cover w-full"
                 :src=" !$store.state.auth.user || $store.state.auth.user.role.idRole == '3' ? env + allPicture.find((a) => a.idEmployer == job.idEmployer).imageName : image"
               />
             </figure>
@@ -415,7 +415,7 @@ export default {
         const imageName = image1.data;
         console.log(imageName)
         this.image =
-          (await `${process.env.VUE_APP_ROOT_API}main/image/`) + imageName;
+          `${process.env.VUE_APP_ROOT_API}main/image/` + imageName;
         this.getActivePost = await this.fetch(
           `${process.env.VUE_APP_ROOT_API}main/getPostingActiveByIdEmployer?idEmployer=` +
             this.$store.state.auth.user.employer.idEmployer

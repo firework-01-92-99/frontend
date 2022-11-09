@@ -284,7 +284,6 @@
       <div><img src="../assets/icon/inbox.png" class="w-20 mx-auto" /></div>
       <div class="pt-5">{{actOrInPost == 'Active' ? 'ไม่มีประกาศที่เปิดรับสมัคร' : 'ไม่มีประกาศที่ปิดรับสมัคร'}}</div>
     </div>
-
     <base-job :idEmp="$store.state.auth.user.employer.idEmployer" :status="actOrInPost">
     </base-job>
     
@@ -542,6 +541,7 @@ this.$store.commit("setPosting", this.getInactivePost);
     // }),
   },
   async created() {
+    console.log(typeof(this.$store.state.auth.user.employer.idEmployer))
     if (
       this.$store.state.auth.user &&
       this.$store.state.auth.user.role.idRole == "2"

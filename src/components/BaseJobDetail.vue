@@ -467,6 +467,7 @@
 
           <!-- <div v-if="jobDetail.idPosting"> -->
             <base-job
+              :idEmp="empId"
               :idPost="idPosting"
               class="pt-12 2xl:w-full md:w-full w-96 -ml-6"
             >

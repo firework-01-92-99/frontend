@@ -18,6 +18,8 @@ import PageNotFound from '../views/PageNotFound.vue'
 import ForgotPass from '../views/ForgotPass.vue'
 import EditPosting from '../views/EditPosting.vue'
 import EditProfileEmp from '../views/EditProfileEmp.vue'
+import AllEmpView from '../views/AllEmpView.vue'
+import AllJobInEmp from '../views/AllJobInEmp.vue'
 import EditProfileWorker from '../views/EditProfileWorker.vue'
 // import store from '@/store'
 
@@ -139,6 +141,16 @@ const routes = [
     name: 'EditProfileWorker',
     component: EditProfileWorker,
   },
+  {
+    path: '/allEmployer',
+    name: 'AllEmpView',
+    component: AllEmpView,
+  },
+  {
+    path: '/jobOfThisEmp',
+    name: 'AllJobInEmp',
+    component: AllJobInEmp,
+  },  
   {
     path: '/:pathMatch(.*)*',
     name: 'PageNotFound',
