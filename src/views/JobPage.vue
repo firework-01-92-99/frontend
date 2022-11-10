@@ -129,7 +129,7 @@
             </option>
           </select>
         </div>
-        <div class="w-full flex-col">
+        <!-- <div class="w-full flex-col">
           <p
             class="
               font-semibold
@@ -160,14 +160,14 @@
             <option class="text-black" value="DESC">มากไปน้อย</option>
             <option class="text-black" value="ASC">น้อยไปมาก</option>
           </select>
-        </div>
+        </div> -->
         <div class="w-full flex-col">
           <p
             class="
               font-semibold
               2xl:text-base
               md:text-xs
-              -mt-16
+              -mt-10
               2xl:mt-0
               xl:mt-0
               lg:mt-0
@@ -209,7 +209,7 @@
               font-semibold
               2xl:text-base
               md:text-xs
-              mt-1
+              -mt-16
               2xl:mt-0
               xl:mt-0
               lg:mt-0
