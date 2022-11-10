@@ -947,7 +947,7 @@
                                   class="text-base font-medium px-1"
                                   >ภาพยืนยันตัวตน</label
                                 >                 
-                                <img class="rounded-lg object-cover 2xl:w-1/3 md:w-1/2 w-3/4" :src="image" />
+                                <img class="rounded-lg object-cover 2xl:w-1/3 h-1/2 md:w-1/2 w-3/4" :src="image" />
                               </div>
                             </div>
                           </div>
