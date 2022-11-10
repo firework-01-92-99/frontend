@@ -65,10 +65,14 @@
             to="/viewworkapp"
           > -->
             <figure v-if="$route.name != 'JobDetail'">
-              <img
-                class="object-cover w-full"
-                :src=" !$store.state.auth.user || $store.state.auth.user.role.idRole == '3' ? env + allPicture.find((a) => a.idEmployer == job.idEmployer).imageName : image"
-              />
+              <div class="avatar mt-6">
+                <div class="w-20 rounded-full">
+                  <img
+                  class="object-cover"
+                  :src=" !$store.state.auth.user || $store.state.auth.user.role.idRole == '3' ? env + allPicture.find((a) => a.idEmployer == job.idEmployer).imageName : image"
+                  />
+                </div>
+              </div>
             </figure>
             <!-- <div v-for="e in allEmployer" :key="e.idEmployer"> -->
             <div class="card-body space-y-3">
@@ -122,6 +126,13 @@
                     delete
                   </i>
                 </div>
+                <!-- status -->
+                <!-- <div v-if="jobDetail.status.statusName == 'Active' && $store.state.auth.user && $store.state.auth.user.role.idRole == '2'" class="badge badge-lg 2xl:w-1/6 2xl:text-base md:text-base text-xs bg-green-200 text-green-600 border-0">
+                  <span class="">เปิดประกาศรับสมัคร</span>
+                </div>
+                <div v-if="jobDetail.status.statusName == 'Inactive' && $store.state.auth.user && $store.state.auth.user.role.idRole == '2'" class="badge badge-lg 2xl:w-1/6 2xl:text-base md:text-base text-xs bg-gray-200 text-gray-600 border-0">
+                  <span class="">ปิดประกาศรับสมัคร</span>
+                </div> -->
               </div>
               <h2 class="card-title text-base">
                 {{
