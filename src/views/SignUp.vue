@@ -1324,7 +1324,7 @@
                               font-medium
                               px-1
                             "
-                            >เบอร์โทรศัพท์</label
+                            >เบอร์โทรศัพท์ที่สามารถติดต่อได้</label
                           >
                           <div class="flex">
                             <div
