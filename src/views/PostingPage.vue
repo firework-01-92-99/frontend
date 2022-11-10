@@ -28,7 +28,7 @@
       </div>
     </div>
     <!-- search criteria & job card -->
-    <div class="hero 2xl:h-48 xl:h-48 lg:h-48 md:h-48 bg-gray-1">
+    <!-- <div class="hero 2xl:h-36 xl:h-32 lg:h-32 md:h-32 h-80 bg-gray-1">
       <div
         class="
           form-control
@@ -93,7 +93,7 @@
               font-semibold
               2xl:text-base
               md:text-xs
-              -mt-6
+              -mt-3
               2xl:mt-0
               xl:mt-0
               lg:mt-0
@@ -177,11 +177,11 @@
               bg-orange-1
               hover:bg-orange-2 hover:border-orange-2
               w-full
-              -mt-16
-              2xl:mt-0
-              xl:mt-0
-              lg:mt-0
-              md:mt-0
+              -mt-10
+              2xl:mt-6
+              xl:mt-4
+              lg:mt-4
+              md:mt-4
               2xl:text-base
               md:text-xs
             "
@@ -193,12 +193,12 @@
             class="
               btn btn-ghost
               w-full
-              -mt-7
+              -mt-3.5
               -mb-5
-              2xl:mt-0
-              xl:mt-0
-              lg:mt-0
-              md:mt-0
+              2xl:mt-6
+              xl:mt-4
+              lg:mt-4
+              md:mt-4
               2xl:text-base
               md:text-xs
             "
@@ -207,7 +207,7 @@
           </button>
         </div>
       </div>     
-    </div>
+    </div> -->
     <!-- <div class="flex flex-row justify-between p-6 font-sans-thai"> -->
     <!-- count posting  -->
     <div class="2xl:flex 2xl:flex-row md:flex md:flex-row flex flex-col">
