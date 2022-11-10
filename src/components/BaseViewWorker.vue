@@ -504,7 +504,7 @@
                       class="radio checked:bg-orange-1"
                       :value="chooseAccept"
                     />
-                    <span class="label-text 2xl:pr-0 md:pl-5 pl-5">อนุมัติ</span>
+                    <span class="label-text 2xl:pr-0 md:pl-5 pl-5">{{accept}}</span>
                   </label>
                 </div>
                 <div class="form-control">
@@ -517,7 +517,7 @@
                       class="radio checked:bg-orange-1"
                       :value="chooseReject"
                     />
-                    <span class="label-text 2xl:pr-0 md:pl-5 pl-5">ไม่อนุมัติ</span>
+                    <span class="label-text 2xl:pr-0 md:pl-5 pl-5">{{reject}}</span>
                   </label>
                 </div>
                 </div>
@@ -675,6 +675,8 @@ export default {
       closeColumnName: false,
       namePost1: {},
       namePost: '',
+      accept: "",
+      reject: "",
     };
   },
   methods: {
@@ -963,18 +965,24 @@ export default {
       if (this.idStatus == 11) {
         console.log("idStatus =" + this.idStatus);
         this.topic = "รายการผู้สมัคร";
+        this.accept = "รับเข้าทำงาน";
+        this.reject = "ไม่รับเข้าทำงาน";
         this.callData()      
         this.chooseAccept = 12
         this.chooseReject = 13
       } else if(this.idStatus == 14) {
           console.log("idStatus =" + this.idStatus);
           this.topic = "รายการที่รับสมัครแล้ว";
+          this.accept = "รับเข้าทำงาน";
+        this.reject = "ไม่รับเข้าทำงาน";
           this.callData()          
         this.chooseAccept = 15
         this.chooseReject = 16          
       } else if(this.idStatus == 21) {
           console.log("idStatus =" + this.idStatus);
           this.topic = "รายการที่กำลังทำงาน";
+          this.accept = "เสร็จงาน";
+        this.reject = "ไม่เสร็จการทำงาน";
           this.callData()        
         this.chooseAccept = 22
         this.chooseReject = 23           
