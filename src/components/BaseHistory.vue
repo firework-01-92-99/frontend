@@ -98,7 +98,7 @@
           >
             ให้คะแนน
           </button>
-          <button
+          <!-- <button
             v-if="alreadyGiveScore == true"
             class="
               btn
@@ -110,7 +110,7 @@
           >
             <i class="material-icons pr-2"> done </i>
             ให้คะแนนแล้ว
-          </button>
+          </button> -->
         </div>
       </div>
     </div>
