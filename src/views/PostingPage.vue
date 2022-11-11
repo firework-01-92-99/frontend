@@ -256,15 +256,12 @@
           </select>
         </div>
       </div>
-      <div class="2xl:flex md:flex flex 2xl:p-10 md:p-10 p-5 2xl:mt-0 md:mt-0 mt-11 w-full 2xl:justify-end md:justify-end justify-center">
-        <button
-          @click="$router.push('/addPost')"
-          class="
-            btn
-            border-orange-1
+      <div class=" 2xl:flex md:flex flex 2xl:p-10 md:p-10 p-5 2xl:mt-0 md:mt-0 mt-11 w-full 2xl:justify-end md:justify-end justify-center">
+        <div class="dropdown dropdown-hover dropdown-bottom dropdown-end">
+        <label tabindex="0" class="btn m-1  border-orange-1
             bg-orange-1
             hover:bg-orange-2 hover:border-orange-2
-            2xl:w-1/3
+            2xl:w-full
             md:w-2/3
             w-11/12
             -mt-16
@@ -273,11 +270,32 @@
             lg:mt-0
             md:mt-0
             2xl:text-base
-            md:text-xs
+            md:text-xs">
+            เพิ่ม
+            </label>
+        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+          <li>
+          <button
+          @click="$router.push('/addPost')"
+          class="
+            
           "
-        >
-          สร้างประกาศรับสมัครงาน
-        </button>
+          >
+            ประกาศรับสมัครงาน
+          </button>
+          </li>
+          <li>
+          <button
+          @click="toggleModal = !toggleModal"
+          class="
+            
+          "
+          >
+            ขอเพิ่มตำแหน่ง
+          </button>
+          </li>
+        </ul>
+</div>
       </div>
     </div>
         <div v-if="noPost" class="text-center mt-10">
@@ -320,6 +338,109 @@
       </button>
     </div>
     <!-- </div> -->
+
+    <!-- modal -->
+    <div
+      v-if="toggleModal"
+      class="
+        fixed
+        overflow-x-hidden overflow-y-auto
+        inset-0
+        flex
+        justify-center
+        items-center
+        z-50
+      "
+    >
+      <div class="relative mx-auto 2xl:w-1/2 md:w-11/12 w-11/12">
+        <div
+          class="
+            bg-white
+            w-full
+            overflow-y-auto
+            h-full
+            rounded-lg
+            shadow-2xl
+            flex flex-col
+          "
+        >
+          <!-- <div v-show="iAm == 'Employer' || iAm == 'Worker'" class=" p-8"> -->
+          <div class="p-8">
+            <h3 class="font-bold text-lg">ขอเพิ่มตำแหน่ง</h3>
+
+            <div class="flex flex-col 2xl:w-full mt-4">
+              <div class="flex flex-col w-full flex-1 justify-between mb-8">
+                <div class="w-full">
+                  <form class="form-horizontal 2xl:w-full md:w-full">
+                    <div>
+                      <div class="flex -mx-3">
+                        <div class="w-full px-3">
+                          <label for="" class="text-base font-medium 2xl:px-1"
+                            >ตำแหน่ง</label
+                          >
+                          <div class="flex">
+                            <div
+                              class="
+                                w-10
+                                z-10
+                                pl-1
+                                text-center
+                                pointer-events-none
+                                flex
+                                items-center
+                                justify-center
+                              "
+                            ></div>
+                            <input
+                              type="text"
+                              class="
+                                w-full
+                                -ml-10
+                                pl-5
+                                pr-3
+                                py-2
+                                rounded-lg
+                                border-2 border-gray-200
+                                outline-none
+                                focus:border-indigo-500
+                              "
+                              placeholder="ชื่อตำแหน่ง"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex justify-between">
+              <button
+                @click="sendApprove(idApprove)"
+                class="
+                  btn
+                  w-2/5
+                  bg-orange-1
+                  hover:bg-orange-2
+                  border-orange-1
+                  hover:border-orange-1
+                "
+              >
+                ขอเพิ่มตำแหน่ง
+              </button>
+              <button @click="toggleModal = false" class="btn w-2/5">
+                ยกเลิก
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      v-if="toggleModal"
+      class="absolute inset-0 z-40 opacity-25 bg-black"
+    ></div>
   </div>
 </template>
 
@@ -352,7 +473,8 @@ export default {
       actOrInPost: "Active",
       showInactivePost: false,
       allPost: [],
-      noPost: false
+      noPost: false,
+      toggleModal: false,
     };
   },
   methods: {
