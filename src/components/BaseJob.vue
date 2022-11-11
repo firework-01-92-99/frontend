@@ -171,8 +171,7 @@
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   }}
-                  บาท</span
-                >
+                  บาท /</span><span> {{job.hiringType.nameType}}</span>
               </p>
               <div class="flex items-start">
                 <p>

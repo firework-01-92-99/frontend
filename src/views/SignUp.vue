@@ -1942,6 +1942,7 @@
                   <div v-if="signType == 'worker'" class="flex flex-col mt-8 space-y-3">
                     <button
                       @click.prevent="signUp()"
+                      :disabled = "disableButton"
                       type="submit"
                       class="
                         bg-orange-1
@@ -2145,6 +2146,7 @@ export default {
       picture: null,
       step: 1,
       allStep: 0,
+      disableButton: false,
     };
   },
   methods: {
@@ -2480,6 +2482,7 @@ export default {
         .then(function (response) {
           console.log(response);
           vm.errIden = false;
+          vm.disableButton = true;
           vm.showToast = true;
           window.scrollTo({ top: 0, behavior: "smooth" });
           // setTimeout(() => (vm.showToast = false), 3000);
