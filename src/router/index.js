@@ -21,6 +21,8 @@ import EditProfileEmp from '../views/EditProfileEmp.vue'
 import AllEmpView from '../views/AllEmpView.vue'
 import AllJobInEmp from '../views/AllJobInEmp.vue'
 import EditProfileWorker from '../views/EditProfileWorker.vue'
+import ReqPosition from '../views/ReqPosition.vue'
+import AllPosition from '../views/AllPosition.vue'
 // import store from '@/store'
 
 Vue.use(VueRouter)
@@ -150,7 +152,17 @@ const routes = [
     path: '/jobOfThisEmp',
     name: 'AllJobInEmp',
     component: AllJobInEmp,
+  },
+  {
+    path: '/reqPosition',
+    name: 'ReqPosition',
+    component: ReqPosition,
   },  
+  {
+    path: '/allPosition',
+    name: 'AllPosition',
+    component: AllPosition,
+  },
   {
     path: '/:pathMatch(.*)*',
     name: 'PageNotFound',

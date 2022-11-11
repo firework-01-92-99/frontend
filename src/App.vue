@@ -121,6 +121,11 @@
                     >ยืนยันการรับแรงงานของนายจ้าง</router-link
                   >
                 </li>
+                <li class="hover:text-orange-1">
+                  <router-link to="/reqPosition"
+                    >การจัดการตำแหน่ง</router-link
+                  >
+                </li>
               </div>
             </div>
           </ul>
