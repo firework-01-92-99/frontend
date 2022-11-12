@@ -256,30 +256,29 @@
           </select>
         </div>
       </div>
-      <div class=" 2xl:flex md:flex flex 2xl:p-10 md:p-10 p-5 2xl:mt-0 md:mt-0 mt-11 w-full 2xl:justify-end md:justify-end justify-center">
-        <div class="dropdown dropdown-hover dropdown-bottom dropdown-end">
-        <label tabindex="0" class="btn m-1  border-orange-1
+      <div class="2xl:flex md:flex flex 2xl:p-10 md:p-10 p-5 2xl:mt-0 md:mt-0 mt-0 w-full 2xl:justify-end md:justify-end justify-center">
+        <div class="dropdown dropdown-hover dropdown-end">
+        <label tabindex="0" class="btn m-1 border-orange-1
             bg-orange-1
             hover:bg-orange-2 hover:border-orange-2
-            2xl:w-full
-            md:w-2/3
-            w-11/12
+            w-full
             -mt-16
             2xl:mt-0
             xl:mt-0
             lg:mt-0
             md:mt-0
-            2xl:text-base
-            md:text-xs">
-            เพิ่ม
+            text-base
+            2xl:ml-0
+            xl:ml-0
+            lg:ml-0
+            md:ml-0
+            ml-20">
+            เพิ่ม<i class="material-icons">arrow_drop_down</i>
             </label>
         <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
           <li>
           <button
           @click="$router.push('/addPost')"
-          class="
-            
-          "
           >
             ประกาศรับสมัครงาน
           </button>
@@ -287,9 +286,6 @@
           <li>
           <button
           @click="toggleModal = !toggleModal"
-          class="
-            
-          "
           >
             ขอเพิ่มตำแหน่ง
           </button>

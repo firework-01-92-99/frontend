@@ -1,7 +1,12 @@
 <template>
   <div class="bg-gray-2 font-sans-thai">
       <!-- <div v-if="!acceptPage" class="overflow-x-auto w-10/12 mx-auto font-sans-thai"> -->
-      <p
+      
+
+<div class="2xl:flex 2xl:flex-row md:flex md:flex-row flex flex-col w-full">
+      <div class="flex w-full justify-start">
+        <div class="">
+        <p
         class="
           2xl:text-2xl
           md:text-xl
@@ -16,10 +21,53 @@
           2xl:ml-3.5
           md:ml-3.5
           ml-5
+          w-full
         "
       >
-        {{ topic + " ตำแหน่ง: " + namePost }}
+        {{ topic }} <span class="text-orange-1">{{ " ตำแหน่ง: " + namePost }}</span>
       </p>
+      </div>
+        <div class="w-full pt-10 2xl:-mt-0 md:-mt-0 -mt-3">
+          <select
+            class="
+              select select-bordered
+              2xl:w-2/5
+              2xl:text-base
+              md:text-xs
+              font-normal
+            "
+          >
+            <!-- <option class="text-black" :value="''" disabled selected>
+              ครั้งที่เปิดรับสมัคร
+            </option> -->
+            <option class="text-black" value="1" selected = "selected">ครั้งที่ 1</option>
+            <option class="text-black" value="2">ครั้งที่ 2</option>
+          </select>
+        </div>
+      </div>
+      <div class="2xl:mx-20 xl:mx-20 2xl:flex md:flex flex 2xl:p-10 md:p-10 p-5 2xl:mt-0 md:mt-0 mt-11 w-full 2xl:justify-end md:justify-end justify-center">
+        <button
+          @click="$router.push('/allEmployer')"
+          class="
+            cursor-pointer
+            underline
+          text-blue-600
+          hover:text-blue-700
+            font-medium
+            -mt-12
+            2xl:mt-0
+            xl:mt-0
+            lg:mt-0
+            md:mt-0
+            text-sm
+            ml-8
+          "
+        >
+         ดูประวัติ
+        </button>
+      </div>
+    </div>
+
       <div class="overflow-x-auto w-10/12 mx-auto font-sans-thai">
       <!-- <div v-for="who in whoApplication.data" :key="who.applicationId">
         {{who}}
