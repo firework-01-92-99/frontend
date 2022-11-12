@@ -45,7 +45,7 @@
           </select>
         </div>
       </div>
-      <div class="2xl:mx-20 xl:mx-20 2xl:flex md:flex flex 2xl:p-10 md:p-10 p-5 2xl:mt-0 md:mt-0 mt-11 w-full 2xl:justify-end md:justify-end justify-center">
+      <div class="2xl:mx-20 xl:mx-20 2xl:flex md:flex flex 2xl:p-0 md:p-10 p-5 2xl:mt-0 md:mt-0 mt-11 w-full 2xl:justify-end md:justify-end justify-center">
         <button
           @click="$router.push('/allEmployer')"
           class="

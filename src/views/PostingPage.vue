@@ -272,7 +272,7 @@
             xl:ml-0
             lg:ml-0
             md:ml-0
-            ml-20">
+            ml-16">
             เพิ่ม<i class="material-icons">arrow_drop_down</i>
             </label>
         <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
