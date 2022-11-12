@@ -388,6 +388,7 @@
                               "
                             ></div>
                             <input
+                              v-model="position.positionName"
                               type="text"
                               class="
                                 w-full
@@ -413,7 +414,7 @@
 
             <div class="flex justify-between">
               <button
-                @click="sendApprove(idApprove)"
+                @click="requestPosition()"
                 class="
                   btn
                   w-2/5
@@ -471,9 +472,24 @@ export default {
       allPost: [],
       noPost: false,
       toggleModal: false,
+      position: {
+        positionName: '',
+        // status:{
+        //   idStatus: 1
+        // }
+      },      
     };
   },
   methods: {
+    async requestPosition(){
+      const position = JSON.stringify(this.position)
+        const customConfig = {
+        headers: {
+          "Content-Type": "application/json",
+          },
+          }      
+      await axios.post(`${process.env.VUE_APP_ROOT_API}emp/empRequestPosition`, position, customConfig);
+    },
     async fetch(url) {
       try {
         const res = await fetch(url);

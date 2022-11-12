@@ -103,6 +103,8 @@
           "
         >
           <select
+            @click="filterPostition()"
+            v-model="inOrAct"
             class="
               select select-bordered
               2xl:w-3/5 2xl:text-base xl:text-base lg:text-base
@@ -111,7 +113,8 @@
               mt-3
             "
           >
-            <option class="text-black" value="Active" selected="selected">
+            <option disabled value>ตำแหน่งที่เปิดใช้งาน</option>
+            <option class="text-black" value="Active">
               ตำแหน่งที่เปิดใช้งาน
             </option>
             <option class="text-black" value="Inactive">
@@ -140,7 +143,7 @@
         "
       >
         <button
-          @click="toggleModal = !toggleModal"
+          @click="toggleModal = !toggleModal, position.positionName = ''"
           class="
             btn
             border-orange-1
@@ -180,29 +183,29 @@
             <th></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody v-for="(active, index) in allActivePostion" :key="active.idposition">
           <!-- <tbody v-for="a in listApprove.data" :key="a.idApprove"> -->
           <!-- row 1 -->
           <!-- <div v-if="listApprove.lenght == null">
             ไม่มีรายการที่ต้องทำ
           </div> -->
           <tr>
-            <th>1</th>
+            <th>{{index + 1}}</th>
             <td>
               <div class="flex items-center space-x-3">
-                <div class="">ชื่อตำแหน่ง</div>
+                <div class="">{{active.positionName}}</div>
                 <!-- <div class="text-sm opacity-50">United States</div> -->
               </div>
             </td>
             <th>
               <!-- detail -->
-              <button class="btn btn-ghost btn-xs">
+              <button @click="callDataEditPosition(active), popUp = true" class="btn btn-ghost btn-xs">
                 <i class="material-icons"> edit </i>
               </button>
-              <button class="btn btn-ghost btn-xs">
+              <button @click="deletePosition(active.idposition)" class="btn btn-ghost btn-xs">
                 <i class="material-icons text-red-800"> delete </i>
               </button>
-              <button class="btn btn-ghost btn-xs">ปิดการใช้งาน</button>
+              <button @click="activeAndInactivePosition(active.idposition)" class="btn btn-ghost btn-xs"> {{inOrAct == 'Active' ? 'ปิดการใช้งาน' : 'เปิดการใช้งาน'}}</button>
             </th>
           </tr>
         </tbody>
@@ -277,6 +280,7 @@
                               "
                             ></div>
                             <input
+                              v-model="position.positionName"
                               type="text"
                               class="
                                 w-full
@@ -302,7 +306,7 @@
 
             <div class="flex justify-between">
               <button
-                @click="sendApprove(idApprove)"
+                @click="createPosition()"
                 class="
                   btn
                   w-2/5
@@ -322,8 +326,104 @@
         </div>
       </div>
     </div>
+
+        <div
+      v-if="popUp"
+      class="
+        fixed
+        overflow-x-hidden overflow-y-auto
+        inset-0
+        flex
+        justify-center
+        items-center
+        z-50
+      "
+    >
+      <div class="relative mx-auto 2xl:w-1/2 md:w-11/12 w-11/12">
+        <div
+          class="
+            bg-white
+            w-full
+            overflow-y-auto
+            h-full
+            rounded-lg
+            shadow-2xl
+            flex flex-col
+          "
+        >
+          <!-- <div v-show="iAm == 'Employer' || iAm == 'Worker'" class=" p-8"> -->
+          <div class="p-8">
+            <h3 class="font-bold text-lg">แก้ไขตำแหน่ง</h3>
+
+            <div class="flex flex-col 2xl:w-full mt-4">
+              <div class="flex flex-col w-full flex-1 justify-between mb-8">
+                <div class="w-full">
+                  <form class="form-horizontal 2xl:w-full md:w-full">
+                    <div>
+                      <div class="flex -mx-3">
+                        <div class="w-full px-3">
+                          <div class="flex">
+                            <div
+                              class="
+                                w-10
+                                z-10
+                                pl-1
+                                text-center
+                                pointer-events-none
+                                flex
+                                items-center
+                                justify-center
+                              "
+                            ></div>
+                            <input
+                              v-model="position.positionName"
+                              type="text"
+                              class="
+                                w-full
+                                -ml-10
+                                pl-5
+                                pr-3
+                                py-2
+                                rounded-lg
+                                border-2 border-gray-200
+                                outline-none
+                                focus:border-indigo-500
+                              "
+                              placeholder="ชื่อตำแหน่ง"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex justify-between">
+              <button
+                @click="editPosition()"
+                class="
+                  btn
+                  w-2/5
+                  bg-orange-1
+                  hover:bg-orange-2
+                  border-orange-1
+                  hover:border-orange-1
+                "
+              >
+                แก้ไข
+              </button>
+              <button @click="popUp = false" class="btn w-2/5">
+                ยกเลิก
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div
-      v-if="toggleModal"
+      v-if="toggleModal || popUp"
       class="absolute inset-0 z-40 opacity-25 bg-black"
     ></div>
   </div>
@@ -336,11 +436,91 @@ export default {
   components: { BaseTab },
   data() {
     return {
+      routes: '',
+      noValue: false,
       myAcc: [],
       toggleModal: false,
+      allActivePostion: false,
+      inOrAct: '',
+      position: {
+        positionName: '',
+        // status:{
+        //   idStatus: 1
+        // }
+      },
+      idPosition: 0,
+      // positionName: '',
+      wantToEdit: false,
+      popUp: false,
     };
   },
-  methods: {},
+  methods: {
+    async callDataEditPosition(position){
+      this.position.positionName = position.positionName
+    },
+    async editPosition(){
+      const position = JSON.stringify(this.position)
+        const customConfig = {
+        headers: {
+          "Content-Type": "application/json",
+          },
+          }      
+      await axios.put(`${process.env.VUE_APP_ROOT_API}admin/editPosition`, position, customConfig);
+    },
+    async deletePosition(id){
+      if(confirm("คุณต้องการจะลบตำแหน่งนี้ใช่หรือไม่")){
+        await axios.delete(`${process.env.VUE_APP_ROOT_API}admin/deletePosition?idPosition=` + id );
+      }
+      this.callDataActive()
+    },
+    async activeAndInactivePosition(id){
+      if(this.inOrAct == 'Active'){
+      if(confirm("ต้องการจะปิดใช้งานตำแหน่งใช่หรือไม่")){
+        await axios.delete(`${process.env.VUE_APP_ROOT_API}admin/adminInactivePosition?idPosition=` + id );
+      }
+      }else{
+       if(this.inOrAct == 'Inactive'){
+      if(confirm("ต้องการจะเปิดใช้งานตำแหน่งใช่หรือไม่")){
+        await axios.put(`${process.env.VUE_APP_ROOT_API}admin/adminActivePosition?idPosition=` + id );
+      }
+       } 
+      }
+      this.callDataActive()
+      if(this.allActivePostion.length == 0){
+        this.noValue = true
+      }      
+    },    
+    async createPosition(){
+      const position = JSON.stringify(this.position)
+        const customConfig = {
+        headers: {
+          "Content-Type": "application/json",
+          },
+          }      
+      const result = await axios.post(`${process.env.VUE_APP_ROOT_API}admin/createPosition`, position, customConfig);
+      console.log(result.data.data);
+      const allActivePostion = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/allActivePosition`);
+      this.allActivePostion = allActivePostion.data            
+    },
+    async filterPostition(){
+      if(this.inOrAct == 'Active'){
+      const allActivePostion = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/allActivePosition`);
+      this.allActivePostion = allActivePostion.data
+      this.noValue = this.allActivePostion.length == 0
+      }else{
+        if(this.inOrAct == 'Inactive'){
+      const allInActivePostion = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/allInactivePosition`);
+      this.allActivePostion = allInActivePostion.data
+      this.noValue = this.allActivePostion.length == 0
+        }
+      }
+
+    },
+    async callDataActive(){
+      const allActivePostion = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/allActivePosition`);
+      this.allActivePostion = allActivePostion.data     
+    },
+  },
   async created() {
     if (
       this.$store.state.auth.user &&
@@ -349,6 +529,11 @@ export default {
       this.myAcc = await axios.get(
         `${process.env.VUE_APP_ROOT_API}admin/meAdmin`
       );
+      const allActivePostion = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/allActivePosition`);
+      this.allActivePostion = allActivePostion.data
+      this.noValue = this.allActivePostion.length == 0
+      this.inOrAct = 'Active'
+      console.log(this.allActivePostion)
     }
   },
 };
