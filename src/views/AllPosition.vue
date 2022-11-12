@@ -98,14 +98,14 @@
             -mt-3
             2xl:-ml-0
             lg:-ml-36
-            md:-ml-0
+            md:ml-32
             -ml-16
           "
         >
           <select
             class="
               select select-bordered
-              2xl:w-3/5 2xl:text-base
+              2xl:w-3/5 2xl:text-base xl:text-base lg:text-base
               md:text-xs
               font-normal
               mt-3
@@ -125,8 +125,10 @@
           2xl:flex
           md:flex
           flex
-          2xl:p-10
-          md:p-10
+          2xl:p-3
+          xl:p-3
+          lg:p-3
+          md:p-3
           p-5
           2xl:mt-0
           md:mt-0
@@ -147,13 +149,19 @@
             2xl:w-1/5
             md:w-2/3
             w-11/12
-            -mt-16
-            mr-20
+            -mt-12
+            mr-0
+            2xl:mr-28
+            xl:mr-3
+            lg:mr-3
+            md:mr-3
             2xl:mt-0
             xl:mt-0
             lg:mt-0
             md:mt-0
             2xl:text-base
+            xl:text-base
+            lg:text-base
             md:text-xs
           "
         >

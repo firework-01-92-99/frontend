@@ -296,9 +296,9 @@
     </div>
     <!-- <div class="flex flex-row justify-between p-6 font-sans-thai"> -->
     <!-- count posting  -->
-    <div class="2xl:flex 2xl:flex-row md:flex md:flex-row flex flex-col">
+    <div class="flex flex-row">
  <div class="flex w-full justify-start">
-    <p class="my-auto font-medium text-sm p-10 2xl:w-1/3 w-full 2xl:-ml-0 md:-ml-0 -ml-1">
+    <p class="my-auto font-medium text-sm p-10 px-9 2xl:w-1/3 w-full 2xl:-ml-0 md:-ml-0 ml-0.5">
       ทั้งหมด
       <span class="text-orange-1 text-sm"> {{ lastPage.totalElements }} </span>
       ผลลัพธ์
@@ -308,24 +308,21 @@
         <button
           @click="$router.push('/allEmployer')"
           class="
-           cursor-pointer
-                        underline
-                        text-blue-600
-                        hover:text-blue-700
-                        font-medium
-            2xl:w-1/3
-            md:w-2/3
-            w-11/12
-            -mt-16
+            cursor-pointer
+            underline
+          text-blue-600
+          hover:text-blue-700
+            font-medium
+            -mt-12
             2xl:mt-0
             xl:mt-0
             lg:mt-0
             md:mt-0
-            2xl:text-base
-            md:text-xs
+            text-sm
+            ml-8
           "
         >
-         ดูทั้งหมด
+         ดูบริษัททั้งหมด
         </button>
       </div>
       </div>

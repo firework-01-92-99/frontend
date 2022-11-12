@@ -1,5 +1,20 @@
 <template>
-  <div class="container mx-auto py-4">
+  <div class="container mx-auto">
+    <p
+      class="
+        text-2xl
+        font-semibold
+        2xl:p-6 2xl:pl-12
+        xl:p-6
+        lg:p-6
+        md:p-6
+        p-3
+        pt-5
+        ml-3.5
+      "
+    >
+      ประกาศหางานของ <span class="text-orange-1">{{ employer.establishmentName }}</span>
+    </p>
     <div v-if="!noValue">
       <!-- job card -->
       <div class="flex flex-wrap justify-center p-6 -mt-12">
@@ -65,7 +80,7 @@
                     </div> -->
                   </div>
                   <h2 class="card-title text-base">
-                    {{ employer.establishmentName }}
+                    <!-- {{ employer.establishmentName }} -->
                     <div class="rating rating-sm">
                       <!-- <span class="font-normal pr-2">|</span> -->
                       <input
@@ -180,9 +195,9 @@
       <div v-if="noValue">
         <div class="text-center mt-10 mb-10">
           <div>
-            <img src="../assets/icon/not-found.svg" class="w-20 mx-auto" />
+            <img src="../assets/icon/leaves.png" class="w-20 mx-auto" />
           </div>
-          <div class="pt-5">ไม่มีผลลัพธ์</div>
+          <div class="pt-5">ไม่มีประกาศหางาน</div>
         </div>
       </div>
     </div>
