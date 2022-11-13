@@ -92,7 +92,7 @@
                 >
                   <i class="mdi mdi-account-outline text-gray-400 text-lg"></i>
                 </div>
-                <input
+                <!-- <input
                   type="text"
                   v-if="jobDetail.position"
                   v-model.trim="jobDetail.position.positionName"
@@ -110,7 +110,36 @@
                   :class="[{ 'bg-red-50': positionInput }]"
                   placeholder="ชื่อตำแหน่ง"
                   required
-                />
+                /> -->
+                <select
+                  type="text"
+                  v-model.trim="jobDetail.position"
+                  class="
+                    select select-bordered
+                    w-full
+                    -ml-10
+                    pl-5
+                    pr-3
+                    py-2
+                    rounded-lg
+                    border-2 border-gray-200
+                    outline-none
+                    focus:border-indigo-500
+                  "
+                  :class="{ 'bg-red-50': positionInput }"
+                >
+                  <option :value="''" disabled selected>
+                    กรุณาเลือกตำแหน่งงาน
+                  </option>
+                  <option
+                    class="text-black"
+                    v-for="pa in positionArray"
+                    :key="pa.idposition"
+                    :value="pa"
+                  >
+                    {{ pa.positionName }}
+                  </option>
+                </select>
               </div>
               <p v-if="positionInput" class="text-sm text-red-600">
                 กรุณากรอกชื่อตำแหน่ง
@@ -1066,7 +1095,7 @@ export default {
         toolbar: ["bulletedList"],
       },
       showToast: false,
-
+      positionArray: [],
       positionInput: false,
       sexInput: false,
       descriptInput: false,
@@ -1224,10 +1253,11 @@ export default {
           typeName: "",
         },
         postingHasDayList: this.jobDetail.postingHasDayList.map(j=>{return{day:j.day}}),
-        position: {
-          idposition: "",
-          positionName: this.jobDetail?.position?.positionName,
-        },
+        position: 
+          this.jobDetail.position
+          // idposition: this.jobDetail?.position?.idposition,
+          // positionName: "",
+        ,
       }
       this.checkValidate();      
       console.log(this.postInfo)
@@ -1238,8 +1268,15 @@ export default {
         !this.startTimeInput && !this.endTimeInput && !this.welfareInput && !this.hiringTypeInput &&
         !this.statusInput && !this.workerTypeInput && !this.postingHasDayListInput){
         const vm = this
+        const NewPosting = JSON.stringify(this.postInfo)
+        console.log(NewPosting)
+        const customConfig = {
+        headers: {
+          "Content-Type": "application/json",
+          },
+          }   
         await axios
-          .put(`${process.env.VUE_APP_ROOT_API}emp/editPosting`, this.postInfo)
+          .put(`${process.env.VUE_APP_ROOT_API}emp/editPosting`, NewPosting, customConfig)
           .then(function (response) {
             console.log(response);
             vm.showToast = true;
@@ -1261,7 +1298,7 @@ export default {
 
     checkValidate() {
       this.positionInput =
-        this.postInfo.position.positionName === "" ? true : false;
+        this.postInfo.position.idposition === "" ? true : false;
       this.sexInput = this.postInfo.sex === "" ? true : false;
       this.descriptInput = this.postInfo.workDescription === "" ? true : false;
       this.minAgeInput =
@@ -1378,10 +1415,12 @@ export default {
         },
         postingHasDayList: [this.jobDetail?.postingHasDayList.idPostingHasDay],
         position: {
-          idposition: "",
-          positionName: this.jobDetail?.position?.positionName,
+          idposition: this.jobDetail?.position?.idposition,
+          positionName: "",
         },
       }
+       const positionArray = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/allPosition`);
+      this.positionArray = positionArray.data
     const image1 = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getImageByIdEmployer` + "?idEmployer=" + this.$store.state.auth.user.employer.idEmployer);
     const imageName = image1.data
           this.image =

@@ -33,10 +33,10 @@
             font-sans-thai
             card
             2xl:w-80
-            xl:w-96
-            lg:w-96
-            md:w-96
-            w-11/12
+            xl:w-80
+            lg:w-80
+            md:w-80
+            w-80
             bg-base-100
             2xl:m-6
             xl:m-6
@@ -107,6 +107,10 @@
                     bookmark
                   </i>
                 </div>
+
+                <div v-if="
+                    $store.state.auth.user &&
+                    $store.state.auth.user.role.idRole == '2'" class="flex space-x-4">
                 <div
                   v-if="
                     $store.state.auth.user &&
@@ -127,11 +131,12 @@
                   </i>
                 </div>
                 <!-- status -->
-                <div v-if="job.status.statusName == 'Active' && $store.state.auth.user && $store.state.auth.user.role.idRole == '2'" class="badge badge-lg 2xl:w-1/6 2xl:text-base md:text-base text-xs bg-green-200 text-green-600 border-0">
-                  <span class="">เปิดประกาศรับสมัคร</span>
+                <div v-if="job.status.statusName == 'Active' && $store.state.auth.user && $store.state.auth.user.role.idRole == '2'" class="badge badge-lg 2xl:text-sm xl:text-sm lg:text-sm md:text-sm text-xs bg-green-200 text-green-600 border-0">
+                  <!-- <span class="">เปิดประกาศรับสมัคร</span> -->
                 </div>
-                <div v-if="job.status.statusName == 'Inactive' && $store.state.auth.user && $store.state.auth.user.role.idRole == '2'" class="badge badge-lg 2xl:w-1/6 2xl:text-base md:text-base text-xs bg-gray-200 text-gray-600 border-0">
-                  <span class="">ปิดประกาศรับสมัคร</span>
+                <div v-if="job.status.statusName == 'Inactive' && $store.state.auth.user && $store.state.auth.user.role.idRole == '2'" class="badge badge-lg  2xl:text-sm xl:text-sm lg:text-sm md:text-sm text-xs bg-gray-200 text-gray-600 border-0">
+                  <!-- <span class="">ปิดประกาศรับสมัคร</span> -->
+                </div>
                 </div>
               </div>
               <h2 class="card-title text-sm">
@@ -150,7 +155,7 @@
                     disabled
                   />
                   <!-- <span class="font-normal pl-1">{{!$store.state.auth.user || $store.state.auth.user.role.idRole == '3' ? scoreAllEmp.find((a) => a.idEmployer == job.idEmployer).rate : isNaN(scoreEmp) ? 'ยังไม่มีคะแนน' : scoreEmp}}</span> -->
-                  <span class="font-normal pl-1 2xl:text-sm xl:text-base lg:text-base md:text-base text-xs">{{!$store.state.auth.user || $store.state.auth.user.role.idRole == '3' ? scoreAllEmp.find((a) => a.idEmployer == job.idEmployer).rate == null ? 'ยังไม่มีคะแนน' : scoreAllEmp.find((a) => a.idEmployer == job.idEmployer).rate : isNaN(scoreEmp) ? 'ยังไม่มีคะแนน' : scoreEmp}}</span>
+                  <span class="font-normal pl-1 2xl:text-sm xl:text-sm lg:text-sm md:text-sm text-xs">{{!$store.state.auth.user || $store.state.auth.user.role.idRole == '3' ? scoreAllEmp.find((a) => a.idEmployer == job.idEmployer).rate == null ? 'ยังไม่มีคะแนน' : scoreAllEmp.find((a) => a.idEmployer == job.idEmployer).rate : isNaN(scoreEmp) ? 'ยังไม่มีคะแนน' : scoreEmp}}</span>
                   <!-- {{scoreAllEmp.find((a) => a.idEmployer == job.idEmployer).rate}} -->
                 </div>
               </h2>
@@ -458,7 +463,7 @@ export default {
       this.allPicture = allPicture1.data;
       console.log(this.allPicture[0].imageName);
 
-      for (let i = 0; i < this.allJobs.content.length; i++) {
+      for (let i = 0; i < this.allJobs.content?.length; i++) {
         this.allJobs.content[i].image ==
           this.allPicture.find(
             (a) => a.idEmployer == this.allJobs.content[i].idEmployer
@@ -466,7 +471,7 @@ export default {
       }
       this.scoreAllEmp = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allEmployer`);
       this.$store.commit("setPosting", allPost);
-      this.noValue = allPost.content.length == 0
+      this.noValue = allPost.content?.length == 0
       }     
       }
     this.allEmployer = await this.fetch(

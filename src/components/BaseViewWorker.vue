@@ -26,7 +26,7 @@
         <span class="text-orange-1">{{ " ตำแหน่ง: " + namePost }}</span>
       </p>
       </div>
-        <div v-if="$route.query.history == 'yes'" class="w-full 2xl:pt-4 xl:pt-3 lg:pt-3 md:pt-5 pt-8 2xl:ml-0 xl:ml-0 lg:ml-0 md:ml-20 ml-24 2xl:-mt-0 md:-mt-0 -mt-3">
+        <div v-if="$route.query.history == 'yes'" class="w-full 2xl:pt-4 xl:pt-3 lg:pt-3 md:pt-5 pt-8 2xl:ml-32 xl:ml-0 lg:ml-0 md:ml-20 ml-24 2xl:-mt-0 md:-mt-0 -mt-3">
           <select
             class="
               select select-bordered
@@ -85,7 +85,7 @@
         <tbody
           v-for="a in whoApplication.data.whoApplicationList.filter((s) => (s.idStatus == idStatus) || (s.statusName == 'Waiting_Rating' || s.statusName == 'workerRated' ))"
           :key='a.applicationId'>
-          {{a}}
+          <!-- {{a}} -->
           <!-- row 1 -->
           <!-- <div v-if="listApprove.lenght == null">
             ไม่มีรายการที่ต้องทำ
@@ -731,8 +731,8 @@ export default {
       closeColumnName: false,
       namePost1: {},
       namePost: '',
-      accept: "",
-      reject: "",
+      accept: "รับเข้าทำงาน",
+      reject: "ไม่รับเข้าทำงาน",
       statusToPage: 0,
     };
   },

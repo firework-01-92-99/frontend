@@ -71,7 +71,7 @@
       รายการคำขอเพิ่มตำแหน่ง
     </p>
     <div class="overflow-x-auto w-10/12 mx-auto font-sans-thai">
-      <table class="table w-full">
+      <table class="table w-full mb-10">
         <!-- head -->
         <thead>
           <tr v-if="!noValue">
