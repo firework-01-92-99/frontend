@@ -27,7 +27,10 @@
       <div
         v-for="i in showEmployer"
         :key="i.idEmployer"
-        class="card w-40 h-36 shadow-xl cursor-pointer m-6"
+        class="card w-40 h-36 shadow-xl cursor-pointer m-6 transition
+            duration-300
+            ease-in-out
+            hover:-translate-y-1 hover:scale-110"
       >
         <div class="w-full">
           <div>

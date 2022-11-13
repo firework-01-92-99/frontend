@@ -27,7 +27,7 @@
                 rounded-lg
                 font-sans-thai
                 card
-                2xl:w-96
+                2xl:w-80
                 xl:w-96
                 lg:w-96
                 md:w-96
@@ -48,7 +48,7 @@
               <div>
                 <div class="card-body space-y-3">
                   <div class="flex justify-between">
-                    <h2 class="card-title text-orange-1 text-base">
+                    <h2 class="card-title text-orange-1 text-sm">
                       {{ p.position.positionName }}
                     </h2>
                     <!-- <div
@@ -95,7 +95,7 @@
                         class="
                           font-normal
                           pl-1
-                          2xl:text-base
+                          2xl:text-sm
                           xl:text-base
                           lg:text-base
                           md:text-base
@@ -127,7 +127,7 @@
                     <span class="hidden font-semibold text-base"
                       >ค่าตอบแทน :
                     </span>
-                    <span class="text-base inline-block align-middle">
+                    <span class="text-sm inline-block align-middle">
                       {{
                         p.minSalary
                           .toString()
@@ -150,16 +150,10 @@
                       <span class="hidden font-semibold text-base"
                         >ที่อยู่ :
                       </span>
-                      <span class="text-base inline-block align-middle">{{
-                        employer.address +
-                        " " +
+                      <span class="text-sm inline-block align-middle">{{
                         employer.district.districtName +
                         " " +
-                        employer.subDistrict.subDistrict +
-                        " " +
-                        employer.province.provinceName +
-                        " " +
-                        employer.subDistrict.postcode
+                        employer.province.provinceName
                       }}</span>
                     </p>
                   </div>
@@ -172,7 +166,7 @@
                     class="card-actions"
                   >
                     <button
-                      @click="linkTo(job.idPosting, job.idEmployer)"
+                      @click="linkTo(employer.idPosting, employer.idEmployer)"
                       class="
                         btn
                         border-orange-1
@@ -214,7 +208,25 @@ export default {
       employer: {},
     };
   },
-  methods: {},
+  methods: {
+    linkTo(idPost, idEmp) {
+      if (
+        !this.$store.state.auth.user ||
+        this.$store.state.auth.user.role.idRole == "3"
+      ) {
+        this.$router.push(
+          "/detail?idPosting=" + idPost + "&idEmployer=" + idEmp
+        );
+      }
+      // else {
+      // if (this.$store.state.auth.user.role.idRole == "2") {
+      //   this.$emit("idPost", idPost)
+      //   // this.$router.push("/viewworkapp" + "?idPost=" + idPost);
+      //   // localStorage.storeIdPost
+      // }
+      // }
+    },
+  },
   async created() {
     this.idEmp = this.$route.query.idEmp;
 

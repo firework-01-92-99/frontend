@@ -5,7 +5,7 @@
 
 <div class="2xl:flex 2xl:flex-row md:flex md:flex-row flex flex-col w-full">
       <div class="flex w-full justify-start">
-        <div class="">
+        <div class="w-full">
         <p
         class="
           2xl:text-2xl
@@ -24,10 +24,11 @@
           w-full
         "
       >
-        {{ topic }} <span class="text-orange-1">{{ " ตำแหน่ง: " + namePost }}</span>
+        {{ topic }} 
+        <span class="text-orange-1">{{ " ตำแหน่ง: " + namePost }}</span>
       </p>
       </div>
-        <div class="w-full pt-10 2xl:-mt-0 md:-mt-0 -mt-3">
+        <div class="w-full 2xl:pt-4 xl:pt-3 lg:pt-3 md:pt-5 pt-8 2xl:ml-0 xl:ml-0 lg:ml-0 md:ml-20 ml-24 2xl:-mt-0 md:-mt-0 -mt-3">
           <select
             class="
               select select-bordered

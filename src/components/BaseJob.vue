@@ -32,7 +32,7 @@
             rounded-lg
             font-sans-thai
             card
-            2xl:w-96
+            2xl:w-80
             xl:w-96
             lg:w-96
             md:w-96
@@ -66,7 +66,7 @@
           > -->
             <figure v-if="$route.name != 'JobDetail'">
               <div class="avatar mt-6">
-                <div class="w-20 rounded-full">
+                <div class="w-16 rounded-full">
                   <img
                   class="object-cover"
                   :src=" !$store.state.auth.user || $store.state.auth.user.role.idRole == '3' ? env + allPicture.find((a) => a.idEmployer == job.idEmployer).imageName : image"
@@ -77,7 +77,7 @@
             <!-- <div v-for="e in allEmployer" :key="e.idEmployer"> -->
             <div class="card-body space-y-3">
               <div class="flex justify-between">
-                <h2 class="card-title text-orange-1 text-base">
+                <h2 class="card-title text-orange-1 text-sm">
                   {{ job.position.positionName }}
                 </h2>
                 <div
@@ -134,7 +134,7 @@
                   <span class="">ปิดประกาศรับสมัคร</span>
                 </div> -->
               </div>
-              <h2 class="card-title text-base">
+              <h2 class="card-title text-sm">
                 {{
                   getPostbyEmp(job.idEmployer)
                     ? getPostbyEmp(job.idEmployer).establishmentName
@@ -150,7 +150,7 @@
                     disabled
                   />
                   <!-- <span class="font-normal pl-1">{{!$store.state.auth.user || $store.state.auth.user.role.idRole == '3' ? scoreAllEmp.find((a) => a.idEmployer == job.idEmployer).rate : isNaN(scoreEmp) ? 'ยังไม่มีคะแนน' : scoreEmp}}</span> -->
-                  <span class="font-normal pl-1 2xl:text-base xl:text-base lg:text-base md:text-base text-xs">{{!$store.state.auth.user || $store.state.auth.user.role.idRole == '3' ? scoreAllEmp.find((a) => a.idEmployer == job.idEmployer).rate == null ? 'ยังไม่มีคะแนน' : scoreAllEmp.find((a) => a.idEmployer == job.idEmployer).rate : isNaN(scoreEmp) ? 'ยังไม่มีคะแนน' : scoreEmp}}</span>
+                  <span class="font-normal pl-1 2xl:text-sm xl:text-base lg:text-base md:text-base text-xs">{{!$store.state.auth.user || $store.state.auth.user.role.idRole == '3' ? scoreAllEmp.find((a) => a.idEmployer == job.idEmployer).rate == null ? 'ยังไม่มีคะแนน' : scoreAllEmp.find((a) => a.idEmployer == job.idEmployer).rate : isNaN(scoreEmp) ? 'ยังไม่มีคะแนน' : scoreEmp}}</span>
                   <!-- {{scoreAllEmp.find((a) => a.idEmployer == job.idEmployer).rate}} -->
                 </div>
               </h2>
@@ -159,7 +159,7 @@
                   ><i class="material-icons pr-2"> paid </i></span
                 >
                 <span class="hidden font-semibold text-base">ค่าตอบแทน : </span>
-                <span class="text-base inline-block align-middle"
+                <span class="text-sm inline-block align-middle"
                   >{{
                     job.minSalary
                       .toString()
@@ -171,7 +171,7 @@
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   }}
-                  บาท /</span><span> {{job.hiringType.nameType}}</span>
+                  บาท /</span><span class="text-sm"> {{job.hiringType.nameType}}</span>
               </p>
               <div class="flex items-start">
                 <p>
@@ -181,17 +181,11 @@
                   <span class="hidden font-semibold text-base">ที่อยู่ : </span>
                   <span
                     v-if="getPostbyEmp(job.idEmployer)"
-                    class="text-base inline-block align-middle"
+                    class="text-sm inline-block align-middle"
                     >{{
-                      getPostbyEmp(job.idEmployer).address +
-                      " " +
                       getPostbyEmp(job.idEmployer).district.districtName +
                       " " +
-                      getPostbyEmp(job.idEmployer).subDistrict.subDistrict +
-                      " " +
-                      getPostbyEmp(job.idEmployer).province.provinceName +
-                      " " +
-                      getPostbyEmp(job.idEmployer).subDistrict.postcode
+                      getPostbyEmp(job.idEmployer).province.provinceName
                     }}</span
                   >
                 </p>
