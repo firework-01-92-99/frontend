@@ -112,7 +112,7 @@
                   <li
                     class="step"
                     :class="[{ 'step-primary': step == item }]"
-                    v-for="item in signType == 'worker' ? 3 : 4"
+                    v-for="item in signType == 'worker' ? 3 : 5"
                     :key="item"
                   >
                     <button @click="nextStep()">
@@ -331,6 +331,7 @@
                         </div>
                       </div>
                     </div>
+
                     <!-- page 2 -->
                     <div v-if="step == 2">
                       <div v-if="signType == 'employer'" class="flex -mx-3">
@@ -873,6 +874,239 @@
                         </div>
                       </div>
 
+                      
+
+                      <div v-if="signType == 'worker'" class="flex -mx-3">
+                        <div @click="onFocus('เพศ')" class="w-1/2 px-3 mb-5">
+                          <label
+                            for=""
+                            class="
+                              2xl:text-base
+                              md:text-base
+                              text-sm
+                              font-medium
+                              px-1
+                            "
+                            >เพศ</label
+                          >
+                          <div class="flex space-x-5">
+                            <div class="form-control">
+                              <label
+                                for="male"
+                                class="label cursor-pointer space-x-2"
+                              >
+                                <input
+                                  id="male"
+                                  type="radio"
+                                  v-model.trim="registWorker.worker.sex"
+                                  name="radio-6"
+                                  class="radio checked:bg-orange-1"
+                                  :class="{ 'bg-red-50': sexInput }"
+                                  value="M"
+                                />
+                                <span class="label-text">ชาย</span>
+                              </label>
+                            </div>
+                            <div class="form-control">
+                              <label
+                                for="female"
+                                class="label cursor-pointer space-x-2"
+                              >
+                                <input
+                                  id="female"
+                                  type="radio"
+                                  v-model.trim="registWorker.worker.sex"
+                                  name="radio-7"
+                                  class="radio checked:bg-orange-1"
+                                  :class="{ 'bg-red-50': sexInput }"
+                                  value="F"
+                                />
+                                <span class="label-text">หญิง</span>
+                              </label>
+                            </div>
+                          </div>
+                          <p v-if="sexInput" class="text-red-600">
+                            กรุณาเลือกเพศ
+                          </p>
+                        </div>
+                      </div>
+                      <div v-if="signType == 'worker'" class="flex">
+                        <div class="w-full mb-5">
+                          <label
+                            for=""
+                            class="
+                              2xl:text-base
+                              md:text-base
+                              text-sm
+                              font-medium
+                              px-1
+                            "
+                            >เบอร์โทรศัพท์ (มือถือ)</label
+                          >
+                          <div class="flex">
+                            <div
+                              class="
+                                w-10
+                                z-10
+                                pl-1
+                                text-center
+                                pointer-events-none
+                                flex
+                                items-center
+                                justify-center
+                              "
+                            >
+                              <i
+                                class="
+                                  mdi mdi-account-outline
+                                  text-gray-400 text-lg
+                                "
+                              ></i>
+                            </div>
+                            <input
+                              @click="onFocus('เบอร์')"
+                              type="tel"
+                              v-model.trim="bindPhone"
+                              maxlength="10"
+                              class="
+                                w-full
+                                -ml-10
+                                pl-5
+                                pr-3
+                                py-2
+                                rounded-lg
+                                border-2 border-gray-200
+                                outline-none
+                                focus:border-indigo-500
+                              "
+                              :class="{ 'bg-red-50': phoneInput }"
+                              onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                              placeholder="เบอร์โทรศัพท์ (มือถือ)"
+                            />
+                          </div>
+                          <p v-if="phoneInput" class="text-red-600">
+                            กรุณากรอกเบอร์โทรศัพท์ (มือถือ)
+                          </p>
+                        </div>
+                      </div>
+
+                      <div class="flex">
+                        <div v-if="signType == 'employer'" class="w-full mb-5">
+                          <label
+                            for=""
+                            class="
+                              2xl:text-base
+                              md:text-base
+                              text-sm
+                              font-medium
+                              px-1
+                            "
+                            >เบอร์โทรศัพท์ที่สามารถติดต่อได้</label
+                          >
+                          <div class="flex">
+                            <div
+                              class="
+                                w-10
+                                z-10
+                                pl-1
+                                text-center
+                                pointer-events-none
+                                flex
+                                items-center
+                                justify-center
+                              "
+                            >
+                              <i
+                                class="
+                                  mdi mdi-account-outline
+                                  text-gray-400 text-lg
+                                "
+                              ></i>
+                            </div>
+                            <input
+                              @click="onFocus('เบอร์')"
+                              type="tel"
+                              v-model.trim="registEmp.employer.tel"
+                              maxlength="9"
+                              class="
+                                w-full
+                                -ml-10
+                                pl-5
+                                pr-3
+                                py-2
+                                rounded-lg
+                                border-2 border-gray-200
+                                outline-none
+                                focus:border-indigo-500
+                              "
+                              :class="{ 'bg-red-50': telInput }"
+                              onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                              placeholder="เบอร์โทรศัพท์"
+                            />
+                          </div>
+                          <p v-if="telInput" class="text-red-600">
+                            กรุณากรอกเบอร์โทรศัพท์
+                          </p>
+                        </div>
+                      </div>
+
+                      <!-- <div v-if="signType == 'employer'" class="flex -mx-3">
+                        <div class="w-full px-3 mb-5">
+                          <label
+                            for=""
+                            class="
+                              2xl:text-base
+                              md:text-base
+                              text-sm
+                              font-medium
+                              px-1
+                            "
+                            >ID Line</label
+                          >
+                          <div class="flex">
+                            <div
+                              class="
+                                w-10
+                                z-10
+                                pl-1
+                                text-center
+                                pointer-events-none
+                                flex
+                                items-center
+                                justify-center
+                              "
+                            >
+                              <i
+                                class="
+                                  mdi mdi-account-outline
+                                  text-gray-400 text-lg
+                                "
+                              ></i>
+                            </div>
+                            <input
+                              type="text"
+                              v-model.trim="registEmp.employer.lineId"
+                              class="
+                                w-full
+                                -ml-10
+                                pl-5
+                                pr-3
+                                py-2
+                                rounded-lg
+                                border-2 border-gray-200
+                                outline-none
+                                focus:border-indigo-500
+                              "
+                              placeholder="ไอดีไลน์"
+                            />
+                          </div>
+                        </div>
+                      </div> -->
+                    </div>
+                    <!-- page 2 -->
+
+                    <!-- page 3 emp -->
+                    <div v-if="signType == 'employer' && step == 3">
                       <div v-if="signType == 'employer'">
                         <div class="flex -mx-3">
                           <div class="w-full px-3 mb-5">
@@ -1198,235 +1432,8 @@
                           </div>
                         </div>
                       </div>
-
-                      <div v-if="signType == 'worker'" class="flex -mx-3">
-                        <div @click="onFocus('เพศ')" class="w-1/2 px-3 mb-5">
-                          <label
-                            for=""
-                            class="
-                              2xl:text-base
-                              md:text-base
-                              text-sm
-                              font-medium
-                              px-1
-                            "
-                            >เพศ</label
-                          >
-                          <div class="flex space-x-5">
-                            <div class="form-control">
-                              <label
-                                for="male"
-                                class="label cursor-pointer space-x-2"
-                              >
-                                <input
-                                  id="male"
-                                  type="radio"
-                                  v-model.trim="registWorker.worker.sex"
-                                  name="radio-6"
-                                  class="radio checked:bg-orange-1"
-                                  :class="{ 'bg-red-50': sexInput }"
-                                  value="M"
-                                />
-                                <span class="label-text">ชาย</span>
-                              </label>
-                            </div>
-                            <div class="form-control">
-                              <label
-                                for="female"
-                                class="label cursor-pointer space-x-2"
-                              >
-                                <input
-                                  id="female"
-                                  type="radio"
-                                  v-model.trim="registWorker.worker.sex"
-                                  name="radio-7"
-                                  class="radio checked:bg-orange-1"
-                                  :class="{ 'bg-red-50': sexInput }"
-                                  value="F"
-                                />
-                                <span class="label-text">หญิง</span>
-                              </label>
-                            </div>
-                          </div>
-                          <p v-if="sexInput" class="text-red-600">
-                            กรุณาเลือกเพศ
-                          </p>
-                        </div>
-                      </div>
-                      <div v-if="signType == 'worker'" class="flex">
-                        <div class="w-full mb-5">
-                          <label
-                            for=""
-                            class="
-                              2xl:text-base
-                              md:text-base
-                              text-sm
-                              font-medium
-                              px-1
-                            "
-                            >เบอร์โทรศัพท์ (มือถือ)</label
-                          >
-                          <div class="flex">
-                            <div
-                              class="
-                                w-10
-                                z-10
-                                pl-1
-                                text-center
-                                pointer-events-none
-                                flex
-                                items-center
-                                justify-center
-                              "
-                            >
-                              <i
-                                class="
-                                  mdi mdi-account-outline
-                                  text-gray-400 text-lg
-                                "
-                              ></i>
-                            </div>
-                            <input
-                              @click="onFocus('เบอร์')"
-                              type="tel"
-                              v-model.trim="bindPhone"
-                              maxlength="10"
-                              class="
-                                w-full
-                                -ml-10
-                                pl-5
-                                pr-3
-                                py-2
-                                rounded-lg
-                                border-2 border-gray-200
-                                outline-none
-                                focus:border-indigo-500
-                              "
-                              :class="{ 'bg-red-50': phoneInput }"
-                              onkeypress="return event.charCode >= 48 && event.charCode <= 57"
-                              placeholder="เบอร์โทรศัพท์ (มือถือ)"
-                            />
-                          </div>
-                          <p v-if="phoneInput" class="text-red-600">
-                            กรุณากรอกเบอร์โทรศัพท์ (มือถือ)
-                          </p>
-                        </div>
-                      </div>
-
-                      <div class="flex">
-                        <div v-if="signType == 'employer'" class="w-full mb-5">
-                          <label
-                            for=""
-                            class="
-                              2xl:text-base
-                              md:text-base
-                              text-sm
-                              font-medium
-                              px-1
-                            "
-                            >เบอร์โทรศัพท์ที่สามารถติดต่อได้</label
-                          >
-                          <div class="flex">
-                            <div
-                              class="
-                                w-10
-                                z-10
-                                pl-1
-                                text-center
-                                pointer-events-none
-                                flex
-                                items-center
-                                justify-center
-                              "
-                            >
-                              <i
-                                class="
-                                  mdi mdi-account-outline
-                                  text-gray-400 text-lg
-                                "
-                              ></i>
-                            </div>
-                            <input
-                              @click="onFocus('เบอร์')"
-                              type="tel"
-                              v-model.trim="registEmp.employer.tel"
-                              maxlength="9"
-                              class="
-                                w-full
-                                -ml-10
-                                pl-5
-                                pr-3
-                                py-2
-                                rounded-lg
-                                border-2 border-gray-200
-                                outline-none
-                                focus:border-indigo-500
-                              "
-                              :class="{ 'bg-red-50': telInput }"
-                              onkeypress="return event.charCode >= 48 && event.charCode <= 57"
-                              placeholder="เบอร์โทรศัพท์"
-                            />
-                          </div>
-                          <p v-if="telInput" class="text-red-600">
-                            กรุณากรอกเบอร์โทรศัพท์
-                          </p>
-                        </div>
-                      </div>
-
-                      <!-- <div v-if="signType == 'employer'" class="flex -mx-3">
-                        <div class="w-full px-3 mb-5">
-                          <label
-                            for=""
-                            class="
-                              2xl:text-base
-                              md:text-base
-                              text-sm
-                              font-medium
-                              px-1
-                            "
-                            >ID Line</label
-                          >
-                          <div class="flex">
-                            <div
-                              class="
-                                w-10
-                                z-10
-                                pl-1
-                                text-center
-                                pointer-events-none
-                                flex
-                                items-center
-                                justify-center
-                              "
-                            >
-                              <i
-                                class="
-                                  mdi mdi-account-outline
-                                  text-gray-400 text-lg
-                                "
-                              ></i>
-                            </div>
-                            <input
-                              type="text"
-                              v-model.trim="registEmp.employer.lineId"
-                              class="
-                                w-full
-                                -ml-10
-                                pl-5
-                                pr-3
-                                py-2
-                                rounded-lg
-                                border-2 border-gray-200
-                                outline-none
-                                focus:border-indigo-500
-                              "
-                              placeholder="ไอดีไลน์"
-                            />
-                          </div>
-                        </div>
-                      </div> -->
                     </div>
-                    <!-- page 2 -->
+                    <!-- page 3 emp -->
 
                     <!-- page 3 worker-->
                     <div v-if="signType == 'worker' && step == 3">
@@ -1570,8 +1577,8 @@
                   </div>
                   <!-- page 3 worker -->
 
-                  <!-- page 3 emp -->
-                  <div v-if="signType == 'employer' && step == 3">
+                  <!-- page 4 emp -->
+                  <div v-if="signType == 'employer' && step == 4">
                     <div class="2xl:flex 2xl:-mx-3">
                         <div class="2xl:w-1/2 w-full 2xl:px-3 mb-5">
                           <label
@@ -1796,10 +1803,10 @@
                       </div>
 
                   </div>
-                  <!-- page 3 emp -->
+                  <!-- page 4 emp -->
 
-                  <!-- page 4 -->
-                    <div v-if="signType == 'employer' && step == 4">
+                  <!-- page 5 emp -->
+                    <div v-if="signType == 'employer' && step == 5">
                       <div class="flex -mx-3">
                         <div class="w-full px-3 mb-5">
                           <label
@@ -1937,7 +1944,7 @@
                       </div>
                     </label>
 </div>
-<!-- page 4 -->
+<!-- page 5 -->
 
                   <div v-if="signType == 'worker'" class="flex flex-col mt-8 space-y-3">
                     <button
@@ -1983,10 +1990,10 @@
                         rounded
                       "
                     >
-                      {{(signType == 'employer' && (step == 1 || step == 2 || step == 3)) ? 'ต่อไป' : 'ลงทะเบียน'}}
+                      {{(signType == 'employer' && (step == 1 || step == 2 || step == 3 || step == 4)) ? 'ต่อไป' : 'ลงทะเบียน'}}
                     </button>
                     <button
-                      v-if="signType == 'employer' && (step == 2 || step == 3 || step == 4)"
+                      v-if="signType == 'employer' && (step == 2 || step == 3 || step == 4 || step == 5)"
                       @click.prevent="backStep()"
                       class="
                         btn btn-ghost text-base
@@ -2200,24 +2207,31 @@ export default {
         !this.businessTypeInput &&
         !this.firstnameInput &&
         !this.lastnameInput &&
-        !this.addressInput &&
-        !this.subdisInput &&
-        !this.districtInput &&
-        !this.provinceInput &&
-        !this.postCodeInput &&
         !this.telInput
             ) {
               this.step++;
             }
           } else if (this.step == 3) {
             this.checkPageThreeEmp();
+            if (
+        !this.addressInput &&
+        !this.subdisInput &&
+        !this.districtInput &&
+        !this.provinceInput &&
+        !this.postCodeInput
+            ) {
+              this.step++;
+            }
+          }
+          else if (this.step == 4) {
+            this.checkPageFourEmp();
             console.log(this.firstnameInput)
             console.log(this.phoneInput)
             console.log(this.lastnameInput)
             if (!this.firstnameInput && !this.lastnameInput && !this.phoneInput) {
               this.step++;
             }
-          } else if (this.step == 4) {
+          } else if (this.step == 5) {
             this.checkLastPage();
             if(!this.UpPic && !this.tickPolicy){
               console.log("หน้าสุดท้ายแล้ว");
@@ -2227,7 +2241,7 @@ export default {
         }
       }
     },
-    checkPageThreeEmp(){
+    checkPageFourEmp(){
       this.firstnameInput = this.bindFname === "" ? true : false;
       this.lastnameInput = this.bindLname === "" ? true : false;
       this.phoneInput =
@@ -2236,14 +2250,8 @@ export default {
           ? true
           : false;
     },
-    checkPageTwoEmp() {
-      this.estnameInput =
-        this.registEmp.employer.establishmentName === "" ? true : false;
-      this.businessTypeInput =
-        this.registEmp.employer.businesstype.idBusinessType === ""
-          ? true
-          : false;
-      this.addressInput = this.registEmp.employer.address === "" ? true : false;
+    checkPageThreeEmp(){
+       this.addressInput = this.registEmp.employer.address === "" ? true : false;
       this.subdisInput =
         this.registEmp.employer.subDistrict.idSubdistrict === "" ? true : false;
       this.districtInput =
@@ -2253,6 +2261,14 @@ export default {
       this.postCodeInput =
         this.registEmp.employer.subDistrict.postcode === "" ||
         this.registEmp.employer.subDistrict.postcode.length != 5
+          ? true
+          : false;
+    },
+    checkPageTwoEmp() {
+      this.estnameInput =
+        this.registEmp.employer.establishmentName === "" ? true : false;
+      this.businessTypeInput =
+        this.registEmp.employer.businesstype.idBusinessType === ""
           ? true
           : false;
           this.telInput =
@@ -2687,7 +2703,7 @@ export default {
       }
     }
     if(this.signType == 'employer'){
-      this.allStep = 4;
+      this.allStep = 5;
     } else {
       if(this.signType == 'worker'){
         this.allStep = 3;
