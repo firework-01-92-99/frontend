@@ -443,6 +443,7 @@ export default {
       allActivePostion: false,
       inOrAct: '',
       position: {
+        idposition: '',
         positionName: '',
         // status:{
         //   idStatus: 1
@@ -456,6 +457,7 @@ export default {
   },
   methods: {
     async callDataEditPosition(position){
+      this.position.idposition = position.idposition
       this.position.positionName = position.positionName
     },
     async editPosition(){
@@ -466,6 +468,8 @@ export default {
           },
           }      
       await axios.put(`${process.env.VUE_APP_ROOT_API}admin/editPosition`, position, customConfig);
+      this.popUp = false;
+      this.callDataActive()
     },
     async deletePosition(id){
       if(confirm("คุณต้องการจะลบตำแหน่งนี้ใช่หรือไม่")){
@@ -496,9 +500,10 @@ export default {
         headers: {
           "Content-Type": "application/json",
           },
-          }      
+          }        
       const result = await axios.post(`${process.env.VUE_APP_ROOT_API}admin/createPosition`, position, customConfig);
-      console.log(result.data.data);
+      this.toggleModal = false
+      console.log(result.data);
       const allActivePostion = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/allActivePosition`);
       this.allActivePostion = allActivePostion.data            
     },

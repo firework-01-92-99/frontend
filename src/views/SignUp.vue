@@ -1979,6 +1979,8 @@
                   <div v-if="signType == 'employer'" class="flex flex-col mt-8 space-y-3">
                     <button
                       @click.prevent="signUp()"
+                      :disabled = "disableButton"
+                      :class="{'btn btn-disabled':disableButton}"
                       type="submit"
                       class="
                         bg-orange-1
@@ -2403,7 +2405,7 @@ export default {
     async signUp() {
       if(this.signType == 'worker' && (this.step == 1 || this.step == 2)){
         this.nextStep()
-      }else if(this.signType == 'employer' && (this.step == 1 || this.step == 2 || this.step == 3)){
+      }else if(this.signType == 'employer' && (this.step == 1 || this.step == 2 || this.step == 3 || this.step == 4)){
         this.nextStep()
       }else{
       console.log("signupkrub");
@@ -2492,13 +2494,12 @@ export default {
       });
       formData.append("image", this.imgFile);
       await formData.append("account", blob);
-
+      this.disableButton = true;
       await axios
         .post(`${process.env.VUE_APP_ROOT_API}main/register`, formData)
         .then(function (response) {
           console.log(response);
           vm.errIden = false;
-          vm.disableButton = true;
           vm.showToast = true;
           window.scrollTo({ top: 0, behavior: "smooth" });
           // setTimeout(() => (vm.showToast = false), 3000);
@@ -2507,11 +2508,13 @@ export default {
           // vm.$router.push("/otp" + "/?email=" + vm.bindEmail);
         })
         .catch(function (error) {
+          vm.disableButton = false
           console.log(error);
           errorResponse = error.response.data.errorCode;
         });
       console.log("errorResponse = " + errorResponse);
       if (errorResponse == "ACCOUNT_EMAIL_HAVE_ALREADY") {
+        this.disableButton = false
         this.errIden = false;
         this.errorMail = true;
         this.errorMessage = "อีเมลนี้ถูกใช้แล้ว";

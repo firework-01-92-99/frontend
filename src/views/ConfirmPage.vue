@@ -96,7 +96,7 @@
             <th>
               <!-- detail -->
               <button
-                @click="toggleModal = !toggleModal"
+                @click="toggleModal = !toggleModal, data(r)"
                 class="btn btn-ghost btn-xs"
               >
                 รายละเอียด
@@ -494,82 +494,11 @@
               </div>
             </div>
             <div class="w-full mb-5">
-              <div v-if="idStatus != 24">
-              <div class="flex-col w-full">
-                <div class="flex space-x-10">
-                <div class="form-control">
-                  <label class="label cursor-pointer 2xl:space-x-2">
-                    <input
-                      type="radio"
-                      v-model.trim="statusId"
-                      name="radio-1"
-                      class="radio checked:bg-orange-1"
-                      :value="chooseAccept"
-                    />
-                    <span class="label-text 2xl:pr-0 md:pl-5 pl-5">อนุมัติ</span>
-                  </label>
-                </div>
-                <div class="form-control">
-                  <label class="label cursor-pointer 2xl:space-x-2">
-                    <input
-                      type="radio"
-                      v-model.trim="statusId"
-                      name="radio-2"
-                      class="radio checked:bg-orange-1"
-                      :value="chooseReject"
-                    />
-                    <span class="label-text 2xl:pr-0 md:pl-5 pl-5">ไม่อนุมัติ</span>
-                  </label>
-                </div>
-                <div class="form-control">
-                  <label class="label cursor-pointer 2xl:space-x-2">
-                    <input
-                      type="radio"
-                      v-model.trim="statusId"
-                      name="radio-2"
-                      class="radio checked:bg-orange-1"
-                      :value="chooseReject"
-                    />
-                    <span class="label-text 2xl:pr-0 md:pl-5 pl-5">นายจ้างไม่รับคนต่างด้าวนั้นเข้าทํางาน</span>
-                  </label>
-                </div>
-                <div class="form-control">
-                  <label class="label cursor-pointer 2xl:space-x-2">
-                    <input
-                      type="radio"
-                      v-model.trim="statusId"
-                      name="radio-2"
-                      class="radio checked:bg-orange-1"
-                      :value="chooseReject"
-                    />
-                    <span class="label-text 2xl:pr-0 md:pl-5 pl-5">คนต่างด้าวไม่ยินยอมทํางานกับนายจ้าง</span>
-                  </label>
-                </div>
-                <div class="form-control">
-                  <label class="label cursor-pointer 2xl:space-x-2">
-                    <input
-                      type="radio"
-                      v-model.trim="statusId"
-                      name="radio-2"
-                      class="radio checked:bg-orange-1"
-                      :value="chooseReject"
-                    />
-                    <span class="label-text 2xl:pr-0 md:pl-5 pl-5">คนต่างด้าวออกจากงานไม่ว่าด้วยเหตุใด</span>
-                  </label>
-                </div>
-                </div>
-                <div class="flex">
-                <p v-if="confirmInput" class="text-red-600">
-                  กรุณาเลือกรูปแบบการอนุมัติ
-                </p>
-                </div>
-              </div>
               <textarea
                 v-model="applicationHasComment.description"
                 class="textarea textarea-bordered w-full h-36"
                 placeholder="หมายเหตุที่นายจ้างปฏิเสธการรับเข้าทำงาน"
               ></textarea>
-              </div>
             </div>
 
             <div class="flex justify-between">
@@ -600,7 +529,7 @@
 </template>
 
 <script>
-// import axios from "axios";
+import axios from "axios";
 const workerType = Object.freeze({
   Migrant: "แรงงานต่างด้าว",
   Thai: "แรงงานไทย",
@@ -625,7 +554,34 @@ export default {
       toggleModal: false,
       noValue: false,
       showToast: false,
+      confirmInput: false,
+      infoWorker: {},
     }
+  },
+  methods: {
+        async data(data) {
+      this.idApprove = data.idApprove
+      console.log("data: ");
+      console.log(data);
+      console.log(data.workOrEmp);
+      this.confirmInput = false;
+      this.statusId = "";
+      if (data.idWorker != 0) {
+        this.iAm = data.workOrEmp
+        console.log(this.iAm)
+        await axios
+          .get(
+            `${process.env.VUE_APP_ROOT_API}admin_emp/selectWorker?idWorker=${data.idWorker}`
+          )
+          .then((response) => {
+            this.infoWorker = response.data;
+            console.log(this.infoWorker);
+            this.image =
+              `${process.env.VUE_APP_ROOT_API}main/image/` +
+              this.infoWorker.verifyPic;
+          });
+      }
+    },
   },
   async created() {
     if (

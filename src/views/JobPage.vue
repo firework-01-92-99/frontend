@@ -177,7 +177,7 @@
             ช่วงค่าตอบแทน (ต่ำสุด)
           </p>
           <select
-            v-model.trim="filter.enterSortSalary"
+            v-model.trim="filter.enterMinSalary"
             class="
               select select-bordered
               w-full
@@ -219,7 +219,7 @@
             ช่วงค่าตอบแทน (สูงสุด)
           </p>
           <select
-            v-model.trim="filter.enterSortSalary"
+            v-model.trim="filter.enterMaxSalary"
             class="
               select select-bordered
               w-full
@@ -382,6 +382,8 @@ export default {
         enterProvince: "",
         enterHiringType: "",
         enterSortSalary: "",
+        enterMinSalary: '',
+        enterMaxSalary: '',
       },
       noValue: false,
       page: 1,
@@ -402,16 +404,22 @@ export default {
       this.clearSearching();
       // const allPost = await this.fetch("http://localhost:3000/main/allPosting");
       const allPost = await this.fetch(
-        `${process.env.VUE_APP_ROOT_API}main/allPosting`
+        `${process.env.VUE_APP_ROOT_API}main/allPosting?size=10`
       );
+      if(allPost.content.length == 0){
+        this.noValue = true
+      }else{
+        this.noValue = false
+      }
       this.$store.commit("setPosting", allPost);
       console.log("Store 2 = " + this.$store.getters.getPosting);
     },
     async getData() {
+      console.log(this.filter.enterMinSalary)
+      console.log(this.filter.enterMaxSalary)
       await axios
         .get(
-          // `http://localhost:3000/main/searchPosting?establishmentAndpositionName=${this.filter.enterEstOrPost}&idHiringtype=${this.filter.enterHiringType}&sortSalary=${this.filter.enterSortSalary}&idProvince=${this.filter.enterProvince}&idDistrict=&idSubdistrict=`
-          `${process.env.VUE_APP_ROOT_API}main/searchPosting?establishmentAndpositionName=${this.filter.enterEstOrPost}&idHiringtype=${this.filter.enterHiringType}&sortSalary=${this.filter.enterSortSalary}&idProvince=${this.filter.enterProvince}&idDistrict=&idSubdistrict=`
+          `${process.env.VUE_APP_ROOT_API}main/searchPosting?establishmentAndpositionName=${this.filter.enterEstOrPost}&idHiringtype=${this.filter.enterHiringType}&sortSalary=&idProvince=${this.filter.enterProvince}&idDistrict=&idSubdistrict=&minSalary=${parseInt(this.filter.enterMinSalary)}&maxSalary=${parseInt(this.filter.enterMaxSalary)}` 
         )
         .then((response) => {
           console.log(response.data);

@@ -514,7 +514,7 @@ export default {
         if(this.getInactivePost.content.length == 0){
           this.noPost = true
         }
-        console.log("this.page Inactive = " +this.page)
+        console.log("this.page Inactive = " + this.page)
         this.page = 1        
         this.$store.commit("setPosting", this.getInactivePost);
       } else {
@@ -640,7 +640,7 @@ export default {
           const pageBEInact = this.page - 1;
           const sendBEInact = await this.fetch(
         `${process.env.VUE_APP_ROOT_API}main/getPostingActiveByIdEmployer?idEmployer=` +
-          this.$store.state.auth.user.employer.idEmployer + '&pageNo=' + pageBEInact);
+          this.$store.state.auth.user.employer.idEmployer + '&pageNo=' + pageBEInact + '&size=10');
           this.$store.commit("setPosting", sendBEInact);            
           }
         }else{
@@ -682,7 +682,7 @@ this.$store.commit("setPosting", this.getInactivePost);
     ) {
       this.getActivePost = await this.fetch(
         `${process.env.VUE_APP_ROOT_API}main/getPostingActiveByIdEmployer?idEmployer=` +
-          this.$store.state.auth.user.employer.idEmployer);
+          this.$store.state.auth.user.employer.idEmployer + '&size=10');
           this.$store.commit("setPosting", this.getActivePost);
         if(this.getActivePost.content.length == 0){
           this.noPost = true

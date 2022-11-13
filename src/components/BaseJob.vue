@@ -127,12 +127,12 @@
                   </i>
                 </div>
                 <!-- status -->
-                <!-- <div v-if="jobDetail.status.statusName == 'Active' && $store.state.auth.user && $store.state.auth.user.role.idRole == '2'" class="badge badge-lg 2xl:w-1/6 2xl:text-base md:text-base text-xs bg-green-200 text-green-600 border-0">
+                <div v-if="job.status.statusName == 'Active' && $store.state.auth.user && $store.state.auth.user.role.idRole == '2'" class="badge badge-lg 2xl:w-1/6 2xl:text-base md:text-base text-xs bg-green-200 text-green-600 border-0">
                   <span class="">เปิดประกาศรับสมัคร</span>
                 </div>
-                <div v-if="jobDetail.status.statusName == 'Inactive' && $store.state.auth.user && $store.state.auth.user.role.idRole == '2'" class="badge badge-lg 2xl:w-1/6 2xl:text-base md:text-base text-xs bg-gray-200 text-gray-600 border-0">
+                <div v-if="job.status.statusName == 'Inactive' && $store.state.auth.user && $store.state.auth.user.role.idRole == '2'" class="badge badge-lg 2xl:w-1/6 2xl:text-base md:text-base text-xs bg-gray-200 text-gray-600 border-0">
                   <span class="">ปิดประกาศรับสมัคร</span>
-                </div> -->
+                </div>
               </div>
               <h2 class="card-title text-sm">
                 {{
@@ -397,7 +397,7 @@ export default {
     }),
   },
   async created() {
-    const size = this.$route.name == "JobDetail" ? 4 : 3;
+    const size = this.$route.name == "JobDetail" ? 4 : 10;
     const allPost = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/allPosting` + "?size=" + size
     );
@@ -408,9 +408,7 @@ export default {
       allPost.content.pop();
     }
       if (this.idEmp) {
-        console.log("เข้านะ")
         if(this.$store.state.auth.user){
-          console.log("เข้าอันนี้")
         const image1 = await axios.get(
           `${process.env.VUE_APP_ROOT_API}main/getImageByIdEmployer` +
             "?idEmployer=" +
@@ -422,17 +420,16 @@ export default {
           `${process.env.VUE_APP_ROOT_API}main/image/` + imageName;
         this.getActivePost = await this.fetch(
           `${process.env.VUE_APP_ROOT_API}main/getPostingActiveByIdEmployer?idEmployer=` +
-            this.$store.state.auth.user.employer.idEmployer
+            this.$store.state.auth.user.employer.idEmployer + '&size=10'
         );
         console.log(this.image)
         this.$store.commit("setPosting", this.getActivePost);
         this.getInactivePost = await this.fetch(
           `${process.env.VUE_APP_ROOT_API}main/getPostingInActiveByIdEmployer?idEmployer=` +
-            this.$store.state.auth.user.employer.idEmployer
+            this.$store.state.auth.user.employer.idEmployer + '&size=10'
         );
         this.scoreEmp = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getEmpTotalScore?idEmployer=` + this.$store.state.auth.user.employer.idEmployer);
-        }
-      }else{
+        }else{
       if(!this.$store.state.auth.user || (this.$store.state.auth.user &&
       this.$store.state.auth.user.role.idRole == "3")){
       const allPicture1 = await axios.get(
@@ -451,7 +448,26 @@ export default {
       this.$store.commit("setPosting", allPost);
       this.noValue = allPost.content.length == 0
       }
-      
+        }
+      }else{
+         if(!this.$store.state.auth.user || (this.$store.state.auth.user &&
+      this.$store.state.auth.user.role.idRole == "3")){
+      const allPicture1 = await axios.get(
+        `${process.env.VUE_APP_ROOT_API}main/getImageEveryEmployer`
+      );
+      this.allPicture = allPicture1.data;
+      console.log(this.allPicture[0].imageName);
+
+      for (let i = 0; i < this.allJobs.content.length; i++) {
+        this.allJobs.content[i].image ==
+          this.allPicture.find(
+            (a) => a.idEmployer == this.allJobs.content[i].idEmployer
+          ).imageName;
+      }
+      this.scoreAllEmp = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allEmployer`);
+      this.$store.commit("setPosting", allPost);
+      this.noValue = allPost.content.length == 0
+      }     
       }
     this.allEmployer = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/allEmployer`

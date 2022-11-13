@@ -19,7 +19,6 @@
       <!-- job card -->
       <div class="flex flex-wrap justify-center p-6 -mt-12">
         <div v-for="p in posting.content" :key="p.idPosting">
-          <!-- {{ p }} -->
           <!-- {{employer}} -->
           <div>
             <div
@@ -90,7 +89,7 @@
                         checked
                         disabled
                       />
-                      <!-- <span class="font-normal pl-1">{{!$store.state.auth.user || $store.state.auth.user.role.idRole == '3' ? scoreAllEmp.find((a) => a.idEmployer == job.idEmployer).rate : isNaN(scoreEmp) ? 'ยังไม่มีคะแนน' : scoreEmp}}</span> -->
+                      <span class="font-normal pl-1">{{isNaN(scoreEmp) ? 'ยังไม่มีคะแนน' : scoreEmp}}</span>
                       <span
                         class="
                           font-normal
@@ -165,8 +164,9 @@
                     "
                     class="card-actions"
                   >
+                  <!-- {{employer}} -->
                     <button
-                      @click="linkTo(employer.idPosting, employer.idEmployer)"
+                      @click="linkTo(p.idPosting, employer.idEmployer)"
                       class="
                         btn
                         border-orange-1
@@ -206,6 +206,8 @@ export default {
       posting: [],
       noValue: false,
       employer: {},
+      scoreAllEmp: [],
+      scoreEmp: '',
     };
   },
   methods: {
@@ -215,7 +217,7 @@ export default {
         this.$store.state.auth.user.role.idRole == "3"
       ) {
         this.$router.push(
-          "/detail?idPosting=" + idPost + "&idEmployer=" + idEmp
+          "/detail?idPosting=" + idPost + "&idEmployer=" + idEmp + '&fromAllEmp=yes'
         );
       }
       // else {
@@ -228,8 +230,12 @@ export default {
     },
   },
   async created() {
+    const scoreAllEmp = await axios.get(`${process.env.VUE_APP_ROOT_API}main/allEmployer`);
+    this.scoreAllEmp = scoreAllEmp.data
     this.idEmp = this.$route.query.idEmp;
-
+    const scoreEmp = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getEmpTotalScore?idEmployer=` + this.idEmp);
+    this.scoreEmp = scoreEmp.data
+    console.log(this.scoreEmp)
     const posting = await axios.get(
       `${process.env.VUE_APP_ROOT_API}main/getPostingActiveByIdEmployer?idEmployer=` +
         this.idEmp

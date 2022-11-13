@@ -79,7 +79,7 @@
               <label
                 for=""
                 class="2xl:text-base md:text-base text-sm font-medium px-1"
-                >กรอกชื่อตำแหน่ง</label
+                >กรุณาเลือกตำแหน่ง</label
               >
               <div class="flex">
                 <div
@@ -96,7 +96,7 @@
                 >
                   <i class="mdi mdi-account-outline text-gray-400 text-lg"></i>
                 </div>
-                <input
+                <!-- <input
                   type="text"
                   v-model.trim="postInfo.position.positionName"
                   class="
@@ -113,8 +113,8 @@
                   :class="[{ 'bg-red-50': positionInput }]"
                   placeholder="ชื่อตำแหน่ง"
                   required
-                />
-                <!-- <select
+                /> -->
+                <select
                   type="text"
                   v-model.trim="postInfo.position.idposition"
                   class="
@@ -138,11 +138,11 @@
                     class="text-black"
                     v-for="pa in positionArray"
                     :key="pa.idposition"
-                    :value="pa"
+                    :value="pa.idposition"
                   >
                     {{ pa.positionName }}
                   </option>
-                </select> -->
+                </select>
               </div>
               <p v-if="positionInput" class="text-sm text-red-600">
                 กรุณากรอกชื่อตำแหน่ง
@@ -1046,7 +1046,6 @@ export default {
       hiringTypeArray: [],
       sevenDay: [],
       // postingHasDayListArray: [],
-      positionArray1: [],
       positionArray: [],
 
       positionInput: false,
@@ -1101,20 +1100,21 @@ export default {
       image: null,
       maxWrong: false,
       minSalaryAlert: false,
+      minMoreThanMax: false,
     };
   },
   methods: {
-    async addPosition(){
-      if(!this.positionArray.map((p) => p.positionName).includes(this.postInfo.position.positionName)){
-      await axios
-          .post(
-            `${process.env.VUE_APP_ROOT_API}emp/createPosition?namePosition=${this.postInfo.position.positionName}&idEmployer=${this.$store.state.auth.user.employer.idEmployer}`
-          )
-      }
-      this.postInfo.position.positionName = ''
-      this.positionArray1 = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/getMyPosition?idEmployer=` + this.$store.state.auth.user.employer.idEmployer);
-      this.positionArray = this.positionArray1.data      
-    },
+    // async addPosition(){
+    //   if(!this.positionArray.map((p) => p.positionName).includes(this.postInfo.position.positionName)){
+    //   await axios
+    //       .post(
+    //         `${process.env.VUE_APP_ROOT_API}emp/createPosition?namePosition=${this.postInfo.position.positionName}&idEmployer=${this.$store.state.auth.user.employer.idEmployer}`
+    //       )
+    //   }
+    //   this.postInfo.position.positionName = ''
+    //   this.positionArray1 = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/getMyPosition?idEmployer=` + this.$store.state.auth.user.employer.idEmployer);
+    //   this.positionArray = this.positionArray1.data      
+    // },
     async createPost() {
       this.checkValidate();
       let res;
@@ -1123,10 +1123,17 @@ export default {
         !this.maxAgeInput && !this.maxSalaryInput && !this.minSalaryInput && !this.otPayInput &&
         !this.startTimeInput && !this.endTimeInput && !this.welfareInput && !this.hiringTypeInput &&
         !this.statusInput && !this.workerTypeInput && !this.postingHasDayListInput) {
+        toString(this.postInfo.position.idposition)  
+        const posting = JSON.stringify(this.postInfo)
+        const customConfig = {
+        headers: {
+          "Content-Type": "application/json",
+          },
+          }          
         await axios
           .post(
             `${process.env.VUE_APP_ROOT_API}emp/createPosting?idEmployer=${this.$store.state.auth.user.employer.idEmployer}`,
-            this.postInfo
+            posting, customConfig
           )
           .then(function (response) {
             console.log(response);
@@ -1150,7 +1157,7 @@ export default {
 
     checkValidate() {
       this.positionInput =
-        this.postInfo.position.positionName === "" ? true : false;
+        this.postInfo.position.idposition === "" ? true : false;
       this.sexInput = this.postInfo.sex === "" ? true : false;
       this.descriptInput = this.postInfo.workDescription === "" ? true : false;
       this.minAgeInput =
@@ -1258,8 +1265,8 @@ export default {
       );
       this.post = this.post1.data;
       console.log(this.post)
-      this.positionArray1 = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/getMyPosition?idEmployer=` + this.$store.state.auth.user.employer.idEmployer);
-      this.positionArray = this.positionArray1.data
+      const positionArray = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/allPosition`);
+      this.positionArray = positionArray.data
           const image1 = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getImageByIdEmployer` + "?idEmployer=" + this.$store.state.auth.user.employer.idEmployer);
     const imageName = image1.data
           this.image =
