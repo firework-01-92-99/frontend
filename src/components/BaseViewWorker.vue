@@ -1,11 +1,9 @@
 <template>
   <div class="bg-gray-2 font-sans-thai">
       <!-- <div v-if="!acceptPage" class="overflow-x-auto w-10/12 mx-auto font-sans-thai"> -->
-      
-
 <div class="2xl:flex 2xl:flex-row md:flex md:flex-row flex flex-col w-full">
       <div class="flex w-full justify-start">
-        <div class="w-full">
+        <div v-if="$route.query.history !== 'yes'" class="w-full">
         <p
         class="
           2xl:text-2xl
@@ -28,7 +26,7 @@
         <span class="text-orange-1">{{ " ตำแหน่ง: " + namePost }}</span>
       </p>
       </div>
-        <div class="w-full 2xl:pt-4 xl:pt-3 lg:pt-3 md:pt-5 pt-8 2xl:ml-0 xl:ml-0 lg:ml-0 md:ml-20 ml-24 2xl:-mt-0 md:-mt-0 -mt-3">
+        <div v-if="$route.query.history == 'yes'" class="w-full 2xl:pt-4 xl:pt-3 lg:pt-3 md:pt-5 pt-8 2xl:ml-0 xl:ml-0 lg:ml-0 md:ml-20 ml-24 2xl:-mt-0 md:-mt-0 -mt-3">
           <select
             class="
               select select-bordered
@@ -48,7 +46,7 @@
       </div>
       <div class="2xl:mx-20 xl:mx-20 2xl:flex md:flex flex 2xl:p-0 md:p-10 p-5 2xl:mt-0 md:mt-0 mt-11 w-full 2xl:justify-end md:justify-end justify-center">
         <button
-          @click="$router.push('/allEmployer')"
+          @click="$router.push('/viewworkapp?history=yes&idPost=' + idPost),$emit('statusToPage', 13)"
           class="
             cursor-pointer
             underline
@@ -85,8 +83,9 @@
           </tr>
         </thead>
         <tbody
-          v-for="a in whoApplication.data.whoApplicationList.filter((s) => (s.idStatus == this.idStatus) || (s.statusName == 'Waiting_Rating' || s.statusName == 'workerRated' ))"
+          v-for="a in whoApplication.data.whoApplicationList.filter((s) => (s.idStatus == idStatus) || (s.statusName == 'Waiting_Rating' || s.statusName == 'workerRated' ))"
           :key='a.applicationId'>
+          {{a}}
           <!-- row 1 -->
           <!-- <div v-if="listApprove.lenght == null">
             ไม่มีรายการที่ต้องทำ
@@ -541,7 +540,7 @@
             <div class="w-full mb-5">
               <!-- {{statusId}} -->
               <div v-if="idStatus != 24">
-              <div class="flex-col w-full">
+              <div v-if="this.$route.query.history != 'yes'" class="flex-col w-full">
                 <div class="flex space-x-10">
                 <div class="form-control">
                   <label class="label cursor-pointer 2xl:space-x-2">
@@ -576,12 +575,19 @@
                 </p>
                 </div>
               </div>
-              <textarea
+              <textarea v-if="this.$route.query.history != 'yes'"
                 @change="allRejectCase()"
                 v-model="description"
                 class="textarea textarea-bordered w-full h-36"
                 placeholder="หมายเหตุที่ไม่อนุมัติ"
               ></textarea>
+              <textarea v-if="this.$route.query.history == 'yes'"
+                @change="allRejectCase()"
+                v-model="showCommentWhenReject"
+                class="textarea textarea-bordered w-full h-36"
+                placeholder="หมายเหตุที่ไม่อนุมัติ"
+                disabled
+              ></textarea>              
               </div>
 
           <!-- rating -->
@@ -685,9 +691,10 @@ const sexFreeze = Object.freeze({
   M: "ชาย",
 });
 export default {
-  props: ["idPost", "idStatus"],
+  props: ["idPost", "idStatus", "refreshData"],
   data() {
     return {
+      showCommentWhenReject: '',
       // timestamp: "",
       sexFreeze,
       workerType,
@@ -726,6 +733,7 @@ export default {
       namePost: '',
       accept: "",
       reject: "",
+      statusToPage: 0,
     };
   },
   methods: {
@@ -812,6 +820,7 @@ export default {
     async openPopUp(object) {
       // setInterval(this.getNow, 1000)
       console.log(object);
+      this.showCommentWhenReject = object.comment
       this.idApplication = object.applicationId;
       await axios
         .get(
@@ -1011,6 +1020,7 @@ export default {
   },
   watch: {
     idStatus: async function check() {
+      if(this.$route.query.history != 'yes'){
       if (this.idStatus == 11) {
         console.log("idStatus =" + this.idStatus);
         this.topic = "รายการผู้สมัคร";
@@ -1042,8 +1052,25 @@ export default {
           this.callData()         
           this.statusId = this.idStatus;
           console.log(this.statusId)
+      }
+      }else{
+        if(this.$route.query.history == 'yes'){
+        if(this.idStatus == 13){
+        console.log("idStatus =" + this.idStatus)
+        this.callData()
+      }else if(this.idStatus == 16){
+        console.log("idStatus =" + this.idStatus)
+        this.callData()
+      }else if(this.idStatus == 23){
+        console.log("idStatus =" + this.idStatus)
+        this.callData()
       } 
+        }
+      }
     },
+    refreshData: async function checkRefresh(){
+          this.callData()
+    }
   },
 };
 </script>

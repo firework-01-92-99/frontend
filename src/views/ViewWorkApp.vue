@@ -2,38 +2,39 @@
   <div class="bg-gray-2 font-sans-thai">
     <div>
       <button
-        @click="$router.push('/posting')"
+        @click="goTo()"
         class="btn btn-ghost font-sans-thai flex justify-start ml-2.5"
       >
-        <i class="material-icons"> arrow_back_ios </i>ประกาศรับสมัครงาน
+        <i class="material-icons"> arrow_back_ios </i>{{$route.query.history == 'yes' ? 'ดูผู้สมัคร' : 'ประกาศรับสมัครงาน'}}
       </button>
     </div>
+    <h1 v-if="$route.query.history == 'yes'">ประวัติ</h1>
     <div class="2xl:p-6 2xl:pl-32 xl:p-6 lg:p-6 md:p-6 md:pl-14 p-3 pt-5 pl-8">
       <base-tab
         ><template
           ><a
-            :class="{ 'tab-active font-medium': idStatus == 11 }"
+            :class="{ 'tab-active font-medium': idStatus == 11 || idStatus == 13}"
             class="tab tab-bordered 2xl:text-base md:text-base text-xs"
-            @click="idStatus = 11"
+            @click="tab = 1, tabTo()"
           >
             ผู้ที่รอรับสมัคร
           </a>
           <a
             class="tab tab-bordered 2xl:text-base md:text-base text-xs"
-            :class="{ 'tab-active font-medium': idStatus == 14 }"
-            @click="idStatus = 14"
+            :class="{ 'tab-active font-medium': idStatus == 14 || idStatus == 16}"
+            @click="tab = 2, tabTo()"
             >ยืนยันการรับเข้าทำงาน</a
           >
           <a
             class="tab tab-bordered 2xl:text-base md:text-base text-xs"
-            :class="{ 'tab-active font-medium': idStatus == 21 }"
-            @click="idStatus = 21"
+            :class="{ 'tab-active font-medium': idStatus == 21 ||  idStatus == 23}"
+            @click="tab = 3, tabTo()"
             >คนงานที่กำลังทำงาน</a
           >
-          <a
+          <a v-if="$route.query.history != 'yes'"
             class="tab tab-bordered 2xl:text-base md:text-base text-xs"
             :class="{ 'tab-active font-medium': idStatus == 24 }"
-            @click="idStatus = 24"
+            @click="tab = 4, tabTo()"
             >ให้คะแนนคนงาน</a
           >
           </template
@@ -44,6 +45,8 @@
     <base-view-worker
       :idPost="$route.query.idPost"
       :idStatus="idStatus"
+      @statusToPage="receiveStatus"
+      :refreshData="refreshData"
     ></base-view-worker>
   </div>
 </template>
@@ -60,9 +63,52 @@ export default {
       // whoApplication: [],
       idPosting: "",
       idStatus: "11",
+      tab: 1,
     };
   },
   methods: {
+    receiveStatus(events){
+      console.log("เธอใช่ไหม" + events)
+      this.idStatus = events
+    },
+    tabTo(){
+      console.log(this.idStatus)
+      if(this.$route.query.history != 'yes'){
+        console.log("history != yes")
+      if(this.tab == 1){
+        this.idStatus = 11
+      }else if(this.tab == 2){
+        this.idStatus = 14
+      }else if(this.tab == 3){
+        this.idStatus = 21
+      }else if(this.tab == 4){
+        this.idStatus = 24
+      }
+      }else{
+        if(this.$route.query.history == 'yes'){
+          console.log("history == yes")
+          console.log(this.idStatus)
+      if(this.tab == 1){
+        this.idStatus = 13
+      }else if(this.tab == 2){
+        this.idStatus = 16
+      }else if(this.tab == 3){
+        this.idStatus = 23
+      }
+        }
+      }
+    },
+    goTo(){
+      if(this.$route.query.history == 'yes'){
+        this.refreshData = 'yes'
+        this.$router.push('/viewworkapp?idPost=' + this.$route.query.idPost)
+        this.idStatus = 11
+        // location.reload();
+        // this.$router.go(this.$router.currentRoute)
+      }else{
+        this.$router.push('/posting')
+      }
+    },
     async fetch(url) {
       try {
         const res = await fetch(url);
@@ -83,6 +129,9 @@ export default {
           this.$route.query.idPost
       );
       this.idPosting = this.$route.query.idPost;
+      if(this.$route.query.history == 'yes'){
+        this.idStatus = 13
+      }
       //  console.log(this.idPost + "ถ้าส่ง query(param) url มาได้ก็เรียก whoApp บ้างได้แล้ว")
       // this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` + this.$route.query.idPost + "&idStatus=" + this.idStatus);
       // console.log(this.whoApplication)

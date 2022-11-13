@@ -285,7 +285,7 @@
           </li>
           <li>
           <button
-          @click="toggleModal = !toggleModal"
+          @click="toggleModal = !toggleModal, duplicatePosition = false, position.positionName = ''"
           >
             ขอเพิ่มตำแหน่ง
           </button>
@@ -404,6 +404,9 @@
                               placeholder="ชื่อตำแหน่ง"
                             />
                           </div>
+                          <p v-if="duplicatePosition" class="text-red-600">
+                            มีตำแหน่งนี้อยู่แล้วหรือตำแหน่งนี้กำลังรอแอดมินตอบรับ
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -477,18 +480,28 @@ export default {
         // status:{
         //   idStatus: 1
         // }
-      },      
+      },
+      duplicatePosition: false,      
     };
   },
   methods: {
     async requestPosition(){
+      const vm = this
       const position = JSON.stringify(this.position)
         const customConfig = {
         headers: {
           "Content-Type": "application/json",
           },
           }      
-      await axios.post(`${process.env.VUE_APP_ROOT_API}emp/empRequestPosition`, position, customConfig);
+      await axios.post(`${process.env.VUE_APP_ROOT_API}emp/empRequestPosition`, position, customConfig).then(function (response) {
+    console.log(response);
+    vm.toggleModal = false
+    }).catch(function (error) {
+      if(error.response.data.errorMessage == 'This position name have already.'){
+        vm.duplicatePosition = true
+      }
+    console.log(error.response.data.errorMessage);
+  });
     },
     async fetch(url) {
       try {

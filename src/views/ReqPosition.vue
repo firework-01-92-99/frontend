@@ -77,35 +77,33 @@
           <tr v-if="!noValue">
             <th></th>
             <th>ตำแหน่ง</th>
-            <th>บริษัท</th>
+            <!-- <th>บริษัท</th> -->
             <th></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody v-for="(w, index) in waitingPosition" :key="w.idposition">
           <!-- <tbody v-for="a in listApprove.data" :key="a.idApprove"> -->
           <!-- row 1 -->
           <!-- <div v-if="listApprove.lenght == null">
             ไม่มีรายการที่ต้องทำ
           </div> -->
           <tr>
-            <th>1</th>
+            <th>{{ index + 1 }}</th>
             <td>
               <div class="flex items-center space-x-3">
-                <div class="">ชื่อตำแหน่ง</div>
+                <div class="">{{ w.positionName }}</div>
                 <!-- <div class="text-sm opacity-50">United States</div> -->
               </div>
             </td>
-            <td>
+            <!-- <td>
               ชื่อบริษัท
-              <!-- <br>
-          <span class="badge badge-ghost badge-sm">Desktop Support Technician</span> -->
-            </td>
+            </td> -->
             <th>
               <!-- detail -->
-              <button class="btn btn-ghost btn-xs">
+              <button @click="applyPosition(w)" class="btn btn-ghost btn-xs">
                 <i class="material-icons text-green-600"> done </i>
               </button>
-              <button class="btn btn-ghost btn-xs">
+              <button @click="rejectPosition(w)" class="btn btn-ghost btn-xs">
                 <i class="material-icons text-red-600"> close </i>
               </button>
             </th>
@@ -286,9 +284,54 @@ export default {
   data() {
     return {
       myAcc: [],
+      waitingPosition: [],
+      noValue: false,
+      routes: '',
     };
   },
-  methods: {},
+  methods: {
+    async applyPosition(position) {
+      let vm = this;
+      let waitingPosition
+      if (confirm("ต้องการจะอนุมัติคำขอนี้หรือไม่")) {
+        await axios
+          .put(
+            `${process.env.VUE_APP_ROOT_API}admin/adminActivePosition?idPosition=` +
+              position.idposition
+          )
+          .then(async function (response) {
+            console.log(response);
+            if (response.status == 200) {
+              waitingPosition = await axios.get(
+                `${process.env.VUE_APP_ROOT_API}admin_emp/allWaitingPosition`
+              );
+              vm.waitingPosition = waitingPosition.data;
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+    },
+    async rejectPosition(position) {
+      let vm = this;
+      let waitingPosition      
+      if (confirm("ต้องการจะปฏิเสธคำขอนี้หรือไม่")) {
+        axios.delete(
+          `${process.env.VUE_APP_ROOT_API}admin/rejectEmpRequest?idPosition=` +
+            position.idposition
+        ).then(async function (response) {
+            console.log(response);
+            if (response.status == 200) {
+              waitingPosition = await axios.get(
+                `${process.env.VUE_APP_ROOT_API}admin_emp/allWaitingPosition`
+              );
+              vm.waitingPosition = waitingPosition.data;
+            }
+          })
+      }
+    },
+  },
   async created() {
     if (
       this.$store.state.auth.user &&
@@ -297,6 +340,12 @@ export default {
       this.myAcc = await axios.get(
         `${process.env.VUE_APP_ROOT_API}admin/meAdmin`
       );
+      const waitingPosition = await axios.get(
+        `${process.env.VUE_APP_ROOT_API}admin_emp/allWaitingPosition`
+      );
+      this.waitingPosition = waitingPosition.data;
+      console.log(this.waitingPosition);
+      this.noValue = this.waitingPosition.length == 0;
     }
   },
 };

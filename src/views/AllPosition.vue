@@ -480,13 +480,21 @@ export default {
     async activeAndInactivePosition(id){
       if(this.inOrAct == 'Active'){
       if(confirm("ต้องการจะปิดใช้งานตำแหน่งใช่หรือไม่")){
-        await axios.delete(`${process.env.VUE_APP_ROOT_API}admin/adminInactivePosition?idPosition=` + id );
+        await axios.put(`${process.env.VUE_APP_ROOT_API}admin/adminInactivePosition?idPosition=` + id );
       }
       }else{
        if(this.inOrAct == 'Inactive'){
-      if(confirm("ต้องการจะเปิดใช้งานตำแหน่งใช่หรือไม่")){
+      // if(confirm("ต้องการจะเปิดใช้งานตำแหน่งใช่หรือไม่")){
         await axios.put(`${process.env.VUE_APP_ROOT_API}admin/adminActivePosition?idPosition=` + id );
-      }
+      // }
+        if(this.inOrAct == 'Inactive'){
+          this.inOrAct = 'Inactive'
+          this.filterPostition()
+          console.log(this.allActivePostion)
+      // const allInActivePostion = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/allInactivePosition`);
+      // this.allActivePostion = allInActivePostion.data          
+        }
+        window.location.reload()      
        } 
       }
       this.callDataActive()
@@ -527,6 +535,7 @@ export default {
     },
   },
   async created() {
+    console.log("1")
     if (
       this.$store.state.auth.user &&
       this.$store.state.auth.user.role.idRole == "1"
@@ -537,6 +546,11 @@ export default {
       const allActivePostion = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/allActivePosition`);
       this.allActivePostion = allActivePostion.data
       this.noValue = this.allActivePostion.length == 0
+      if(this.inOrAct == 'Inactive'){
+      const allInActivePostion = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/allInactivePosition`);
+      this.allActivePostion = allInActivePostion.data
+      this.noValue = this.allActivePostion.length == 0
+      }      
       this.inOrAct = 'Active'
       console.log(this.allActivePostion)
     }
