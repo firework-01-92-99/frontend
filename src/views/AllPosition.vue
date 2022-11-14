@@ -1,5 +1,29 @@
 <template>
   <div v-if="$store.state.auth.user" class="bg-gray-2 h-full font-sans-thai">
+        <div v-if="showToast" class="flex justify-center">
+          <div
+            class="absolute z-10 2xl:w-2/5 w-full alert alert-success shadow-lg"
+          >
+            <div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="stroke-current flex-shrink-0 h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <p class="font-sans-thai">
+                ตำแหน่งนี้มีผู้ใช้งานอยู่แล้ว
+              </p>
+            </div>
+          </div>
+        </div>    
     <div
       class="hero 2xl:h-64 xl:h-64 lg:h-64 md:h-64 h-32"
       style="
@@ -453,6 +477,7 @@ export default {
       // positionName: '',
       wantToEdit: false,
       popUp: false,
+      showToast: false,
     };
   },
   methods: {
@@ -472,8 +497,20 @@ export default {
       this.callDataActive()
     },
     async deletePosition(id){
+      const vm = this
       if(confirm("คุณต้องการจะลบตำแหน่งนี้ใช่หรือไม่")){
-        await axios.delete(`${process.env.VUE_APP_ROOT_API}admin/deletePosition?idPosition=` + id );
+        await axios.delete(`${process.env.VUE_APP_ROOT_API}admin/adminDeletePosition?idPosition=` + id ).then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+    if(error.response.data.errorMessage == "This position used,You can't Delete."){
+      console.log("เข้าไหม")
+      vm.showToast = true
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(() => (vm.showToast = false), 4000);
+    }
+  });
       }
       this.callDataActive()
     },

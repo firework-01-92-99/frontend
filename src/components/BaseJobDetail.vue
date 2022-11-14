@@ -178,7 +178,7 @@
           <span class="inline-block align-middle"> {{ employer.email }}</span>
         </p>
         <div v-if="$store.state.auth.user && this.$store.state.auth.user.role.idRole == '2'" class="2xl:flex 2xl:justify-end md:flex md:justify-between 2xl:space-x-5 md:space-y-0 space-y-5">
-          <button @click="$router.push('/editPost?idPost=' + idPosting)" class="px-10 2xl:w-1/4 md:w-2/5 w-full btn border-orange-1 bg-orange-1 hover:bg-orange-2 hover:border-orange-2">แก้ไขประกาศรับสมัคร</button>
+          <!-- <button @click="$router.push('/editPost?idPost=' + idPosting)" class="px-10 2xl:w-1/4 md:w-2/5 w-full btn border-orange-1 bg-orange-1 hover:bg-orange-2 hover:border-orange-2">แก้ไขประกาศรับสมัคร</button> -->
           <button v-if="jobDetail.status.statusName == 'Active'" @click="closePost('Off')" class="px-10 2xl:w-1/4 md:w-2/5 w-full btn btn-ghost border-red-600 text-red-600 hover:bg-red-700 hover:border-red-700 hover:text-white">ปิดประกาศรับสมัคร</button>
           <button v-if="jobDetail.status.statusName == 'Inactive'" @click="closePost('On')" class="px-10 2xl:w-1/4 md:w-2/5 w-full btn btn-ghost border-green-600 text-green-600 hover:bg-green-600 hover:border-green-600 hover:text-white">เปิดประกาศรับสมัคร</button>
         </div>

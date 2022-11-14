@@ -44,7 +44,7 @@
           </select>
         </div>
       </div>
-      <div class="2xl:mx-20 xl:mx-20 2xl:flex md:flex flex 2xl:p-0 md:p-10 p-5 2xl:mt-0 md:mt-0 mt-11 w-full 2xl:justify-end md:justify-end justify-center">
+      <div v-if="$route.query.history != 'yes'" class="2xl:mx-20 xl:mx-20 2xl:flex md:flex flex 2xl:p-0 md:p-10 p-5 2xl:mt-0 md:mt-0 mt-11 w-full 2xl:justify-end md:justify-end justify-center">
         <button
           @click="$router.push('/viewworkapp?history=yes&idPost=' + idPost),$emit('statusToPage', 13)"
           class="
@@ -646,6 +646,7 @@
 
             <div class="flex justify-between">
               <button
+              v-if="$route.query.history != 'yes'"
                 @click="acceptOrReject()"
                 class="btn w-2/5 bg-orange-1 hover:bg-orange-2 border-orange-1 hover:border-orange-1"
               >
