@@ -238,7 +238,7 @@ export default {
     console.log(this.scoreEmp)
     const posting = await axios.get(
       `${process.env.VUE_APP_ROOT_API}main/getPostingActiveByIdEmployer?idEmployer=` +
-        this.idEmp
+        this.idEmp + '&size=100'
     );
     this.posting = posting.data;
 
