@@ -23,6 +23,7 @@ import AllJobInEmp from '../views/AllJobInEmp.vue'
 import EditProfileWorker from '../views/EditProfileWorker.vue'
 import ReqPosition from '../views/ReqPosition.vue'
 import AllPosition from '../views/AllPosition.vue'
+import SendWorker from '../views/SendWorker.vue'
 // import store from '@/store'
 
 Vue.use(VueRouter)
@@ -162,6 +163,11 @@ const routes = [
     path: '/allPosition',
     name: 'AllPosition',
     component: AllPosition,
+  },
+  {
+    path: '/sendWorker',
+    name: 'SendWorker',
+    component: SendWorker,
   },
   {
     path: '/:pathMatch(.*)*',

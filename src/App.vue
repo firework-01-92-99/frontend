@@ -117,6 +117,11 @@
                   <router-link to="/approve">อนุมัติ</router-link>
                 </li>
                 <li class="hover:text-orange-1">
+                  <router-link to="/sendWorker"
+                    >รายการการส่งคนงาน</router-link
+                  >
+                </li>
+                <li class="hover:text-orange-1">
                   <router-link to="/confirm"
                     >ยืนยันการรับแรงงานของนายจ้าง</router-link
                   >
