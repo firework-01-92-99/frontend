@@ -26,6 +26,7 @@
       v-for="job in allJobs.content.filter((j) => j.idPosting != this.idPost)"
       :key="job.idPosting"
     >
+    <!-- {{job}} -->
       <div>
         <div
           class="
@@ -402,18 +403,19 @@ export default {
     }),
   },
   async created() {
-    const size = this.$route.name == "JobDetail" ? 4 : 10;
+    // const size = this.$route.name == "JobDetail" ? 4 : 10;
+    const size = 10;
     const allPost = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/allPosting` + "?size=" + size
-    );
-    if (
-      this.$route.name == "JobDetail" &&
-      allPost.content.filter((j) => j.idPosting != this.idPost).length == 4
-    ) {
-      allPost.content.pop();
-    }
+    );   
+    // if (
+    //   this.$route.name == "JobDetail" &&
+    //   allPost.content.filter((j) => j.idPosting != this.idPost).length == 4
+    // ) {
+    //   allPost.content.pop();
+    // }
       if (this.idEmp) {
-        if(this.$store.state.auth.user){
+        if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == "2"){
         const image1 = await axios.get(
           `${process.env.VUE_APP_ROOT_API}main/getImageByIdEmployer` +
             "?idEmployer=" +
@@ -437,6 +439,7 @@ export default {
         }else{
       if(!this.$store.state.auth.user || (this.$store.state.auth.user &&
       this.$store.state.auth.user.role.idRole == "3")){
+        console.log("หรือเข้านี่?")
       const allPicture1 = await axios.get(
         `${process.env.VUE_APP_ROOT_API}main/getImageEveryEmployer`
       );
@@ -455,6 +458,7 @@ export default {
       }
         }
       }else{
+        console.log("เข้านี่?")
          if(!this.$store.state.auth.user || (this.$store.state.auth.user &&
       this.$store.state.auth.user.role.idRole == "3")){
       const allPicture1 = await axios.get(
@@ -487,6 +491,10 @@ export default {
       );
       this.favoriteList = this.fav1.data;
     }
+        if(this.$route.name == "JobDetail"){
+        this.getActivePost = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getPostingActiveByIdEmployer?idEmployer=` + this.idEmp + '&size=10');
+        this.$store.commit("setPosting", this.getActivePost);
+    } 
   },
 };
 </script>

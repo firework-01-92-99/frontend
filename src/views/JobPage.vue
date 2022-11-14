@@ -282,7 +282,7 @@
             ค้นหางาน
           </button>
           <button
-            @click="resetShowJob()"
+            @click.prevent="resetShowJob()"
             class="
               btn btn-ghost
               w-full
@@ -306,8 +306,7 @@
  <div class="flex w-full justify-start">
     <p class="my-auto font-medium text-sm p-10 px-9 2xl:w-1/3 w-full 2xl:-ml-0 md:-ml-0 ml-0.5">
       ทั้งหมด
-      <span class="text-orange-1 text-sm"> {{ lastPage.totalElements }} </span>
-      <!-- <span class="text-orange-1 text-sm"> {{searchPost == true ? lastPage.totalElements : searchedPost.totalElements}} </span> -->
+      <span class="text-orange-1 text-sm"> {{ searchedPost == 0 ? lastPage.totalElements : searchedPost.totalElements }} </span>
       ผลลัพธ์
     </p>
 </div>
@@ -360,7 +359,7 @@
         "
       >
         หน้า <span class="text-orange-1 px-1">{{ page }}</span> จาก
-        {{ lastPage.totalPages }}
+        {{ searchedPost == 0 ? lastPage.totalPages : searchedPost.totalPages }}
       </button>
       <button @click="paging((action = 'increase'))" class="btn btn-ghost">
         <i class="material-icons"> chevron_right </i>
@@ -395,8 +394,10 @@ export default {
       noValue: false,
       page: 1,
       action: "",
-      searchedPost: [],
-      searchPost: false
+      searchedPost: 0,
+
+      pageToFilter: 0,
+      isFilter: false,
     };
   },
   methods: {
@@ -434,6 +435,7 @@ export default {
           console.log(response.data);
           this.searchedPost = response.data
           this.$store.commit("setPosting", response.data);
+          this.page = 1
           if (this.lastPage.totalPages == 0) {
             this.noValue = true;
           } else {
@@ -443,36 +445,80 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+        if(this.isFilter == true){
+          console.log("this.pageToFilter = " + this.pageToFilter)
+          await axios
+        .get(
+          `${process.env.VUE_APP_ROOT_API}main/searchPosting?establishmentAndpositionName=${this.filter.enterEstOrPost}&idHiringtype=${this.filter.enterHiringType}&sortSalary=&idProvince=${this.filter.enterProvince}&idDistrict=&idSubdistrict=&minSalary=${parseInt(this.filter.enterMinSalary)}&maxSalary=${parseInt(this.filter.enterMaxSalary)}&size=10&pageNo=${this.pageToFilter}` 
+        ) .then((response) => {
+          console.log(response.data);
+          this.searchedPost = response.data
+          this.$store.commit("setPosting", response.data);
+          this.page = 1
+          if (this.lastPage.totalPages == 0) {
+            this.noValue = true;
+          } else {
+            this.noValue = false;
+          }
+        })          
+        }
     },
     async paging(action) {
+      if(this.searchedPost == 0){
       if (this.page > 0) {
         if (action == "decrease" && this.page !== 1) {
           this.page--;
-        } else if (
-          action == "increase" &&
-          this.page < this.lastPage.totalPages
-        ) {
-          this.page++;
-        } else {
-          console.log("ต่ำกว่าหน้า 1 ไม่ได้");
-        }
-        if( (this.filter.enterEstOrPost != "") || (this.filter.enterProvince != "") || (this.filter.enterHiringType != "") || (this.filter.enterMinSalary != "") || (this.filter.enterMaxSalary != "") ){
-          this.$store.commit("setPosting", this.searchedPost);
-          console.log(this.searchedPost);
-          console.log(this.searchedPost.content.length)
-          this.searchPost = this.searchedPost.content.length == 0
-        }
         const pageBE = this.page - 1;
         // const sendBE = await this.fetch("http://localhost:3000/main/allPosting?pageNo=" + pageBE);
         const sendBE = await this.fetch(
           `${process.env.VUE_APP_ROOT_API}main/allPosting?pageNo=` + pageBE + '&size=10'
         );
-        this.$store.commit("setPosting", sendBE);
-        console.log(sendBE);
+        this.$store.commit("setPosting", sendBE);      
+        } else if (
+          action == "increase" &&
+          this.page < this.lastPage.totalPages
+        ) {
+          this.page++;
+        const pageBE = this.page - 1;
+        // const sendBE = await this.fetch("http://localhost:3000/main/allPosting?pageNo=" + pageBE);
+        const sendBE = await this.fetch(
+          `${process.env.VUE_APP_ROOT_API}main/allPosting?pageNo=` + pageBE + '&size=10'
+        );
+        this.$store.commit("setPosting", sendBE);       
+        } else {
+          console.log("ต่ำกว่าหน้า 1 ไม่ได้");
+        }
+      }        
+
+      }else{
+        if (this.page > 0) {
+        // if( (this.filter.enterEstOrPost != "") || (this.filter.enterProvince != "") || (this.filter.enterHiringType != "") || (this.filter.enterMinSalary != "") || (this.filter.enterMaxSalary != "") ){
+          if( this.searchedPost != 0 ){
+            //this.searchedPost.totalElements
+            //this.searchedPost.totalPages
+            //this.searchedPost.pageable.pageNumber
+            if(action == "decrease" && this.page !== 1){
+              this.page--;
+              this.pageToFilter = this.page - 1
+              this.isFilter = true
+              this.getData()
+            }else if(action == "increase" && this.page < this.lastPage.totalPages){
+              this.page++;
+              this.pageToFilter = this.page - 1
+              this.isFilter = true
+              this.getData()
+            }
+          // const page = this.searchedPost.pageable.pageNumber
+          this.$store.commit("setPosting", this.searchedPost);
+        }
+        }
       }
     },
 
     clearSearching() {
+      this.page = 1
+      this.searchedPost = 0
+      this.isFilter = false
       this.filter = {
         enterEstOrPost: "",
         enterProvince: "",
@@ -501,7 +547,6 @@ export default {
       this.typeHiring = await this.fetch(
         `${process.env.VUE_APP_ROOT_API}main/allHiringType`
       );
-      console.log("test");
     } else {
       if (this.$store.state.auth.user.role.idRole == "1") {
         this.$router.push("/approve");
