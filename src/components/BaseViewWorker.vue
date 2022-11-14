@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-2 font-sans-thai">
+  <div class="bg-gray-2 font-sans-thai h-full">
       <!-- <div v-if="!acceptPage" class="overflow-x-auto w-10/12 mx-auto font-sans-thai"> -->
 <div class="2xl:flex 2xl:flex-row md:flex md:flex-row flex flex-col w-full">
       <div class="flex w-full justify-start">
@@ -26,11 +26,12 @@
         <span class="text-orange-1">{{ " ตำแหน่ง: " + namePost }}</span>
       </p>
       </div>
-        <div v-if="$route.query.history == 'yes'" class="w-full 2xl:pt-4 xl:pt-3 lg:pt-3 md:pt-5 pt-8 2xl:ml-32 xl:ml-0 lg:ml-0 md:ml-20 ml-24 2xl:-mt-0 md:-mt-0 -mt-3">
+        <div v-if="$route.query.history == 'yes'" class="w-full 2xl:pt-4 xl:pt-3 lg:pt-3 md:pt-5 pt-8 2xl:ml-32 xl:ml-5 lg:ml-6 md:ml-14 ml-12 2xl:-mt-0 md:-mt-0 -mt-3">
           <select
             class="
               select select-bordered
-              2xl:w-2/5
+              2xl:w-1/12
+              w-5/6
               2xl:text-base
               md:text-xs
               font-normal
@@ -71,7 +72,7 @@
       <!-- <div v-for="who in whoApplication.data" :key="who.applicationId">
         {{who}}
       </div> -->
-      <table class="table w-full">
+      <table class="table w-full mb-10">
         <!-- head -->
         <thead v-if="!closeColumnName">
           <tr>
@@ -130,8 +131,40 @@
                 ]
               }}
             </td>
+            <td>
+              <div
+                class="
+                  badge badge-lg
+                  w-1/3
+                  bg-green-200
+                  text-green-600
+                  border-0
+                  text-sm
+                "
+              >
+                นายจ้างรับเข้าทำงาน
+              </div>
+              <div
+                class="
+                  badge badge-lg
+                  w-1/3
+                  bg-red-200
+                  text-red-600
+                  border-0
+                  text-sm
+                "
+              >
+                นายจ้างไม่รับเข้าทำงาน
+              </div>
+            </td>
             <th>
               <!-- detail -->
+              <button class="btn btn-ghost btn-xs">
+                <i class="material-icons text-green-600"> done </i>
+              </button>
+              <button class="btn btn-ghost btn-xs">
+                <i class="material-icons text-red-600"> close </i>
+              </button>
               <button
                 @click="openPopUp(a), getPic(a), (toggleModal = !toggleModal)"
                 class="btn btn-ghost btn-xs"
@@ -1040,8 +1073,8 @@ export default {
       } else if(this.idStatus == 21) {
           console.log("idStatus =" + this.idStatus);
           this.topic = "รายการที่กำลังทำงาน";
-          this.accept = "เสร็จงาน";
-        this.reject = "ไม่เสร็จการทำงาน";
+          this.accept = "จบการทำงาน";
+        this.reject = "ยกเลิกการจ้างงาน";
           this.callData()        
         this.chooseAccept = 22
         this.chooseReject = 23           

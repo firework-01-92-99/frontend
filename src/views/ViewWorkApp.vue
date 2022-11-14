@@ -8,6 +8,7 @@
         <i class="material-icons"> arrow_back_ios </i>{{$route.query.history == 'yes' ? 'ดูผู้สมัคร' : 'ประกาศรับสมัครงาน'}}
       </button>
     </div>
+    <div class="w-11/12 ml-3.5">
     <p v-if="$route.query.history == 'yes'" class="2xl:text-2xl
           md:text-xl
           sm:text-lg
@@ -22,6 +23,7 @@
           md:ml-3.5
           ml-5
           w-full">ประวัติ</p>
+          </div>
     <div class="2xl:p-6 2xl:pl-32 xl:p-6 lg:p-6 md:p-6 md:pl-14 p-3 pt-5 pl-8">
       <base-tab
         ><template
