@@ -1,9 +1,45 @@
 <template>
-  <div class="bg-gray-2">
+  <div class="bg-gray-2 font-sans-thai">
     <div>
       <!-- toast -->
       <transition name="toast">
         <div v-if="showToast" class="flex justify-center">
+          <div
+            class="absolute z-10 2xl:w-2/5 w-full alert bg-cyan-200 shadow-lg"
+          >
+            <div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="stroke-current flex-shrink-0 h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <p class="font-sans-thai">
+                กรุณาตรวจสอบความถูกต้องของข้อมูลก่อนสร้างประกาศรับสมัคร เมื่อสร้างประกาศรับสมัครแล้วจะไม่สามารถแก้ไขข้อมูลได้ ยืนยันที่จะสร้างประกาศรับสมัครหรือไม่
+                <!-- <span
+                  class="font-medium"
+                  >เมนู "ประกาศรับสมัครงาน"</span
+                > -->
+              </p>
+            </div>
+            <div class="flex-none">
+              <button @click="showToast = false" class="btn btn-sm btn-ghost">ยกเลิก</button>
+              <button @click.prevent="createPost(), showToast = false" class="btn btn-sm btn-primary">ยืนยัน</button>
+            </div>
+          </div>
+        </div>
+      </transition>
+
+<!-- toast -->
+      <transition name="toast">
+        <div v-if="createComplete" class="flex justify-center">
           <div
             class="absolute z-10 2xl:w-2/5 w-full alert alert-success shadow-lg"
           >
@@ -22,15 +58,17 @@
                 />
               </svg>
               <p class="font-sans-thai">
-                สร้างประกาศรับสมัครงานเรียบร้อยแล้ว สามารถดูได้ที่<span
+                สร้างประกาศรับสมัครงานเรียบร้อยแล้ว 
+                <!-- สามารถดูได้ที่<span
                   class="font-medium"
                   >เมนู "ประกาศรับสมัครงาน"</span
-                >
+                > -->
               </p>
             </div>
           </div>
         </div>
       </transition>
+
       <!-- <router-link to="/findJob"> -->
       <!-- back btn -->
       <div>
@@ -732,7 +770,7 @@
           </div> -->
           <div class="w-full mb-5">
             <label class="2xl:text-base md:text-base text-sm font-medium px-1"
-              >วันทำงาน</label
+              >วันหยุด</label
             >
             <div class="flex space-x-5">
               <div class="form-control">
@@ -753,7 +791,7 @@
               </div>
             </div>
             <p v-if="postingHasDayListInput" class="text-sm text-red-600">
-              กรุณาเลือกวันทำงาน
+              กรุณาเลือกวันหยุด
             </p>
           </div>
 
@@ -976,7 +1014,7 @@
 
           <div class="w-full flex space-x-5 justify-center font-sans-thai">
         <button
-          @click.prevent="createPost()"
+          @click.prevent="toast()"
           type="submit"
           class="
             btn
@@ -1037,6 +1075,7 @@ export default {
   props: [],
   data() {
     return {
+      createComplete: false,
       editor: ClassicEditor,
       editorConfig: {
         // The configuration of the editor.
@@ -1115,6 +1154,10 @@ export default {
     //   this.positionArray1 = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/getMyPosition?idEmployer=` + this.$store.state.auth.user.employer.idEmployer);
     //   this.positionArray = this.positionArray1.data      
     // },
+    toast(){
+      this.showToast = true;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    },
     async createPost() {
       this.checkValidate();
       let res;
@@ -1144,9 +1187,8 @@ export default {
             console.log(error);
           });
           if(res == 200){
-            this.showToast = true;
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            setTimeout(() => (this.showToast = false), 5000);
+            this.createComplete = true;
+            setTimeout(() => (this.createComplete = false), 5000);
             this.clear()
           }
           this.$store.commit("setPosting", this.post);

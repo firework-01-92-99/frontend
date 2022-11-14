@@ -754,7 +754,7 @@
           </div> -->
           <div class="w-full mb-5">
             <label class="2xl:text-base md:text-base text-sm font-medium px-1"
-              >วันทำงาน</label
+              >วันหยุด</label
             >
             <!-- <div class="flex space-x-5">
               <div class="form-control">
@@ -799,7 +799,7 @@
               </div>
             </div>
             <p v-if="postingHasDayListInput" class="text-sm text-red-600">
-              กรุณาเลือกวันทำงาน
+              กรุณาเลือกวันหยุด
             </p>
           </div>
 
