@@ -746,6 +746,8 @@ export default {
         this.applicationHasComment.descriptionRejectOnSite = this.description
       }else if(this.chooseReject == 23){
         this.applicationHasComment.descriptionBreakShort = this.description
+      }else if(this.chooseReject == 26){
+        this.applicationHasComment.descriptionBreakShort = this.description
       }
     },  
     async giveRating(){
@@ -954,24 +956,10 @@ export default {
           "&idStatus=" +
           this.idStatus
       );
-      // if(this.idStatus != 24){
-      // this.whoApplication = await axios.get(
-      //       `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
-      //         this.idPost +
-      //         "&idStatus=" +
-      //         this.idStatus
-      //     );
-      //     console.log(this.whoApplication)
-      // }else{
-      //   console.log("idStatus = 24")
-      //   if(this.idStatus == 24){
-      //     this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
-      //     console.log(this.whoApplication)
-      //   }
-      // }
     if(this.whoApplication.data.whoApplicationList.length != 0){
       this.noValue = false
       this.closeColumnName = false;
+      if(this.$route.query.history != 'yes'){
       if(this.idStatus != 24){
         this.whoApplication = await axios.get(
             `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
@@ -980,12 +968,23 @@ export default {
               this.idStatus
           );
           console.log(this.whoApplication)
-      }else{
+      }else if(this.idStatus == 24){
        console.log("idStatus = 24")
-        if(this.idStatus == 24){
           this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
           console.log(this.whoApplication)
-        } 
+      }
+      }else{
+        if(this.$route.query.history == 'yes'){
+          if(this.idStatus == 13){
+            this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
+          }else if(this.idStatus == 16){
+            this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
+          }else if(this.idStatus == 23){
+            this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
+          }else if(this.idStatus == 26){
+            this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
+          }
+        }
       }
     }else{
       this.noValue = true
@@ -1063,6 +1062,9 @@ export default {
         console.log("idStatus =" + this.idStatus)
         this.callData()
       }else if(this.idStatus == 23){
+        console.log("idStatus =" + this.idStatus)
+        this.callData()
+      }else if(this.idStatus == 26){
         console.log("idStatus =" + this.idStatus)
         this.callData()
       } 

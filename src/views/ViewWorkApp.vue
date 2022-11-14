@@ -44,11 +44,11 @@
             @click="tab = 3, tabTo()"
             >คนงานที่กำลังทำงาน</a
           >
-          <a v-if="$route.query.history != 'yes'"
+          <a
             class="tab tab-bordered 2xl:text-base md:text-base text-xs"
-            :class="{ 'tab-active font-medium': idStatus == 24 }"
+            :class="{ 'tab-active font-medium': idStatus == 24 ||  idStatus == 26}"
             @click="tab = 4, tabTo()"
-            >ให้คะแนนคนงาน</a
+            >{{$route.query.history != 'yes' ? 'ให้คะแนนคนงาน' : 'ให้คะแนนแล้ว'}}</a
           >
           </template
         ></base-tab
@@ -107,6 +107,8 @@ export default {
         this.idStatus = 16
       }else if(this.tab == 3){
         this.idStatus = 23
+      }else if(this.tab == 4){
+        this.idStatus = 26
       }
         }
       }
