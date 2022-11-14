@@ -398,6 +398,7 @@ export default {
 
       pageToFilter: 0,
       isFilter: false,
+      showPageFilter: 0,
     };
   },
   methods: {
@@ -435,12 +436,13 @@ export default {
           console.log(response.data);
           this.searchedPost = response.data
           this.$store.commit("setPosting", response.data);
-          this.page = 1
           if (this.lastPage.totalPages == 0) {
             this.noValue = true;
           } else {
             this.noValue = false;
           }
+          // this.showPageFilter = 1
+          // this.page = 1 ปัญหา
         })
         .catch((error) => {
           console.log(error);
@@ -454,12 +456,12 @@ export default {
           console.log(response.data);
           this.searchedPost = response.data
           this.$store.commit("setPosting", response.data);
-          this.page = 1
           if (this.lastPage.totalPages == 0) {
             this.noValue = true;
           } else {
             this.noValue = false;
           }
+          // this.page = 1
         })          
         }
     },
@@ -502,11 +504,13 @@ export default {
               this.pageToFilter = this.page - 1
               this.isFilter = true
               this.getData()
+              // this.page = 1
             }else if(action == "increase" && this.page < this.lastPage.totalPages){
               this.page++;
               this.pageToFilter = this.page - 1
               this.isFilter = true
               this.getData()
+              // this.page = 1
             }
           // const page = this.searchedPost.pageable.pageNumber
           this.$store.commit("setPosting", this.searchedPost);

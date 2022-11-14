@@ -125,7 +125,7 @@
           <div class="rating rating-md">
                   <span class="font-normal pr-2">|</span>
                   <input type="radio" name="rating-2" class="cursor-default mask mask-star-2 bg-orange-400" checked disabled />
-                  <span class="font-normal pl-1">{{score == null ? 'ยังไม่มีคะแนน' : score}}</span>
+                  <span class="font-normal pl-1">{{score == null ? 'ยังไม่มีคะแนน' : score.toFixed(2)}}</span>
                 </div>
         </h2>
          <!-- empId employer -->

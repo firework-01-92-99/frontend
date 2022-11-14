@@ -89,7 +89,7 @@
                         checked
                         disabled
                       />
-                      <span class="font-normal pl-1">{{isNaN(scoreEmp) ? 'ยังไม่มีคะแนน' : scoreEmp}}</span>
+                      <span class="font-normal pl-1">{{isNaN(scoreEmp) ? 'ยังไม่มีคะแนน' : scoreEmp.toFixed(2)}}</span>
                       <span
                         class="
                           font-normal

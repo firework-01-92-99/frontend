@@ -156,7 +156,7 @@
                     disabled
                   />
                   <!-- <span class="font-normal pl-1">{{!$store.state.auth.user || $store.state.auth.user.role.idRole == '3' ? scoreAllEmp.find((a) => a.idEmployer == job.idEmployer).rate : isNaN(scoreEmp) ? 'ยังไม่มีคะแนน' : scoreEmp}}</span> -->
-                  <span class="font-normal pl-1 2xl:text-sm xl:text-sm lg:text-sm md:text-sm text-xs">{{!$store.state.auth.user || $store.state.auth.user.role.idRole == '3' ? scoreAllEmp.find((a) => a.idEmployer == job.idEmployer).rate == null ? 'ยังไม่มีคะแนน' : scoreAllEmp.find((a) => a.idEmployer == job.idEmployer).rate : isNaN(scoreEmp) ? 'ยังไม่มีคะแนน' : scoreEmp}}</span>
+                  <span class="font-normal pl-1 2xl:text-sm xl:text-sm lg:text-sm md:text-sm text-xs">{{!$store.state.auth.user || $store.state.auth.user.role.idRole == '3' ? scoreAllEmp.find((a) => a.idEmployer == job.idEmployer).rate == null ? 'ยังไม่มีคะแนน' : scoreAllEmp.find((a) => a.idEmployer == job.idEmployer).rate.toFixed(2) : isNaN(scoreEmp) ? 'ยังไม่มีคะแนน' : scoreEmp.toFixed(2)}}</span>
                   <!-- {{scoreAllEmp.find((a) => a.idEmployer == job.idEmployer).rate}} -->
                 </div>
               </h2>

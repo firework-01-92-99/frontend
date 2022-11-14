@@ -106,7 +106,7 @@
                 <input type="radio" name="rating-2" class="cursor-default mask mask-star-2 bg-orange-400" checked disabled />
               </div>
               <span class="pl-2">
-                {{a.rate == null ? 'ผู้ใช้นี้ยังไม่มีคะแนน' : a.rate}}
+                {{a.rate == null ? 'ผู้ใช้นี้ยังไม่มีคะแนน' : a.rate.toFixed(2)}}
               </span>
             </td>
             <td>
@@ -132,7 +132,7 @@
                 ]
               }}
             </td>
-            <td>
+            <td v-if="$route.query.history == 'yes'">
               <div
                 class="
                   badge badge-lg
@@ -160,12 +160,14 @@
             </td>
             <th>
               <!-- detail -->
+              <span v-if="idStatus == 14">
               <button class="btn btn-ghost btn-xs">
                 <i class="material-icons text-green-600"> done </i>
               </button>
               <button class="btn btn-ghost btn-xs">
                 <i class="material-icons text-red-600"> close </i>
               </button>
+              </span>
               <button
                 @click="openPopUp(a), getPic(a), (toggleModal = !toggleModal)"
                 class="btn btn-ghost btn-xs"
@@ -222,7 +224,7 @@
               <h3 class="font-bold text-lg">รายละเอียด</h3>
               <div class="rating rating-md">
                 <input type="radio" name="rating-2" class=" mask mask-star-2 bg-orange-400 cursor-default" checked disabled/> 
-                <span class="pl-2">{{whatWorker.rate == null ? 'ผู้ใช้นี้ยังไม่มีคะแนน' : whatWorker.rate}}</span>
+                <span class="pl-2">{{whatWorker.rate == null ? 'ผู้ใช้นี้ยังไม่มีคะแนน' : whatWorker.rate.toFixed(2)}}</span>
               </div>
             </div>
             <div class="flex flex-col 2xl:w-full mt-4">
