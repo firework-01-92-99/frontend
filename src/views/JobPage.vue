@@ -192,18 +192,18 @@
             <option class="text-black" value="300">300</option>
             <option class="text-black" value="400">400</option>
             <option class="text-black" value="500">500</option>
-            <option class="text-black" value="1000">1000</option>
-            <option class="text-black" value="2000">2000</option>
-            <option class="text-black" value="3000">3000</option>
-            <option class="text-black" value="4000">4000</option>
-            <option class="text-black" value="5000">5000</option>
-            <option class="text-black" value="6000">6000</option>
-            <option class="text-black" value="7000">7000</option>
-            <option class="text-black" value="8000">8000</option>
-            <option class="text-black" value="9000">9000</option>
-            <option class="text-black" value="10000">10000</option>
-            <option class="text-black" value="10000">15000</option>
-            <option class="text-black" value="10000">20000</option>
+            <option class="text-black" value="1000">1,000</option>
+            <option class="text-black" value="2000">2,000</option>
+            <option class="text-black" value="3000">3,000</option>
+            <option class="text-black" value="4000">4,000</option>
+            <option class="text-black" value="5000">5,000</option>
+            <option class="text-black" value="6000">6,000</option>
+            <option class="text-black" value="7000">7,000</option>
+            <option class="text-black" value="8000">8,000</option>
+            <option class="text-black" value="9000">9,000</option>
+            <option class="text-black" value="10000">10,000</option>
+            <option class="text-black" value="15000">15,000</option>
+            <option class="text-black" value="20000">20,000</option>
           </select>
         </div>
         <div class="w-full flex-col">
@@ -237,18 +237,18 @@
             <option class="text-black" value="300">300</option>
             <option class="text-black" value="400">400</option>
             <option class="text-black" value="500">500</option>
-            <option class="text-black" value="1000">1000</option>
-            <option class="text-black" value="2000">2000</option>
-            <option class="text-black" value="3000">3000</option>
-            <option class="text-black" value="4000">4000</option>
-            <option class="text-black" value="5000">5000</option>
-            <option class="text-black" value="6000">6000</option>
-            <option class="text-black" value="7000">7000</option>
-            <option class="text-black" value="8000">8000</option>
-            <option class="text-black" value="9000">9000</option>
-            <option class="text-black" value="10000">10000</option>
-            <option class="text-black" value="10000">15000</option>
-            <option class="text-black" value="10000">20000</option>
+            <option class="text-black" value="1000">1,000</option>
+            <option class="text-black" value="2000">2,000</option>
+            <option class="text-black" value="3000">3,000</option>
+            <option class="text-black" value="4000">4,000</option>
+            <option class="text-black" value="5000">5,000</option>
+            <option class="text-black" value="6000">6,000</option>
+            <option class="text-black" value="7000">7,000</option>
+            <option class="text-black" value="8000">8,000</option>
+            <option class="text-black" value="9000">9,000</option>
+            <option class="text-black" value="10000">10,000</option>
+            <option class="text-black" value="15000">15,000</option>
+            <option class="text-black" value="20000">20,000</option>
           </select>
         </div>
         <div
