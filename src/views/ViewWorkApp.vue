@@ -60,6 +60,7 @@
     <base-view-worker
       :idPost="$route.query.idPost"
       :idStatus="idStatus"
+      :idStatus2="idStatus2"
       @statusToPage="receiveStatus"
       :refreshData="refreshData"
     ></base-view-worker>
@@ -78,6 +79,7 @@ export default {
       // whoApplication: [],
       idPosting: "",
       idStatus: "11",
+      idStatus2: "12",
       tab: 1,
     };
   },
@@ -105,12 +107,16 @@ export default {
           console.log(this.idStatus)
       if(this.tab == 1){
         this.idStatus = 13
+        this.idStatus2 = 12
       }else if(this.tab == 2){
         this.idStatus = 16
+        this.idStatus2 = 15
       }else if(this.tab == 3){
         this.idStatus = 23
+        this.idStatus2 = 22
       }else if(this.tab == 4){
         this.idStatus = 26
+        this.idStatus2 = 20
       }
         }
       }

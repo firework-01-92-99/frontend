@@ -22,7 +22,9 @@
                 />
               </svg>
               <p class="font-sans-thai">
-                กรุณาตรวจสอบความถูกต้องของข้อมูลก่อนสร้างประกาศรับสมัคร เมื่อสร้างประกาศรับสมัครแล้วจะไม่สามารถแก้ไขข้อมูลได้ ยืนยันที่จะสร้างประกาศรับสมัครหรือไม่
+                กรุณาตรวจสอบความถูกต้องของข้อมูลก่อนสร้างประกาศรับสมัคร
+                เมื่อสร้างประกาศรับสมัครแล้วจะไม่สามารถแก้ไขข้อมูลได้
+                ยืนยันที่จะสร้างประกาศรับสมัครหรือไม่
                 <!-- <span
                   class="font-medium"
                   >เมนู "ประกาศรับสมัครงาน"</span
@@ -30,14 +32,21 @@
               </p>
             </div>
             <div class="flex-none">
-              <button @click="showToast = false" class="btn btn-sm btn-ghost">ยกเลิก</button>
-              <button @click.prevent="createPost(), showToast = false" class="btn btn-sm btn-primary">ยืนยัน</button>
+              <button @click="showToast = false" class="btn btn-sm btn-ghost">
+                ยกเลิก
+              </button>
+              <button
+                @click.prevent="createPost(), (showToast = false)"
+                class="btn btn-sm btn-primary"
+              >
+                ยืนยัน
+              </button>
             </div>
           </div>
         </div>
       </transition>
 
-<!-- toast -->
+      <!-- toast -->
       <transition name="toast">
         <div v-if="createComplete" class="flex justify-center">
           <div
@@ -58,7 +67,7 @@
                 />
               </svg>
               <p class="font-sans-thai">
-                สร้างประกาศรับสมัครงานเรียบร้อยแล้ว 
+                สร้างประกาศรับสมัครงานเรียบร้อยแล้ว
                 <!-- สามารถดูได้ที่<span
                   class="font-medium"
                   >เมนู "ประกาศรับสมัครงาน"</span
@@ -101,7 +110,17 @@
     </div>
     <!-- card header -->
     <form>
-      <div class="rounded-lg mx-auto card 2xl:card-side bg-base-100 font-sans-thai w-full">
+      <div
+        class="
+          rounded-lg
+          mx-auto
+          card
+          2xl:card-side
+          bg-base-100
+          font-sans-thai
+          w-full
+        "
+      >
         <figure class="2xl:w-1/4">
           <img
             class="2xl:h-full object-cover w-full"
@@ -255,46 +274,57 @@
                       "
                     ></div> -->
                     <div class="flex flex-col">
-                    <div class="ml-10 flex flex-row w-full">
-                    <input
-                      type="tel"
-                      @change="salaryType()"
-                      v-model.trim="postInfo.minSalary"
-                      maxlength="5"
-                      class="
-                        2xl:w-full
-                        md:w-full
-                        w-5/6
-                        -ml-10
-                        pl-5
-                        pr-3
-                        py-2
-                        rounded-lg
-                        border-2 border-gray-200
-                        outline-none
-                        placeholder:font-normal
-                        focus:border-indigo-500
-                      "
-                      :class="{ 'bg-red-50': minSalaryInput }"
-                      placeholder="กรอกเงินเดือนที่ต่ำที่สุด"
-                      onkeypress="return event.charCode >= 48 && event.charCode <= 57"
-                    />
-                    </div>
-                    <div class="justify-start">
-                    <p v-if="minSalaryAlert" class="text-sm font-normal text-red-600">
-                      เงินขั้นต่ำต้องไม่ต่ำกว่า 300 บาท
-                    </p>
-                    <p v-if="minMoreThanMax" class="text-sm font-normal text-red-600">
-                      เงินขั้นต่ำต้องน้อยกว่าเงินที่มากสุด
-                    </p>                                            
-                    <p v-if="minSalaryInput" class="text-sm font-normal text-red-600">
-                      กรุณากรอกเงินเดือนที่ต่ำที่สุด
-                    </p>
-                    </div>
+                      <div class="ml-10 flex flex-row w-full">
+                        <input
+                          type="tel"
+                          @change="salaryType()"
+                          v-model.trim="postInfo.minSalary"
+                          maxlength="5"
+                          class="
+                            2xl:w-full
+                            md:w-full
+                            w-5/6
+                            -ml-10
+                            pl-5
+                            pr-3
+                            py-2
+                            rounded-lg
+                            border-2 border-gray-200
+                            outline-none
+                            placeholder:font-normal
+                            focus:border-indigo-500
+                          "
+                          :class="{ 'bg-red-50': minSalaryInput }"
+                          placeholder="กรอกเงินเดือนที่ต่ำที่สุด"
+                          onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                        />
+                      </div>
+                      <div class="justify-start">
+                        <p
+                          v-if="minSalaryAlert"
+                          class="text-sm font-normal text-red-600"
+                        >
+                          เงินขั้นต่ำต้องไม่ต่ำกว่า 300 บาท
+                        </p>
+                        <p
+                          v-if="minMoreThanMax"
+                          class="text-sm font-normal text-red-600"
+                        >
+                          เงินขั้นต่ำต้องน้อยกว่าเงินที่มากสุด
+                        </p>
+                        <p
+                          v-if="minSalaryInput"
+                          class="text-sm font-normal text-red-600"
+                        >
+                          กรุณากรอกเงินเดือนที่ต่ำที่สุด
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <span class="pt-9 2xl:pr-1 md:pr-1 2xl:-ml-0 md:-ml-0 -ml-7">-</span>
+                <span class="pt-9 2xl:pr-1 md:pr-1 2xl:-ml-0 md:-ml-0 -ml-7"
+                  >-</span
+                >
                 <div class="w-1/2 px-3 mb-5">
                   <label
                     for=""
@@ -314,39 +344,45 @@
                       "
                     ></div> -->
                     <div class="flex flex-col">
-                    <div class="ml-10 w-full flex flex-row">
-                    <input
-                      type="tel"
-                      @change="salaryType()"
-                      v-model.trim="postInfo.maxSalary"
-                      maxlength="5"
-                      class="
-                        2xl:w-full
-                        md:w-full
-                        w-5/6
-                        -ml-10
-                        pl-5
-                        pr-3
-                        py-2
-                        rounded-lg
-                        border-2 border-gray-200
-                        outline-none
-                        placeholder:font-normal
-                        focus:border-indigo-500
-                      "
-                      :class="{ 'bg-red-50': maxSalaryInput }"
-                      placeholder="กรอกเงินเดือนที่มากที่สุด"
-                      onkeypress="return event.charCode >= 48 && event.charCode <= 57"
-                    /><span class="pl-2 py-2">บาท</span>
-                    </div>
-                    <div>
-                    <p v-if="maxWrong" class="font-normal text-sm text-red-600">
-                      กรุณากรอกเงินเดือนที่มากสุดให้มากกว่าเงินเดือนที่ต่ำสุด
-                    </p>
-                    <p v-if="maxSalaryInput" class="text-sm font-normal text-red-600">
-                      กรุณากรอกเงินเดือนที่มากสุด
-                    </p>
-                    </div>
+                      <div class="ml-10 w-full flex flex-row">
+                        <input
+                          type="tel"
+                          @change="salaryType()"
+                          v-model.trim="postInfo.maxSalary"
+                          maxlength="5"
+                          class="
+                            2xl:w-full
+                            md:w-full
+                            w-5/6
+                            -ml-10
+                            pl-5
+                            pr-3
+                            py-2
+                            rounded-lg
+                            border-2 border-gray-200
+                            outline-none
+                            placeholder:font-normal
+                            focus:border-indigo-500
+                          "
+                          :class="{ 'bg-red-50': maxSalaryInput }"
+                          placeholder="กรอกเงินเดือนที่มากที่สุด"
+                          onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                        /><span class="pl-2 py-2">บาท</span>
+                      </div>
+                      <div>
+                        <p
+                          v-if="maxWrong"
+                          class="font-normal text-sm text-red-600"
+                        >
+                          กรุณากรอกเงินเดือนที่มากสุดให้มากกว่าเงินเดือนที่ต่ำสุด
+                        </p>
+                        <p
+                          v-if="maxSalaryInput"
+                          class="text-sm font-normal text-red-600"
+                        >
+                          กรุณากรอกเงินเดือนที่มากสุด
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -375,7 +411,15 @@
       <div class="mx-auto flex flex-col w-full font-sans-thai mt-5">
         <!-- <div v-if="openForm"><base-application></base-application></div> -->
         <div
-          class="rounded-lg card card-side bg-base-100 p-6 grid h-full place-items-start"
+          class="
+            rounded-lg
+            card card-side
+            bg-base-100
+            p-6
+            grid
+            h-full
+            place-items-start
+          "
         >
           <!-- <p> -->
           <!-- <span class="font-semibold">แรงงานที่รับ: </span> -->
@@ -398,7 +442,18 @@
                     :class="{ 'bg-red-50': workerTypeInput }"
                     value="1"
                   />
-                  <span class="label-text 2xl:pr-0 md:pl-2 md:pr-4 pr-48 2xl:text-base xl:text-base lg:text-base md:text-base text-sm"
+                  <span
+                    class="
+                      label-text
+                      2xl:pr-0
+                      md:pl-2 md:pr-4
+                      pr-48
+                      2xl:text-base
+                      xl:text-base
+                      lg:text-base
+                      md:text-base
+                      text-sm
+                    "
                     >แรงงานต่างด้าว</span
                   >
                 </label>
@@ -413,7 +468,19 @@
                     :class="{ 'bg-red-50': workerTypeInput }"
                     value="2"
                   />
-                  <span class="label-text 2xl:pr-0 md:pl-2 md:pr-4 pr-52 mr-2.5 2xl:text-base xl:text-base lg:text-base md:text-base text-sm"
+                  <span
+                    class="
+                      label-text
+                      2xl:pr-0
+                      md:pl-2 md:pr-4
+                      pr-52
+                      mr-2.5
+                      2xl:text-base
+                      xl:text-base
+                      lg:text-base
+                      md:text-base
+                      text-sm
+                    "
                     >แรงงานไทย</span
                   >
                 </label>
@@ -428,7 +495,19 @@
                     :class="{ 'bg-red-50': workerTypeInput }"
                     value="3"
                   />
-                  <span class="label-text 2xl:pr-0 md:pl-2 md:pr-4 pr-36 mr-1 2xl:text-base xl:text-base lg:text-base md:text-base text-sm"
+                  <span
+                    class="
+                      label-text
+                      2xl:pr-0
+                      md:pl-2 md:pr-4
+                      pr-36
+                      mr-1
+                      2xl:text-base
+                      xl:text-base
+                      lg:text-base
+                      md:text-base
+                      text-sm
+                    "
                     >แรงงานไทยและต่างด้าว</span
                   >
                 </label>
@@ -461,7 +540,17 @@
                     :class="{ 'bg-red-50': sexInput }"
                     value="M"
                   />
-                  <span class="label-text 2xl:text-base xl:text-base lg:text-base md:text-base text-sm">ชาย</span>
+                  <span
+                    class="
+                      label-text
+                      2xl:text-base
+                      xl:text-base
+                      lg:text-base
+                      md:text-base
+                      text-sm
+                    "
+                    >ชาย</span
+                  >
                 </label>
               </div>
               <div class="form-control">
@@ -474,7 +563,17 @@
                     :class="{ 'bg-red-50': sexInput }"
                     value="F"
                   />
-                  <span class="label-text 2xl:text-base xl:text-base lg:text-base md:text-base text-sm">หญิง</span>
+                  <span
+                    class="
+                      label-text
+                      2xl:text-base
+                      xl:text-base
+                      lg:text-base
+                      md:text-base
+                      text-sm
+                    "
+                    >หญิง</span
+                  >
                 </label>
               </div>
               <div class="form-control">
@@ -487,7 +586,17 @@
                     :class="{ 'bg-red-50': sexInput }"
                     value="A"
                   />
-                  <span class="label-text 2xl:text-base xl:text-base lg:text-base md:text-base text-sm">ทั้งหมด</span>
+                  <span
+                    class="
+                      label-text
+                      2xl:text-base
+                      xl:text-base
+                      lg:text-base
+                      md:text-base
+                      text-sm
+                    "
+                    >ทั้งหมด</span
+                  >
                 </label>
               </div>
             </div>
@@ -519,38 +628,40 @@
                   "
                 ></div> -->
                 <div class="flex flex-col">
-                <div class="ml-10 w-full flex flex-row">
-                <input
-                  type="number"
-                  min="18"
-                  @change="ifChangeAge(postInfo.minAge)"
-                  v-model.trim="postInfo.minAge"
-                  class="
-                    2xl:w-full
-                    md:w-full
-                    w-4/6
-                    -ml-10
-                    pl-5
-                    pr-3
-                    py-2
-                    rounded-lg
-                    border-2 border-gray-200
-                    outline-none
-                    focus:border-indigo-500
-                  "
-                  :class="{ 'bg-red-50': minAgeInput }"
-                  placeholder="อายุขั้นต่ำ"
-                />
-                </div>
-                <div>
-                <p v-if="minAgeInput" class="text-sm text-red-600">
-                  กรุณากรอกอายุขั้นต่ำและอายุต้องไม่ต่ำกว่า 18 ปี
-                </p>
-                </div>
+                  <div class="ml-10 w-full flex flex-row">
+                    <input
+                      type="number"
+                      min="18"
+                      @change="ifChangeAge(postInfo.minAge)"
+                      v-model.trim="postInfo.minAge"
+                      class="
+                        2xl:w-full
+                        md:w-full
+                        w-4/6
+                        -ml-10
+                        pl-5
+                        pr-3
+                        py-2
+                        rounded-lg
+                        border-2 border-gray-200
+                        outline-none
+                        focus:border-indigo-500
+                      "
+                      :class="{ 'bg-red-50': minAgeInput }"
+                      placeholder="อายุขั้นต่ำ"
+                    />
+                  </div>
+                  <div>
+                    <p v-if="minAgeInput" class="text-sm text-red-600">
+                      กรุณากรอกอายุขั้นต่ำและอายุต้องไม่ต่ำกว่า 18 ปี
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-            <span class="pt-9 2xl:pr-1 md:pr-1 2xl:-ml-0 md:-ml-0 -ml-14">-</span>
+            <span class="pt-9 2xl:pr-1 md:pr-1 2xl:-ml-0 md:-ml-0 -ml-14"
+              >-</span
+            >
             <div class="w-1/2 px-3 mb-5">
               <label
                 for=""
@@ -570,34 +681,34 @@
                   "
                 ></div> -->
                 <div class="flex flex-col">
-                <div class="ml-10 w-full flex flex-row">
-                <input
-                  type="number"
-                  max="60"
-                  @change="ifChangeAge(postInfo.maxAge)"
-                  v-model.trim="postInfo.maxAge"
-                  class="
-                    2xl:w-full
-                    md:w-full
-                    w-4/6
-                    -ml-10
-                    pl-5
-                    pr-3
-                    py-2
-                    rounded-lg
-                    border-2 border-gray-200
-                    outline-none
-                    focus:border-indigo-500
-                  "
-                  :class="{ 'bg-red-50': maxAgeInput }"
-                  placeholder="อายุมากที่สุด"
-                /><span class="pl-2 py-2">ปี</span>
-                </div>
-                <div>
-                <p v-if="maxAgeInput" class="text-sm text-red-600">
-                  กรุณากรอกอายุขั้นต่ำและอายุต้องไม่มากกว่า 60 ปี
-                </p>
-                </div>
+                  <div class="ml-10 w-full flex flex-row">
+                    <input
+                      type="number"
+                      max="60"
+                      @change="ifChangeAge(postInfo.maxAge)"
+                      v-model.trim="postInfo.maxAge"
+                      class="
+                        2xl:w-full
+                        md:w-full
+                        w-4/6
+                        -ml-10
+                        pl-5
+                        pr-3
+                        py-2
+                        rounded-lg
+                        border-2 border-gray-200
+                        outline-none
+                        focus:border-indigo-500
+                      "
+                      :class="{ 'bg-red-50': maxAgeInput }"
+                      placeholder="อายุมากที่สุด"
+                    /><span class="pl-2 py-2">ปี</span>
+                  </div>
+                  <div>
+                    <p v-if="maxAgeInput" class="text-sm text-red-600">
+                      กรุณากรอกอายุขั้นต่ำและอายุต้องไม่มากกว่า 60 ปี
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -627,8 +738,8 @@
                   "
                 ></div> -->
                 <div class="flex flex-col">
-                <div class="ml-10 flex flex-row w-full">
-                  <!-- <input
+                  <div class="ml-10 flex flex-row w-full">
+                    <!-- <input
                   type="time"
                   v-model.trim="postInfo.startTime"
                   class="
@@ -648,35 +759,37 @@
                   placeholder="เวลาเริ่มงาน เช่น 9:00"
                   min="09:00" required
                   /> -->
-                  <input
-                  type="text"
-                  v-model.trim="postInfo.startTime"
-                  class="
-                    2xl:w-full
-                    md:w-full
-                    w-4/6
-                    -ml-10
-                    pl-5
-                    pr-3
-                    py-2
-                    rounded-lg
-                    border-2 border-gray-200
-                    outline-none
-                    focus:border-indigo-500
-                  "
-                  :class="{ 'bg-red-50': startTimeInput }"
-                  placeholder="เวลาเริ่มงาน เช่น 9:00"
-                  />
-                </div>
-                <div class="justify-start w-10/12">
-                  <p v-if="startTimeInput" class="text-sm text-red-600">
-                  กรุณากรอกเวลาเริ่มงาน
-                  </p>
-                </div>
+                    <input
+                      type="text"
+                      v-model.trim="postInfo.startTime"
+                      class="
+                        2xl:w-full
+                        md:w-full
+                        w-4/6
+                        -ml-10
+                        pl-5
+                        pr-3
+                        py-2
+                        rounded-lg
+                        border-2 border-gray-200
+                        outline-none
+                        focus:border-indigo-500
+                      "
+                      :class="{ 'bg-red-50': startTimeInput }"
+                      placeholder="เวลาเริ่มงาน เช่น 9:00"
+                    />
+                  </div>
+                  <div class="justify-start w-10/12">
+                    <p v-if="startTimeInput" class="text-sm text-red-600">
+                      กรุณากรอกเวลาเริ่มงาน
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-            <span class="pt-9 2xl:pr-1 md:pr-1 2xl:-ml-0 md:-ml-0 -ml-14">-</span>
+            <span class="pt-9 2xl:pr-1 md:pr-1 2xl:-ml-0 md:-ml-0 -ml-14"
+              >-</span
+            >
             <div class="w-1/2 px-3 mb-5">
               <label class="text-sm 2xl:text-base font-medium px-1"></label>
               <div class="flex">
@@ -693,8 +806,8 @@
                   "
                 ></div> -->
                 <div class="flex flex-col">
-                <div class="ml-10 w-full flex flex-row">
-                  <!-- <input
+                  <div class="ml-10 w-full flex flex-row">
+                    <!-- <input
                   type="time"
                   v-model.trim="postInfo.endTime"
                   class="
@@ -714,32 +827,32 @@
                   placeholder="เวลาเลิกงาน เช่น 18:00"
                   max="24:00" required
                   /> -->
-                  <input
-                  type="text"
-                  v-model.trim="postInfo.endTime"
-                  class="
-                    2xl:w-full
-                    md:w-full
-                    w-4/6
-                    -ml-10
-                    pl-5
-                    pr-3
-                    py-2
-                    rounded-lg
-                    border-2 border-gray-200
-                    outline-none
-                    focus:border-indigo-500
-                  "
-                  :class="{ 'bg-red-50': endTimeInput }"
-                  placeholder="เวลาเลิกงาน เช่น 18:00"
-                  />
-                  <span class="pl-2 py-2">น.</span>
-                </div>
-                <div>
-                  <p v-if="endTimeInput" class="text-sm text-red-600">
-                  กรุณากรอกเวลาเลิกงาน
-                  </p>
-                </div>
+                    <input
+                      type="text"
+                      v-model.trim="postInfo.endTime"
+                      class="
+                        2xl:w-full
+                        md:w-full
+                        w-4/6
+                        -ml-10
+                        pl-5
+                        pr-3
+                        py-2
+                        rounded-lg
+                        border-2 border-gray-200
+                        outline-none
+                        focus:border-indigo-500
+                      "
+                      :class="{ 'bg-red-50': endTimeInput }"
+                      placeholder="เวลาเลิกงาน เช่น 18:00"
+                    />
+                    <span class="pl-2 py-2">น.</span>
+                  </div>
+                  <div>
+                    <p v-if="endTimeInput" class="text-sm text-red-600">
+                      กรุณากรอกเวลาเลิกงาน
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -770,21 +883,42 @@
           </div> -->
           <div class="w-full mb-5">
             <label class="2xl:text-base md:text-base text-sm font-medium px-1"
-              >วันหยุด</label
+              >วันทำงาน</label
             >
             <div class="flex space-x-5">
               <div class="form-control">
-                <label v-for="pd in sevenDay" :key="pd.idDay" class="flex flex-col items-start label cursor-pointer space-y-2">
+                <label
+                  v-for="pd in sevenDay"
+                  :key="pd.idDay"
+                  class="
+                    flex flex-col
+                    items-start
+                    label
+                    cursor-pointer
+                    space-y-2
+                  "
+                >
                   <span>
                     <input
                       :id="pd.idDay"
-                      :value="{day:pd}"
+                      :value="{ day: pd }"
                       type="checkbox"
                       v-model="postInfo.postingHasDayList"
                       class="checkbox checkbox-sm inline-block align-middle"
                       :class="{ 'bg-red-50': postingHasDayListInput }"
                     />
-                    <span class="label-text pl-2 2xl:text-base xl:text-base lg:text-base md:text-base text-sm">{{ pd.dayName }}</span>
+                    <span
+                      class="
+                        label-text
+                        pl-2
+                        2xl:text-base
+                        xl:text-base
+                        lg:text-base
+                        md:text-base
+                        text-sm
+                      "
+                      >{{ pd.dayName }}</span
+                    >
                   </span>
                 </label>
                 <!-- <span>Selected day: {{ postInfo.postingHasDayList }}</span> -->
@@ -925,7 +1059,17 @@
                     :class="{ 'bg-red-50': otPayInput }"
                     value="y"
                   />
-                  <span class="label-text 2xl:text-base xl:text-base lg:text-base md:text-base text-sm">มี</span>
+                  <span
+                    class="
+                      label-text
+                      2xl:text-base
+                      xl:text-base
+                      lg:text-base
+                      md:text-base
+                      text-sm
+                    "
+                    >มี</span
+                  >
                 </label>
               </div>
               <div class="form-control">
@@ -938,11 +1082,23 @@
                     :class="{ 'bg-red-50': otPayInput }"
                     value="n"
                   />
-                  <span class="label-text 2xl:text-base xl:text-base lg:text-base md:text-base text-sm">ไม่มี</span>
+                  <span
+                    class="
+                      label-text
+                      2xl:text-base
+                      xl:text-base
+                      lg:text-base
+                      md:text-base
+                      text-sm
+                    "
+                    >ไม่มี</span
+                  >
                 </label>
               </div>
             </div>
-            <p v-if="otPayInput" class="text-sm text-red-600">กรุณาเลือกค่าล่วงเวลา</p>
+            <p v-if="otPayInput" class="text-sm text-red-600">
+              กรุณาเลือกค่าล่วงเวลา
+            </p>
           </div>
           <!-- </p> -->
 
@@ -970,13 +1126,13 @@
                   <i class="mdi mdi-account-outline text-gray-400 text-lg"></i>
                 </div>
                 <div class="html-editor">
-                 <ckeditor
+                  <ckeditor
                     :editor="editor"
                     v-model.trim="postInfo.properties"
                     :config="editorConfig"
                   >
                   </ckeditor>
-                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -999,67 +1155,66 @@
                 >
                   <i class="mdi mdi-account-outline text-gray-400 text-lg"></i>
                 </div>
-              <div class="html-editor">
-                                  <ckeditor
+                <div class="html-editor">
+                  <ckeditor
                     :editor="editor"
                     v-model="postInfo.welfare"
                     :config="editorConfig"
                   >
                   </ckeditor>
+                </div>
               </div>
-              </div>
-              <p v-if="welfareInput" class="text-sm text-red-600">กรุณากรอกสวัสดิการ</p>
+              <p v-if="welfareInput" class="text-sm text-red-600">
+                กรุณากรอกสวัสดิการ
+              </p>
             </div>
           </div>
 
           <div class="w-full flex space-x-5 justify-center font-sans-thai">
-        <button
-          @click.prevent="toast()"
-          type="submit"
-          class="
-            btn
-            border-orange-1
-            bg-orange-1
-            hover:bg-orange-2 hover:border-orange-2
-            2xl:w-1/5
-            md:w-2/5
-            w-2/5
-            2xl:mt-0
-            xl:mt-0
-            lg:mt-0
-            md:mt-0
-            2xl:text-base
-            md:text-xs
-          "
-        >
-          สร้าง
-        </button>
+            <button
+              @click.prevent="toast()"
+              type="submit"
+              class="
+                btn
+                border-orange-1
+                bg-orange-1
+                hover:bg-orange-2 hover:border-orange-2
+                2xl:w-1/5
+                md:w-2/5
+                w-2/5
+                2xl:mt-0
+                xl:mt-0
+                lg:mt-0
+                md:mt-0
+                2xl:text-base
+                md:text-xs
+              "
+            >
+              สร้าง
+            </button>
 
-        <button
-          @click="$router.push('/posting')"
-          class="
-            btn btn-ghost
-            2xl:w-1/5
-            md:w-2/5
-             w-2/5
-            -mb-5
-            2xl:mt-0
-            xl:mt-0
-            lg:mt-0
-            md:mt-0
-            2xl:text-base
-            md:text-xs
-          "
-        >
-          ยกเลิก
-        </button>
-        <!-- {{ this.$store.state.auth.user.employer }} -->
-      </div>
-
+            <button
+              @click="$router.push('/posting')"
+              class="
+                btn btn-ghost
+                2xl:w-1/5
+                md:w-2/5
+                w-2/5
+                -mb-5
+                2xl:mt-0
+                xl:mt-0
+                lg:mt-0
+                md:mt-0
+                2xl:text-base
+                md:text-xs
+              "
+            >
+              ยกเลิก
+            </button>
+            <!-- {{ this.$store.state.auth.user.employer }} -->
+          </div>
         </div>
       </div>
-
-      
     </form>
   </div>
 </template>
@@ -1109,7 +1264,7 @@ export default {
         minAge: 18,
         maxAge: 60,
         minSalary: 300,
-        maxSalary: '',
+        maxSalary: "",
         overtimePayment: "",
         startTime: "09:00",
         endTime: "",
@@ -1119,7 +1274,7 @@ export default {
           idHiringtype: "",
           nameType: "",
         },
-        idEmployer: this.$store.state.auth.user.employer.idEmployer, 
+        idEmployer: this.$store.state.auth.user.employer.idEmployer,
         status: {
           idStatus: "1",
           statusName: "Active",
@@ -1128,14 +1283,20 @@ export default {
           idWorkerType: "",
           typeName: "",
         },
-        postingHasDayList: [],
+        postingHasDayList: [
+          { day: { idDay: 2, dayName: "จันทร์", abbreviation: "จ" } },
+          { day: { idDay: 3, dayName: "อังคาร", abbreviation: "อ" } },
+          { day: { idDay: 4, dayName: "พุธ", abbreviation: "พ" } },
+          { day: { idDay: 5, dayName: "พฤหัสบดี", abbreviation: "พฤ" } },
+          { day: { idDay: 6, dayName: "ศุกร์", abbreviation: "ศ" } },
+        ],
         position: {
           idposition: "",
           positionName: "",
         },
       },
       post: [],
-      response200: '',
+      response200: "",
       image: null,
       maxWrong: false,
       minSalaryAlert: false,
@@ -1152,47 +1313,62 @@ export default {
     //   }
     //   this.postInfo.position.positionName = ''
     //   this.positionArray1 = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/getMyPosition?idEmployer=` + this.$store.state.auth.user.employer.idEmployer);
-    //   this.positionArray = this.positionArray1.data      
+    //   this.positionArray = this.positionArray1.data
     // },
-    toast(){
+    toast() {
       this.showToast = true;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     },
     async createPost() {
       this.checkValidate();
       let res;
-      if (!this.maxWrong || !this.minMoreThanMax &&
-        !this.positionInput && !this.sexInput && !this.descriptInput && !this.minAgeInput &&
-        !this.maxAgeInput && !this.maxSalaryInput && !this.minSalaryInput && !this.otPayInput &&
-        !this.startTimeInput && !this.endTimeInput && !this.welfareInput && !this.hiringTypeInput &&
-        !this.statusInput && !this.workerTypeInput && !this.postingHasDayListInput) {
-        toString(this.postInfo.position.idposition)  
-        const posting = JSON.stringify(this.postInfo)
+      if (
+        !this.maxWrong ||
+        (!this.minMoreThanMax &&
+          !this.positionInput &&
+          !this.sexInput &&
+          !this.descriptInput &&
+          !this.minAgeInput &&
+          !this.maxAgeInput &&
+          !this.maxSalaryInput &&
+          !this.minSalaryInput &&
+          !this.otPayInput &&
+          !this.startTimeInput &&
+          !this.endTimeInput &&
+          !this.welfareInput &&
+          !this.hiringTypeInput &&
+          !this.statusInput &&
+          !this.workerTypeInput &&
+          !this.postingHasDayListInput)
+      ) {
+        toString(this.postInfo.position.idposition);
+        const posting = JSON.stringify(this.postInfo);
         const customConfig = {
-        headers: {
-          "Content-Type": "application/json",
+          headers: {
+            "Content-Type": "application/json",
           },
-          }          
+        };
         await axios
           .post(
             `${process.env.VUE_APP_ROOT_API}emp/createPosting?idEmployer=${this.$store.state.auth.user.employer.idEmployer}`,
-            posting, customConfig
+            posting,
+            customConfig
           )
           .then(function (response) {
             console.log(response);
-            res = response.status
-            // alert("ประกาศโพสหางานของคุณเรียบร้อยแล้ว");        
+            res = response.status;
+            // alert("ประกาศโพสหางานของคุณเรียบร้อยแล้ว");
           })
           .catch(function (error) {
             console.log(error);
           });
-          if(res == 200){
-            this.createComplete = true;
-            setTimeout(() => (this.createComplete = false), 5000);
-            this.clear()
-          }
-          this.$store.commit("setPosting", this.post);
-      }else{
+        if (res == 200) {
+          this.createComplete = true;
+          setTimeout(() => (this.createComplete = false), 5000);
+          this.clear();
+        }
+        this.$store.commit("setPosting", this.post);
+      } else {
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
     },
@@ -1207,9 +1383,15 @@ export default {
       this.maxAgeInput =
         this.postInfo.maxAge === "" || this.postInfo.maxAge > 60 ? true : false;
       this.minSalaryInput = this.postInfo.minSalary === "" ? true : false;
-      this.minMoreThanMax = (parseInt(this.postInfo.minSalary) > parseInt(this.postInfo.maxSalary)) ? true : false
+      this.minMoreThanMax =
+        parseInt(this.postInfo.minSalary) > parseInt(this.postInfo.maxSalary)
+          ? true
+          : false;
       this.maxSalaryInput = this.postInfo.maxSalary === "" ? true : false;
-      this.maxWrong = (parseInt(this.postInfo.maxSalary) < parseInt(this.postInfo.minSalary)) ? true : false
+      this.maxWrong =
+        parseInt(this.postInfo.maxSalary) < parseInt(this.postInfo.minSalary)
+          ? true
+          : false;
       this.otPayInput = this.postInfo.overtimePayment === "" ? true : false;
       this.startTimeInput = this.postInfo.startTime === "" ? true : false;
       this.endTimeInput = this.postInfo.endTime === "" ? true : false;
@@ -1229,7 +1411,7 @@ export default {
         minAge: 18,
         maxAge: 60,
         minSalary: 300,
-        maxSalary: '',
+        maxSalary: "",
         overtimePayment: "",
         startTime: "",
         endTime: "",
@@ -1239,7 +1421,7 @@ export default {
           idHiringtype: "",
           nameType: "",
         },
-        idEmployer: this.$store.state.auth.user.employer.idEmployer, 
+        idEmployer: this.$store.state.auth.user.employer.idEmployer,
         status: {
           idStatus: "1",
           statusName: "Active",
@@ -1253,20 +1435,22 @@ export default {
           idposition: "",
           positionName: "",
         },
-      }
+      };
     },
-    salaryType(){
-        if(parseInt(this.postInfo.minSalary) < 300){
-          this.postInfo.minSalary = 300
-          this.minSalaryAlert = true
-          setTimeout(() => (this.minSalaryAlert = false), 2000);
-        }     
-      if(this.postInfo.minSalary && this.postInfo.maxSalary != ''){
-      if(parseInt(this.postInfo.maxSalary) < parseInt(this.postInfo.minSalary)){
-        // this.postInfo.maxSalary = parseInt(this.postInfo.minSalary) + 100
-        this.maxWrong = true
-        setTimeout(() => (this.maxWrong = false), 3000);
+    salaryType() {
+      if (parseInt(this.postInfo.minSalary) < 300) {
+        this.postInfo.minSalary = 300;
+        this.minSalaryAlert = true;
+        setTimeout(() => (this.minSalaryAlert = false), 2000);
       }
+      if (this.postInfo.minSalary && this.postInfo.maxSalary != "") {
+        if (
+          parseInt(this.postInfo.maxSalary) < parseInt(this.postInfo.minSalary)
+        ) {
+          // this.postInfo.maxSalary = parseInt(this.postInfo.minSalary) + 100
+          this.maxWrong = true;
+          setTimeout(() => (this.maxWrong = false), 3000);
+        }
       }
     },
     ifChangeAge(age) {
@@ -1288,8 +1472,7 @@ export default {
       }
     },
   },
-  computed: {
-  },
+  computed: {},
   async created() {
     console.log("hiringType");
     this.hiringTypeArray = await this.fetch(
@@ -1301,19 +1484,24 @@ export default {
     this.sevenDay = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/getSundayToSaturday`
     );
-      this.post1 = await axios.get(
-        `${process.env.VUE_APP_ROOT_API}main/getPostingActiveByIdEmployer?idEmployer=` +
-          this.$store.state.auth.user.employer.idEmployer
-      );
-      this.post = this.post1.data;
-      console.log(this.post)
-      const positionArray = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/allPosition`);
-      this.positionArray = positionArray.data
-          const image1 = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getImageByIdEmployer` + "?idEmployer=" + this.$store.state.auth.user.employer.idEmployer);
-    const imageName = image1.data
-          this.image =
-            (await `${process.env.VUE_APP_ROOT_API}main/image/`) +
-            imageName;   
+    this.post1 = await axios.get(
+      `${process.env.VUE_APP_ROOT_API}main/getPostingActiveByIdEmployer?idEmployer=` +
+        this.$store.state.auth.user.employer.idEmployer
+    );
+    this.post = this.post1.data;
+    console.log(this.post);
+    const positionArray = await axios.get(
+      `${process.env.VUE_APP_ROOT_API}admin_emp/allPosition`
+    );
+    this.positionArray = positionArray.data;
+    const image1 = await axios.get(
+      `${process.env.VUE_APP_ROOT_API}main/getImageByIdEmployer` +
+        "?idEmployer=" +
+        this.$store.state.auth.user.employer.idEmployer
+    );
+    const imageName = image1.data;
+    this.image =
+      (await `${process.env.VUE_APP_ROOT_API}main/image/`) + imageName;
     console.log(this.sevenDay);
   },
 };
@@ -1326,5 +1514,8 @@ export default {
 .html-editor >>> ol {
   list-style-type: decimal !important;
   margin-left: 20px !important;
+}
+.html-editor >>> .ck-editor {
+  width: 500px !important;
 }
 </style>

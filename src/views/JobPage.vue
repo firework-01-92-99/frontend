@@ -34,7 +34,7 @@
     <!-- search criteria & job card -->
     <div class="hero 2xl:h-52 xl:h-48 lg:h-48 md:h-48 bg-gray-1">
       <form
-        @submit.prevent="getData()"
+        @submit.prevent="getData(true)"
         class="
           form-control
           grid
@@ -189,21 +189,7 @@
             <option class="text-black" :value="''" disabled selected>
               ค่าตอบแทนที่ต้องการต่ำสุด
             </option>
-            <option class="text-black" value="300">300</option>
-            <option class="text-black" value="400">400</option>
-            <option class="text-black" value="500">500</option>
-            <option class="text-black" value="1000">1,000</option>
-            <option class="text-black" value="2000">2,000</option>
-            <option class="text-black" value="3000">3,000</option>
-            <option class="text-black" value="4000">4,000</option>
-            <option class="text-black" value="5000">5,000</option>
-            <option class="text-black" value="6000">6,000</option>
-            <option class="text-black" value="7000">7,000</option>
-            <option class="text-black" value="8000">8,000</option>
-            <option class="text-black" value="9000">9,000</option>
-            <option class="text-black" value="10000">10,000</option>
-            <option class="text-black" value="15000">15,000</option>
-            <option class="text-black" value="20000">20,000</option>
+            <option v-for="s in salary" :key="s.value" :value="s.value" :disabled="filter.enterMaxSalary <= s.value">{{ s.n }}</option>
           </select>
         </div>
         <div class="w-full flex-col">
@@ -234,21 +220,7 @@
             <option class="text-black" :value="''" disabled selected>
               ค่าตอบแทนที่ต้องการสูงสุด
             </option>
-            <option class="text-black" value="300">300</option>
-            <option class="text-black" value="400">400</option>
-            <option class="text-black" value="500">500</option>
-            <option class="text-black" value="1000">1,000</option>
-            <option class="text-black" value="2000">2,000</option>
-            <option class="text-black" value="3000">3,000</option>
-            <option class="text-black" value="4000">4,000</option>
-            <option class="text-black" value="5000">5,000</option>
-            <option class="text-black" value="6000">6,000</option>
-            <option class="text-black" value="7000">7,000</option>
-            <option class="text-black" value="8000">8,000</option>
-            <option class="text-black" value="9000">9,000</option>
-            <option class="text-black" value="10000">10,000</option>
-            <option class="text-black" value="15000">15,000</option>
-            <option class="text-black" value="20000">20,000</option>
+            <option v-for="s in salary" :key="s.value" :value="s.value" :disabled="filter.enterMinSalary >= s.value">{{ s.n }}</option>
           </select>
         </div>
         <div
@@ -378,6 +350,23 @@ export default {
   components: { BaseJob },
   data() {
     return {
+      salary:[
+        { n: '300', value: 300 },
+        { n: '400', value: 400},
+        { n: '500', value: 500},
+        { n: '1,000', value: 1000},        
+        { n: '2,000', value: 2000},
+        { n: "3,000", value: 3000},
+        { n: "4,000", value: 4000},
+        { n: "5,000", value: 5000},
+        { n: "6,000", value: 6000},
+        { n: "7,000", value: 7000},
+        { n: "8,000", value: 8000},
+        { n: "9,000", value: 9000},
+        { n: "10,000", value: 10000 },
+        { n: "15,000", value: 15000},
+        { n: "20,000", value: 20000},
+      ],
       //ทำ V-model ใน input, select บลาๆ ด้วย
       provinces: [],
       typeHiring: [],
@@ -425,9 +414,13 @@ export default {
       this.$store.commit("setPosting", allPost);
       console.log("Store 2 = " + this.$store.getters.getPosting);
     },
-    async getData() {
+    async getData(resetPage=false) {
       console.log(this.filter.enterMinSalary)
       console.log(this.filter.enterMaxSalary)
+      if(resetPage){
+        this.pageToFilter = 0
+        this.page = 1
+      }
       await axios
         .get(
           `${process.env.VUE_APP_ROOT_API}main/searchPosting?establishmentAndpositionName=${this.filter.enterEstOrPost}&idHiringtype=${this.filter.enterHiringType}&sortSalary=&idProvince=${this.filter.enterProvince}&idDistrict=&idSubdistrict=&minSalary=${parseInt(this.filter.enterMinSalary)}&maxSalary=${parseInt(this.filter.enterMaxSalary)}&size=10` 

@@ -28,6 +28,8 @@
       </div>
         <div v-if="$route.query.history == 'yes'" class="w-full 2xl:pt-4 xl:pt-3 lg:pt-3 md:pt-5 pt-8 2xl:ml-32 xl:ml-5 lg:ml-6 md:ml-14 ml-12 2xl:-mt-0 md:-mt-0 -mt-3">
           <select
+            @click="callData()"
+            v-model.trim="roundHistory"
             class="
               select select-bordered
               2xl:w-1/12
@@ -40,8 +42,9 @@
             <!-- <option class="text-black" :value="''" disabled selected>
               ครั้งที่เปิดรับสมัคร
             </option> -->
+            <!-- <option v-for="n in nRound" :key="n" class="text-black" value="1" selected = "selected">{{n}}</option> -->
             <option class="text-black" value="1" selected = "selected">ครั้งที่ 1</option>
-            <option class="text-black" value="2">ครั้งที่ 2</option>
+            <option class="text-black" value="2">ครั้งที่ 2</option> -->
           </select>
         </div>
       </div>
@@ -87,7 +90,7 @@
         <tbody
           v-for="a in whoApplication.data.whoApplicationList.filter((s) => (s.idStatus == idStatus) || (s.statusName == 'Waiting_Rating' || s.statusName == 'workerRated' ))"
           :key='a.applicationId'>
-          <!-- {{a}} -->
+          {{a}}
           <!-- row 1 -->
           <!-- <div v-if="listApprove.lenght == null">
             ไม่มีรายการที่ต้องทำ
@@ -728,9 +731,10 @@ const sexFreeze = Object.freeze({
   M: "ชาย",
 });
 export default {
-  props: ["idPost", "idStatus", "refreshData"],
+  props: ["idPost", "idStatus", "idStatus2", "refreshData"],
   data() {
     return {
+      nRound: 2,
       showCommentWhenReject: '',
       // timestamp: "",
       sexFreeze,
@@ -771,6 +775,7 @@ export default {
       accept: "รับเข้าทำงาน",
       reject: "ไม่รับเข้าทำงาน",
       statusToPage: 0,
+      roundHistory: 1,
     };
   },
   methods: {
@@ -1011,15 +1016,16 @@ export default {
       }
       }else{
         if(this.$route.query.history == 'yes'){
-          if(this.idStatus == 13){
-            this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
-          }else if(this.idStatus == 16){
-            this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
-          }else if(this.idStatus == 23){
-            this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
-          }else if(this.idStatus == 26){
-            this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
-          }
+          // if(this.idStatus == 13){
+          //   this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
+          // }else if(this.idStatus == 16){
+          //   this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
+          // }else if(this.idStatus == 23){
+          //   this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
+          // }else if(this.idStatus == 26){
+          //   this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
+          // }
+          this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerAllPostingByTwoStatusAndRound?idStatus1=${this.idStatus}&idStatus2=${this.idStatus2}&round=${this.roundHistory}`)
         }
       }
     }else{
@@ -1091,16 +1097,16 @@ export default {
       }
       }else{
         if(this.$route.query.history == 'yes'){
-        if(this.idStatus == 13){
+        if(this.idStatus == 13 && this.idStatus2 == 12){
         console.log("idStatus =" + this.idStatus)
         this.callData()
-      }else if(this.idStatus == 16){
+      }else if(this.idStatus == 16 && this.idStatus2 == 15){
         console.log("idStatus =" + this.idStatus)
         this.callData()
-      }else if(this.idStatus == 23){
+      }else if(this.idStatus == 23 && this.idStatus2 == 22){
         console.log("idStatus =" + this.idStatus)
         this.callData()
-      }else if(this.idStatus == 26){
+      }else if(this.idStatus == 26 && this.idStatus2 == 20){
         console.log("idStatus =" + this.idStatus)
         this.callData()
       } 
