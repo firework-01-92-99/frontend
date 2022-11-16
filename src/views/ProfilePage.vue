@@ -11,13 +11,17 @@
           >
             <div>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-              <p class="">
+              <p v-if="delToast" class="">
                 คุณต้องการ<span class="font-medium">ลบบัญชี</span>ใช่หรือไม่
               </p>
+              <p v-if="passToast" class="">
+                รหัสผ่านของคุณได้รับการแก้ไขเรียบร้อยแล้ว กรุณาเข้าสู่ระบบใหม่อีกครั้ง
+              </p>              
             </div>
             <div class="flex-none">
-              <button class="btn btn-sm btn-ghost px-5">ไม่</button>
-              <button class="btn btn-sm bg-orange-1 border-orange-1 hover:bg-orange-2 hover:border-orange-2 px-5">ใช่</button>
+              <button v-if="delToast" class="btn btn-sm btn-ghost px-5">ไม่</button>
+              <button v-if="delToast" class="btn btn-sm bg-orange-1 border-orange-1 hover:bg-orange-2 hover:border-orange-2 px-5">ใช่</button>
+              <button v-if="passToast" @click="signOut()" class="btn btn-sm bg-orange-1 border-orange-1 hover:bg-orange-2 hover:border-orange-2 px-5">ตกลง</button>
             </div>
           </div>
         </div>
@@ -413,7 +417,7 @@
                           placeholder="รหัสผ่านปัจจุบัน"
                         />
                       </div>
-                      <p v-if="passwordInput" class="text-red-600">
+                      <p v-if="currPassInput" class="text-red-600">
                         กรุณากรอกรหัสผ่านปัจจุบัน
                       </p>
                     </div>
@@ -456,7 +460,7 @@
                           placeholder="รหัสผ่านใหม่"
                         />
                       </div>
-                      <p v-if="passwordInput" class="text-red-600">
+                      <p v-if="newPassInput" class="text-red-600">
                         กรุณากรอกรหัสผ่านใหม่
                       </p>
                     </div>
@@ -499,7 +503,7 @@
                           placeholder="ยืนยันรหัสผ่านใหม่"
                         />
                       </div>
-                      <p v-if="secPassInput" class="text-red-600">
+                      <p v-if="confirmPassInput" class="text-red-600">
                         กรุณากรอกช่องยืนยันรหัสผ่านให้ตรงกับช่องรหัสผ่าน
                       </p>
                     </div>
@@ -541,6 +545,7 @@
 
 
 <script>
+import { mapActions } from "vuex";
 import axios from "axios";
 import BaseTab from "@/components/BaseTab.vue";
 import BaseFav from "@/components/BaseFav.vue";
@@ -584,11 +589,71 @@ export default {
         worker:{}
       },
       toggleModal: false,
-      // showToast: false,   
+      editPass: {
+        currPass: '',
+        newPass: '',
+        confirmPass: '',
+        email: '',
+      },
+        currPassInput: false,
+        newPassInput: false,
+        confirmPassInput: false,
+      delToast: false,
+      passToast: false,
+      showToast: true,
     };
   },
   // this.$store.commit("setWorkingHistory", this.getInactivePost);
   methods: {
+    ...mapActions({
+      signOutAction: "auth/signOut",
+    }),
+    signOut() {
+      this.signOutAction().then(() => {
+        this.$router.replace({
+          name: "JobPage",
+        });
+        location.reload();
+      });
+    }, 
+ 
+    async editPassword(){
+    this.currPassInput = this.editPass.currPass === '' || this.editPass.currPass.length < 8 ? true : false
+    this.newPassInput = this.editPass.newPass === '' || this.editPass.newPass.length < 8
+    this.confirmPassInput = this.editPass.confirmPass === '' || this.editPass.confirmPass.length < 8 || this.editPass.newPass != this.editPass.confirmPass
+    if(!this.confirmPassInput && !this.newPassInput && !this.currPassInput){
+      const vm = this
+      if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == '3'){
+           await axios.post(
+          `${process.env.VUE_APP_ROOT_API}worker/editPasswordWorker?currentPassword=` + this.editPass.currPass + '&newPassword=' + this.editPass.newPass + '&idWorker=' + this.$store.state.auth.user.worker.idWorker)
+          .then(function (response) {
+          console.log(response);
+          vm.toggleModal = false;
+          vm.showToast = true;
+          vm.passToast = true;
+          window.scrollTo({ top: 0, behavior: 'smooth' });          
+        })
+        .catch(function (error) {
+          console.log(error);
+        }); 
+      }else{
+        if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == '2'){
+           await axios.post(
+          `${process.env.VUE_APP_ROOT_API}emp/editPasswordEmployer?currentPassword=` + this.editPass.currPass + '&newPassword=' + this.editPass.newPass + '&idEmployer=' + this.$store.state.auth.user.employer.idEmployer)
+          .then(function (response) {
+          console.log(response);
+          vm.toggleModal = false;
+          vm.showToast = true;
+          vm.passToast = true;
+          window.scrollTo({ top: 0, behavior: 'smooth' });   
+        })
+        .catch(function (error) {
+          console.log(error);
+        }); 
+        }        
+      }
+    }
+  },    
     async giveRating(){
       const vm = this;
       // if (confirm("ต้องการปฏิเสธบุคคลนี้เข้าทำงานหรือไม่")) {
@@ -613,13 +678,23 @@ export default {
         console.log(result.data)      
     },    
     async sendDelete() {
+      const vm = this
       if (this.$store.state.auth.user) {
         if (this.$store.state.auth.user.role.idRole == "3") {
           if (confirm("คุณต้องการจะลบบัญชี worker ใช่หรือไม่")) {
             await axios.put(
               `${process.env.VUE_APP_ROOT_API}worker/deleteMyWorker?idWorker=` +
                 this.$store.state.auth.user.worker.idWorker
-            ).data;
+            ).data.then(function (response) {
+          console.log(response);
+          vm.showToast = true;
+          vm.delToast = true;
+          setTimeout(() => (vm.showToast = false), 3000)
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
           }
         } else {
           if (this.$store.state.auth.user.role.idRole == "2") {
@@ -627,7 +702,15 @@ export default {
               await axios.put(
                 `${process.env.VUE_APP_ROOT_API}emp/deleteMyEmployer?idEmployer=` +
                   this.$store.state.auth.user.employer.idEmployer
-              ).data;
+              ).data.then(function (response) {
+          console.log(response);
+          vm.showToast = true;
+          vm.delToast = true;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
             }
           }
         }

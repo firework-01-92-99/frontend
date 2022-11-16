@@ -609,7 +609,6 @@ const sexFreeze = Object.freeze({
   M: "ชาย",
 });
 export default {
-  props: ["idPost", "idStatus", "refreshData"],
   data() {
     return {
       showCommentWhenReject: '',
@@ -652,6 +651,7 @@ export default {
       accept: "รับเข้าทำงาน",
       reject: "ไม่รับเข้าทำงาน",
       statusToPage: 0,
+      idPost:1,
     };
   },
   methods: {
@@ -892,15 +892,7 @@ export default {
       }
       }else{
         if(this.$route.query.history == 'yes'){
-          if(this.idStatus == 13){
-            this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
-          }else if(this.idStatus == 16){
-            this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
-          }else if(this.idStatus == 23){
-            this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
-          }else if(this.idStatus == 26){
-            this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
-          }
+          this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerAllPostingByTwoStatusAndRound?idStatus1=${this.idStatus}&idStatus2=${this.idStatus2}&round=${this.roundHistory}`)
         }
       }
     }else{
@@ -917,12 +909,14 @@ export default {
       this.$store.state.auth.user &&
       this.$store.state.auth.user.role.idRole == "1"
     ) {
-    //   this.whoApplication = await axios.get(
-    //     `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
-    //       this.idPost +
-    //       "&idStatus=" +
-    //       this.idStatus
-    //   );
+        const maxRound = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getMaxRoundOfPosting?idPosting=` + this.idPost);
+        this.maxRound = maxRound.data      
+      // this.whoApplication = await axios.get(
+      //   `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
+      //     this.idPost +
+      //     "&idStatus=" +
+      //     this.idStatus
+      // );
     //   if (this.whoApplication.data.whoApplicationList.length == 0) {
     //     this.noValue = true;
     //     this.closeColumnName = true;

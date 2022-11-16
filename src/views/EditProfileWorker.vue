@@ -113,137 +113,6 @@
                       กรุณาอัปโหลดภาพยืนยันตัวตน
                     </p> -->
                   </div>
-                   <div>
-                  <div class="2xl:flex -mx-3">
-                    <div class="w-full px-3 mb-5">
-                      <label
-                        for=""
-                        class="text-sm 2xl:text-base font-medium px-1"
-                        >รหัสผ่านปัจจุบัน</label
-                      >
-                      <div class="flex">
-                        <div
-                          class="
-                            w-10
-                            z-10
-                            pl-1
-                            text-center
-                            pointer-events-none
-                            flex
-                            items-center
-                            justify-center
-                          "
-                        ></div>
-                        <input
-                          type="text"
-                          v-model="editPass.currPass"
-                          class="
-                            w-full
-                            -ml-10
-                            pl-5
-                            pr-3
-                            py-2
-                            rounded-lg
-                            border-2 border-gray-200
-                            outline-none
-                            focus:border-indigo-500
-                          "
-                          placeholder="รหัสผ่านปัจจุบัน"
-                        />
-                      </div>
-                      <p v-if="passwordInput" class="text-red-600">
-                        กรุณากรอกรหัสผ่านปัจจุบัน
-                      </p>
-                    </div>
-                  </div>
-
-                  <div class="2xl:flex -mx-3">
-                    <div class="w-full px-3 mb-5">
-                      <label
-                        for=""
-                        class="text-sm 2xl:text-base font-medium px-1"
-                        >รหัสผ่านใหม่</label
-                      >
-                      <div class="flex">
-                        <div
-                          class="
-                            w-10
-                            z-10
-                            pl-1
-                            text-center
-                            pointer-events-none
-                            flex
-                            items-center
-                            justify-center
-                          "
-                        ></div>
-                        <input
-                          type="text"
-                          v-model="editPass.newPass"
-                          class="
-                            w-full
-                            -ml-10
-                            pl-5
-                            pr-3
-                            py-2
-                            rounded-lg
-                            border-2 border-gray-200
-                            outline-none
-                            focus:border-indigo-500
-                          "
-                          placeholder="รหัสผ่านใหม่"
-                        />
-                      </div>
-                      <p v-if="passwordInput" class="text-red-600">
-                        กรุณากรอกรหัสผ่านใหม่
-                      </p>
-                    </div>
-                  </div>
-
-                  <div class="2xl:flex -mx-3">
-                    <div class="w-full px-3 mb-5">
-                      <label
-                        for=""
-                        class="text-sm 2xl:text-base font-medium px-1"
-                        >ยืนยันรหัสผ่านใหม่</label
-                      >
-                      <div class="flex">
-                        <div
-                          class="
-                            w-10
-                            z-10
-                            pl-1
-                            text-center
-                            pointer-events-none
-                            flex
-                            items-center
-                            justify-center
-                          "
-                        ></div>
-                        <input
-                          type="text"
-                          v-model="editPass.confirmPass"
-                          class="
-                            w-full
-                            -ml-10
-                            pl-5
-                            pr-3
-                            py-2
-                            rounded-lg
-                            border-2 border-gray-200
-                            outline-none
-                            focus:border-indigo-500
-                          "
-                          placeholder="ยืนยันรหัสผ่านใหม่"
-                        />
-                      </div>
-                      <p v-if="secPassInput" class="text-red-600">
-                        กรุณากรอกช่องยืนยันรหัสผ่านให้ตรงกับช่องรหัสผ่าน
-                      </p>
-                    </div>
-                  </div>
-                  <button @click="editPassword()">แก้ไขรหัสผ่าน</button>
-                </div>
                 </div>
               </div>
             </div>
@@ -1376,7 +1245,6 @@ export default {
         `${process.env.VUE_APP_ROOT_API}main/image/` + this.$store.state.auth.user.worker.verifyPic,
       UpPic: false,
       emailInput: false,
-      passwordInput: false,
       estnameInput: false,
       workerTypeInput: false,
       idenNoInput: false,
@@ -1402,30 +1270,10 @@ export default {
       isEditSubDistrict: false,
       picture: null,
       secPassInput: false,
-      // showToast: false,
-        editPass: {
-          currPass: '',
-          newPass: '',
-          confirmPass: '',
-          email: '',
-        },
-        currPassInput: false,
-        newPassInput: false,
-        confirmPassInput: false,               
+      // showToast: false,             
     };
   },
-  methods: {
-  async editPassword(){
-    console.log(this.$store.state.auth.user.worker)
-    this.currPassInput = this.editPass.currPass === '' || this.editPass.currPass.length < 8 ? true : false
-    this.newPassInput = this.editPass.newPass === '' || this.editPass.newPass.length < 8
-    this.confirmPassInput = this.editPass.confirmPass === '' || this.editPass.confirmPass.length < 8 || this.editPass.newPass != this.editPass.confirmPass
-    if(!this.confirmPassInput && !this.newPassInput && !this.currPassInput){
-      //รอ BE แก้ method
-    await axios.post(
-          `${process.env.VUE_APP_ROOT_API}worker/editPasswordWorker?currentPassword=` + this.editPass.currPass + '&newPassword=' + this.editPass.newPass + '&idWorker=' + this.$store.state.auth.user.worker.idWorker);
-    }
-  },    
+  methods: {  
     async sendEdit() {
       console.log("เข้า 1")
       this.check();
@@ -1433,7 +1281,6 @@ export default {
         console.log("เข้า 2")
       if (
         !this.UpPic &&
-        !this.passwordInput &&
         !this.firstnameInput &&
         !this.lastnameInput &&
         !this.phoneInput
