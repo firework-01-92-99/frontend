@@ -1124,7 +1124,6 @@ export default {
               //   method: "PUT",
               // }
             ).data;
-            window.location.reload();
           } catch (error) {
             console.log(error);
           }
@@ -1134,11 +1133,8 @@ export default {
         console.log("เลือกก่อนว่าอนุมัติไม่อนุมัติ");
       }
       this.listApprove = await axios.get(`${process.env.VUE_APP_ROOT_API}admin/getAllApproveByIdStatusAndIdRole?idStatus=6&idRole=0`);
-      if (this.listApprove.data.length == 0) {
-        this.noValue = true;
-      } else {
-        this.noValue = false;
-      }      
+      window.location.reload();
+      this.noValue = this.listApprove.data.length == 0     
     },
     async fetch(url) {
       try {
@@ -1166,11 +1162,7 @@ export default {
       );
       this.idAdmin = this.myAcc.data.idAdmin;
       console.log(this.myAcc.data);
-      if (this.listApprove.data.length == 0) {
-        this.noValue = true;
-      } else {
-        this.noValue = false;
-      }
+      this.noValue = this.listApprove.data.length == 0 
     } else {
       this.$router.push("/");
     }

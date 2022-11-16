@@ -238,7 +238,7 @@
                 class="card-actions"
               >
                 <button
-                  @click="linkTo(job.idPosting, job.idEmployer)"
+                  @click.prevent="linkTo(job.idPosting, job.idEmployer)"
                   class="
                     btn
                     border-orange-1
@@ -294,6 +294,7 @@ export default {
       scoreEmp: '',
       scoreAllEmp: [],
       noValue: false,
+      ImageOfEmp: '',
       // showToast: false,
     };
   },
@@ -317,12 +318,16 @@ export default {
     },
     linkTo(idPost, idEmp) {
       if (
-        !this.$store.state.auth.user ||
-        this.$store.state.auth.user.role.idRole == "3"
+        (!this.$store.state.auth.user ||
+        this.$store.state.auth.user.role.idRole == "3") && this.$route.query.fromAllEmp != 'yes'
       ) {
+        console.log(1)
         this.$router.push(
           "/detail?idPosting=" + idPost + "&idEmployer=" + idEmp
         );
+      }else{
+        console.log(2)
+          this.$router.push("/detail?idPosting=" + idPost + "&idEmployer=" + idEmp + "&fromAllEmp=yes");          
       }
       // else {
       // if (this.$store.state.auth.user.role.idRole == "2") {
@@ -333,7 +338,7 @@ export default {
       // }
     },
     seeDetailEmp(jobId, idEmp) {
-      if (this.$store.state.auth.user.role.idRole == "2") {
+      if (this.$store.state.auth.user.role.idRole == "2" && this.$route.query.fromAllEmp != 'yes') {
         this.$router.push(
           "/detail?idPosting=" + jobId + "&idEmployer=" + idEmp
         );
@@ -395,6 +400,15 @@ export default {
         console.log(error);
       }
     },
+    async getImageOfEmp(){
+        const image = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getImageByIdEmployer` +"?idEmployer=" + this.$store.state.auth.user.employer.idEmployer);
+        this.ImageOfEmp = image.data
+        this.image = `${process.env.VUE_APP_ROOT_API}main/image/` + this.ImageOfEmp;
+    },
+    async getActivePostMethod(){
+      this.getActivePost = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getPostingActiveByIdEmployer?idEmployer=` + this.idEmp + '&size=10');
+      this.$store.commit("setPosting", this.getActivePost);
+    }
   },
 
   computed: {
@@ -402,34 +416,20 @@ export default {
       allJobs: "getPosting",
     }),
   },
-  async created() {
+  async created() {   
     // const size = this.$route.name == "JobDetail" ? 4 : 10;
     const size = 10;
     const allPost = await this.fetch(
       `${process.env.VUE_APP_ROOT_API}main/allPosting` + "?size=" + size
     );   
-    // if (
-    //   this.$route.name == "JobDetail" &&
-    //   allPost.content.filter((j) => j.idPosting != this.idPost).length == 4
-    // ) {
-    //   allPost.content.pop();
-    // }
+
       if (this.idEmp) {
         if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == "2"){
-        const image1 = await axios.get(
-          `${process.env.VUE_APP_ROOT_API}main/getImageByIdEmployer` +
-            "?idEmployer=" +
-            this.$store.state.auth.user.employer.idEmployer
-        );
-        const imageName = image1.data;
-        console.log(imageName)
-        this.image =
-          `${process.env.VUE_APP_ROOT_API}main/image/` + imageName;
+          this.getImageOfEmp()
         this.getActivePost = await this.fetch(
           `${process.env.VUE_APP_ROOT_API}main/getPostingActiveByIdEmployer?idEmployer=` +
             this.$store.state.auth.user.employer.idEmployer + '&size=10'
         );
-        console.log(this.image)
         this.$store.commit("setPosting", this.getActivePost);
         this.getInactivePost = await this.fetch(
           `${process.env.VUE_APP_ROOT_API}main/getPostingInActiveByIdEmployer?idEmployer=` +
@@ -453,8 +453,12 @@ export default {
           ).imageName;
       }
       this.scoreAllEmp = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allEmployer`);
-      this.$store.commit("setPosting", allPost);
-      this.noValue = allPost.content.length == 0
+      if(this.$route.name == "JobDetail"){
+        this.getActivePostMethod()        
+      }else{
+        this.$store.commit("setPosting", allPost);
+      }      
+      this.noValue = allPost.content.length == 0 || this.getActivePost.content.length == 0
       }
         }
       }else{
@@ -474,8 +478,12 @@ export default {
           ).imageName;
       }
       this.scoreAllEmp = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/allEmployer`);
-      this.$store.commit("setPosting", allPost);
-      this.noValue = allPost.content?.length == 0
+      if(this.$route.name == "JobDetail"){
+        this.getActivePostMethod()        
+      }else{
+        this.$store.commit("setPosting", allPost);
+      }
+      this.noValue = allPost.content?.length == 0 || this.getActivePost.content.length == 0
       }     
       }
     this.allEmployer = await this.fetch(
@@ -491,10 +499,6 @@ export default {
       );
       this.favoriteList = this.fav1.data;
     }
-        if(this.$route.name == "JobDetail"){
-        this.getActivePost = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/getPostingActiveByIdEmployer?idEmployer=` + this.idEmp + '&size=10');
-        this.$store.commit("setPosting", this.getActivePost);
-    } 
   },
 };
 </script>

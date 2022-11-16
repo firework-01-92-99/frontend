@@ -45,9 +45,9 @@
             <!-- <option class="text-black" :value="''" disabled selected>
               ครั้งที่เปิดรับสมัคร
             </option> -->
-            <!-- <option v-for="n in nRound" :key="n" class="text-black" value="1" selected = "selected">{{n}}</option> -->
-            <option class="text-black" value="1" selected = "selected">ครั้งที่ 1</option>
-            <option class="text-black" value="2">ครั้งที่ 2</option> -->
+            <option v-for="index in maxRound" :key="index" class="text-black" :value="index" selected = "selected">{{'ครั้งที่' + ' ' + index}}</option>
+            <!-- <option class="text-black" value="1" selected = "selected">ครั้งที่ 1</option>
+            <option class="text-black" value="2">ครั้งที่ 2</option> --> -->
           </select>
         </div>
       </div>
@@ -92,7 +92,7 @@
         <tbody
           v-for="a in whoApplication.data.whoApplicationList.filter((s) => (s.idStatus == idStatus) || (s.statusName == 'Waiting_Rating' || s.statusName == 'workerRated' ))"
           :key='a.applicationId'>
-          <!-- {{a}} -->
+          {{a}}
           <!-- row 1 -->
           <!-- <div v-if="listApprove.lenght == null">
             ไม่มีรายการที่ต้องทำ
@@ -139,6 +139,7 @@
             </td>
             <td v-if="$route.query.history == 'yes'">
               <div
+                v-if="a.statusName == 'Accept_EmployerOnWeb'"
                 class="
                   badge badge-lg
                   w-1/3
@@ -151,6 +152,7 @@
                 รับเข้าทำงาน
               </div>
               <div
+                v-if="a.statusName == 'Reject_EmployerOnWeb'"
                 class="
                   badge badge-lg
                   w-1/3
@@ -778,6 +780,7 @@ export default {
       reject: "ไม่รับเข้าทำงาน",
       statusToPage: 0,
       roundHistory: 1,
+      maxRound: 1,
     };
   },
   methods: {
@@ -1018,6 +1021,7 @@ export default {
       }
       }else{
         if(this.$route.query.history == 'yes'){
+          console.log(this.idStatus)
           // if(this.idStatus == 13){
           //   this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
           // }else if(this.idStatus == 16){
@@ -1056,6 +1060,10 @@ export default {
       }
       this.namePost1 = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/selectPosting?idPosting=` + this.idPost);
       this.namePost =  this.namePost1.position?.positionName
+      if(this.$route.query.history == 'yes'){
+        const maxRound = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getMaxRoundOfPosting?idPosting=` + this.idPost);
+        this.maxRound = maxRound.data
+      }
       console.log(this.whoApplication);
       console.log("idPost = " + this.idPost, "idStatus = " + this.idStatus);
     } else {
