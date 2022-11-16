@@ -92,7 +92,7 @@
         <tbody
           v-for="a in whoApplication.data.whoApplicationList.filter((s) => (s.idStatus == idStatus) || (s.statusName == 'Waiting_Rating' || s.statusName == 'workerRated' ))"
           :key='a.applicationId'>
-          {{a}}
+          <!-- {{a}} -->
           <!-- row 1 -->
           <!-- <div v-if="listApprove.lenght == null">
             ไม่มีรายการที่ต้องทำ
@@ -106,7 +106,7 @@
           }} -->
           <tr>
             <th>{{ a.count }}</th>
-            <td class="flex justify-items-center">
+            <td class="">
               <div class="rating rating-md">
                 <input type="radio" name="rating-2" class="cursor-default mask mask-star-2 bg-orange-400" checked disabled />
               </div>
