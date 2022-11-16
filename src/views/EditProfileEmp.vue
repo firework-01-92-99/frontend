@@ -1430,7 +1430,7 @@ export default {
     if(!this.confirmPassInput && !this.newPassInput && !this.currPassInput){
       //รอ BE แก้ method
     await axios.post(
-          `${process.env.VUE_APP_ROOT_API}main/editPassword?currentPassword=` + this.editPass.currPass + '&newPassword=' + this.editPass.newPass + '&idEmployer=' + this.$store.state.auth.user.employer.idEmployer);
+          `${process.env.VUE_APP_ROOT_API}emp/editPasswordEmployer?currentPassword=` + this.editPass.currPass + '&newPassword=' + this.editPass.newPass + '&idEmployer=' + this.$store.state.auth.user.employer.idEmployer);
     }
   },     
     async sendEdit() {

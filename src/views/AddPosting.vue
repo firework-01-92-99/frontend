@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-2 font-sans-thai">
+  <div class="container mx-auto py-16 bg-gray-2 font-sans-thai">
     <div>
       <!-- toast -->
       <transition name="toast">
