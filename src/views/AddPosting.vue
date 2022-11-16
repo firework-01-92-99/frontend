@@ -110,22 +110,11 @@
     </div>
     <!-- card header -->
     <form>
-      <div
-        class="
-          rounded-lg
-          mx-auto
-          card
-          2xl:card-side
-          bg-base-100
-          font-sans-thai
-          w-full
-        "
-      >
+      <div class="mx-auto card 2xl:card-side xl:card-side lg:card-side md:card-side bg-base-100 font-sans-thai w-full rounded-lg">
         <figure class="2xl:w-1/4">
           <img
-            class="2xl:h-full object-cover w-full"
+            class="object-cover 2xl:w-96 xl:w-96 lg:w-80 md:w-60 w-96 2xl:h-72 xl:h-72 lg:h-72 md:h-96 h-48"
             :src="image"
-            alt="Movie"
           />
         </figure>
         <div class="card-body">
@@ -1515,7 +1504,29 @@ export default {
   list-style-type: decimal !important;
   margin-left: 20px !important;
 }
-.html-editor >>> .ck-editor {
-  width: 500px !important;
+@media (min-width: 1536px){
+  .html-editor >>> .ck-editor {
+    width: 500px !important;
+  }
+}
+@media (min-width: 1280px){
+  .html-editor >>> .ck-editor {
+    width: 500px !important;
+  }
+}
+@media (min-width: 1024px){
+  .html-editor >>> .ck-editor {
+    width: 500px !important;
+  }
+}
+@media (min-width: 768px){
+  .html-editor >>> .ck-editor {
+    width: 500px !important;
+  }
+}
+@media (min-width: 375px){
+  .html-editor >>> .ck-editor {
+    width: 325px !important;
+  }
 }
 </style>

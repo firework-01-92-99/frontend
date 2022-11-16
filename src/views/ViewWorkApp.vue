@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-gray-2 font-sans-thai">
-    <div>
+  <div class="bg-gray-2 font-sans-thai 2xl:container mx-auto py-20 px-5">
+    <div class="">
       <button
         @click="goTo()"
         class="btn btn-ghost font-sans-thai flex justify-start ml-2.5"

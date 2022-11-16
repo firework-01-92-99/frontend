@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-2">
+  <div class="bg-gray-2 2xl:container mx-auto py-20">
   <base-job-detail></base-job-detail></div>
 </template>
 <script>

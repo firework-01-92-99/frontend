@@ -93,16 +93,16 @@
       <!-- </router-link> -->
     </div>
     <!-- card header -->
-    <div class="mx-auto card 2xl:card-side bg-base-100 font-sans-thai w-full rounded-lg">
+    <div class="mx-auto card 2xl:card-side xl:card-side lg:card-side bg-base-100 font-sans-thai w-full rounded-lg">
       <figure class="2xl:w-1/4">
         <img
-          class="2xl:h-full object-cover w-full"
+          class="object-cover 2xl:w-96 xl:w-96 lg:w-80 md:w-full w-96 2xl:h-96 xl:h-72 lg:h-72 md:h-96 h-48"
           :src="image"
         />
       </figure>
       <div class="card-body">
         <div class="flex justify-between">
-          <h2 class="card-title text-orange-1 2xl:text-base xl:text-base lg:text-base md:text-base text-lg">
+          <h2 class="card-title text-orange-1 2xl:text-base xl:text-base lg:text-base md:text-base text-base">
             {{ jobDetail.position.positionName }}
           </h2>
           <!-- status -->
@@ -120,7 +120,7 @@
             <i @click="unFav($route.query.idPosting)" class="material-icons cursor-pointer select-none"> bookmark </i>
           </div>
         </div>
-        <h2 class="card-title 2xl:text-base xl:text-base lg:text-base md:text-base text-lg">
+        <h2 class="card-title 2xl:text-base xl:text-base lg:text-base md:text-base text-base">
           {{ employer.establishmentName }}
           <div class="rating rating-md">
                   <span class="font-normal pr-2">|</span>
@@ -177,13 +177,13 @@
           >
           <span class="inline-block align-middle"> {{ employer.email }}</span>
         </p>
-        <div v-if="$store.state.auth.user && this.$store.state.auth.user.role.idRole == '2'" class="2xl:flex 2xl:justify-end md:flex md:justify-between 2xl:space-x-5 md:space-y-0 space-y-5">
+        <div v-if="$store.state.auth.user && this.$store.state.auth.user.role.idRole == '2'" class="2xl:flex 2xl:justify-end md:flex md:justify-end 2xl:space-x-5 md:space-y-0 space-y-5">
           <!-- <button @click="$router.push('/editPost?idPost=' + idPosting)" class="px-10 2xl:w-1/4 md:w-2/5 w-full btn border-orange-1 bg-orange-1 hover:bg-orange-2 hover:border-orange-2">แก้ไขประกาศรับสมัคร</button> -->
           <button v-if="jobDetail.status.statusName == 'Active'" @click="closePost('Off')" class="px-10 2xl:w-1/4 md:w-2/5 w-full btn btn-ghost border-red-600 text-red-600 hover:bg-red-700 hover:border-red-700 hover:text-white">ปิดประกาศรับสมัคร</button>
           <button v-if="jobDetail.status.statusName == 'Inactive'" @click="closePost('On')" class="px-10 2xl:w-1/4 md:w-2/5 w-full btn btn-ghost border-green-600 text-green-600 hover:bg-green-600 hover:border-green-600 hover:text-white">เปิดประกาศรับสมัคร</button>
         </div>
-        <div class="card-actions justify-center 2xl:justify-end">
-          <div v-if="this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == '3'" class="2xl:w-1/6 w-full">
+        <div class="card-actions justify-center 2xl:justify-end xl:justify-end lg:justify-end">
+          <div v-if="this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == '3'" class="2xl:w-1/6 xl:w-1/6 lg:w-2/6 w-full">
           <label
             for="my-modal-6"
             v-if="!alreadyApp"
@@ -403,6 +403,7 @@
               border-0
               bg-orange-2
               hover:bg-orange-2
+              xl:w-1/6 lg:w-2/6
               w-full
               2xl:w-1/6 2xl:my-0
               my-3

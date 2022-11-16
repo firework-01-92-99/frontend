@@ -1,5 +1,5 @@
 <template>
-  <div v-if="$store.state.auth.user" class="Profile font-sans-thai">
+  <div v-if="$store.state.auth.user" class="Profile font-sans-thai 2xl:container mx-auto py-16">
     
     <div v-if="$store.state.auth.user.role.idRole == '3'" class="bg-gray-100">
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-2 h-full font-sans-thai">
+  <div class="bg-gray-2 h-full font-sans-thai container mx-auto py-16">
     <div class="">
       <button
         @click="$router.push('/allEmployer')"

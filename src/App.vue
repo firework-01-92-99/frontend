@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="bg-gray-2 w-full min-h-screen">
-    <div class="navbar bg-dark-blue font-sans-thai">
+    <div class="nav navbar bg-dark-blue font-sans-thai fixed z-20">
       <div class="navbar-start">
         <div class="dropdown dropdown-hover" :class="{'block 2xl:hidden xl:hidden lg:hidden md:hidden': !$store.state.auth.user || ($store.state.auth.user.role.idRole == '2')}">
           <label
@@ -310,3 +310,12 @@ export default {
   },
 };
 </script>
+<style>
+/* .nav {
+  z-index: 20;
+}
+.nav.scrolled {
+  @apply shadow-2xl;
+  border-bottom: 0px;
+} */
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="$store.state.auth.user" class="bg-gray-2 h-screen font-sans-thai">
+  <div v-if="$store.state.auth.user" class="bg-gray-2 h-screen font-sans-thai 2xl:container mx-auto py-16">
 
 <!-- toast send form -->
       <transition name="toast">
@@ -936,8 +936,8 @@
                                   >ภาพยืนยันตัวตน</label
                                 >
                                 <div class="flex">
-                                <img class="rounded-lg object-cover  w-1/3" :src="image" />
-                                <span class="2xl:px-10 xl:px-10 lg:px-10 md:px-10 px-5 font-medium text-4xl">→</span><img class="rounded-lg object-cover  w-1/3" :src="editImage" /></div>
+                                <img class="rounded-lg object-cover 2xl:w-40 xl:w-40 lg:w-40 md:w-40 w-28 2xl:h-40 xl:h-40 lg:h-40 md:h-40 h-28" :src="image" />
+                                <span class="2xl:px-10 xl:px-10 lg:px-10 md:px-10 px-5 font-medium text-4xl">→</span><img class="rounded-lg object-cover 2xl:w-40 xl:w-40 lg:w-40 md:w-40 w-28 2xl:h-40 xl:h-40 lg:h-40 md:h-40 h-28" :src="editImage" /></div>
                               </div>
                             </div>
                           </div>

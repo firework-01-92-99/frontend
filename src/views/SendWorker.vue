@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-2 font-sans-thai h-full">
+  <div class="bg-gray-2 font-sans-thai h-full 2xl:container mx-auto py-16">
       <!-- <div v-if="!acceptPage" class="overflow-x-auto w-10/12 mx-auto font-sans-thai"> -->
 <div class="2xl:flex 2xl:flex-row md:flex md:flex-row flex flex-col w-full">
       <div class="flex w-full justify-start">

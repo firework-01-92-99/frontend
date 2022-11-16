@@ -1,5 +1,5 @@
 <template>
-  <div v-if="$store.state.auth.user" class="bg-gray-2 h-screen font-sans-thai">
+  <div v-if="$store.state.auth.user" class="bg-gray-2 h-screen font-sans-thai 2xl:container mx-auto py-16">
     <div
       class="hero 2xl:h-64 xl:h-64 lg:h-64 md:h-64 h-32"
       style="

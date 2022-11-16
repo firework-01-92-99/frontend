@@ -1,5 +1,5 @@
 <template>
-  <div v-if="$store.state.auth.user" class="Profile">
+  <div v-if="$store.state.auth.user" class="Profile 2xl:container mx-auto py-16">
 
     <!-- toast send form -->
       <transition name="toast">

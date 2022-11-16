@@ -33,6 +33,9 @@
             class="
               select select-bordered
               2xl:w-1/12
+              xl:w-1/12
+              lg:w-2/12
+              md:w-3/12
               w-5/6
               2xl:text-base
               md:text-xs
@@ -48,7 +51,7 @@
           </select>
         </div>
       </div>
-      <div v-if="$route.query.history != 'yes'" class="2xl:mx-20 xl:mx-20 2xl:flex md:flex flex 2xl:p-0 md:p-10 p-5 2xl:mt-0 md:mt-0 mt-11 w-full 2xl:justify-end md:justify-end justify-center">
+      <div v-if="$route.query.history != 'yes'" class="2xl:mx-40 xl:mx-16 lg:mx-0 md:mx-0 mx-3.5 2xl:flex md:flex flex 2xl:p-0 md:p-10 p-5 2xl:mt-0 md:mt-0 mt-11 w-full 2xl:justify-end md:justify-end justify-start">
         <button
           @click="$router.push('/viewworkapp?history=yes&idPost=' + idPost),$emit('statusToPage', 13)"
           class="
@@ -63,7 +66,6 @@
             lg:mt-0
             md:mt-0
             text-sm
-            ml-8
           "
         >
          ดูประวัติ
@@ -568,7 +570,7 @@
                           <label for="" class="text-base font-medium px-1"
                             >ภาพยืนยันตัวตน</label
                           >
-                          <img class="rounded-lg object-cover 2xl:w-1/3 md:w-1/2 w-3/4" :src="image" />
+                          <img class="rounded-lg object-cover 2xl:w-40 xl:w-40 lg:w-40 md:w-40 w-28 2xl:h-40 xl:h-40 lg:h-40 md:h-40 h-28" :src="image" />
                         </div>
                       </div>
                     </div>

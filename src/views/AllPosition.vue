@@ -1,5 +1,5 @@
 <template>
-  <div v-if="$store.state.auth.user" class="bg-gray-2 h-full font-sans-thai">
+  <div v-if="$store.state.auth.user" class="bg-gray-2 h-full font-sans-thai 2xl:container mx-auto py-16">
         <div v-if="showToast" class="flex justify-center">
           <div
             class="absolute z-10 2xl:w-2/5 w-full alert alert-success shadow-lg"
@@ -288,7 +288,7 @@
                       <div class="flex -mx-3">
                         <div class="w-full px-3">
                           <label for="" class="text-base font-medium 2xl:px-1"
-                            >เพิ่มตำแหน่ง</label
+                            ></label
                           >
                           <div class="flex">
                             <div
