@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="font-sans-thai bg-gray-2 h-screen">
+    <div class="font-sans-thai bg-gray-2 h-screen py-16">
       <!-- toast -->
       <transition name="toast">
         <div v-if="showToast" class="flex justify-center">

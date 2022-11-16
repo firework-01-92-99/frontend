@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto py-16 bg-gray-2 font-sans-thai">
+  <div class="py-16 bg-gray-2 font-sans-thai">
     <div>
       <!-- toast -->
       <transition name="toast">
@@ -110,10 +110,10 @@
     </div>
     <!-- card header -->
     <form>
-      <div class="mx-auto card 2xl:card-side xl:card-side lg:card-side md:card-side bg-base-100 font-sans-thai w-full rounded-lg">
+      <div class="mx-auto card 2xl:card-side xl:card-side lg:card-side bg-base-100 font-sans-thai w-full rounded-lg">
         <figure class="2xl:w-1/4">
           <img
-            class="object-cover 2xl:w-96 xl:w-96 lg:w-80 md:w-60 w-96 2xl:h-72 xl:h-72 lg:h-72 md:h-96 h-48"
+            class="object-cover 2xl:w-96 xl:w-96 lg:w-80 md:w-full w-96 2xl:h-96 xl:h-72 lg:h-72 md:h-96 h-48"
             :src="image"
           />
         </figure>
@@ -127,7 +127,7 @@
                 class="2xl:text-base md:text-base text-sm font-medium px-1"
                 >กรุณาเลือกตำแหน่ง</label
               >
-              <div class="flex">
+              <div class="flex w-1/2">
                 <div
                   class="
                     w-10

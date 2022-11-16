@@ -1,5 +1,5 @@
 <template>
-  <div class="ForgotPass">
+  <div class="ForgotPass py-16">
     <!-- component -->
     <div class="font-sans-thai bg-gray-2 h-screen">
       <div

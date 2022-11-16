@@ -1,25 +1,13 @@
 <template>
-  <div v-if="$store.state.auth.user" class="bg-gray-2 h-full font-sans-thai 2xl:container mx-auto py-16">
-        <div v-if="showToast" class="flex justify-center">
+  <div v-if="$store.state.auth.user" class="bg-gray-2 h-full font-sans-thai py-16">
+        <div v-if="showToast" class="flex justify-center pt-2">
           <div
-            class="absolute z-10 2xl:w-2/5 w-full alert alert-success shadow-lg"
+            class="absolute z-10 2xl:w-2/5 w-full alert bg-cyan-200 shadow-lg"
           >
             <div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="stroke-current flex-shrink-0 h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
               <p class="font-sans-thai">
-                ตำแหน่งนี้มีผู้ใช้งานอยู่แล้ว
+                ตำแหน่งนี้มีผู้ที่ใช้งานอยู่
               </p>
             </div>
           </div>

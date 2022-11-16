@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-2 h-full font-sans-thai 2xl:container mx-auto py-16">
+  <div class="bg-gray-2 h-full font-sans-thai py-16">
     <!-- header -->
     <div
       class="hero 2xl:h-64 xl:h-64 lg:h-64 md:h-64 h-32"

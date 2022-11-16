@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-2 h-full font-sans-thai 2xl:container mx-auto py-16">
+  <div class="bg-gray-2 h-full font-sans-thai py-16">
     <div class="">
       <button
         @click="$router.push('/')"
@@ -54,6 +54,7 @@
           <tr v-for="(s, index) in status" :key="s.idApplication">
             <!-- <div v-for="">
             </div> -->
+            {{s}}
             <th>{{ index + 1 }}</th>
             <td>{{ s.establishmentName }}</td>
             <td>{{ s.positionName }}</td>

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="$store.state.auth.user" class="bg-gray-2 h-screen font-sans-thai 2xl:container mx-auto py-16">
+  <div v-if="$store.state.auth.user" class="bg-gray-2 h-screen font-sans-thai py-16">
 
     <!-- toast send form -->
       <transition name="toast">

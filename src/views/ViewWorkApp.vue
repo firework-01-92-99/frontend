@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-2 font-sans-thai 2xl:container mx-auto py-20 px-5">
+  <div class="bg-gray-2 font-sans-thai py-20 px-5">
     <div class="">
       <button
         @click="goTo()"
