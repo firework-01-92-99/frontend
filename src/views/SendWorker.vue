@@ -98,7 +98,7 @@
             <th>ชื่อ</th>
             <th>ชื่อบริษัท</th>
             <th>ที่อยู่</th>
-            <th>เวลาสมัคร</th>
+            <th class="text-center">เวลาสมัคร</th>
             <th></th>
           </tr>
         </thead>
@@ -168,7 +168,7 @@
             <th>
               <!-- detail -->
               <button class="btn btn-ghost btn-xs">
-                <i class="material-icons text-green-600"> done </i>
+                <i class="material-icons text-green-600 tooltip" data-tip="ส่งคนงาน"> done </i>
               </button>
               <!-- <button class="btn btn-ghost btn-xs">
                 <i class="material-icons text-red-600"> close </i>
@@ -570,7 +570,7 @@
                           <label for="" class="text-base font-medium px-1"
                             >ภาพยืนยันตัวตน</label
                           >
-                          <img class="rounded-lg object-cover 2xl:w-1/3 md:w-1/2 w-3/4" :src="image" />
+                          <img class="rounded-lg object-cover 2xl:w-40 xl:w-40 lg:w-40 md:w-40 w-28 2xl:h-40 xl:h-40 lg:h-40 md:h-40 h-28" :src="image" />
                         </div>
                       </div>
                     </div>
@@ -586,6 +586,14 @@
                 class="btn w-2/5 bg-orange-1 hover:bg-orange-2 border-orange-1 hover:border-orange-1"
               >
                 ยืนยันส่งคนงาน
+              </button>
+              <button
+                @click="
+                  (toggleModal = false), (confirmInput = false)
+                "
+                class="btn w-2/5"
+              >
+                ปิด
               </button>
             </div>
           </div>
