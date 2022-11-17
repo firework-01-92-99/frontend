@@ -28,7 +28,7 @@
       </div>
         <div v-if="$route.query.history == 'yes'" class="w-full 2xl:pt-4 xl:pt-3 lg:pt-3 md:pt-5 pt-8 2xl:ml-32 xl:ml-5 lg:ml-6 md:ml-14 ml-12 2xl:-mt-0 md:-mt-0 -mt-3">
           <select
-            @click="callData()"
+          @click="callData()"
             v-model.trim="roundHistory"
             class="
               select select-bordered
@@ -46,6 +46,7 @@
               ครั้งที่เปิดรับสมัคร
             </option> -->
             <option v-for="index in maxRound" :key="index" class="text-black" :value="index" selected = "selected">{{'ครั้งที่' + ' ' + index}}</option>
+
             <!-- <option class="text-black" value="1" selected = "selected">ครั้งที่ 1</option>
             <option class="text-black" value="2">ครั้งที่ 2</option> --> -->
           </select>
@@ -91,7 +92,7 @@
           </tr>
         </thead>
         <tbody
-          v-for="(a,index) in this.$route.query.history != 'yes' ? whoApplication.data.whoApplicationList.filter((s) => (s.idStatus == idStatus) || (s.statusName == 'Waiting_Rating' || s.statusName == 'workerRated' )) : whoApplication.data.whoApplicationList"
+          v-for="(a,index) in this.$route.query.history != 'yes' ? whoApplication.data.whoApplicationList.filter((s) => (s.idStatus == idStatus) || (s.statusName == 'Waiting_Rating' || s.statusName == 'workerRated' || s.statusName == 'BreakShort' )) : whoApplication.data.whoApplicationList"
           :key='a.applicationId'>
           <!-- {{a}} -->
           <!-- row 1 -->
@@ -177,15 +178,15 @@
             <th>
               <!-- detail -->
               <span v-if="idStatus == 14">
-              <button @click="acceptWorkerOnSite(a), imm = true" class="btn btn-ghost btn-xs">
+              <button @click="imm = true, acceptWorkerOnSite(a)" class="btn btn-ghost btn-xs">
                 <i class="material-icons text-green-600"> done </i>
               </button>
-              <button @click="rejectWorkerOnSite(a), imm = true" class="btn btn-ghost btn-xs">
+              <button @click="imm = true, rejectWorkerOnSite(a)" class="btn btn-ghost btn-xs">
                 <i class="material-icons text-red-600"> close </i>
               </button>
               </span>
               <button
-                @click="openPopUp(a), getPic(a), (toggleModal = !toggleModal)"
+                @click="statusId='',openPopUp(a), getPic(a), (toggleModal = !toggleModal)"
                 class="btn btn-ghost btn-xs"
               >
                 รายละเอียด
@@ -792,11 +793,13 @@ export default {
       roundHistory: 1,
       maxRound: 1,
       imm: false,
-      statusToCheck: [16,24,25]
+      sIdTabThree: '',
     };
   },
   methods: {
-    historyPage(){
+    async historyPage(){
+      const maxRound = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getMaxRoundOfPosting?idPosting=` + this.idPost);
+      this.maxRound = maxRound.data
       this.$emit('statusToPage', 13)
       this.$router.push('/viewworkapp?history=yes&idPost=' + this.idPost)
       this.callData()
@@ -903,15 +906,14 @@ export default {
     async acceptWorker() {
       const vm = this
       console.log("idApplication = " + this.idApplication);
-      // const vm = this;
       if (confirm("ต้องการรับบุคคลนี้เข้าทำงานหรือไม่")) {
         try {
           await axios.put(
             `${process.env.VUE_APP_ROOT_API}emp/employerAcceptOnWeb?idApplication=${this.idApplication}`
           ).then(function (response) {
             console.log(response);
-            vm.statusId = ''
-            this.toggleModal = false
+            vm.toggleModal = false
+            vm.callData()
         })
           this.callData()
         } catch (error) {
@@ -944,14 +946,28 @@ export default {
     async acceptWorkerOnSite(app){
       const vm = this
       console.log(app.applicationId)
-      if(this.idStatus == 14 && this.imm == true){
+      if(this.sIdTabThree == 14 && this.imm == true){
+        console.log("immมาไหม")
         this.idApplication = app.applicationId
+        console.log(this.idApplication)
       }
-      await axios.put(`${process.env.VUE_APP_ROOT_API}emp/employerAcceptOnSite?idApplication=${this.idApplication}`).datathen(function (response) {
+      if(this.toggleModal == false){
+      await axios.put(`${process.env.VUE_APP_ROOT_API}emp/employerAcceptOnSite?idApplication=${this.idApplication}`).then(function (response) {
             console.log(response);
             vm.statusId = ''
-            this.toggleModal = false
+            // vm.toggleModal = false
+            vm.callData()
         })
+      }else{
+        if(this.toggleModal == true){
+      await axios.put(`${process.env.VUE_APP_ROOT_API}emp/employerAcceptOnSite?idApplication=${this.idApplication}`).then(function (response) {
+            console.log(response);
+            vm.statusId = ''
+            vm.toggleModal = false
+            vm.callData()
+        })          
+        }
+      }
       this.callData()      
     },
     async rejectWorkerOnSite(app) {
@@ -1060,13 +1076,25 @@ export default {
           console.log(this.whoApplication)
           this.noValue = this.whoApplication.data.whoApplicationList.length == 0
           this.closeColumnName = this.whoApplication.data.whoApplicationList.length == 0
-          this.noValue = this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(24) ? false : true
-          this.closeColumnName = this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(24) ? false : true
-          // if(this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(this.idStatus ==24 || this.idStatus ==25)){
-          //   console.log("เข้าไหนไอเวร")
-          //   this.noValue = false
-          //   this.closeColumnName = false
-          // }
+          // this.noValue = this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(24) ? false : true
+          // this.closeColumnName = this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(24) ? false : true
+          // this.noValue = this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(25) ? false : true
+          // this.closeColumnName = this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(25) ? false : true
+          // this.noValue = this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(23) ? false : true
+          // this.closeColumnName = this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(23) ? false : true
+          if(this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(24)){
+            this.noValue = false
+            this.closeColumnName = false
+          }else if(this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(25)){
+            this.noValue = false
+            this.closeColumnName = false
+          }else if(this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(23)){
+            this.noValue = false
+            this.closeColumnName = false
+          }else{
+            this.noValue = false
+            this.closeColumnName = false
+          }
       }
       }else{
         if(this.$route.query.history == 'yes'){
@@ -1113,6 +1141,7 @@ export default {
       if(this.$route.query.history == 'yes'){
         const maxRound = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getMaxRoundOfPosting?idPosting=` + this.idPost);
         this.maxRound = maxRound.data
+        this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoStatusAndRound?idPosting=${this.idPost}&idStatus1=${this.idStatus}&idStatus2=${this.idStatus2}&round=${this.roundHistory}`)
       }        
       }
       if (this.whoApplication.data.whoApplicationList.length == 0) {
@@ -1140,6 +1169,7 @@ export default {
         this.chooseReject = 13
       } else if(this.idStatus == 14) {
           console.log("idStatus =" + this.idStatus);
+          this.sIdTabThree = this.idStatus
           this.topic = "รายการที่รับสมัครแล้ว";
           this.accept = "รับเข้าทำงาน";
         this.reject = "ไม่รับเข้าทำงาน";
