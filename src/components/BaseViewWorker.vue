@@ -85,7 +85,7 @@
             <th>คะแนน</th>
             <th>ชื่อ</th>
             <th>สัญชาติ</th>
-            <th v-if="$route.query.history !== 'yes'" class="text-center">สถานะ</th>
+            <th v-if="$route.query.history == 'yes'" class="text-center">สถานะ</th>
             <th class="text-center">เวลาสมัคร</th>
             <th></th>
           </tr>
@@ -138,9 +138,9 @@
                 ]
               }}
             </td>
-            <td v-if="$route.query.history !== 'yes'">
+            <td v-if="$route.query.history == 'yes'">
               <div
-                v-if="a.statusName == 'Wating_EmployerSummary'"
+                v-if="a.statusName == 'Wating_EmployerSummary' || a.statusName == 'Wating_WorkerFinishJob' || a.statusName == 'Waiting_Rating' ||  a.statusName == 'empRated' ||  a.statusName == 'Done' "
                 class="
                   badge badge-lg
                   w-full
@@ -150,10 +150,10 @@
                   text-xs
                 "
               >
-                รับเข้าทำงาน
+                {{idStatus2==24 ? "จบงานเรียบร้อย กรุณาให้คะแนนแรงงาน" : idStatus2==26||idStatus2==20 ? "ให้คะแนนแรงงานเรียบร้อยแล้ว" : "รับเข้าทำงาน"}}
               </div>
               <div
-                v-if="a.statusName == 'Reject_EmployerOnWeb'"
+                v-if="a.statusName == 'Reject_EmployerOnWeb' || a.statusName == 'Reject_WorkerOnSite' || a.statusName == 'BreakShort' || a.statusName == 'Done'"
                 class="
                   badge badge-lg
                   w-full
@@ -163,7 +163,7 @@
                   text-xs
                 "
               >
-                ไม่รับเข้าทำงาน
+                {{idStatus==23 ? 'ยกเลิกการจ้างงาน' : 'ไม่รับเข้าทำงาน'}}
               </div>
             </td>
             <td class="text-center">
@@ -792,6 +792,7 @@ export default {
       roundHistory: 1,
       maxRound: 1,
       imm: false,
+      statusToCheck: [16,24,25]
     };
   },
   methods: {
@@ -847,11 +848,11 @@ export default {
             this.rejectWorker();
             this.toggleModal = false;
             this.closeColumnName = false;
-          }else if(this.statusId == 15){
+          }else if(this.statusId == 21){
             this.acceptWorkerOnSite()
             this.toggleModal = false;
             this.closeColumnName = false;
-          }else if(this.statusId == 16){
+          }else if(this.statusId == 20){
             this.rejectWorkerOnSite()
             this.toggleModal = false;
             this.closeColumnName = false;
@@ -900,14 +901,18 @@ export default {
         console.log(this.whatWorker.verifyPic)
     },
     async acceptWorker() {
+      const vm = this
       console.log("idApplication = " + this.idApplication);
       // const vm = this;
       if (confirm("ต้องการรับบุคคลนี้เข้าทำงานหรือไม่")) {
         try {
           await axios.put(
             `${process.env.VUE_APP_ROOT_API}emp/employerAcceptOnWeb?idApplication=${this.idApplication}`
-          ).data;
-          this.toggleModal = false
+          ).then(function (response) {
+            console.log(response);
+            vm.statusId = ''
+            this.toggleModal = false
+        })
           this.callData()
         } catch (error) {
           console.log(error);
@@ -937,11 +942,16 @@ export default {
       }
     },
     async acceptWorkerOnSite(app){
+      const vm = this
       console.log(app.applicationId)
       if(this.idStatus == 14 && this.imm == true){
         this.idApplication = app.applicationId
       }
-      await axios.put(`${process.env.VUE_APP_ROOT_API}emp/employerAcceptOnSite?idApplication=${this.idApplication}`).data
+      await axios.put(`${process.env.VUE_APP_ROOT_API}emp/employerAcceptOnSite?idApplication=${this.idApplication}`).datathen(function (response) {
+            console.log(response);
+            vm.statusId = ''
+            this.toggleModal = false
+        })
       this.callData()      
     },
     async rejectWorkerOnSite(app) {
@@ -976,6 +986,8 @@ export default {
         idWorker: this.finishWork.idWorker
       }
       console.log(workerWork)
+            this.statusId = ''
+            this.toggleModal = false
       // vm.whoApplication = axios.get(
       //     `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
       //       vm.idPost +
@@ -1040,10 +1052,21 @@ export default {
               this.idStatus
           );
           console.log(this.whoApplication)
+          this.noValue = this.whoApplication.data.whoApplicationList.length == 0
+          this.closeColumnName = this.whoApplication.data.whoApplicationList.length == 0
       }else if(this.idStatus == 24){
        console.log("idStatus = 24")
           this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
           console.log(this.whoApplication)
+          this.noValue = this.whoApplication.data.whoApplicationList.length == 0
+          this.closeColumnName = this.whoApplication.data.whoApplicationList.length == 0
+          this.noValue = this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(24) ? false : true
+          this.closeColumnName = this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(24) ? false : true
+          // if(this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(this.idStatus ==24 || this.idStatus ==25)){
+          //   console.log("เข้าไหนไอเวร")
+          //   this.noValue = false
+          //   this.closeColumnName = false
+          // }
       }
       }else{
         if(this.$route.query.history == 'yes'){
@@ -1058,8 +1081,11 @@ export default {
           //   this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
           // }
           this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoStatusAndRound?idPosting=${this.idPost}&idStatus1=${this.idStatus}&idStatus2=${this.idStatus2}&round=${this.roundHistory}`)
+          console.log("idStatus ของ callData = " + this.idStatus)
           console.log("idStatus2 ของ callData = " + this.idStatus2)
           console.log(this.whoApplication)
+          this.noValue = this.whoApplication.data.whoApplicationList.length == 0
+          this.closeColumnName = this.whoApplication.data.whoApplicationList.length == 0
         }
       }
     }else{
@@ -1067,9 +1093,6 @@ export default {
       this.closeColumnName = true;
     }
     },
-    check(){
-      console.log(this.statusId)
-    }
   },
   async created() {
     if (
@@ -1144,10 +1167,10 @@ export default {
         if(this.idStatus == 13 && this.idStatus2 == 14){
         console.log("idStatus =" + this.idStatus)
         this.callData()
-      }else if(this.idStatus == 16 && this.idStatus2 == 15){
+      }else if(this.idStatus == 16 && this.idStatus2 == 21){
         console.log("idStatus =" + this.idStatus)
         this.callData()
-      }else if(this.idStatus == 23 && this.idStatus2 == 22){
+      }else if(this.idStatus == 23 && this.idStatus2 == 24){
         console.log("idStatus =" + this.idStatus)
         this.callData()
       }else if(this.idStatus == 26 && this.idStatus2 == 20){

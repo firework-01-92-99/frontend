@@ -111,10 +111,10 @@ export default {
         console.log(this.idStatus2)
       }else if(this.tab == 2){
         this.idStatus = 16
-        this.idStatus2 = 15
+        this.idStatus2 = 21
       }else if(this.tab == 3){
         this.idStatus = 23
-        this.idStatus2 = 22
+        this.idStatus2 = 24
       }else if(this.tab == 4){
         this.idStatus = 26
         this.idStatus2 = 20
