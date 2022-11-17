@@ -62,7 +62,6 @@
       :idStatus="idStatus"
       :idStatus2="idStatus2"
       @statusToPage="receiveStatus"
-      :refreshData="refreshData"
     ></base-view-worker>
   </div>
 </template>
@@ -79,7 +78,7 @@ export default {
       // whoApplication: [],
       idPosting: "",
       idStatus: "11",
-      idStatus2: "12",
+      idStatus2: "14",
       tab: 1,
     };
   },
@@ -107,7 +106,9 @@ export default {
           console.log(this.idStatus)
       if(this.tab == 1){
         this.idStatus = 13
-        this.idStatus2 = 12
+        this.idStatus2 = 14
+        console.log(this.idStatus)
+        console.log(this.idStatus2)
       }else if(this.tab == 2){
         this.idStatus = 16
         this.idStatus2 = 15
@@ -123,7 +124,7 @@ export default {
     },
     goTo(){
       if(this.$route.query.history == 'yes'){
-        this.refreshData = 'yes'
+        // this.refreshData = 'yes'
         this.$router.push('/viewworkapp?idPost=' + this.$route.query.idPost)
         this.idStatus = 11
         // location.reload();

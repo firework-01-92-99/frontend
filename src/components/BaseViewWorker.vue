@@ -53,7 +53,7 @@
       </div>
       <div v-if="$route.query.history != 'yes'" class="2xl:mx-40 xl:mx-16 lg:mx-0 md:mx-0 mx-3.5 2xl:flex md:flex flex 2xl:p-0 md:p-10 p-5 2xl:mt-0 md:mt-0 mt-11 w-full 2xl:justify-end md:justify-end justify-start">
         <button
-          @click="$router.push('/viewworkapp?history=yes&idPost=' + idPost),$emit('statusToPage', 13)"
+          @click="historyPage()"
           class="
             cursor-pointer
             underline
@@ -90,9 +90,15 @@
           </tr>
         </thead>
         <tbody
-          v-for="a in whoApplication.data.whoApplicationList.filter((s) => (s.idStatus == idStatus) || (s.statusName == 'Waiting_Rating' || s.statusName == 'workerRated' ))"
+          v-for="(a,index) in this.$route.query.history != 'yes' ? whoApplication.data.whoApplicationList.filter((s) => (s.idStatus == idStatus) || (s.statusName == 'Waiting_Rating' || s.statusName == 'workerRated' )) : whoApplication.data.whoApplicationList"
           :key='a.applicationId'>
           {{a}}
+          {{'Date: ' + new Date(a.date).getDate()+
+           "/"+(new Date(a.date).getMonth()+1)+
+           "/"+new Date(a.date).getFullYear()+
+           " "+new Date(a.date).getHours()+
+           ":"+new Date(a.date).getMinutes()+
+           ":"+new Date(a.date).getSeconds()}}
           <!-- row 1 -->
           <!-- <div v-if="listApprove.lenght == null">
             ไม่มีรายการที่ต้องทำ
@@ -105,7 +111,7 @@
             whatWorker
           }} -->
           <tr>
-            <th>{{ a.count }}</th>
+            <th>{{ index + 1 }}</th>
             <td class="">
               <div class="rating rating-md">
                 <input type="radio" name="rating-2" class="cursor-default mask mask-star-2 bg-orange-400" checked disabled />
@@ -125,7 +131,7 @@
                       ? ""
                       : a.middleName + " "
                   }}</span>
-                  {{ a.lastName }}
+                  {{ a.lastName == null || a.lastName == "" || a.lastName == "-" ? "" : a.lastName + " " }}
                 </div>
                 <!-- <div class="text-sm opacity-50">United States</div> -->
               </div>
@@ -139,7 +145,7 @@
             </td>
             <td v-if="$route.query.history == 'yes'">
               <div
-                v-if="a.statusName == 'Accept_EmployerOnWeb'"
+                v-if="a.statusName == 'Wating_EmployerSummary'"
                 class="
                   badge badge-lg
                   w-1/3
@@ -168,10 +174,10 @@
             <th>
               <!-- detail -->
               <span v-if="idStatus == 14">
-              <button class="btn btn-ghost btn-xs">
+              <button @click="acceptWorkerOnSite(a), imm = true" class="btn btn-ghost btn-xs">
                 <i class="material-icons text-green-600"> done </i>
               </button>
-              <button class="btn btn-ghost btn-xs">
+              <button @click="rejectWorkerOnSite(a), imm = true" class="btn btn-ghost btn-xs">
                 <i class="material-icons text-red-600"> close </i>
               </button>
               </span>
@@ -697,7 +703,7 @@
               </button>
               <button
                 @click="
-                  (toggleModal = false), (confirmInput = false)
+                  (toggleModal = false), (confirmInput = false), statusId = ''
                 "
                 class="btn w-2/5"
               >
@@ -735,7 +741,8 @@ const sexFreeze = Object.freeze({
   M: "ชาย",
 });
 export default {
-  props: ["idPost", "idStatus", "idStatus2", "refreshData"],
+  props: ["idPost", "idStatus", "idStatus2"],
+  // props: ["idPost", "idStatus", "idStatus2", "refreshData"],
   data() {
     return {
       nRound: 2,
@@ -781,9 +788,15 @@ export default {
       statusToPage: 0,
       roundHistory: 1,
       maxRound: 1,
+      imm: false,
     };
   },
   methods: {
+    historyPage(){
+      this.$emit('statusToPage', 13)
+      this.$router.push('/viewworkapp?history=yes&idPost=' + this.idPost)
+      this.callData()
+    },    
     allRejectCase(){
       if(this.chooseReject == 13){
         this.applicationHasComment.descriptionRejectOnWeb = this.description
@@ -920,13 +933,19 @@ export default {
         console.log(result.data);
       }
     },
-    async acceptWorkerOnSite(){
-      // const vm = this
+    async acceptWorkerOnSite(app){
+      console.log(app.applicationId)
+      if(this.idStatus == 14 && this.imm == true){
+        this.idApplication = app.applicationId
+      }
       await axios.put(`${process.env.VUE_APP_ROOT_API}emp/employerAcceptOnSite?idApplication=${this.idApplication}`).data
-      this.callData()
+      this.callData()      
     },
-    async rejectWorkerOnSite() {
-      // const vm = this;
+    async rejectWorkerOnSite(app) {
+      if(this.idStatus == 14 && this.imm == true){
+        this.idApplication = app.applicationId
+        console.log(this.idApplication)
+      }      
       // if (confirm("ต้องการปฏิเสธบุคคลนี้เข้าทำงานหรือไม่")) {
       const comment = JSON.stringify(this.applicationHasComment);
       const customConfig = {
@@ -941,7 +960,7 @@ export default {
           customConfig
         );
         this.callData()
-        console.log(result.data.data);
+        console.log(result.data);
       // }
     },
     async finishJob(){
@@ -996,13 +1015,17 @@ export default {
       }
     },
     async callData(){
-            this.whoApplication = await axios.get(
-        `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
-          this.idPost +
-          "&idStatus=" +
-          this.idStatus
-      );
-    if(this.whoApplication.data.whoApplicationList.length != 0){
+      console.log("เรียกเนอะ")
+      // if(this.$route.query.history != 'yes'){
+      //   this.whoApplication = await axios.get(
+      //   `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` + this.idPost + "&idStatus=" + this.idStatus );
+      // }
+      this.$route.query.history != 'yes' ? this.whoApplication = await axios.get(
+        `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` + this.idPost + "&idStatus=" + this.idStatus ) :
+      this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoStatusAndRound?idPosting=${this.idPost}&idStatus1=${this.idStatus}&idStatus2=${this.idStatus2}&round=${this.roundHistory}`)
+      console.log(this.whoApplication)
+    if(this.whoApplication.data.length != 0){
+      console.log("เข้าไหม")
       this.noValue = false
       this.closeColumnName = false;
       if(this.$route.query.history != 'yes'){
@@ -1021,7 +1044,7 @@ export default {
       }
       }else{
         if(this.$route.query.history == 'yes'){
-          console.log(this.idStatus)
+          console.log("idStatus 2 = " + this.idStatus2)
           // if(this.idStatus == 13){
           //   this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
           // }else if(this.idStatus == 16){
@@ -1031,7 +1054,9 @@ export default {
           // }else if(this.idStatus == 26){
           //   this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
           // }
-          this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerAllPostingByTwoStatusAndRound?idStatus1=${this.idStatus}&idStatus2=${this.idStatus2}&round=${this.roundHistory}`)
+          this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoStatusAndRound?idPosting=${this.idPost}&idStatus1=${this.idStatus}&idStatus2=${this.idStatus2}&round=${this.roundHistory}`)
+          console.log("idStatus2 ของ callData = " + this.idStatus2)
+          console.log(this.whoApplication)
         }
       }
     }else{
@@ -1048,22 +1073,28 @@ export default {
       this.$store.state.auth.user &&
       this.$store.state.auth.user.role.idRole == "2"
     ) {
+      // this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoStatusAndRound?idPosting=${this.idPost}&idStatus1=13&idStatus2=14&round=${this.roundHistory}`)
+      // console.log(this.whoApplication)
+      // console.log("สร้างใหม่ไหม")
+      if(this.$route.query.history != 'yes'){
       this.whoApplication = await axios.get(
         `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
           this.idPost +
           "&idStatus=" +
           this.idStatus
       );
+      }else{
+      if(this.$route.query.history == 'yes'){
+        const maxRound = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getMaxRoundOfPosting?idPosting=` + this.idPost);
+        this.maxRound = maxRound.data
+      }        
+      }
       if (this.whoApplication.data.whoApplicationList.length == 0) {
         this.noValue = true;
         this.closeColumnName = true;
       }
       this.namePost1 = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/selectPosting?idPosting=` + this.idPost);
       this.namePost =  this.namePost1.position?.positionName
-      if(this.$route.query.history == 'yes'){
-        const maxRound = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getMaxRoundOfPosting?idPosting=` + this.idPost);
-        this.maxRound = maxRound.data
-      }
       console.log(this.whoApplication);
       console.log("idPost = " + this.idPost, "idStatus = " + this.idStatus);
     } else {
@@ -1107,7 +1138,7 @@ export default {
       }
       }else{
         if(this.$route.query.history == 'yes'){
-        if(this.idStatus == 13 && this.idStatus2 == 12){
+        if(this.idStatus == 13 && this.idStatus2 == 14){
         console.log("idStatus =" + this.idStatus)
         this.callData()
       }else if(this.idStatus == 16 && this.idStatus2 == 15){
@@ -1123,9 +1154,9 @@ export default {
         }
       }
     },
-    refreshData: async function checkRefresh(){
-          this.callData()
-    }
+    // refreshData: async function checkRefresh(){
+    //       this.callData()
+    // }
   },
 };
 </script>

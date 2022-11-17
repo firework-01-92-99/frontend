@@ -654,75 +654,15 @@ export default {
       idPost:1,
     };
   },
-  methods: {
-    allRejectCase(){
-      if(this.chooseReject == 13){
-        this.applicationHasComment.descriptionRejectOnWeb = this.description
-        console.log(this.applicationHasComment.descriptionRejectOnWeb)
-      }else if(this.chooseReject == 16){
-        this.applicationHasComment.descriptionRejectOnSite = this.description
-      }else if(this.chooseReject == 23){
-        this.applicationHasComment.descriptionBreakShort = this.description
-      }else if(this.chooseReject == 26){
-        this.applicationHasComment.descriptionBreakShort = this.description
-      }
-    },  
-    async giveRating(){
-      // const vm = this;
-      // if (confirm("ต้องการปฏิเสธบุคคลนี้เข้าทำงานหรือไม่")) {
-      const ratings = JSON.stringify(this.rateTo);
-      const customConfig = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-        const result =
-        await axios.put(
-          `${process.env.VUE_APP_ROOT_API}emp/employerGiveScoreToWorker?idApplication=${this.idApplication}`,
-          ratings,
-          customConfig
-        );
-        this.whoApplication = axios.get(
-          `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
-            this.idPost +
-            "&idStatus=" +
-            this.idStatus
-        );
-        this.callData()
-        console.log(result.data)      
-    },       
+  methods: {      
     async acceptOrReject() {
       console.log(this.statusId);
       if (this.statusId != "") {
         if (this.statusId == 12) { //it's meaning equal to 12 (accept worker on web)
-          this.acceptWorker();
+          this.tickSendWorker();
           this.toggleModal = false;
           this.closeColumnName = false;
-        } else if (this.statusId == 13) {
-            this.rejectWorker();
-            this.toggleModal = false;
-            this.closeColumnName = false;
-          }else if(this.statusId == 15){
-            this.acceptWorkerOnSite()
-            this.toggleModal = false;
-            this.closeColumnName = false;
-          }else if(this.statusId == 16){
-            this.rejectWorkerOnSite()
-            this.toggleModal = false;
-            this.closeColumnName = false;
-          }else if(this.statusId == 22){
-            this.finishJob()
-            this.toggleModal = false;
-            this.closeColumnName = false;
-          }else if(this.statusId == 23){
-            this.breakShot()
-            this.toggleModal = false;
-            this.closeColumnName = false;
-          }else if(this.statusId == 24){
-            this.giveRating()
-            this.toggleModal = false;
-            this.closeColumnName = false;
-          }
+        }
         this.description = ''
         // window.location.reload()
       } else {
@@ -754,13 +694,13 @@ export default {
         });
         console.log(this.whatWorker.verifyPic)
     },
-    async acceptWorker() {
+    async tickSendWorker() {
       console.log("idApplication = " + this.idApplication);
       // const vm = this;
       if (confirm("ต้องการรับบุคคลนี้เข้าทำงานหรือไม่")) {
         try {
           await axios.put(
-            `${process.env.VUE_APP_ROOT_API}emp/employerAcceptOnWeb?idApplication=${this.idApplication}`
+            `${process.env.VUE_APP_ROOT_API}admin/adminSendWorkerToEmployer?idApplication=${this.idApplication}`
           ).data;
           this.toggleModal = false
           this.callData()
@@ -768,91 +708,7 @@ export default {
           console.log(error);
         }
       }
-    },
-    async rejectWorker() {
-      console.log("idApplication = " + this.idApplication);
-      // const vm = this;
-      if (confirm("ต้องการปฏิเสธบุคคลนี้เข้าทำงานหรือไม่")) {
-      const comment = JSON.stringify(this.applicationHasComment);
-      const customConfig = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-        // const res =
-        const result =
-        await axios.put(
-          `${process.env.VUE_APP_ROOT_API}emp/employerRejectOnWeb?idApplication=${this.idApplication}`,
-          comment,
-          customConfig
-        );
-        this.callData()
-        // res.headers['content-type'];
-        console.log(result.data);
-      }
-    },
-    async acceptWorkerOnSite(){
-      // const vm = this
-      await axios.put(`${process.env.VUE_APP_ROOT_API}emp/employerAcceptOnSite?idApplication=${this.idApplication}`).data
-      this.callData()
-    },
-    async rejectWorkerOnSite() {
-      // const vm = this;
-      // if (confirm("ต้องการปฏิเสธบุคคลนี้เข้าทำงานหรือไม่")) {
-      const comment = JSON.stringify(this.applicationHasComment);
-      const customConfig = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-        const result =
-        await axios.put(
-          `${process.env.VUE_APP_ROOT_API}emp/employerRejectOnSite?idApplication=${this.idApplication}`,
-          comment,
-          customConfig
-        );
-        this.callData()
-        console.log(result.data.data);
-      // }
-    },
-    async finishJob(){
-      // const vm = this
-      const finishWork = await axios.put(`${process.env.VUE_APP_ROOT_API}emp/employerFinishJob?idApplication=${this.idApplication}`)
-      this.finishWork = finishWork.data
-      console.log(this.finishWork)
-      const workerWork = {
-        idApp: this.finishWork.idApplication,
-        idWorker: this.finishWork.idWorker
-      }
-      console.log(workerWork)
-      // vm.whoApplication = axios.get(
-      //     `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
-      //       vm.idPost +
-      //       "&idStatus=" +
-      //       vm.idStatus
-      //   );
-      this.$store.commit("setWorkingHistory", workerWork);
-      this.callData()
-
-    },
-    async breakShot(){
-      // const vm = this;
-      // if (confirm("ต้องการปฏิเสธบุคคลนี้เข้าทำงานหรือไม่")) {
-      const comment = JSON.stringify(this.applicationHasComment);
-      const customConfig = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-        const result =
-        await axios.put(
-          `${process.env.VUE_APP_ROOT_API}emp/employerBreakShort?idApplication=${this.idApplication}`,
-          comment,
-          customConfig
-        );
-        this.callData()
-        console.log(result.data.data);      
-    },    
+    }, 
     async getPic(a) {
       console.log(a.verifyPic);
       this.image = `${process.env.VUE_APP_ROOT_API}main/image/` + a.verifyPic;
@@ -900,9 +756,6 @@ export default {
       this.closeColumnName = true;
     }
     },
-    check(){
-      console.log(this.statusId)
-    }
   },
   async created() {
     if (
@@ -911,12 +764,7 @@ export default {
     ) {
         const maxRound = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getMaxRoundOfPosting?idPosting=` + this.idPost);
         this.maxRound = maxRound.data      
-      // this.whoApplication = await axios.get(
-      //   `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
-      //     this.idPost +
-      //     "&idStatus=" +
-      //     this.idStatus
-      // );
+      this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` + this.idPost + "&idStatus=" + this.idStatus);
     //   if (this.whoApplication.data.whoApplicationList.length == 0) {
     //     this.noValue = true;
     //     this.closeColumnName = true;
@@ -969,6 +817,7 @@ export default {
         if(this.$route.query.history == 'yes'){
         if(this.idStatus == 13){
         console.log("idStatus =" + this.idStatus)
+        console.log("idStatus2 =" + this.idStatus2)
         this.callData()
       }else if(this.idStatus == 16){
         console.log("idStatus =" + this.idStatus)
