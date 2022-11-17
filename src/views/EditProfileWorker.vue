@@ -1,5 +1,5 @@
 <template>
-  <div v-if="$store.state.auth.user" class="Profile py-16">
+  <div v-if="$store.state.auth.user" class="Profile py-20">
 
     <!-- toast send form -->
       <transition name="toast">
@@ -36,9 +36,9 @@
           class="
             flex flex-col
             md:flex-col
-            lg:flex-row
-            xl:flex-row
-            2xl:flex-row
+            lg:flex-col
+            xl:flex-col
+            2xl:flex-col
             rounded-lg
             shadow-lg
             w-full
@@ -47,7 +47,7 @@
             justify-center
           "
         >
-          <div class="lg:w-1/2 p-4">
+          <div class="lg:w-1/2 p-4 mx-auto">
             <div class="flex flex-col flex-1 justify-center">
               <h1 class="font-bold text-4xl text-center">แก้ไขบัญชี</h1>
               <div class="w-full mt-10">
@@ -119,7 +119,7 @@
           </div>
 
           <!-- worker -->
-          <div class="flex flex-col w-full lg:w-1/2 p-4">
+          <div class="flex flex-col w-full lg:w-1/2 p-4 mx-auto">
             <div class="flex flex-col flex-1 justify-center">
               <!-- <h1 class="font-bold text-4xl text-center">แก้ไขบัญชี</h1> -->
               <div class="w-full mt-10">

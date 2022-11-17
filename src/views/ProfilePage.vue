@@ -1,13 +1,11 @@
 <template>
   <div v-if="$store.state.auth.user" class="Profile font-sans-thai py-16">
     
-    <div v-if="$store.state.auth.user.role.idRole == '3'" class="bg-gray-100">
-
-      <!-- toast delete acc -->
+  <!-- toast delete acc -->
       <transition name="toast">
         <div v-if="showToast" class="flex justify-center font-sans-thai">
           <div
-            class="absolute z-10 2xl:w-2/5 w-full alert shadow-lg"
+            class="absolute z-10 2xl:w-2/5 w-full bg-cyan-200 alert shadow-lg"
           >
             <div>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -20,13 +18,14 @@
             </div>
             <div class="flex-none">
               <button v-if="delToast" class="btn btn-sm btn-ghost px-5">ไม่</button>
-              <button v-if="delToast" class="btn btn-sm bg-orange-1 border-orange-1 hover:bg-orange-2 hover:border-orange-2 px-5">ใช่</button>
-              <button v-if="passToast" @click="signOut()" class="btn btn-sm bg-orange-1 border-orange-1 hover:bg-orange-2 hover:border-orange-2 px-5">ตกลง</button>
+              <button v-if="delToast" class="btn btn-sm btn-primary px-5">ใช่</button>
+              <button v-if="passToast" @click="signOut()" class="btn btn-sm btn-primary px-5">ตกลง</button>
             </div>
           </div>
         </div>
       </transition>
 
+    <div v-if="$store.state.auth.user.role.idRole == '3'" class="bg-gray-100">
       <!-- back btn -->
       <div>
         <button
@@ -378,12 +377,12 @@
             <div class="flex flex-col 2xl:w-full mt-4">
               <div class="flex flex-col w-full flex-1 justify-between mb-8">
                 <div class="w-full">
-                  <form class="form-horizontal 2xl:w-full md:w-full">
+                  <form autocomplete="off" class="form-horizontal 2xl:w-full md:w-full">
                     <div>
                   <div class="2xl:flex -mx-3">
                     <div class="w-full px-3 mb-5">
                       <label
-                        for=""
+                        for="password"
                         class="text-sm 2xl:text-base font-medium px-1"
                         >รหัสผ่านปัจจุบัน</label
                       >
@@ -401,8 +400,11 @@
                           "
                         ></div>
                         <input
-                          type="text"
+                          :type="type"
+                          name="password"
+                          id="password"
                           v-model="editPass.currPass"
+                          maxlength="15"
                           class="
                             w-full
                             -ml-10
@@ -426,7 +428,7 @@
                   <div class="2xl:flex -mx-3">
                     <div class="w-full px-3 mb-5">
                       <label
-                        for=""
+                        for="password"
                         class="text-sm 2xl:text-base font-medium px-1"
                         >รหัสผ่านใหม่</label
                       >
@@ -444,8 +446,11 @@
                           "
                         ></div>
                         <input
-                          type="text"
+                          :type="type"
+                          name="password"
+                          id="password"
                           v-model="editPass.newPass"
+                          maxlength="15"
                           class="
                             w-full
                             -ml-10
@@ -469,7 +474,7 @@
                   <div class="2xl:flex -mx-3">
                     <div class="w-full px-3 mb-5">
                       <label
-                        for=""
+                        for="password"
                         class="text-sm 2xl:text-base font-medium px-1"
                         >ยืนยันรหัสผ่านใหม่</label
                       >
@@ -487,8 +492,11 @@
                           "
                         ></div>
                         <input
-                          type="text"
+                          :type="type"
+                          name="password"
+                          id="password"
                           v-model="editPass.confirmPass"
+                          maxlength="15"
                           class="
                             w-full
                             -ml-10
@@ -502,6 +510,21 @@
                           "
                           placeholder="ยืนยันรหัสผ่านใหม่"
                         />
+                        <div class="relative">
+                            <button
+                              class="
+                                absolute
+                                inset-y-0
+                                right-0
+                                w-8
+                                border-2 border-gray-200
+                                rounded-r-lg
+                              "
+                              @click.prevent="showPassword"
+                            >
+                              <img class="" :src="eye" />
+                            </button>
+                          </div>
                       </div>
                       <p v-if="confirmPassInput" class="text-red-600">
                         กรุณากรอกช่องยืนยันรหัสผ่านให้ตรงกับช่องรหัสผ่าน
@@ -600,7 +623,9 @@ export default {
         confirmPassInput: false,
       delToast: false,
       passToast: false,
-      showToast: true,
+      showToast: false,
+      eye: require("../assets/hide.png"),
+      type: "password",
     };
   },
   // this.$store.commit("setWorkingHistory", this.getInactivePost);
@@ -616,7 +641,15 @@ export default {
         location.reload();
       });
     }, 
- 
+    showPassword() {
+      if (this.type === "password") {
+        this.type = "text";
+        this.eye = require("../assets/show.png");
+      } else {
+        this.type = "password";
+        this.eye = require("../assets/hide.png");
+      }
+    },
     async editPassword(){
     this.currPassInput = this.editPass.currPass === '' || this.editPass.currPass.length < 8 ? true : false
     this.newPassInput = this.editPass.newPass === '' || this.editPass.newPass.length < 8
