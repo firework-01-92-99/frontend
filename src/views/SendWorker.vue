@@ -16,9 +16,7 @@
           md:p-6 md:pl-12
           p-3
           pt-5
-          2xl:ml-3.5
-          md:ml-3.5
-          ml-5
+
           w-full
         "
       >
@@ -100,12 +98,16 @@
             <th>ชื่อ</th>
             <th>ชื่อบริษัท</th>
             <th>ที่อยู่</th>
+            <th>เวลาสมัคร</th>
             <th></th>
           </tr>
         </thead>
         <tbody
-          v-for="a in whoApplication.data.whoApplicationList.filter((s) => (s.idStatus == idStatus) || (s.statusName == 'Waiting_Rating' || s.statusName == 'workerRated' ))"
+          v-for="(a, index) in whoApplication.data ? sendWorkerList() : ''"
           :key='a.applicationId'>
+<!-- 
+          {{a}}
+          {{sendWorkerList().idPosting}} -->
           <!-- {{a}} -->
           <!-- row 1 -->
           <!-- <div v-if="listApprove.lenght == null">
@@ -119,7 +121,7 @@
             whatWorker
           }} -->
           <tr>
-            <th>{{ a.count }}</th>
+            <th>{{ index + 1 }}</th>
             <!-- <td class="flex justify-items-center">
               <div class="rating rating-md">
                 <input type="radio" name="rating-2" class="cursor-default mask mask-star-2 bg-orange-400" checked disabled />
@@ -139,7 +141,7 @@
                       ? ""
                       : a.middleName + " "
                   }}</span>
-                  {{ a.lastName }}
+                  {{ a.lastName == null || a.lastName == "" || a.lastName == "-" ? "" : a.lastName + " " }}
                 </div>
               </div>
             </td>
@@ -155,6 +157,14 @@
             <td>
               ที่อยู่
             </td>
+            <td class="text-center">
+              {{ new Date(a.date).getDate()+
+           "/"+(new Date(a.date).getMonth()+1)+
+           "/"+new Date(a.date).getFullYear()+
+           " "+new Date(a.date).getHours()+
+           ":"+new Date(a.date).getMinutes()+
+           ":"+new Date(a.date).getSeconds()}}
+            </td>            
             <th>
               <!-- detail -->
               <button class="btn btn-ghost btn-xs">
@@ -654,7 +664,18 @@ export default {
       idPost:1,
     };
   },
-  methods: {      
+  methods: {
+    sendWorkerList(){
+      let workerList = []
+      for (let i = 0; i < this.whoApplication.data.length; i++) {
+        const post = this.whoApplication.data[i];
+        workerList = workerList.concat(post.whoApplicationList.map(p=>{
+          p.idPosting = post.idPosting
+          return p
+        }))
+      }
+      return workerList
+    },      
     async acceptOrReject() {
       console.log(this.statusId);
       if (this.statusId != "") {
@@ -764,78 +785,72 @@ export default {
     ) {
         const maxRound = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getMaxRoundOfPosting?idPosting=` + this.idPost);
         this.maxRound = maxRound.data      
-      this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` + this.idPost + "&idStatus=" + this.idStatus);
-    //   if (this.whoApplication.data.whoApplicationList.length == 0) {
-    //     this.noValue = true;
-    //     this.closeColumnName = true;
-    //   }
-    //   this.namePost1 = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/selectPosting?idPosting=` + this.idPost);
-    //   this.namePost =  this.namePost1.position?.positionName
-    //   console.log(this.whoApplication);
-    //   console.log("idPost = " + this.idPost, "idStatus = " + this.idStatus);
-    console.log("1");
+      this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoAdminStatus?idStatusAdmin1=27` + "&idStatusAdmin2=");
+      console.log(this.whoApplication)
+      // const employer = await axios.get(`${process.env.VUE_APP_ROOT_API}main/selectEmployerFromPosting?idPosting=` + this.idPost);
+      console.log(this?.sendWorkerList())
     } else {
       this.$router.push("/");
     }
   },
-  watch: {
-    idStatus: async function check() {
-      if(this.$route.query.history != 'yes'){
-      if (this.idStatus == 11) {
-        console.log("idStatus =" + this.idStatus);
-        this.topic = "รายการผู้สมัคร";
-        this.accept = "รับเข้าทำงาน";
-        this.reject = "ไม่รับเข้าทำงาน";
-        this.callData()      
-        this.chooseAccept = 12
-        this.chooseReject = 13
-      } else if(this.idStatus == 14) {
-          console.log("idStatus =" + this.idStatus);
-          this.topic = "รายการที่รับสมัครแล้ว";
-          this.accept = "รับเข้าทำงาน";
-        this.reject = "ไม่รับเข้าทำงาน";
-          this.callData()          
-        this.chooseAccept = 15
-        this.chooseReject = 16          
-      } else if(this.idStatus == 21) {
-          console.log("idStatus =" + this.idStatus);
-          this.topic = "รายการที่กำลังทำงาน";
-          this.accept = "จบการทำงาน";
-        this.reject = "ยกเลิกการจ้างงาน";
-          this.callData()        
-        this.chooseAccept = 22
-        this.chooseReject = 23           
-      } else if(this.idStatus == 24) {
-        //status_idStatus = 24,25
-          console.log("idStatus =" + this.idStatus);
-          this.topic = "รายการที่รอให้คะแนน";
-          this.callData()         
-          this.statusId = this.idStatus;
-          console.log(this.statusId)
-      }
-      }else{
-        if(this.$route.query.history == 'yes'){
-        if(this.idStatus == 13){
-        console.log("idStatus =" + this.idStatus)
-        console.log("idStatus2 =" + this.idStatus2)
-        this.callData()
-      }else if(this.idStatus == 16){
-        console.log("idStatus =" + this.idStatus)
-        this.callData()
-      }else if(this.idStatus == 23){
-        console.log("idStatus =" + this.idStatus)
-        this.callData()
-      }else if(this.idStatus == 26){
-        console.log("idStatus =" + this.idStatus)
-        this.callData()
-      } 
-        }
-      }
-    },
-    refreshData: async function checkRefresh(){
-          this.callData()
-    }
-  },
+  // watch: {
+  //   idStatus: async function check() {
+  //     if(this.$route.query.history != 'yes'){
+  //     if (this.idStatus == 11) {
+  //       console.log("idStatus =" + this.idStatus);
+  //       this.topic = "รายการผู้สมัคร";
+  //       this.accept = "รับเข้าทำงาน";
+  //       this.reject = "ไม่รับเข้าทำงาน";
+  //       this.callData()      
+  //       this.chooseAccept = 12
+  //       this.chooseReject = 13
+  //     } else if(this.idStatus == 14) {
+  //         console.log("idStatus =" + this.idStatus);
+  //         this.topic = "รายการที่รับสมัครแล้ว";
+  //         this.accept = "รับเข้าทำงาน";
+  //       this.reject = "ไม่รับเข้าทำงาน";
+  //         this.callData()          
+  //       this.chooseAccept = 15
+  //       this.chooseReject = 16          
+  //     } else if(this.idStatus == 21) {
+  //         console.log("idStatus =" + this.idStatus);
+  //         this.topic = "รายการที่กำลังทำงาน";
+  //         this.accept = "จบการทำงาน";
+  //       this.reject = "ยกเลิกการจ้างงาน";
+  //         this.callData()        
+  //       this.chooseAccept = 22
+  //       this.chooseReject = 23           
+  //     } else if(this.idStatus == 24) {
+  //       //status_idStatus = 24,25
+  //         console.log("idStatus =" + this.idStatus);
+  //         this.topic = "รายการที่รอให้คะแนน";
+  //         this.callData()         
+  //         this.statusId = this.idStatus;
+  //         console.log(this.statusId)
+  //     }
+  //     }else{
+  //       if(this.$route.query.history == 'yes'){
+  //       if(this.idStatus == 13){
+  //       console.log("idStatus =" + this.idStatus)
+  //       console.log("idStatus2 =" + this.idStatus2)
+  //       this.callData()
+  //     }else if(this.idStatus == 16){
+  //       console.log("idStatus =" + this.idStatus)
+  //       this.callData()
+  //     }else if(this.idStatus == 23){
+  //       console.log("idStatus =" + this.idStatus)
+  //       this.callData()
+  //     }else if(this.idStatus == 26){
+  //       console.log("idStatus =" + this.idStatus)
+  //       this.callData()
+  //     } 
+  //       }
+  //     }
+  //   },
+  //   refreshData: async function checkRefresh(){
+  //         this.callData()
+  //   }
+  // },
 };
 </script>
 

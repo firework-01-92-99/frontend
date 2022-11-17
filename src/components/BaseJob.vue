@@ -458,7 +458,7 @@ export default {
       }else{
         this.$store.commit("setPosting", allPost);
       }      
-      this.noValue = allPost.content.length == 0 || this.getActivePost.content.length == 0
+      this.noValue = allPost.content?.length == 0 || this.getActivePost.content?.length == 0
       }
         }
       }else{

@@ -92,7 +92,7 @@
           </tr>
         </thead>
         <tbody
-          v-for="(a,index) in this.$route.query.history != 'yes' ? whoApplication.data.whoApplicationList.filter((s) => (s.idStatus == idStatus) || (s.statusName == 'Waiting_Rating' || s.statusName == 'workerRated' || s.statusName == 'BreakShort' )) : whoApplication.data.whoApplicationList"
+          v-for="(a,index) in this.$route.query.history != 'yes' ? whoApplication.data.whoApplicationList.filter((s) => (s.idStatus == idStatus) || (s.statusName == 'Waiting_Rating' || s.statusName == 'workerRated' )) : whoApplication.data.whoApplicationList"
           :key='a.applicationId'>
           <!-- {{a}} -->
           <!-- row 1 -->
@@ -707,7 +707,7 @@
               </button>
               <button
                 @click="
-                  (toggleModal = false), (confirmInput = false), statusId = ''
+                  (toggleModal = false), (confirmInput = false)
                 "
                 class="btn w-2/5"
               >
@@ -867,7 +867,7 @@ export default {
             this.breakShot()
             this.toggleModal = false;
             this.closeColumnName = false;
-          }else if(this.statusId == 24){
+          }else if(this.idStatus == 24){
             this.giveRating()
             this.toggleModal = false;
             this.closeColumnName = false;
@@ -875,8 +875,18 @@ export default {
         this.description = ''
         // window.location.reload()
       } else {
+        if(this.idStatus == 24){
+          console.log("เข้าไหม")
+            this.giveRating()
+            this.toggleModal = false;
+            this.closeColumnName = false;          
+        }else{
+        if(this.idStatus != 24){
+          console.log(this.statusId)
         this.confirmInput = true;
         console.log("เลือกก่อนว่าอนุมัติหรือไม่อนุมัติ");
+        }
+        }
       }
     },
     // getNow: function() {
@@ -1071,7 +1081,7 @@ export default {
           this.noValue = this.whoApplication.data.whoApplicationList.length == 0
           this.closeColumnName = this.whoApplication.data.whoApplicationList.length == 0
       }else if(this.idStatus == 24){
-       console.log("idStatus = 24")
+       console.log("idStatus = " + this.idStatus + this.statusId)
           this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
           console.log(this.whoApplication)
           this.noValue = this.whoApplication.data.whoApplicationList.length == 0
@@ -1088,10 +1098,12 @@ export default {
           }else if(this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(25)){
             this.noValue = false
             this.closeColumnName = false
-          }else if(this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(23)){
-            this.noValue = false
-            this.closeColumnName = false
-          }else{
+          }
+          // else if(this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(23)){
+          //   this.noValue = false
+          //   this.closeColumnName = false
+          // }
+          else{
             this.noValue = false
             this.closeColumnName = false
           }

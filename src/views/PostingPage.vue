@@ -407,6 +407,9 @@
                           <p v-if="duplicatePosition" class="text-red-600">
                             มีตำแหน่งนี้อยู่แล้วหรือตำแหน่งนี้กำลังรอแอดมินตอบรับ
                           </p>
+                          <p v-if="reqPosition" class="text-red-600">
+                            กรุณากรอกตำแหน่งงานที่ต้องการเพิ่ม
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -481,11 +484,14 @@ export default {
         //   idStatus: 1
         // }
       },
-      duplicatePosition: false,      
+      duplicatePosition: false,
+      reqPosition: false,      
     };
   },
   methods: {
     async requestPosition(){
+      this.reqPosition = this.position.positionName == ''
+      if(!this.reqPosition){
       const vm = this
       const position = JSON.stringify(this.position)
         const customConfig = {
@@ -501,7 +507,8 @@ export default {
         vm.duplicatePosition = true
       }
     console.log(error.response.data.errorMessage);
-  });
+  });        
+      }
     },
     async fetch(url) {
       try {
