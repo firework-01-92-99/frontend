@@ -85,20 +85,15 @@
             <th>คะแนน</th>
             <th>ชื่อ</th>
             <th>สัญชาติ</th>
-            <th>สถานะ</th>
+            <th v-if="$route.query.history !== 'yes'" class="text-center">สถานะ</th>
+            <th class="text-center">เวลาสมัคร</th>
             <th></th>
           </tr>
         </thead>
         <tbody
           v-for="(a,index) in this.$route.query.history != 'yes' ? whoApplication.data.whoApplicationList.filter((s) => (s.idStatus == idStatus) || (s.statusName == 'Waiting_Rating' || s.statusName == 'workerRated' )) : whoApplication.data.whoApplicationList"
           :key='a.applicationId'>
-          {{a}}
-          {{'Date: ' + new Date(a.date).getDate()+
-           "/"+(new Date(a.date).getMonth()+1)+
-           "/"+new Date(a.date).getFullYear()+
-           " "+new Date(a.date).getHours()+
-           ":"+new Date(a.date).getMinutes()+
-           ":"+new Date(a.date).getSeconds()}}
+          <!-- {{a}} -->
           <!-- row 1 -->
           <!-- <div v-if="listApprove.lenght == null">
             ไม่มีรายการที่ต้องทำ
@@ -143,16 +138,16 @@
                 ]
               }}
             </td>
-            <td v-if="$route.query.history == 'yes'">
+            <td v-if="$route.query.history !== 'yes'">
               <div
                 v-if="a.statusName == 'Wating_EmployerSummary'"
                 class="
                   badge badge-lg
-                  w-1/3
+                  w-full
                   bg-green-200
                   text-green-600
                   border-0
-                  text-sm
+                  text-xs
                 "
               >
                 รับเข้าทำงาน
@@ -161,15 +156,23 @@
                 v-if="a.statusName == 'Reject_EmployerOnWeb'"
                 class="
                   badge badge-lg
-                  w-1/3
+                  w-full
                   bg-red-200
                   text-red-600
                   border-0
-                  text-sm
+                  text-xs
                 "
               >
                 ไม่รับเข้าทำงาน
               </div>
+            </td>
+            <td class="text-center">
+              {{ new Date(a.date).getDate()+
+           "/"+(new Date(a.date).getMonth()+1)+
+           "/"+new Date(a.date).getFullYear()+
+           " "+new Date(a.date).getHours()+
+           ":"+new Date(a.date).getMinutes()+
+           ":"+new Date(a.date).getSeconds()}}
             </td>
             <th>
               <!-- detail -->
