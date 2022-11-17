@@ -20,10 +20,13 @@
           md:ml-3.5
           ml-5
           w-full
+          tooltip
         "
+        data-tip="หมายเหตุ: ต้องปิดประกาศรับสมัครครั้งนี้ก่อน จากนั้นแอดมินจะดำเนินการส่งแรงงานให้"
       >
         {{ topic }} 
         <span class="text-orange-1">{{ " ตำแหน่ง: " + namePost }}</span>
+        <i class="material-icons pl-2">info_outline</i>
       </p>
       </div>
         <div v-if="$route.query.history == 'yes'" class="w-full 2xl:pt-4 xl:pt-3 lg:pt-3 md:pt-5 pt-8 2xl:ml-32 xl:ml-5 lg:ml-6 md:ml-14 ml-12 2xl:-mt-0 md:-mt-0 -mt-3">
@@ -178,10 +181,10 @@
             <th>
               <!-- detail -->
               <span v-if="idStatus == 14">
-              <button @click="imm = true, acceptWorkerOnSite(a)" class="btn btn-ghost btn-xs">
+              <button @click="imm = true, acceptWorkerOnSite(a)" class="btn btn-ghost btn-xs tooltip" data-tip="รับเข้าทำงาน">
                 <i class="material-icons text-green-600"> done </i>
               </button>
-              <button @click="imm = true, rejectWorkerOnSite(a)" class="btn btn-ghost btn-xs">
+              <button @click="imm = true, rejectWorkerOnSite(a)" class="btn btn-ghost btn-xs tooltip" data-tip="ไม่รับเข้าทำงาน">
                 <i class="material-icons text-red-600"> close </i>
               </button>
               </span>
