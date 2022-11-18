@@ -600,7 +600,7 @@ export default {
       const maxRound = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getMaxRoundOfPosting?idPosting=` + this.idPosting);
       this.maxRound = maxRound.data      
       this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoStatusAndRound?idPosting=${this.idPosting}&idStatus1=11&idStatus2=14&round=${this.maxRound}`)
-      this.canClosePost = this.whoApplication.data.whoApplicationList.length == 0 ? false : true
+      this.canClosePost = this.whoApplication.data.whoApplicationList.length == 0 || this.whoApplication.data.whoApplicationList.filter((s) => (s.idStatusAdmin == 27)) ? false : true
       console.log(this.canClosePost)
       if(OnorOff == 'Off' && this.canClosePost == false){
         if (confirm("ต้องการปิดประกาศรับสมัครใช่หรือไม่")) {

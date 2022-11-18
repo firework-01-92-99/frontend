@@ -718,11 +718,10 @@ export default {
             await axios.put(
               `${process.env.VUE_APP_ROOT_API}worker/deleteMyWorker?idWorker=` +
                 this.$store.state.auth.user.worker.idWorker
-            ).data.then(function (response) {
+            ).then(function (response) {
           console.log(response);
           vm.showToast = true;
           vm.delToast = true;
-          setTimeout(() => (vm.showToast = false), 3000)
           window.scrollTo({ top: 0, behavior: 'smooth' });
         })
         .catch(function (error) {
@@ -735,7 +734,7 @@ export default {
               await axios.put(
                 `${process.env.VUE_APP_ROOT_API}emp/deleteMyEmployer?idEmployer=` +
                   this.$store.state.auth.user.employer.idEmployer
-              ).data.then(function (response) {
+              ).then(function (response) {
           console.log(response);
           vm.showToast = true;
           vm.delToast = true;

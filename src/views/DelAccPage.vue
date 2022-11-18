@@ -10,12 +10,12 @@
             <div>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
               <p class="">
-                คุณต้องการ<span class="font-medium">ส่งฟอร์มอนุมัติบัญชี</span>ใช่หรือไม่
+                คุณต้องการ<span class="font-medium">ลบบัญชี</span>ใช่หรือไม่
               </p>
             </div>
             <div class="flex-none">
               <button class="btn btn-sm btn-ghost px-5">ไม่</button>
-              <button class="btn btn-sm bg-orange-1 border-orange-1 hover:bg-orange-2 hover:border-orange-2 px-5">ใช่</button>
+              <button @click="delWorker()" class="btn btn-sm bg-orange-1 border-orange-1 hover:bg-orange-2 hover:border-orange-2 px-5">ใช่</button>
             </div>
           </div>
         </div>
@@ -107,6 +107,7 @@
           <!-- <div v-if="listApprove.lenght == null">
             ไม่มีรายการที่ต้องทำ
           </div> -->
+          <!-- {{a}} -->
           <tr>
             <th>{{ a.count }}</th>
             <td>
@@ -1004,7 +1005,7 @@
 
                   <div class="flex justify-between">
                     <button
-                      @click="sendApprove()"
+                      @click="sendApprove(), toggleModal = false"
                       class="btn w-2/5 bg-orange-1 hover:bg-orange-2 border-orange-1 hover:border-orange-1"
                     >
                       ยืนยัน
@@ -1063,7 +1064,7 @@ export default {
       toggleModal: false,
       idApprove: 0,
       idEmp: 0,
-      // showToast: false,
+      showToast: false,
     };
   },
   methods: {
@@ -1071,7 +1072,7 @@ export default {
       this.idApprove = data.idApprove
       console.log("data: ");
       console.log(data);
-      console.log(data.idEmpOrWork, data.workOrEmp);
+      console.log(data.workOrEmp);
       this.confirmInput = false;
       this.statusId = "";
       if (data.workOrEmp == "Worker") {
@@ -1105,55 +1106,80 @@ export default {
           });        
       }
     },
-    async approveAccount(){
-          try {
-            await axios.put(
-              `${process.env.VUE_APP_ROOT_API}admin/approveAccount?idApprove=${this.idApprove}&idAdmin=${this.idAdmin}&idStatus=${this.statusId}`
-              // ,
-              // {
-              //   method: "PUT",
-              // }
-            ).data;
-            // window.location.reload();
-            this.listApprove = await axios.get(
-        `${process.env.VUE_APP_ROOT_API}admin/getAllApproveByIdStatusAndIdRole?idStatus=8&idRole=0`)
-          } catch (error) {
-            console.log(error);
-          }
-    },
-    async sendApprove() {
-      if (this.statusId != "") {
-        // this.showToast = true;
-        if(this.iAm == 'Worker'){
-        if (confirm("ต้องการจะส่งฟอร์มอนุมัติบัญชีหรือไม่")) {
-          this.approveAccount()
-        }else{
-          console.log("ไม่อนุมัติให้ลบ")
-        }
-        }else{
-          //อนุมัติให้ลบ
+    // async approveAccount(){
+    //       try {
+    //         await axios.put(
+    //           `${process.env.VUE_APP_ROOT_API}admin/approveAccount?idApprove=${this.idApprove}&idAdmin=${this.idAdmin}&idStatus=${this.statusId}`
+    //           // ,
+    //           // {
+    //           //   method: "PUT",
+    //           // }
+    //         ).data;
+    //         // window.location.reload();
+    //         this.listApprove = await axios.get(
+    //     `${process.env.VUE_APP_ROOT_API}admin/getAllApproveByIdStatusAndIdRole?idStatus=8&idRole=0`)
+    //       } catch (error) {
+    //         console.log(error);
+    //       }
+    // },
+    async delWorker(){
+      const vm = this
+      if(this.iAm == 'Worker'){
           if(this.statusId == 9){
-            if (confirm("ต้องการจะส่งฟอร์มอนุมัติบัญชีหรือไม่")) {
+            console.log("อนุมัติให้ลบ worker")
+            await axios.put(
+              `${process.env.VUE_APP_ROOT_API}admin/DeleteWorker?idWorker=${this.info.idWorker}`
+            ).then(function (response) {
+          console.log(response);
+          vm.showToast = false 
+          // vm.toggleModal = false;    
+        })
+          }else{
+          console.log("ไม่อนุมัติให้ลบ worker")
+            await axios.put(`${process.env.VUE_APP_ROOT_API}admin/youCanNotDeleteWorker?idWorker=${this.info.idWorker}`).then(function (response) {
+          console.log(response);
+          vm.showToast = false 
+          // vm.toggleModal = false;      
+        })
+      this.listApprove = await axios.get(
+        `${process.env.VUE_APP_ROOT_API}admin/getAllApproveByIdStatusAndIdRole?idStatus=8&idRole=0`
+      );                  
+        }        
+      }else{
+          if(this.statusId == 9){
+            console.log("อนุมัติให้ลบ emp")
           try {
             await axios.put(
               `${process.env.VUE_APP_ROOT_API}admin/deleteEmployer?idEmployer=${this.idEmp}`
-              // ,
-              // {
-              //   method: "PUT",
-              // }
-            ).data;
+            ).then(function (response) {
+          console.log(response);
+          vm.showToast = false    
+        })
             window.location.reload();
           } catch (error) {
             console.log(error);
           }
-        }   
-            }else{
-              //ไม่อนุมัติให้ลบ
+          }else{
               if(this.statusId == 1){
-                this.approveAccount()
+                console.log("ไม่อนุมัติให้ลบ emp")
+                await axios.put(
+              `${process.env.VUE_APP_ROOT_API}admin/youCanNotDeleteEmployer?idEmployer=${this.infoEmp.idEmployer}`).then(function (response) {
+          console.log(response);
+          vm.showToast = false       
+        })    
               }
-            }       
-        }
+      this.listApprove = await axios.get(
+        `${process.env.VUE_APP_ROOT_API}admin/getAllApproveByIdStatusAndIdRole?idStatus=8&idRole=0`
+      );                 
+            } 
+      }
+
+    },
+    async sendApprove() {
+      if (this.statusId != "") {
+        // this.showToast = true;
+        console.log(this.iAm)
+        this.showToast = true 
       } else {
         this.confirmInput = true;
         console.log("เลือกก่อนว่าอนุมัติไม่อนุมัติ");

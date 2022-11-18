@@ -3,7 +3,7 @@
       <!-- <div v-if="!acceptPage" class="overflow-x-auto w-10/12 mx-auto font-sans-thai"> -->
 <div class="2xl:flex 2xl:flex-row md:flex md:flex-row flex flex-col w-full">
       <div class="flex w-full justify-start">
-        <div v-if="$route.query.history !== 'yes'" class="w-full">
+        <div class="w-full">
         <p
         class="
           2xl:text-2xl
@@ -24,7 +24,7 @@
         <!-- <span class="text-orange-1">{{ " ตำแหน่ง: " + namePost }}</span> -->
       </p>
       </div>
-        <div v-if="$route.query.history == 'yes'" class="w-full 2xl:pt-4 xl:pt-3 lg:pt-3 md:pt-5 pt-8 2xl:ml-32 xl:ml-5 lg:ml-6 md:ml-14 ml-12 2xl:-mt-0 md:-mt-0 -mt-3">
+        <div class="w-full 2xl:pt-4 xl:pt-3 lg:pt-3 md:pt-5 pt-8 2xl:ml-32 xl:ml-5 lg:ml-6 md:ml-14 ml-12 2xl:-mt-0 md:-mt-0 -mt-3">
           <select
             class="
               select select-bordered
@@ -63,9 +63,9 @@
           </select>
         </div>
       </div>
-      <!-- <div v-if="$route.query.history != 'yes'" class="2xl:mx-20 xl:mx-20 2xl:flex md:flex flex 2xl:p-0 md:p-10 p-5 2xl:mt-0 md:mt-0 mt-11 w-full 2xl:justify-end md:justify-end justify-center">
+      <div class="2xl:mx-20 xl:mx-20 2xl:flex md:flex flex 2xl:p-0 md:p-10 p-5 2xl:mt-0 md:mt-0 mt-11 w-full 2xl:justify-end md:justify-end justify-center">
         <button
-          @click="$router.push('/viewworkapp?history=yes&idPost=' + idPost),$emit('statusToPage', 13)"
+          @click="1"
           class="
             cursor-pointer
             underline
@@ -83,7 +83,7 @@
         >
          ดูประวัติ
         </button>
-      </div> -->
+      </div>
     </div>
 
       <div class="overflow-x-auto w-10/12 mx-auto font-sans-thai">
@@ -104,7 +104,7 @@
           </tr>
         </thead>
         <tbody
-          v-for="(a, index) in whoApplication.data ? sendWorkerList() : ''"
+          v-for="(a, index) in sendWorkerList().filter(p => p.inActiveDate != null)"
           :key='a.applicationId'>
 
           <!-- {{a}} -->
@@ -752,7 +752,7 @@ export default {
     },
     async callData(){
       console.log(this.maxRound)
-      this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoAdminStatus?idStatusAdmin1=27` + "&idStatusAdmin2=");
+      this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoAdminStatus?idStatusAdmin1=27` + "&idStatusAdmin2=" + "&round=" + this.roundHistory);
       console.log(this.whoApplication)
     if(this.whoApplication.data.length != 0){
       this.noValue = false
@@ -770,10 +770,12 @@ export default {
     ) {
         const maxRound = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getMaxRoundOfPosting?idPosting=` + this.idPost);
         this.maxRound = maxRound.data      
-      this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoAdminStatus?idStatusAdmin1=27` + "&idStatusAdmin2=");
+      this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoAdminStatus?idStatusAdmin1=27` + "&idStatusAdmin2=" + "&round=" + this.roundHistory);
       console.log(this.whoApplication)
       // const employer = await axios.get(`${process.env.VUE_APP_ROOT_API}main/selectEmployerFromPosting?idPosting=` + this.idPost);
       console.log(this?.sendWorkerList())
+      this.noValue = this.sendWorkerList().filter(p => p.inActiveDate != null).length == 0
+      this.closeColumnName = this.sendWorkerList().filter(p => p.inActiveDate != null).length == 0
     } else {
       this.$router.push("/");
     }

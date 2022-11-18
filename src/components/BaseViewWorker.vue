@@ -89,7 +89,7 @@
           </tr>
         </thead>
         <tbody
-          v-for="(a,index) in this.$route.query.history != 'yes' ? idStatus != 14 ? whoApplication.data.whoApplicationList.filter((s) => (s.idStatus == idStatus) || (s.statusName == 'Waiting_Rating' || s.statusName == 'workerRated' )) : whoApplication.data.whoApplicationList.filter((s) => (s.idStatusAdmin == 28))
+          v-for="(a,index) in this.$route.query.history != 'yes' ? idStatus != 14 ? whoApplication.data.whoApplicationList.filter((s) => (s.idStatus == idStatus) || (s.statusName == 'Waiting_Rating' || s.statusName == 'workerRated' || s.statusName == 'BreakShort' )) : whoApplication.data.whoApplicationList.filter((s) => (s.idStatusAdmin == 28))
           : whoApplication.data.whoApplicationList"
           :key='a.applicationId'>
 
@@ -153,7 +153,7 @@
                   text-xs
                 "
               >
-                {{idStatus==23 ? 'ยกเลิกการจ้างงาน' : 'ไม่รับเข้าทำงาน'}}
+                {{idStatus==23 ? 'ยกเลิกการจ้างงาน' : a.statusName == 'doneBreakShort' ? 'ให้คะแนนเรียบร้อยแล้ว' : 'ไม่รับเข้าทำงาน'}}
               </div>
             </td>
             <td class="text-center">
@@ -175,7 +175,7 @@
               </button>
               </span>
               <button
-                @click="statusId='',openPopUp(a), getPic(a), (toggleModal = !toggleModal)"
+                @click="statusId='',openPopUp(a), getPic(a), (toggleModal = !toggleModal), description = ''"
                 class="btn btn-ghost btn-xs"
               >
                 รายละเอียด
@@ -623,13 +623,13 @@
                 class="textarea textarea-bordered w-full h-36"
                 placeholder="หมายเหตุที่ไม่อนุมัติ"
               ></textarea>
-              <textarea v-if="this.$route.query.history == 'yes'"
+              <!-- <textarea v-if="this.$route.query.history == 'yes'"
                 @change="allRejectCase()"
                 v-model="showCommentWhenReject"
                 class="textarea textarea-bordered w-full h-36"
                 placeholder="หมายเหตุที่ไม่อนุมัติ"
                 disabled
-              ></textarea>              
+              ></textarea>               -->
               </div>
 
           <!-- rating -->
@@ -683,6 +683,60 @@
           </div>
           <!-- {{timestamp}} -->
         </div>
+              <div v-if="idStatus == 26 && idStatus2 == 20" class="flex flex-col w-full">
+                <p>คะแนนแรงงานที่ให้</p>
+
+          <div class="rating mt-1">         
+            <input
+              type="radio"
+              name="rating-2"
+              class="mask mask-star-2 bg-orange-400"
+              :value="1"
+              v-model="rateInDetail"
+              :disabled = "this.$route.query.history == 'yes'"
+            />
+            <input
+              type="radio"
+              name="rating-2"
+              class="mask mask-star-2 bg-orange-400"
+              :value="2"
+              v-model="rateInDetail"
+              :disabled = "this.$route.query.history == 'yes'"
+            />
+            <input
+              type="radio"
+              name="rating-2"
+              class="mask mask-star-2 bg-orange-400"
+              :value="3"
+              v-model="rateInDetail"
+              :disabled = "this.$route.query.history == 'yes'"
+            />
+            <input
+              type="radio"
+              name="rating-2"
+              class="mask mask-star-2 bg-orange-400"
+              :value="4"
+              v-model="rateInDetail"
+              :disabled = "this.$route.query.history == 'yes'"
+            />
+            <input
+              type="radio"
+              name="rating-2"
+              class="mask mask-star-2 bg-orange-400"
+              :value="5"
+              v-model="rateInDetail"
+              :disabled = "this.$route.query.history == 'yes'"
+            />
+          </div>
+              <textarea v-if="this.$route.query.history == 'yes'"
+                @change="allRejectCase()"
+                v-model="showCommentWhenReject"
+                class="textarea textarea-bordered w-full h-36"
+                placeholder="หมายเหตุที่ไม่อนุมัติ"
+                disabled
+              ></textarea> 
+          <!-- {{timestamp}} -->
+        </div>        
 
             </div>
 
@@ -784,6 +838,7 @@ export default {
       imm: false,
       sIdTabThree: '',
       openComment: false,
+      rateInDetail: 0,
     };
   },
   methods: {
@@ -898,13 +953,14 @@ export default {
       }else if(this.idStatus == 23){
         this.showCommentWhenReject = o.descriptionBreakShort
       }else if(this.idStatus == 26){
-        this.showCommentWhenReject = this.description
+        this.showCommentWhenReject = o.commentEmpGiveWorker
       }      
     },  
     async openPopUp(object) {
       // setInterval(this.getNow, 1000)
       console.log(object);
       this.showCommentHistoryPage(object)
+      this.rateInDetail = object.rate
       this.idApplication = object.applicationId;
       await axios
         .get(
@@ -1073,6 +1129,7 @@ export default {
       this.$route.query.history != 'yes' ? this.whoApplication = await axios.get(
         `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` + this.idPost + "&idStatus=" + this.idStatus ) :
       this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoStatusAndRound?idPosting=${this.idPost}&idStatus1=${this.idStatus}&idStatus2=${this.idStatus2}&round=${this.roundHistory}`)
+      
       console.log(this.whoApplication)
     if(this.whoApplication.data.length != 0){
       console.log("เข้าไหม2")

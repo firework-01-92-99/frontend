@@ -993,7 +993,7 @@
 
                   <div class="flex justify-between">
                     <button
-                      @click="approveEdit()"
+                      @click="approveEdit(), toggleModal = false"
                       class="btn w-2/5 bg-orange-1 hover:bg-orange-2 border-orange-1 hover:border-orange-1"
                     >
                       ยืนยัน
@@ -1119,7 +1119,6 @@ export default {
       } else {
         this.noValue = false;
       }
-      console.log("ไม่อยากจะถามมม")
       }else{
         this.confirmInput = true
         console.log("เลือกก่อนว่าอนุมัติไม่อนุมัติ")
