@@ -97,7 +97,6 @@
         <tbody
           v-for="(a,index) in this.$route.query.history != 'yes' ? whoApplication.data.whoApplicationList.filter((s) => (s.idStatus == idStatus) || (s.statusName == 'Waiting_Rating' || s.statusName == 'workerRated' )) : whoApplication.data.whoApplicationList"
           :key='a.applicationId'>
-          <!-- {{a}} -->
           <!-- row 1 -->
           <!-- <div v-if="listApprove.lenght == null">
             ไม่มีรายการที่ต้องทำ
@@ -813,6 +812,7 @@ export default {
         console.log(this.applicationHasComment.descriptionRejectOnWeb)
       }else if(this.chooseReject == 16){
         this.applicationHasComment.descriptionRejectOnSite = this.description
+        console.log(this.applicationHasComment.descriptionRejectOnSite)
       }else if(this.chooseReject == 23){
         this.applicationHasComment.descriptionBreakShort = this.description
       }else if(this.chooseReject == 26){
@@ -854,11 +854,11 @@ export default {
             this.rejectWorker();
             this.toggleModal = false;
             this.closeColumnName = false;
-          }else if(this.statusId == 21){
+          }else if(this.statusId == 15){
             this.acceptWorkerOnSite()
             this.toggleModal = false;
             this.closeColumnName = false;
-          }else if(this.statusId == 20){
+          }else if(this.statusId == 16){
             this.rejectWorkerOnSite()
             this.toggleModal = false;
             this.closeColumnName = false;
@@ -958,21 +958,24 @@ export default {
     },
     async acceptWorkerOnSite(app){
       const vm = this
-      console.log(app.applicationId)
+      // console.log(app.applicationId)
       if(this.sIdTabThree == 14 && this.imm == true){
         console.log("immมาไหม")
         this.idApplication = app.applicationId
         console.log(this.idApplication)
       }
       if(this.toggleModal == false){
+        console.log("toggleModal=false")
       await axios.put(`${process.env.VUE_APP_ROOT_API}emp/employerAcceptOnSite?idApplication=${this.idApplication}`).then(function (response) {
             console.log(response);
             vm.statusId = ''
+            vm.imm = false
             // vm.toggleModal = false
             vm.callData()
         })
       }else{
         if(this.toggleModal == true){
+          console.log("toggleModal=true")
       await axios.put(`${process.env.VUE_APP_ROOT_API}emp/employerAcceptOnSite?idApplication=${this.idApplication}`).then(function (response) {
             console.log(response);
             vm.statusId = ''
@@ -1069,7 +1072,7 @@ export default {
       this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoStatusAndRound?idPosting=${this.idPost}&idStatus1=${this.idStatus}&idStatus2=${this.idStatus2}&round=${this.roundHistory}`)
       console.log(this.whoApplication)
     if(this.whoApplication.data.length != 0){
-      console.log("เข้าไหม")
+      console.log("เข้าไหม2")
       this.noValue = false
       this.closeColumnName = false;
       if(this.$route.query.history != 'yes'){

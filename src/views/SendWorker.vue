@@ -147,7 +147,7 @@
             </td>
 
             <td>
-                ชื่อบอ
+                {{a.establishmentName}}
               <!-- {{
                 ntTypeFreeze[
                   a.nationality ? a.nationality.nationality_name : ""
@@ -155,7 +155,17 @@
               }} -->
             </td>
             <td>
-              ที่อยู่
+              {{a.address +
+            " " +
+            a.subDistrictName +
+            " " +
+            a.districtName +
+            " " +
+            a.provinceName +
+            " " +
+            a.postcode}}
+            <!-- {{            a.address +
+            " " + ''}} -->
             </td>
             <td class="text-center">
               {{ new Date(a.date).getDate()+
@@ -167,7 +177,7 @@
             </td>            
             <th>
               <!-- detail -->
-              <button class="btn btn-ghost btn-xs">
+              <button @click="tickDone(a)" class="btn btn-ghost btn-xs">
                 <i class="material-icons text-green-600 tooltip" data-tip="ส่งคนงาน"> done </i>
               </button>
               <!-- <button class="btn btn-ghost btn-xs">
@@ -581,8 +591,7 @@
 
             <div class="flex justify-between">
               <button
-              v-if="$route.query.history != 'yes'"
-                @click="acceptOrReject()"
+                @click="confirmSendWorker(a)"
                 class="btn w-2/5 bg-orange-1 hover:bg-orange-2 border-orange-1 hover:border-orange-1"
               >
                 ยืนยันส่งคนงาน
@@ -670,6 +679,7 @@ export default {
       reject: "ไม่รับเข้าทำงาน",
       statusToPage: 0,
       idPost:1,
+      dataProfile:{},
     };
   },
   methods: {
@@ -683,32 +693,34 @@ export default {
         }))
       }
       return workerList
+    },
+    async tickDone(a){
+      console.log(a.applicationId);
+        try {
+          await axios.put(
+            `${process.env.VUE_APP_ROOT_API}admin/adminSendWorkerToEmployer?idApplication=${a.applicationId}`
+          ).data;
+          this.toggleModal = false
+          this.callData()
+        } catch (error) {
+          console.log(error);
+        }
     },      
-    async acceptOrReject() {
-      console.log(this.statusId);
-      if (this.statusId != "") {
-        if (this.statusId == 12) { //it's meaning equal to 12 (accept worker on web)
+    async confirmSendWorker(a) {
+      console.log(a);
+
+
           this.tickSendWorker();
           this.toggleModal = false;
           this.closeColumnName = false;
-        }
+
         this.description = ''
-        // window.location.reload()
-      } else {
-        this.confirmInput = true;
-        console.log("เลือกก่อนว่าอนุมัติหรือไม่อนุมัติ");
-      }
     },
-    // getNow: function() {
-    //                 const today = new Date();
-    //                 const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-    //                 const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    //                 const dateTime = date +' '+ time;
-    //                 this.timestamp = dateTime;
-    //             },    
+
     async openPopUp(object) {
       // setInterval(this.getNow, 1000)
       console.log(object);
+      this.dataProfile = object;
       this.showCommentWhenReject = object.comment
       this.idApplication = object.applicationId;
       await axios
@@ -724,12 +736,12 @@ export default {
         console.log(this.whatWorker.verifyPic)
     },
     async tickSendWorker() {
-      console.log("idApplication = " + this.idApplication);
+      console.log(this.dataProfile)
       // const vm = this;
-      if (confirm("ต้องการรับบุคคลนี้เข้าทำงานหรือไม่")) {
+      if (confirm("ท่านได้ส่งบุคคลนี้ให้กับนายจ้างแล้วใช่หรือไม่")) {
         try {
           await axios.put(
-            `${process.env.VUE_APP_ROOT_API}admin/adminSendWorkerToEmployer?idApplication=${this.idApplication}`
+            `${process.env.VUE_APP_ROOT_API}admin/adminSendWorkerToEmployer?idApplication=${this.dataProfile.applicationId}`
           ).data;
           this.toggleModal = false
           this.callData()
@@ -752,34 +764,11 @@ export default {
       }
     },
     async callData(){
-            this.whoApplication = await axios.get(
-        `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
-          this.idPost +
-          "&idStatus=" +
-          this.idStatus
-      );
-    if(this.whoApplication.data.whoApplicationList.length != 0){
+      this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoAdminStatus?idStatusAdmin1=27` + "&idStatusAdmin2=");
+      console.log(this.whoApplication)
+    if(this.whoApplication.data.length != 0){
       this.noValue = false
       this.closeColumnName = false;
-      if(this.$route.query.history != 'yes'){
-      if(this.idStatus != 24){
-        this.whoApplication = await axios.get(
-            `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
-              this.idPost +
-              "&idStatus=" +
-              this.idStatus
-          );
-          console.log(this.whoApplication)
-      }else if(this.idStatus == 24){
-       console.log("idStatus = 24")
-          this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
-          console.log(this.whoApplication)
-      }
-      }else{
-        if(this.$route.query.history == 'yes'){
-          this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerAllPostingByTwoStatusAndRound?idStatus1=${this.idStatus}&idStatus2=${this.idStatus2}&round=${this.roundHistory}`)
-        }
-      }
     }else{
       this.noValue = true
       this.closeColumnName = true;
@@ -801,64 +790,6 @@ export default {
       this.$router.push("/");
     }
   },
-  // watch: {
-  //   idStatus: async function check() {
-  //     if(this.$route.query.history != 'yes'){
-  //     if (this.idStatus == 11) {
-  //       console.log("idStatus =" + this.idStatus);
-  //       this.topic = "รายการผู้สมัคร";
-  //       this.accept = "รับเข้าทำงาน";
-  //       this.reject = "ไม่รับเข้าทำงาน";
-  //       this.callData()      
-  //       this.chooseAccept = 12
-  //       this.chooseReject = 13
-  //     } else if(this.idStatus == 14) {
-  //         console.log("idStatus =" + this.idStatus);
-  //         this.topic = "รายการที่รับสมัครแล้ว";
-  //         this.accept = "รับเข้าทำงาน";
-  //       this.reject = "ไม่รับเข้าทำงาน";
-  //         this.callData()          
-  //       this.chooseAccept = 15
-  //       this.chooseReject = 16          
-  //     } else if(this.idStatus == 21) {
-  //         console.log("idStatus =" + this.idStatus);
-  //         this.topic = "รายการที่กำลังทำงาน";
-  //         this.accept = "จบการทำงาน";
-  //       this.reject = "ยกเลิกการจ้างงาน";
-  //         this.callData()        
-  //       this.chooseAccept = 22
-  //       this.chooseReject = 23           
-  //     } else if(this.idStatus == 24) {
-  //       //status_idStatus = 24,25
-  //         console.log("idStatus =" + this.idStatus);
-  //         this.topic = "รายการที่รอให้คะแนน";
-  //         this.callData()         
-  //         this.statusId = this.idStatus;
-  //         console.log(this.statusId)
-  //     }
-  //     }else{
-  //       if(this.$route.query.history == 'yes'){
-  //       if(this.idStatus == 13){
-  //       console.log("idStatus =" + this.idStatus)
-  //       console.log("idStatus2 =" + this.idStatus2)
-  //       this.callData()
-  //     }else if(this.idStatus == 16){
-  //       console.log("idStatus =" + this.idStatus)
-  //       this.callData()
-  //     }else if(this.idStatus == 23){
-  //       console.log("idStatus =" + this.idStatus)
-  //       this.callData()
-  //     }else if(this.idStatus == 26){
-  //       console.log("idStatus =" + this.idStatus)
-  //       this.callData()
-  //     } 
-  //       }
-  //     }
-  //   },
-  //   refreshData: async function checkRefresh(){
-  //         this.callData()
-  //   }
-  // },
 };
 </script>
 
