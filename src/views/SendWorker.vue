@@ -43,22 +43,23 @@
           </select>
         </div>
 
-        <div v-if="$route.query.history == 'yes'" class="w-full 2xl:pt-4 xl:pt-3 lg:pt-3 md:pt-5 pt-8 2xl:ml-32 xl:ml-5 lg:ml-6 md:ml-14 ml-12 2xl:-mt-0 md:-mt-0 -mt-3">
+        <div class="w-full 2xl:pt-4 xl:pt-3 lg:pt-3 md:pt-5 pt-8 2xl:ml-32 xl:ml-5 lg:ml-6 md:ml-14 ml-12 2xl:-mt-0 md:-mt-0 -mt-3">
           <select
+          @click="callData()"
+            v-model.trim="roundHistory"
             class="
               select select-bordered
               2xl:w-1/12
+              xl:w-1/12
+              lg:w-2/12
+              md:w-3/12
               w-5/6
               2xl:text-base
               md:text-xs
               font-normal
             "
           >
-            <!-- <option class="text-black" :value="''" disabled selected>
-              ครั้งที่เปิดรับสมัคร
-            </option> -->
-            <option class="text-black" value="1" selected = "selected">ครั้งที่ 1</option>
-            <option class="text-black" value="2">ครั้งที่ 2</option>
+            <option v-for="index in maxRound" :key="index" class="text-black" :value="index" selected = "selected">{{'ครั้งที่' + ' ' + index}}</option>
           </select>
         </div>
       </div>
@@ -105,21 +106,11 @@
         <tbody
           v-for="(a, index) in whoApplication.data ? sendWorkerList() : ''"
           :key='a.applicationId'>
-<!-- 
-          {{a}}
-          {{sendWorkerList().idPosting}} -->
+
           <!-- {{a}} -->
+          <!-- {{sendWorkerList().idPosting}} -->
+          
           <!-- row 1 -->
-          <!-- <div v-if="listApprove.lenght == null">
-            ไม่มีรายการที่ต้องทำ
-          </div> -->
-          <!-- {{
-            a
-          }}
-          ahhhhhhhhh
-          {{
-            whatWorker
-          }} -->
           <tr>
             <th>{{ index + 1 }}</th>
             <!-- <td class="flex justify-items-center">
@@ -678,6 +669,8 @@ export default {
       accept: "รับเข้าทำงาน",
       reject: "ไม่รับเข้าทำงาน",
       statusToPage: 0,
+      maxRound: 1,
+      roundHistory: 1,
       idPost:1,
       dataProfile:{},
     };
@@ -708,13 +701,7 @@ export default {
     },      
     async confirmSendWorker(a) {
       console.log(a);
-
-
           this.tickSendWorker();
-          this.toggleModal = false;
-          this.closeColumnName = false;
-
-        this.description = ''
     },
 
     async openPopUp(object) {
@@ -764,6 +751,7 @@ export default {
       }
     },
     async callData(){
+      console.log(this.maxRound)
       this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoAdminStatus?idStatusAdmin1=27` + "&idStatusAdmin2=");
       console.log(this.whoApplication)
     if(this.whoApplication.data.length != 0){

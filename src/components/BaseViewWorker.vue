@@ -45,13 +45,7 @@
               font-normal
             "
           >
-            <!-- <option class="text-black" :value="''" disabled selected>
-              ครั้งที่เปิดรับสมัคร
-            </option> -->
             <option v-for="index in maxRound" :key="index" class="text-black" :value="index" selected = "selected">{{'ครั้งที่' + ' ' + index}}</option>
-
-            <!-- <option class="text-black" value="1" selected = "selected">ครั้งที่ 1</option>
-            <option class="text-black" value="2">ครั้งที่ 2</option> --> -->
           </select>
         </div>
       </div>
@@ -95,19 +89,12 @@
           </tr>
         </thead>
         <tbody
-          v-for="(a,index) in this.$route.query.history != 'yes' ? whoApplication.data.whoApplicationList.filter((s) => (s.idStatus == idStatus) || (s.statusName == 'Waiting_Rating' || s.statusName == 'workerRated' )) : whoApplication.data.whoApplicationList"
+          v-for="(a,index) in this.$route.query.history != 'yes' ? idStatus != 14 ? whoApplication.data.whoApplicationList.filter((s) => (s.idStatus == idStatus) || (s.statusName == 'Waiting_Rating' || s.statusName == 'workerRated' )) : whoApplication.data.whoApplicationList.filter((s) => (s.idStatusAdmin == 28))
+          : whoApplication.data.whoApplicationList"
           :key='a.applicationId'>
+
           <!-- row 1 -->
-          <!-- <div v-if="listApprove.lenght == null">
-            ไม่มีรายการที่ต้องทำ
-          </div> -->
-          <!-- {{
-            a
-          }}
-          ahhhhhhhhh
-          {{
-            whatWorker
-          }} -->
+          <!-- {{a}} -->
           <tr>
             <th>{{ index + 1 }}</th>
             <td class="">
@@ -600,7 +587,7 @@
                 <div class="form-control">
                   <label class="label cursor-pointer 2xl:space-x-2">
                     <input
-
+                      @click="openComment = false"
                       type="radio"
                       v-model.trim="statusId"
                       name="radio-1"
@@ -613,7 +600,7 @@
                 <div class="form-control">
                   <label class="label cursor-pointer 2xl:space-x-2">
                     <input
-
+                      @click="openComment = true"
                       type="radio"
                       v-model.trim="statusId"
                       name="radio-2"
@@ -630,7 +617,7 @@
                 </p>
                 </div>
               </div>
-              <textarea v-if="this.$route.query.history != 'yes'"
+              <textarea v-if="this.$route.query.history != 'yes' && openComment == true"
                 @change="allRejectCase()"
                 v-model="description"
                 class="textarea textarea-bordered w-full h-36"
@@ -709,7 +696,7 @@
               </button>
               <button
                 @click="
-                  (toggleModal = false), (confirmInput = false)
+                  (toggleModal = false), (confirmInput = false), openComment = false
                 "
                 class="btn w-2/5"
               >
@@ -796,6 +783,7 @@ export default {
       maxRound: 1,
       imm: false,
       sIdTabThree: '',
+      openComment: false,
     };
   },
   methods: {
@@ -845,35 +833,43 @@ export default {
     },       
     async acceptOrReject() {
       console.log(this.statusId);
+      console.log("this.chooseReject" + this.chooseReject)
       if (this.statusId != "") {
         if (this.statusId == 12) { //it's meaning equal to 12 (accept worker on web)
           this.acceptWorker();
           this.toggleModal = false;
           this.closeColumnName = false;
+          this.openComment = false;
         } else if (this.statusId == 13) {
             this.rejectWorker();
             this.toggleModal = false;
             this.closeColumnName = false;
+            this.openComment = false;
           }else if(this.statusId == 15){
             this.acceptWorkerOnSite()
             this.toggleModal = false;
             this.closeColumnName = false;
+            this.openComment = false;
           }else if(this.statusId == 16){
             this.rejectWorkerOnSite()
             this.toggleModal = false;
             this.closeColumnName = false;
+            this.openComment = false;
           }else if(this.statusId == 22){
             this.finishJob()
             this.toggleModal = false;
             this.closeColumnName = false;
+            this.openComment = false;
           }else if(this.statusId == 23){
             this.breakShot()
             this.toggleModal = false;
             this.closeColumnName = false;
+            this.openComment = false;
           }else if(this.idStatus == 24){
             this.giveRating()
             this.toggleModal = false;
             this.closeColumnName = false;
+            this.openComment = false;
           }
         this.description = ''
         // window.location.reload()
@@ -892,17 +888,23 @@ export default {
         }
       }
     },
-    // getNow: function() {
-    //                 const today = new Date();
-    //                 const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-    //                 const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    //                 const dateTime = date +' '+ time;
-    //                 this.timestamp = dateTime;
-    //             },    
+    showCommentHistoryPage(o){
+      if(this.idStatus == 13){
+        this.showCommentWhenReject = o.descriptionRejectOnWeb
+        console.log(this.applicationHasComment.descriptionRejectOnWeb)
+      }else if(this.idStatus == 16){
+        this.showCommentWhenReject = o.descriptionRejectOnSite
+        console.log(this.applicationHasComment.descriptionRejectOnSite)
+      }else if(this.idStatus == 23){
+        this.showCommentWhenReject = o.descriptionBreakShort
+      }else if(this.idStatus == 26){
+        this.showCommentWhenReject = this.description
+      }      
+    },  
     async openPopUp(object) {
       // setInterval(this.getNow, 1000)
       console.log(object);
-      this.showCommentWhenReject = object.comment
+      this.showCommentHistoryPage(object)
       this.idApplication = object.applicationId;
       await axios
         .get(
@@ -993,6 +995,7 @@ export default {
       }      
       // if (confirm("ต้องการปฏิเสธบุคคลนี้เข้าทำงานหรือไม่")) {
       const comment = JSON.stringify(this.applicationHasComment);
+      console.log(comment)
       const customConfig = {
         headers: {
           "Content-Type": "application/json",
@@ -1063,9 +1066,9 @@ export default {
     },
     async callData(){
       console.log("เรียกเนอะ")
-      // if(this.$route.query.history != 'yes'){
+      // if(this.$route.query.history != 'yes' && this.idStatus == 14){
       //   this.whoApplication = await axios.get(
-      //   `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` + this.idPost + "&idStatus=" + this.idStatus );
+      //   `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` + this.idPost + "&idStatus=" + this.idStatus )
       // }
       this.$route.query.history != 'yes' ? this.whoApplication = await axios.get(
         `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` + this.idPost + "&idStatus=" + this.idStatus ) :
@@ -1170,6 +1173,7 @@ export default {
       this.namePost =  this.namePost1.position?.positionName
       console.log(this.whoApplication);
       console.log("idPost = " + this.idPost, "idStatus = " + this.idStatus);
+      console.log(this.whoApplication.data.whoApplicationList.filter((s) => (s.idStatusAdmin == 28)).length == 0 ? true : false);
     } else {
       this.$router.push("/");
     }
@@ -1193,7 +1197,8 @@ export default {
         this.reject = "ไม่รับเข้าทำงาน";
           this.callData()          
         this.chooseAccept = 15
-        this.chooseReject = 16          
+        this.chooseReject = 16
+        console.log("this.chooseReject " + this.chooseReject)          
       } else if(this.idStatus == 21) {
           console.log("idStatus =" + this.idStatus);
           this.topic = "รายการที่กำลังทำงาน";

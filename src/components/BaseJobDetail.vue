@@ -545,7 +545,9 @@ export default {
       YNextBtn: true,
       favoriteList: [],
       image: null,
-      score: 0
+      score: 0,
+      maxRound: 1,
+      canClosePost: false,
     };
   },
   methods: {
@@ -595,7 +597,12 @@ export default {
     },
     async closePost(OnorOff) {
       console.log("InorAct = " + OnorOff);
-      if(OnorOff == 'Off'){
+      const maxRound = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getMaxRoundOfPosting?idPosting=` + this.idPosting);
+      this.maxRound = maxRound.data      
+      this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoStatusAndRound?idPosting=${this.idPosting}&idStatus1=11&idStatus2=14&round=${this.maxRound}`)
+      this.canClosePost = this.whoApplication.data.whoApplicationList.length == 0 ? false : true
+      console.log(this.canClosePost)
+      if(OnorOff == 'Off' && this.canClosePost == false){
         if (confirm("ต้องการปิดประกาศรับสมัครใช่หรือไม่")) {
           // this.showToast1 = true;
         console.log("Inactive Post");
@@ -609,7 +616,10 @@ export default {
       this.$store.commit("setPosting", this.getInactivePost);
         this.$router.push("/posting");
       }      
-      }else {
+      }else {    
+        if(this.canClosePost == true){
+          alert("ไปปิด2tabsก่อนนะ")
+        }else{
         if(OnorOff == 'On'){
       if (confirm("ต้องการจเปิดประกาศรับสมัคร")) {
         // this.showToast2 = true;
@@ -624,6 +634,7 @@ export default {
           this.$store.commit("setPosting", this.getActivePost);                
         this.$router.push("/posting");
       }  
+        }
         }
       
       }
