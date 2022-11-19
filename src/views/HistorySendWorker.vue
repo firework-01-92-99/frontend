@@ -28,7 +28,7 @@
           w-full
         "
       >
-        รายการการส่งคนงาน
+        ประวัติรายการการส่งคนงาน
       </p>
       <!-- <div class="2xl:mx-20 xl:mx-20 2xl:flex md:flex flex 2xl:p-0 md:p-10 p-5 2xl:mt-0 md:mt-0 mt-11 w-full 2xl:justify-end md:justify-end justify-center">
         <button
@@ -57,6 +57,7 @@
         
         <div class="w-full 2xl:pt-4 xl:pt-3 lg:pt-3 md:pt-5 pt-8 2xl:ml-28 xl:ml-5 lg:ml-6 md:ml-12 ml-0 2xl:-mt-0 md:-mt-0 -mt-3">
           <select
+            v-model.trim="idEmployer"
             class="
               select select-bordered
               2xl:w-1/2
@@ -69,16 +70,16 @@
               font-normal
             "
           >
-            <!-- <option class="text-black" :value="''" disabled selected>
-              ครั้งที่เปิดรับสมัคร
-            </option> -->
+            <option class="" :value="''" disabled selected>
+              กรุเลือกบริษัทที่ต้องการค้นหา
+            </option>
             <option v-for="e in employerList" :key="e.idEmployer" class="text-black" :value="e.idEmployer" selected = "selected">{{'บริษัท' + ' ' + e.establishmentName}}</option>
           </select>
         </div>
 
         <div class="w-full 2xl:pt-4 xl:pt-3 lg:pt-3 md:pt-5 pt-8 2xl:ml-0 xl:ml-0 lg:ml-0 md:ml-0 ml-0 2xl:-mt-0 md:-mt-0 -mt-3">
           <select
-          @click="callData()"
+            @click="callData()"
             v-model.trim="roundHistory"
             class="
               select select-bordered
@@ -113,9 +114,11 @@
             <th></th>
             <!-- <th>คะแนน</th> -->
             <th>ชื่อ</th>
+            <th>ตำแหน่ง</th>
             <th>ชื่อบริษัท</th>
             <th>ที่อยู่</th>
             <th class="text-center">เวลาสมัคร</th>
+            <th class="text-center">สถานะ</th>
             <th></th>
           </tr>
         </thead>
@@ -152,6 +155,9 @@
                 </div>
               </div>
             </td>
+            <td>
+              {{a.positionName}}
+            </td>            
 
             <td>
                 {{a.establishmentName}}
@@ -181,7 +187,35 @@
            " "+new Date(a.date).getHours()+
            ":"+new Date(a.date).getMinutes()+
            ":"+new Date(a.date).getSeconds()}}
-            </td>            
+            </td>
+             <td>
+              <div
+                v-if="a.idStatusAdmin == 28"
+                class="
+                  badge badge-lg
+                  w-full
+                  bg-green-200
+                  text-green-600
+                  border-0
+                  text-xs
+                "
+              >
+                ส่งแรงงานเรียบร้อยแล้ว
+              </div>
+              <div
+                v-if="a.idStatusAdmin == 32"
+                class="
+                  badge badge-lg
+                  w-full
+                  bg-red-200
+                  text-red-600
+                  border-0
+                  text-xs
+                "
+              >
+                ปฏิเสธการส่งตัว
+              </div>
+            </td>                        
             <th>
               <!-- detail -->
               <!-- <button @click="tickDone(a)" class="btn btn-ghost btn-xs">
@@ -596,6 +630,13 @@
               </div>
             </div>
 
+            <textarea
+                      v-model="dataProfile.descriptionRejectSentWorker"
+                      disabled
+                      class="textarea textarea-bordered w-full h-36"
+                      placeholder="หมายเหตุที่ไม่อนุมัติ"
+                    ></textarea>
+
             <div class="flex justify-end">
               <!-- <button
                 @click="confirmSendWorker(a)"
@@ -654,30 +695,18 @@ export default {
       whoApplication: [{ nationality: {}, workerType: {}, data: {} }],
       //   idPosting: '',
       acceptPage: false,
-      statusId: "",
       image: "",
-      topic: "รายการผู้สมัคร",
-      description: "",
       applicationHasComment: {
         descriptionRejectOnWeb: '',
         descriptionRejectOnSite: '',
         descriptionBreakShort: '',
+        descriptionRejectSentWorker: '',
       },
       toggleModal: false,
       noValue: false,
       idApplication: "",
       whatWorker: {},
       confirmInput: false,
-      chooseAccept: 12,
-      chooseReject: 13,
-      rateTo:{
-        rate: 5,
-        comment: '',
-        timestamp:'',
-        forwho: '',
-        employer:{},
-        worker:{}
-      },
       finishWork: {},
       closeColumnName: false,
       namePost1: {},
@@ -690,6 +719,7 @@ export default {
       idPost:1,
       dataProfile:{},
       employerList: [],
+      idEmployer: 0,
     };
   },
   methods: {
@@ -768,9 +798,10 @@ export default {
         console.log(error);
       }
     },
-    async callData(){
+    async callData(e){
+      console.log(e)
       console.log(this.maxRound)
-      this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoAdminStatus?idStatusAdmin1=28` + "&idStatusAdmin2=" + "&round=" + this.roundHistory);
+      this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoAdminStatus?idStatusAdmin1=28` + "&idStatusAdmin2=32" + "&round=" + this.roundHistory + "&idEmployer=" + this.idEmployer);
       console.log(this.whoApplication)
     if(this.whoApplication.data.length != 0){
       this.noValue = false
@@ -780,6 +811,19 @@ export default {
       this.closeColumnName = true;
     }
     },
+    async check(){
+      this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoAdminStatus?idStatusAdmin1=28` + "&idStatusAdmin2=32" + "&round=" + this.roundHistory + "&idEmployer=" + this.idEmployer)
+      // if(this.sendWorkerList().filter(e => e.idEmployer == this.idEmployer).length == 0){
+        if(this.sendWorkerList().length == 0){
+        console.log(this.sendWorkerList().length)
+        this.noValue = true
+        this.closeColumnName = true;        
+      }else{
+        console.log("เข้ามั้ยอะ")
+        this.noValue = false
+        this.closeColumnName = false
+      }      
+    }    
   },
   async created() {
     if (
@@ -788,7 +832,7 @@ export default {
     ) {
         const maxRound = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getMaxRoundOfPosting?idPosting=` + this.idPost);
         this.maxRound = maxRound.data      
-      this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoAdminStatus?idStatusAdmin1=28` + "&idStatusAdmin2=" + "&round=" + this.roundHistory);
+      this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoAdminStatus?idStatusAdmin1=28` + "&idStatusAdmin2=32" + "&round=" + this.roundHistory + "&idEmployer=");
       console.log(this.whoApplication)
       const employerList = await axios.get(`${process.env.VUE_APP_ROOT_API}main/allEmployer`)
       this.employerList = employerList.data      
@@ -799,6 +843,14 @@ export default {
       this.$router.push("/");
     }
   },
+    watch: {
+    idEmployer: async function check() {
+      this.check()
+    },
+    roundHistory: async function checkRound(){
+      this.check()     
+    }
+    } 
 };
 </script>
 

@@ -788,7 +788,7 @@ const sexFreeze = Object.freeze({
   M: "ชาย",
 });
 export default {
-  props: ["idPost", "idStatus", "idStatus2"],
+  props: ["idPost", "idStatus", "idStatus2", "idStatus3", "idStatus4"],
   // props: ["idPost", "idStatus", "idStatus2", "refreshData"],
   data() {
     return {
@@ -810,6 +810,7 @@ export default {
         descriptionRejectOnWeb: '',
         descriptionRejectOnSite: '',
         descriptionBreakShort: '',
+        descriptionRejectSentWorker: '',
       },
       toggleModal: false,
       noValue: false,
@@ -1224,7 +1225,12 @@ export default {
       if(this.$route.query.history == 'yes'){
         const maxRound = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getMaxRoundOfPosting?idPosting=` + this.idPost);
         this.maxRound = maxRound.data
-        this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoStatusAndRound?idPosting=${this.idPost}&idStatus1=${this.idStatus}&idStatus2=${this.idStatus2}&round=${this.roundHistory}`)
+        if(this.idStatus == 26 && this.idStatus2 == 20 && this.idStatus3 == 29 && this.idStatus4 == 31){
+          this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByFourStatus?idPosting=${this.idPost}&idStatus1=${this.idStatus}&idStatus2=${this.idStatus2}&idStatus3=${this.idStatus3}&idStatus4=${this.idStatus4}&round=${this.roundHistory}`)
+        }else{
+          this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoStatusAndRound?idPosting=${this.idPost}&idStatus1=${this.idStatus}&idStatus2=${this.idStatus2}&round=${this.roundHistory}`)
+        }
+        
       }        
       }
       if (this.whoApplication.data.whoApplicationList.length == 0) {

@@ -49,6 +49,7 @@
         
         <div class="w-full 2xl:pt-4 xl:pt-3 lg:pt-3 md:pt-5 pt-8 2xl:ml-28 xl:ml-5 lg:ml-6 md:ml-12 ml-0 2xl:-mt-0 md:-mt-0 -mt-3">
           <select
+            v-model.trim="idEmployer"
             class="
               select select-bordered
               2xl:w-1/2
@@ -61,9 +62,9 @@
               font-normal
             "
           >
-            <!-- <option class="text-black" :value="''" disabled selected>
-              ครั้งที่เปิดรับสมัคร
-            </option> -->
+            <option class="" :value="''" disabled selected>
+              กรุเลือกบริษัทที่ต้องการค้นหา
+            </option>
             <option v-for="e in employerList" :key="e.idEmployer" class="text-black" :value="e.idEmployer" selected = "selected">{{'บริษัท' + ' ' + e.establishmentName}}</option>
           </select>
         </div>
@@ -105,6 +106,7 @@
             <th></th>
             <!-- <th>คะแนน</th> -->
             <th>ชื่อ</th>
+            <th>ตำแหน่ง</th>
             <th>ชื่อบริษัท</th>
             <th>ที่อยู่</th>
             <th class="text-center">เวลาสมัคร</th>
@@ -143,6 +145,9 @@
                   {{ a.lastName == null || a.lastName == "" || a.lastName == "-" ? "" : a.lastName + " " }}
                 </div>
               </div>
+            </td>
+            <td>
+              {{a.positionName}}
             </td>
 
             <td>
@@ -588,12 +593,57 @@
               </div>
             </div>
 
+                              <div class="w-full mb-5">
+                    <div class="flex-col w-full">
+                      <div class="flex space-x-10">
+                      <div class="form-control">
+                        <label class="label cursor-pointer 2xl:space-x-2">
+                          <input
+                            type="radio"
+                            v-model.trim="value"
+                            name="radio-1"
+                            class="radio checked:bg-orange-1"
+                            value="sent"
+                          />
+                          <span class="label-text 2xl:pr-0 md:pl-5 pl-5"
+                            >อนุมัติ</span
+                          >
+                        </label>
+                      </div>
+                      <div class="form-control">
+                        <label class="label cursor-pointer 2xl:space-x-2">
+                          <input
+                            type="radio"
+                            v-model.trim="value"
+                            name="radio-2"
+                            class="radio checked:bg-orange-1"
+                            value="notSent"
+                          />
+                          <span class="label-text 2xl:pr-0 md:pl-5 pl-5"
+                            >ไม่อนุมัติ</span
+                          >
+                        </label>
+                      </div>
+                      </div>
+                      <div class="flex">
+                      <p v-if="confirmInput" class="text-red-600">
+                        กรุณาเลือกรูปแบบการอนุมัติ
+                      </p>
+                      </div>
+                    </div>
+                    <textarea
+                      v-model="note"
+                      class="textarea textarea-bordered w-full h-36"
+                      placeholder="หมายเหตุที่ไม่อนุมัติ"
+                    ></textarea>
+                  </div>
+
             <div class="flex justify-between">
               <button
-                @click="confirmSendWorker(a)"
+                @click="confirmSendWorker()"
                 class="btn w-2/5 bg-orange-1 hover:bg-orange-2 border-orange-1 hover:border-orange-1"
               >
-                ยืนยันส่งคนงาน
+                ยืนยัน
               </button>
               <button
                 @click="
@@ -637,6 +687,7 @@ const sexFreeze = Object.freeze({
 export default {
   data() {
     return {
+      value:'',
       showCommentWhenReject: '',
       // timestamp: "",
       sexFreeze,
@@ -646,14 +697,13 @@ export default {
       whoApplication: [{ nationality: {}, workerType: {}, data: {} }],
       //   idPosting: '',
       acceptPage: false,
-      statusId: "",
       image: "",
-      topic: "รายการผู้สมัคร",
-      description: "",
+      note: '',
       applicationHasComment: {
         descriptionRejectOnWeb: '',
         descriptionRejectOnSite: '',
         descriptionBreakShort: '',
+        descriptionRejectSentWorker: 'ไม่มีความคิดเห็น',
       },
       toggleModal: false,
       noValue: false,
@@ -662,26 +712,17 @@ export default {
       confirmInput: false,
       chooseAccept: 12,
       chooseReject: 13,
-      rateTo:{
-        rate: 5,
-        comment: '',
-        timestamp:'',
-        forwho: '',
-        employer:{},
-        worker:{}
-      },
       finishWork: {},
       closeColumnName: false,
       namePost1: {},
       namePost: '',
-      accept: "รับเข้าทำงาน",
-      reject: "ไม่รับเข้าทำงาน",
       statusToPage: 0,
       maxRound: 1,
       roundHistory: 1,
       idPost:1,
       dataProfile:{},
       employerList: [],
+      idEmployer: 0,
     };
   },
   methods: {
@@ -708,12 +749,33 @@ export default {
           console.log(error);
         }
     },
-    cancelSend(a){
-      console.log(a)
+    async cancelSend(a){
+      const vm = this
+      if(this.note != ''){
+        this.applicationHasComment.descriptionRejectSentWorker = this.note
+      }
+      const applicationHasComment = JSON.stringify(this.applicationHasComment);
+      const customConfig = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };      
+        try {
+          await axios.put(
+            `${process.env.VUE_APP_ROOT_API}admin/adminRejectSentWorker?idApplication=${a.applicationId}`, applicationHasComment, customConfig
+          ).data;
+          vm.toggleModal = false
+        } catch (error) {
+          console.log(error);
+        }
+        this.callData()
     },      
-    async confirmSendWorker(a) {
-      console.log(a);
+    async confirmSendWorker() {
+        if(this.value == 'sent'){
           this.tickSendWorker();
+        }else{
+          this.cancelSend(this.dataProfile)
+        }
     },
 
     async openPopUp(object) {
@@ -762,20 +824,36 @@ export default {
         console.log(error);
       }
     },
-    async callData(){
+    async callData(e){
+      console.log(e)
       console.log(this.maxRound)
-      this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoAdminStatus?idStatusAdmin1=27` + "&idStatusAdmin2=" + "&round=" + this.roundHistory);
-      this.noValue = this.whoApplication.filter(p => p.inActiveDate != null).length == 0
-      this.closeColumnName = this.whoApplication.filter(p => p.inActiveDate != null).length == 0
+      this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoAdminStatus?idStatusAdmin1=27` + "&idStatusAdmin2=" + "&round=" + this.roundHistory + "&idEmployer=" + this.idEmployer);
+      this.noValue = this.whoApplication.filter((p) => (p.inActiveDate != null)).length == 0
+      this.closeColumnName = this.whoApplication.filter((p) => (p.inActiveDate != null)).length == 0
       console.log(this.whoApplication)
     if(this.whoApplication.data.length != 0){
+      console.log("ทำงานไหม ๅ")
       this.noValue = false
       this.closeColumnName = false;
     }else{
+      console.log("ทำงานไหม /")
       this.noValue = true
       this.closeColumnName = true;
     }
     },
+    async check(){
+      this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoAdminStatus?idStatusAdmin1=27` + "&idStatusAdmin2=" + "&round=" + this.roundHistory + "&idEmployer=" + this.idEmployer)
+      // if(this.sendWorkerList().filter(e => e.idEmployer == this.idEmployer).length == 0){
+        if(this.sendWorkerList().length == 0){
+        console.log(this.sendWorkerList().length)
+        this.noValue = true
+        this.closeColumnName = true;        
+      }else{
+        console.log("เข้ามั้ยอะ")
+        this.noValue = false
+        this.closeColumnName = false
+      }      
+    }
   },
   async created() {
     if (
@@ -784,7 +862,7 @@ export default {
     ) {
         const maxRound = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getMaxRoundOfPosting?idPosting=` + this.idPost);
         this.maxRound = maxRound.data      
-      this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoAdminStatus?idStatusAdmin1=27` + "&idStatusAdmin2=" + "&round=" + this.roundHistory);
+      this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoAdminStatus?idStatusAdmin1=27` + "&idStatusAdmin2=" + "&round=" + this.roundHistory + "&idEmployer=");
       console.log(this.whoApplication)
       const employerList = await axios.get(`${process.env.VUE_APP_ROOT_API}main/allEmployer`)
       this.employerList = employerList.data
@@ -796,6 +874,14 @@ export default {
       this.$router.push("/");
     }
   },
+    watch: {
+    idEmployer: async function check() {
+      this.check()
+    },
+    roundHistory: async function checkRound(){
+      this.check()     
+    }
+    }
 };
 </script>
 

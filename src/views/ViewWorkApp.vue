@@ -61,6 +61,8 @@
       :idPost="$route.query.idPost"
       :idStatus="idStatus"
       :idStatus2="idStatus2"
+      :idStatus3="idStatus3"
+      :idStatus4="idStatus4"
       @statusToPage="receiveStatus"
     ></base-view-worker>
   </div>
@@ -79,6 +81,8 @@ export default {
       idPosting: "",
       idStatus: "11",
       idStatus2: "14",
+      idStatus3: "29",
+      idStatus4: "31",
       tab: 1,
     };
   },
@@ -118,6 +122,8 @@ export default {
       }else if(this.tab == 4){
         this.idStatus = 26
         this.idStatus2 = 20
+        this.idStatus3 = 29
+        this.idStatus4 = 31
       }
         }
       }
