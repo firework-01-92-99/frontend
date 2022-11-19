@@ -1,6 +1,32 @@
 <template>
-  <div class="bg-gray-2 font-sans-thai w-screen h-full py-20 2xl:px-0 xl:px-0 lg:px-0 md:px-0 px-5">
+  <div class="bg-gray-2 font-sans-thai w-screen h-full py-16 2xl:px-0 xl:px-0 lg:px-0 md:px-0 px-5">
       <!-- <div v-if="!acceptPage" class="overflow-x-auto w-10/12 mx-auto font-sans-thai"> -->
+      <div
+      class="hero 2xl:h-64 xl:h-64 lg:h-64 md:h-64 h-32"
+      style="
+        background-image: url(https://images.unsplash.com/photo-1503945438517-f65904a52ce6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80);
+      "
+    >
+      <div class="hero-overlay bg-opacity-60"></div>
+      <div class="hero-content text-center text-neutral-content">
+        <div class="w-full">
+          <h1
+            class="
+              mb-5
+              2xl:text-5xl
+              xl:text-5xl
+              lg:text-5xl
+              md:text-5xl
+              text-2xl
+              font-bold
+            "
+          >
+            สวัสดีคุณ
+            {{ myAcc.data.firstName + " " + myAcc.data.lastName }}
+          </h1>
+        </div>
+      </div>
+    </div>
 <div class="2xl:flex 2xl:flex-row md:flex md:flex-row flex flex-col w-full">
       <div class="w-full justify-start">
 
@@ -690,6 +716,7 @@ const sexFreeze = Object.freeze({
 export default {
   data() {
     return {
+      myAcc: [],
       value:'',
       showCommentWhenReject: '',
       // timestamp: "",
@@ -876,6 +903,8 @@ export default {
       console.log(this.whoApplication)
       const employerList = await axios.get(`${process.env.VUE_APP_ROOT_API}main/allEmployer`)
       this.employerList = employerList.data
+      this.myAcc = await axios.get(`${process.env.VUE_APP_ROOT_API}admin/meAdmin`);
+      this.idAdmin = this.myAcc.data.idAdmin;
       console.log(this.employerList)
       console.log(this?.sendWorkerList())
       this.noValue = this.sendWorkerList().filter(p => p.inActiveDate != null).length == 0
