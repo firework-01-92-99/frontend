@@ -180,9 +180,9 @@
               <button @click="tickDone(a)" class="btn btn-ghost btn-xs">
                 <i class="material-icons text-green-600 tooltip" data-tip="ส่งคนงาน"> done </i>
               </button>
-              <!-- <button class="btn btn-ghost btn-xs">
+              <button @click="cancelSend(a)" class="btn btn-ghost btn-xs">
                 <i class="material-icons text-red-600"> close </i>
-              </button> -->
+              </button>
               <button
                 @click="openPopUp(a), getPic(a), (toggleModal = !toggleModal)"
                 class="btn btn-ghost btn-xs"
@@ -707,6 +707,9 @@ export default {
         } catch (error) {
           console.log(error);
         }
+    },
+    cancelSend(a){
+      console.log(a)
     },      
     async confirmSendWorker(a) {
       console.log(a);

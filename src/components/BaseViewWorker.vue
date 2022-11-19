@@ -140,7 +140,7 @@
                   text-xs
                 "
               >
-                {{idStatus2==24 ? "จบงานเรียบร้อย กรุณาให้คะแนนแรงงาน" : idStatus2==26||idStatus2==20 ? "ให้คะแนนแรงงานเรียบร้อยแล้ว" : "รับเข้าทำงาน"}}
+                {{idStatus2==24 ? "จบงานเรียบร้อย กรุณาให้คะแนนแรงงาน" : idStatus2 == 2 || idStatus2 == 20 ? "ให้คะแนนแรงงานเรียบร้อยแล้ว" : "รับเข้าทำงาน"}}
               </div>
               <div
                 v-if="a.statusName == 'Reject_EmployerOnWeb' || a.statusName == 'Reject_WorkerOnSite' || a.statusName == 'BreakShort' || a.statusName == 'Done'"
@@ -153,7 +153,7 @@
                   text-xs
                 "
               >
-                {{idStatus==23 ? 'ยกเลิกการจ้างงาน' : a.statusName == 'doneBreakShort' ? 'ให้คะแนนเรียบร้อยแล้ว' : 'ไม่รับเข้าทำงาน'}}
+                {{idStatus==23 ? 'ยกเลิกการจ้างงาน' : a.statusName == 'doneBreakShort' || a.statusName == 'empRated_BreakShort' ? 'ให้คะแนนเรียบร้อยแล้ว' : 'ไม่รับเข้าทำงาน'}}
               </div>
             </td>
             <td class="text-center">
@@ -958,6 +958,9 @@ export default {
     },  
     async openPopUp(object) {
       // setInterval(this.getNow, 1000)
+      this.description = ''
+      this.rateTo.comment = ''
+      this.rateTo.rate = 5
       console.log(object);
       this.showCommentHistoryPage(object)
       this.rateInDetail = object.rate
@@ -1131,12 +1134,21 @@ export default {
       this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoStatusAndRound?idPosting=${this.idPost}&idStatus1=${this.idStatus}&idStatus2=${this.idStatus2}&round=${this.roundHistory}`)
       
       console.log(this.whoApplication)
+      // console.log(this.whoApplication.data.whoApplicationList.filter((s) => (s.idStatusAdmin != 28)).length)
     if(this.whoApplication.data.length != 0){
       console.log("เข้าไหม2")
       this.noValue = false
       this.closeColumnName = false;
       if(this.$route.query.history != 'yes'){
-      if(this.idStatus != 24){
+        if(this.idStatus == 14){
+        if(this.whoApplication.data.whoApplicationList.filter((s) => (s.idStatusAdmin == 28)).length != 0){
+          this.noValue = false
+          this.closeColumnName = false
+        }else{
+          this.noValue = true
+          this.closeColumnName = true;
+        }
+      }else if(this.idStatus != 24){
         this.whoApplication = await axios.get(
             `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
               this.idPost +
@@ -1152,12 +1164,6 @@ export default {
           console.log(this.whoApplication)
           this.noValue = this.whoApplication.data.whoApplicationList.length == 0
           this.closeColumnName = this.whoApplication.data.whoApplicationList.length == 0
-          // this.noValue = this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(24) ? false : true
-          // this.closeColumnName = this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(24) ? false : true
-          // this.noValue = this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(25) ? false : true
-          // this.closeColumnName = this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(25) ? false : true
-          // this.noValue = this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(23) ? false : true
-          // this.closeColumnName = this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(23) ? false : true
           if(this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(24)){
             this.noValue = false
             this.closeColumnName = false
@@ -1205,9 +1211,6 @@ export default {
       this.$store.state.auth.user &&
       this.$store.state.auth.user.role.idRole == "2"
     ) {
-      // this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoStatusAndRound?idPosting=${this.idPost}&idStatus1=13&idStatus2=14&round=${this.roundHistory}`)
-      // console.log(this.whoApplication)
-      // console.log("สร้างใหม่ไหม")
       if(this.$route.query.history != 'yes'){
       this.whoApplication = await axios.get(
         `${process.env.VUE_APP_ROOT_API}emp/showAllWorker?idPosting=` +
@@ -1226,6 +1229,15 @@ export default {
         this.noValue = true;
         this.closeColumnName = true;
       }
+        if(this.idStatus == 14 && this.whoApplication.data.whoApplicationList.filter((s) => (s.idStatusAdmin == 28)).length != 0){
+          this.noValue = false
+          this.closeColumnName = false
+        }else{
+          if(this.idStatus == 14 && this.whoApplication.data.whoApplicationList.filter((s) => (s.idStatusAdmin == 28)).length == 0){
+            this.noValue = true
+          this.closeColumnName = true;
+          }
+        }      
       this.namePost1 = await this.fetch(`${process.env.VUE_APP_ROOT_API}main/selectPosting?idPosting=` + this.idPost);
       this.namePost =  this.namePost1.position?.positionName
       console.log(this.whoApplication);
