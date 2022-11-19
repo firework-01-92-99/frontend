@@ -963,6 +963,7 @@
                       <div class="form-control">
                         <label class="label cursor-pointer 2xl:space-x-2">
                           <input
+                          @click="openComment = false"
                             type="radio"
                             v-model.trim="statusId"
                             name="radio-1"
@@ -977,6 +978,7 @@
                       <div class="form-control">
                         <label class="label cursor-pointer 2xl:space-x-2">
                           <input
+                          @click="openComment = true"
                             type="radio"
                             v-model.trim="statusId"
                             name="radio-2"
@@ -995,7 +997,7 @@
                       </p>
                       </div>
                     </div>
-                    <textarea
+                    <textarea v-if="openComment == true"
                       class="textarea textarea-bordered w-full h-36"
                       placeholder="หมายเหตุที่ไม่อนุมัติ"
                     ></textarea>
@@ -1008,7 +1010,7 @@
                     >
                       ยืนยัน
                     </button>
-                    <button @click="toggleModal = false" class="btn w-2/5">ปิด</button>
+                    <button @click="(toggleModal = false), note = '', value = '', openComment = false" class="btn w-2/5">ปิด</button>
                   </div>
           
               </div>
@@ -1043,6 +1045,9 @@ export default {
   components: { BaseTab },
   data() {
     return {
+      value:'',
+      openComment: false,
+      note: '',
       listApprove: [],
       sexFreeze,
       workerType,
