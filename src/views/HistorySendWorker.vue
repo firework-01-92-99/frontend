@@ -185,9 +185,9 @@
             </td>            
             <th>
               <!-- detail -->
-              <button @click="tickDone(a)" class="btn btn-ghost btn-xs">
+              <!-- <button @click="tickDone(a)" class="btn btn-ghost btn-xs">
                 <i class="material-icons text-green-600 tooltip" data-tip="ส่งคนงาน"> done </i>
-              </button>
+              </button> -->
               <!-- <button class="btn btn-ghost btn-xs">
                 <i class="material-icons text-red-600"> close </i>
               </button> -->
@@ -597,13 +597,13 @@
               </div>
             </div>
 
-            <div class="flex justify-between">
-              <button
+            <div class="flex justify-end">
+              <!-- <button
                 @click="confirmSendWorker(a)"
                 class="btn w-2/5 bg-orange-1 hover:bg-orange-2 border-orange-1 hover:border-orange-1"
               >
                 ยืนยันส่งคนงาน
-              </button>
+              </button> -->
               <button
                 @click="
                   (toggleModal = false), (confirmInput = false)
@@ -699,23 +699,24 @@ export default {
         const post = this.whoApplication.data[i];
         workerList = workerList.concat(post.whoApplicationList.map(p=>{
           p.idPosting = post.idPosting
+          console.log(p)
           return p
         }))
       }
       return workerList
     },
-    async tickDone(a){
-      console.log(a.applicationId);
-        try {
-          await axios.put(
-            `${process.env.VUE_APP_ROOT_API}admin/adminSendWorkerToEmployer?idApplication=${a.applicationId}`
-          ).data;
-          this.toggleModal = false
-          this.callData()
-        } catch (error) {
-          console.log(error);
-        }
-    },      
+    // async tickDone(a){
+    //   console.log(a.applicationId);
+    //     try {
+    //       await axios.put(
+    //         `${process.env.VUE_APP_ROOT_API}admin/adminSendWorkerToEmployer?idApplication=${a.applicationId}`
+    //       ).data;
+    //       this.toggleModal = false
+    //       this.callData()
+    //     } catch (error) {
+    //       console.log(error);
+    //     }
+    // },      
     async confirmSendWorker(a) {
       console.log(a);
           this.tickSendWorker();
@@ -787,7 +788,7 @@ export default {
     ) {
         const maxRound = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getMaxRoundOfPosting?idPosting=` + this.idPost);
         this.maxRound = maxRound.data      
-      this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoAdminStatus?idStatusAdmin1=27` + "&idStatusAdmin2=" + "&round=" + this.roundHistory);
+      this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoAdminStatus?idStatusAdmin1=28` + "&idStatusAdmin2=" + "&round=" + this.roundHistory);
       console.log(this.whoApplication)
       // const employer = await axios.get(`${process.env.VUE_APP_ROOT_API}main/selectEmployerFromPosting?idPosting=` + this.idPost);
       console.log(this?.sendWorkerList())

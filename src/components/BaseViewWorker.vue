@@ -740,7 +740,7 @@
 
             </div>
 
-            <div class="flex justify-between">
+            <div :class="[{ 'flex justify-end' : $route.query.history == 'yes' && justEnd == true},{'flex justify-between' : $route.query.history != 'yes' && justEnd == false}]">
               <button
               v-if="$route.query.history != 'yes'"
                 @click="acceptOrReject()"
@@ -750,7 +750,7 @@
               </button>
               <button
                 @click="
-                  (toggleModal = false), (confirmInput = false), openComment = false
+                  (toggleModal = false), (confirmInput = false), openComment = false, justEnd = false
                 "
                 class="btn w-2/5"
               >
@@ -839,6 +839,7 @@ export default {
       sIdTabThree: '',
       openComment: false,
       rateInDetail: 0,
+      justEnd : false,
     };
   },
   methods: {
@@ -958,6 +959,7 @@ export default {
     },  
     async openPopUp(object) {
       // setInterval(this.getNow, 1000)
+      this.justEnd = this.$route.query.history == 'yes'
       this.description = ''
       this.rateTo.comment = ''
       this.rateTo.rate = 5
