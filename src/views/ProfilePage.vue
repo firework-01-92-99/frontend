@@ -18,7 +18,7 @@
             </div>
             <div class="flex-none">
               <button v-if="delToast" class="btn btn-sm btn-ghost px-5">ไม่</button>
-              <button v-if="delToast" class="btn btn-sm btn-primary px-5">ใช่</button>
+              <button v-if="delToast" @click="sendDelete()" class="btn btn-sm btn-primary px-5">ใช่</button>
               <button v-if="passToast" @click="signOut()" class="btn btn-sm btn-primary px-5">ตกลง</button>
             </div>
           </div>
@@ -139,7 +139,7 @@
                     >
                       <li @click="$router.push('/editProfile/worker')" class="font-normal text-black hover:text-orange-1"><a>แก้ไขบัญชี</a></li>
                       <li @click="toggleModal = !toggleModal" class="font-normal text-black hover:text-orange-1"><a>แก้ไขรหัสผ่าน</a></li>
-                      <li @click.prevent="sendDelete()" class="font-normal text-black hover:text-orange-1"><a>ขอลบบัญชี</a></li>
+                      <li @click.prevent="openToast()" class="font-normal text-black hover:text-orange-1"><a>ขอลบบัญชี</a></li>
                     </ul>
                   </div>
                 </div>
@@ -287,7 +287,7 @@
                     >
                       <li @click="$router.push('/editProfile/emp')" class="font-normal text-black hover:text-orange-1"><a>แก้ไขบัญชี</a></li>
                       <li @click="toggleModal = !toggleModal" class="font-normal text-black hover:text-orange-1"><a>แก้ไขรหัสผ่าน</a></li>
-                      <li @click.prevent="sendDelete()" class="font-normal text-black hover:text-orange-1"><a>ขอลบบัญชี</a></li>
+                      <li @click.prevent="openToast()" class="font-normal text-black hover:text-orange-1"><a>ขอลบบัญชี</a></li>
                     </ul>
                   </div>
                 </div>
@@ -710,40 +710,37 @@ export default {
         );
         console.log(result.data)      
     },    
+    openToast(){
+      this.showToast = true;
+      this.delToast = true;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    },
     async sendDelete() {
       const vm = this
       if (this.$store.state.auth.user) {
         if (this.$store.state.auth.user.role.idRole == "3") {
-          if (confirm("คุณต้องการจะลบบัญชี worker ใช่หรือไม่")) {
             await axios.put(
               `${process.env.VUE_APP_ROOT_API}worker/deleteMyWorker?idWorker=` +
                 this.$store.state.auth.user.worker.idWorker
             ).then(function (response) {
           console.log(response);
-          vm.showToast = true;
-          vm.delToast = true;
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          vm.showToast = false;
         })
         .catch(function (error) {
           console.log(error);
         });
-          }
         } else {
-          if (this.$store.state.auth.user.role.idRole == "2") {
-            if (confirm("คุณต้องการจะลบบัญชี employer ใช่หรือไม่")) {
+          if (this.$store.state.auth.user.role.idRole == "2") {     
               await axios.put(
                 `${process.env.VUE_APP_ROOT_API}emp/deleteMyEmployer?idEmployer=` +
                   this.$store.state.auth.user.employer.idEmployer
               ).then(function (response) {
           console.log(response);
-          vm.showToast = true;
-          vm.delToast = true;
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+           vm.showToast = false;
         })
         .catch(function (error) {
           console.log(error);
-        });
-            }
+        }); 
           }
         }
       }
