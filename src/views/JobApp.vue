@@ -82,7 +82,7 @@
                   รอการพิจารณา
                 </div>
                 <div
-                  v-if="s.statusName == 'Accept_EmployerOnWeb'"
+                  v-if="s.statusName == 'Accept_EmployerOnWeb' || s.statusName == 'Wating_EmployerSummary' || s.statusName == 'Wating_WorkerFinishJob' || s.statusName == 'FinishJob' || s.statusName == 'BreakShort'|| s.statusName == 'Waiting_Rating'|| s.statusName == 'workerRated'|| s.statusName == 'empRated'|| s.statusName == 'Wait_AdminSendWorker' || s.statusName == 'workerSent' || s.statusName == 'doneBreakShort'|| s.statusName == 'workerRated_BreakShort'|| s.statusName == 'empRated_BreakShort'|| s.statusName == 'adminRejectSentWorker'"
                   class="
                     badge badge-md
                     bg-green-200

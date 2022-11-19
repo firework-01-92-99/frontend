@@ -600,9 +600,28 @@ export default {
       const maxRound = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getMaxRoundOfPosting?idPosting=` + this.idPosting);
       this.maxRound = maxRound.data      
       this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoStatusAndRound?idPosting=${this.idPosting}&idStatus1=11&idStatus2=14&round=${this.maxRound}`)
-      // console.log(this.whoApplication.data.whoApplicationList.length == 0)
-      this.canClosePost = this.whoApplication.data.whoApplicationList.length == 0 || this.whoApplication.data.whoApplicationList.filter((s) => (s.idStatusAdmin == 27)).length !=0 ? false : true
-      console.log(this.canClosePost)
+      console.log(this.whoApplication.data.whoApplicationList.length == 0)
+      this.canClosePost = this.whoApplication.data.whoApplicationList.filter((s) => (s.idStatusAdmin == 0)).length == 0 && this.whoApplication.data.whoApplicationList.filter((s) => (s.idStatusAdmin == 28)).length == 0 ? false : true
+      console.log(this.whoApplication.data.whoApplicationList.length == 0)
+      console.log(this.whoApplication.data.whoApplicationList.filter((s) => (s.idStatusAdmin == 28)))
+
+      // if(this.whoApplication.data.whoApplicationList.length == 0 && this.whoApplication.data.whoApplicationList.filter((s) => (s.idStatusAdmin == 0))){
+      //   if (confirm("ต้องการปิดประกาศรับสมัครใช่หรือไม่")) {
+      //     // this.showToast1 = true;
+      //   console.log("Inactive Post");
+      //   await axios.put(
+      //     `${process.env.VUE_APP_ROOT_API}emp/inActivePosting?idPosting=${this.idPosting}`
+      //   ).data;
+      //   OnorOff = ''
+      // this.getInactivePost = await this.fetch(
+      //   `${process.env.VUE_APP_ROOT_API}main/getPostingInActiveByIdEmployer?idEmployer=` +
+      //     this.empId);
+      // this.$store.commit("setPosting", this.getInactivePost);
+      //   this.$router.push("/posting");
+      // }         
+      // }else if()
+
+
       if(OnorOff == 'Off' && this.canClosePost == false){
         if (confirm("ต้องการปิดประกาศรับสมัครใช่หรือไม่")) {
           // this.showToast1 = true;
