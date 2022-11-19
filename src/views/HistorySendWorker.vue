@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-2 font-sans-thai w-screen h-full py-16">
+  <div class="bg-gray-2 font-sans-thai w-screen h-full py-20">
       <!-- <div v-if="!acceptPage" class="overflow-x-auto w-10/12 mx-auto font-sans-thai"> -->
       <div class="">
       <button
