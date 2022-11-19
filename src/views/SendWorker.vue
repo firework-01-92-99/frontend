@@ -599,6 +599,7 @@
                       <div class="form-control">
                         <label class="label cursor-pointer 2xl:space-x-2">
                           <input
+                            @click="openComment = false"
                             type="radio"
                             v-model.trim="value"
                             name="radio-1"
@@ -613,6 +614,7 @@
                       <div class="form-control">
                         <label class="label cursor-pointer 2xl:space-x-2">
                           <input
+                            @click="openComment = true"
                             type="radio"
                             v-model.trim="value"
                             name="radio-2"
@@ -632,6 +634,7 @@
                       </div>
                     </div>
                     <textarea
+                      v-if="openComment == true"
                       v-model="note"
                       class="textarea textarea-bordered w-full h-36"
                       placeholder="หมายเหตุที่ไม่อนุมัติ"
@@ -647,7 +650,7 @@
               </button>
               <button
                 @click="
-                  (toggleModal = false), (confirmInput = false)
+                  (toggleModal = false), (confirmInput = false), note = '', value = '', openComment = false
                 "
                 class="btn w-2/5"
               >
@@ -723,6 +726,7 @@ export default {
       dataProfile:{},
       employerList: [],
       idEmployer: 0,
+      openComment: false,
     };
   },
   methods: {
@@ -768,6 +772,9 @@ export default {
         } catch (error) {
           console.log(error);
         }
+        this.note = ''
+        this.value = ''
+        this.openComment = false
         this.callData()
     },      
     async confirmSendWorker() {
@@ -805,6 +812,9 @@ export default {
             `${process.env.VUE_APP_ROOT_API}admin/adminSendWorkerToEmployer?idApplication=${this.dataProfile.applicationId}`
           ).data;
           this.toggleModal = false
+          this.note = ''
+          this.value = ''
+          this.openComment = false
           this.callData()
         } catch (error) {
           console.log(error);
