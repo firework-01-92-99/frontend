@@ -72,8 +72,7 @@
             <!-- <option class="text-black" :value="''" disabled selected>
               ครั้งที่เปิดรับสมัคร
             </option> -->
-            <option class="text-black" value="1" selected = "selected">ชื่อบริษัท 1</option>
-            <option class="text-black" value="2">ชื่อบริษัท 2</option>
+            <option v-for="e in employerList" :key="e.idEmployer" class="text-black" :value="e.idEmployer" selected = "selected">{{'บริษัท' + ' ' + e.establishmentName}}</option>
           </select>
         </div>
 
@@ -121,7 +120,7 @@
           </tr>
         </thead>
         <tbody
-          v-for="(a, index) in sendWorkerList().filter(p => p.inActiveDate != null)"
+          v-for="(a, index) in sendWorkerList()"
           :key='a.applicationId'>
 
           <!-- {{a}} -->
@@ -690,6 +689,7 @@ export default {
       roundHistory: 1,
       idPost:1,
       dataProfile:{},
+      employerList: [],
     };
   },
   methods: {
@@ -703,7 +703,7 @@ export default {
           return p
         }))
       }
-      return workerList
+      return workerList.filter(p => p.inActiveDate != null)
     },
     // async tickDone(a){
     //   console.log(a.applicationId);
@@ -770,7 +770,7 @@ export default {
     },
     async callData(){
       console.log(this.maxRound)
-      this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoAdminStatus?idStatusAdmin1=27` + "&idStatusAdmin2=" + "&round=" + this.roundHistory);
+      this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoAdminStatus?idStatusAdmin1=28` + "&idStatusAdmin2=" + "&round=" + this.roundHistory);
       console.log(this.whoApplication)
     if(this.whoApplication.data.length != 0){
       this.noValue = false
@@ -790,7 +790,8 @@ export default {
         this.maxRound = maxRound.data      
       this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoAdminStatus?idStatusAdmin1=28` + "&idStatusAdmin2=" + "&round=" + this.roundHistory);
       console.log(this.whoApplication)
-      // const employer = await axios.get(`${process.env.VUE_APP_ROOT_API}main/selectEmployerFromPosting?idPosting=` + this.idPost);
+      const employerList = await axios.get(`${process.env.VUE_APP_ROOT_API}main/allEmployer`)
+      this.employerList = employerList.data      
       console.log(this?.sendWorkerList())
       this.noValue = this.sendWorkerList().filter(p => p.inActiveDate != null).length == 0
       this.closeColumnName = this.sendWorkerList().filter(p => p.inActiveDate != null).length == 0
