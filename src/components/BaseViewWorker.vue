@@ -620,16 +620,16 @@
               <textarea v-if="this.$route.query.history != 'yes' && openComment == true"
                 @change="allRejectCase()"
                 v-model="description"
-                class="textarea textarea-bordered w-full h-36"
+                class="textarea textarea-bordered w-full h-36 mt-2"
                 placeholder="หมายเหตุที่ไม่อนุมัติ"
               ></textarea>
-              <!-- <textarea v-if="this.$route.query.history == 'yes'"
+              <textarea v-if="this.$route.query.history == 'yes' && (this.idStatus == 13 || this.idStatus == 16 || this.idStatus2 == 24)"
                 @change="allRejectCase()"
                 v-model="showCommentWhenReject"
-                class="textarea textarea-bordered w-full h-36"
+                class="textarea textarea-bordered w-full h-36 mt-2"
                 placeholder="หมายเหตุที่ไม่อนุมัติ"
                 disabled
-              ></textarea>               -->
+              ></textarea>              
               </div>
 
           <!-- rating -->
@@ -686,11 +686,11 @@
               <div v-if="idStatus == 26 && idStatus2 == 20" class="flex flex-col w-full">
                 <p>คะแนนแรงงานที่ให้</p>
 
-          <div class="rating mt-1">         
+          <div class="rating mt-1 mb-2">         
             <input
               type="radio"
               name="rating-2"
-              class="mask mask-star-2 bg-orange-400"
+              class="mask mask-star-2 bg-orange-400 cursor-default"
               :value="1"
               v-model="rateInDetail"
               :disabled = "this.$route.query.history == 'yes'"
@@ -698,7 +698,7 @@
             <input
               type="radio"
               name="rating-2"
-              class="mask mask-star-2 bg-orange-400"
+              class="mask mask-star-2 bg-orange-400 cursor-default"
               :value="2"
               v-model="rateInDetail"
               :disabled = "this.$route.query.history == 'yes'"
@@ -706,7 +706,7 @@
             <input
               type="radio"
               name="rating-2"
-              class="mask mask-star-2 bg-orange-400"
+              class="mask mask-star-2 bg-orange-400 cursor-default"
               :value="3"
               v-model="rateInDetail"
               :disabled = "this.$route.query.history == 'yes'"
@@ -714,7 +714,7 @@
             <input
               type="radio"
               name="rating-2"
-              class="mask mask-star-2 bg-orange-400"
+              class="mask mask-star-2 bg-orange-400 cursor-default"
               :value="4"
               v-model="rateInDetail"
               :disabled = "this.$route.query.history == 'yes'"
@@ -722,7 +722,7 @@
             <input
               type="radio"
               name="rating-2"
-              class="mask mask-star-2 bg-orange-400"
+              class="mask mask-star-2 bg-orange-400 cursor-default"
               :value="5"
               v-model="rateInDetail"
               :disabled = "this.$route.query.history == 'yes'"
