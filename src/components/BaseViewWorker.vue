@@ -140,10 +140,10 @@
                   text-xs
                 "
               >
-                {{idStatus2==24 ? "จบงานเรียบร้อย กรุณาให้คะแนนแรงงาน" : idStatus2 == 2 || idStatus2 == 20 ? "ให้คะแนนแรงงานเรียบร้อยแล้ว" : "รับเข้าทำงาน"}}
+                {{idStatus2==24 ? "จบงานเรียบร้อย กรุณาให้คะแนนแรงงาน" : a.statusName == 'empRated' || idStatus2 == 20 ? "ให้คะแนนแรงงานเรียบร้อยแล้ว" : "รับเข้าทำงาน"}}
               </div>
               <div
-                v-if="a.statusName == 'Reject_EmployerOnWeb' || a.statusName == 'Reject_WorkerOnSite' || a.statusName == 'BreakShort' || a.statusName == 'Done'"
+                v-if="a.statusName == 'Reject_EmployerOnWeb' || a.statusName == 'Reject_WorkerOnSite' || a.statusName == 'BreakShort' || a.statusName == 'Done' || a.statusName == 'doneBreakShort' || a.statusName == 'empRated_BreakShort'"
                 class="
                   badge badge-lg
                   w-full
@@ -153,7 +153,7 @@
                   text-xs
                 "
               >
-                {{idStatus==23 ? 'ยกเลิกการจ้างงาน' : a.statusName == 'doneBreakShort' || a.statusName == 'empRated_BreakShort' ? 'ให้คะแนนเรียบร้อยแล้ว' : 'ไม่รับเข้าทำงาน'}}
+                {{idStatus==23 ? 'ยกเลิกการจ้างงาน' : a.statusName == 'doneBreakShort' || a.statusName == 'empRated_BreakShort' ? 'ให้คะแนนแรงงานเรียบร้อยแล้ว' : 'ไม่รับเข้าทำงาน'}}
               </div>
             </td>
             <td class="text-center">
@@ -1164,24 +1164,11 @@ export default {
       }else if(this.idStatus == 24){
        console.log("idStatus = " + this.idStatus + this.statusId)
           this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}emp/showAllWorkerByIdPostingAllStatus?idPosting=` + this.idPost)
+          // console.log(this.whoApplication.data.whoApplicationList.filter((s) => (s.statusName == 'Waiting_Rating' || s.statusName == 'workerRated' || s.statusName == 'BreakShort' )).length ==0)
+          this.noValue = this.whoApplication.data.whoApplicationList.filter((s) => (s.statusName == 'Waiting_Rating' || s.statusName == 'workerRated' || s.statusName == 'BreakShort' )).length ==0
+          console.log(this.noValue)
           console.log(this.whoApplication)
-          this.noValue = this.whoApplication.data.whoApplicationList.length == 0
-          this.closeColumnName = this.whoApplication.data.whoApplicationList.length == 0
-          if(this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(24)){
-            this.noValue = false
-            this.closeColumnName = false
-          }else if(this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(25)){
-            this.noValue = false
-            this.closeColumnName = false
-          }
-          // else if(this.whoApplication.data.whoApplicationList.map((p) => p.idStatus).includes(23)){
-          //   this.noValue = false
-          //   this.closeColumnName = false
-          // }
-          else{
-            this.noValue = false
-            this.closeColumnName = false
-          }
+          this.closeColumnName = this.whoApplication.data.whoApplicationList.filter((s) => (s.statusName == 'Waiting_Rating' || s.statusName == 'workerRated' || s.statusName == 'BreakShort' )).length ==0
       }
       }else{
         if(this.$route.query.history == 'yes'){
@@ -1227,6 +1214,8 @@ export default {
         this.maxRound = maxRound.data
         if(this.idStatus == 26 && this.idStatus2 == 20 && this.idStatus3 == 29 && this.idStatus4 == 31){
           this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByFourStatus?idPosting=${this.idPost}&idStatus1=${this.idStatus}&idStatus2=${this.idStatus2}&idStatus3=${this.idStatus3}&idStatus4=${this.idStatus4}&round=${this.roundHistory}`)
+          this.noValue = this.whoApplication.data.whoApplicationList.length == 0
+          this.closeColumnName = this.whoApplication.data.whoApplicationList.length == 0
         }else{
           this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoStatusAndRound?idPosting=${this.idPost}&idStatus1=${this.idStatus}&idStatus2=${this.idStatus2}&round=${this.roundHistory}`)
         }
@@ -1305,7 +1294,10 @@ export default {
         this.callData()
       }else if(this.idStatus == 26 && this.idStatus2 == 20){
         console.log("idStatus =" + this.idStatus)
-        this.callData()
+        this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByFourStatus?idPosting=${this.idPost}&idStatus1=${this.idStatus}&idStatus2=${this.idStatus2}&idStatus3=29&idStatus4=31&round=${this.roundHistory}`)
+          this.noValue = this.whoApplication.data.whoApplicationList.length == 0
+          this.closeColumnName = this.whoApplication.data.whoApplicationList.length == 0
+          console.log(this.whoApplication)
       } 
         }
       }
