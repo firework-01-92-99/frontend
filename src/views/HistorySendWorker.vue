@@ -1,6 +1,14 @@
 <template>
-  <div class="bg-gray-2 font-sans-thai w-screen h-full py-16 2xl:px-0 xl:px-0 lg:px-0 md:px-0 px-5">
+  <div class="bg-gray-2 font-sans-thai w-screen h-full py-16">
       <!-- <div v-if="!acceptPage" class="overflow-x-auto w-10/12 mx-auto font-sans-thai"> -->
+      <div class="">
+      <button
+        @click="$router.push('/sendWorker')"
+        class="btn btn-ghost font-sans-thai flex justify-start ml-2.5"
+      >
+        <i class="material-icons"> arrow_back_ios </i>รายการการส่งคนงาน
+      </button>
+    </div>
 <div class="2xl:flex 2xl:flex-row md:flex md:flex-row flex flex-col w-full">
       <div class="w-full justify-start">
 
@@ -20,11 +28,11 @@
           w-full
         "
       >
-        รายการส่งคนงาน
+        รายการการส่งคนงาน
       </p>
-      <div class="2xl:mx-20 xl:mx-20 2xl:flex md:flex flex 2xl:p-0 md:p-10 p-5 2xl:mt-0 md:mt-0 mt-11 w-full 2xl:justify-end md:justify-end justify-center">
+      <!-- <div class="2xl:mx-20 xl:mx-20 2xl:flex md:flex flex 2xl:p-0 md:p-10 p-5 2xl:mt-0 md:mt-0 mt-11 w-full 2xl:justify-end md:justify-end justify-center">
         <button
-          @click="1,$router.push('/historySendWorker')"
+          @click="1"
           class="
             cursor-pointer
             underline
@@ -42,7 +50,7 @@
         >
          ดูประวัติ
         </button>
-      </div>
+      </div> -->
       </div>
 
       <div class="w-full grid 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 grid-rows-2 mb-3">

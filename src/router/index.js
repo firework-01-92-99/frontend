@@ -24,6 +24,7 @@ import EditProfileWorker from '../views/EditProfileWorker.vue'
 import ReqPosition from '../views/ReqPosition.vue'
 import AllPosition from '../views/AllPosition.vue'
 import SendWorker from '../views/SendWorker.vue'
+import HistorySendWorker from '../views/HistorySendWorker.vue'
 // import store from '@/store'
 
 Vue.use(VueRouter)
@@ -168,6 +169,11 @@ const routes = [
     path: '/sendWorker',
     name: 'SendWorker',
     component: SendWorker,
+  },
+  {
+    path: '/historySendWorker',
+    name: 'HistorySendWorker',
+    component: HistorySendWorker,
   },
   {
     path: '/:pathMatch(.*)*',
