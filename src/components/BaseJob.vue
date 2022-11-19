@@ -295,6 +295,7 @@ export default {
       scoreAllEmp: [],
       noValue: false,
       ImageOfEmp: '',
+      // canClosePost: false,
       // showToast: false,
     };
   },
@@ -313,7 +314,6 @@ export default {
           );
           this.$store.commit("setPosting", this.getInactivePost);
         }
-        // location.reload()
       }
     },
     linkTo(idPost, idEmp) {

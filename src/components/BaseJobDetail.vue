@@ -3,7 +3,7 @@
     <div>
       <!-- toast application -->
       <transition name="toast">
-        <div v-if="showToast && ($store.state.auth.user && $store.state.auth.user.role.idRole == '3')" class="flex justify-center">
+        <div v-if="showToast == true && ($store.state.auth.user && $store.state.auth.user.role.idRole == '3')" class="flex justify-center">
           <div
             class="absolute z-10 2xl:w-2/5 w-full alert alert-success shadow-lg"
           >
@@ -179,8 +179,8 @@
         </p>
         <div v-if="$store.state.auth.user && this.$store.state.auth.user.role.idRole == '2'" class="2xl:flex 2xl:justify-end md:flex md:justify-end 2xl:space-x-5 md:space-y-0 space-y-5">
           <!-- <button @click="$router.push('/editPost?idPost=' + idPosting)" class="px-10 2xl:w-1/4 md:w-2/5 w-full btn border-orange-1 bg-orange-1 hover:bg-orange-2 hover:border-orange-2">แก้ไขประกาศรับสมัคร</button> -->
-          <button v-if="jobDetail.status.statusName == 'Active'" @click="closePost('Off')" class="px-10 2xl:w-1/4 md:w-2/5 w-full btn btn-ghost border-red-600 text-red-600 hover:bg-red-700 hover:border-red-700 hover:text-white">ปิดประกาศรับสมัคร</button>
-          <button v-if="jobDetail.status.statusName == 'Inactive'" @click="closePost('On')" class="px-10 2xl:w-1/4 md:w-2/5 w-full btn btn-ghost border-green-600 text-green-600 hover:bg-green-600 hover:border-green-600 hover:text-white">เปิดประกาศรับสมัคร</button>
+          <button v-if="jobDetail.status.statusName == 'Active'" @click.prevent="closePost('Off')" class="px-10 2xl:w-1/4 md:w-2/5 w-full btn btn-ghost border-red-600 text-red-600 hover:bg-red-700 hover:border-red-700 hover:text-white">ปิดประกาศรับสมัคร</button>
+          <button v-if="jobDetail.status.statusName == 'Inactive'" @click.prevent="closePost('On')" class="px-10 2xl:w-1/4 md:w-2/5 w-full btn btn-ghost border-green-600 text-green-600 hover:bg-green-600 hover:border-green-600 hover:text-white">เปิดประกาศรับสมัคร</button>
         </div>
         <div class="card-actions justify-center 2xl:justify-end xl:justify-end lg:justify-end">
           <div v-if="this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == '3'" class="2xl:w-1/6 xl:w-1/6 lg:w-2/6 w-full">
@@ -600,7 +600,8 @@ export default {
       const maxRound = await axios.get(`${process.env.VUE_APP_ROOT_API}main/getMaxRoundOfPosting?idPosting=` + this.idPosting);
       this.maxRound = maxRound.data      
       this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoStatusAndRound?idPosting=${this.idPosting}&idStatus1=11&idStatus2=14&round=${this.maxRound}`)
-      this.canClosePost = this.whoApplication.data.whoApplicationList.length == 0 || this.whoApplication.data.whoApplicationList.filter((s) => (s.idStatusAdmin == 27)) ? false : true
+      // console.log(this.whoApplication.data.whoApplicationList.length == 0)
+      this.canClosePost = this.whoApplication.data.whoApplicationList.length == 0 || this.whoApplication.data.whoApplicationList.filter((s) => (s.idStatusAdmin == 27)).length !=0 ? false : true
       console.log(this.canClosePost)
       if(OnorOff == 'Off' && this.canClosePost == false){
         if (confirm("ต้องการปิดประกาศรับสมัครใช่หรือไม่")) {
@@ -621,7 +622,7 @@ export default {
           alert("โปรดจัดการผู้สมัครในแท็บ 'ผู้ที่รอรับสมัคร' และ 'ยืนยันการรับเข้าทำงาน' ให้เรียบร้อย ถึงจะสามารถปิดประกาศรับสมัครได้")
         }else{
         if(OnorOff == 'On'){
-      if (confirm("ต้องการจเปิดประกาศรับสมัคร")) {
+      if (confirm("ต้องการจะเปิดประกาศรับสมัคร")) {
         // this.showToast2 = true;
         console.log("Active Post");
         await axios.put(
@@ -663,6 +664,7 @@ export default {
     this.application()
     },
     async application() {
+      const vm = this
       if(this.$store.state.auth.user && this.$store.state.auth.user.role.idRole == '3'){
       this.defNext = true;
       if (this.canApp % 2 == 0) {
@@ -690,10 +692,10 @@ export default {
                   // }
                 ).data;
                 console.log(response);
-                this.alreadyApp = true;
-                this.openForm = false;
-                this.showToast = true;
-                setTimeout(() => (this.showToast = false), 3000);
+                vm.alreadyApp = true;
+                vm.openForm = false;
+                vm.showToast = true;
+                setTimeout(() => (vm.showToast = false), 3000);
                 console.log("สมัครสำเร็จ");
               } catch (error) {
                 console.log(error);
