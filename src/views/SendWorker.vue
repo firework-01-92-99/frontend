@@ -766,7 +766,7 @@ export default {
           return p
         }))
       }
-      return workerList.filter(p => p.inActiveDate != null)
+      return workerList
     },
     async tickDone(a){
       console.log(a.applicationId);
@@ -865,15 +865,13 @@ export default {
       console.log(e)
       console.log(this.maxRound)
       this.whoApplication = await axios.get(`${process.env.VUE_APP_ROOT_API}admin_emp/showAllWorkerByTwoAdminStatus?idStatusAdmin1=27` + "&idStatusAdmin2=" + "&round=" + this.roundHistory + "&idEmployer=" + this.idEmployer);
-      this.noValue = this.whoApplication.filter((p) => (p.inActiveDate != null)).length == 0
-      this.closeColumnName = this.whoApplication.filter((p) => (p.inActiveDate != null)).length == 0
+      // this.noValue = this.whoApplication.filter((p) => (p.inActiveDate != null)).length == 0
+      // this.closeColumnName = this.whoApplication.filter((p) => (p.inActiveDate != null)).length == 0
       console.log(this.whoApplication)
     if(this.whoApplication.data.length != 0){
-      console.log("ทำงานไหม ๅ")
       this.noValue = false
       this.closeColumnName = false;
     }else{
-      console.log("ทำงานไหม /")
       this.noValue = true
       this.closeColumnName = true;
     }
@@ -907,8 +905,10 @@ export default {
       this.idAdmin = this.myAcc.data.idAdmin;
       console.log(this.employerList)
       console.log(this?.sendWorkerList())
-      this.noValue = this.sendWorkerList().filter(p => p.inActiveDate != null).length == 0
-      this.closeColumnName = this.sendWorkerList().filter(p => p.inActiveDate != null).length == 0
+      this.noValue = this.whoApplication.data.length == 0
+      this.closeColumnName = this.whoApplication.data.length == 0
+      // this.noValue = this.sendWorkerList().filter(p => p.inActiveDate != null).length == 0
+      // this.closeColumnName = this.sendWorkerList().filter(p => p.inActiveDate != null).length == 0
     } else {
       this.$router.push("/");
     }

@@ -733,7 +733,8 @@ export default {
           return p
         }))
       }
-      return workerList.filter(p => p.inActiveDate != null)
+      return workerList
+      // return workerList.filter(p => p.inActiveDate != null)
     },
     // async tickDone(a){
     //   console.log(a.applicationId);
@@ -836,9 +837,11 @@ export default {
       console.log(this.whoApplication)
       const employerList = await axios.get(`${process.env.VUE_APP_ROOT_API}main/allEmployer`)
       this.employerList = employerList.data      
-      console.log(this?.sendWorkerList())
-      this.noValue = this.sendWorkerList().filter(p => p.inActiveDate != null).length == 0
-      this.closeColumnName = this.sendWorkerList().filter(p => p.inActiveDate != null).length == 0
+      // console.log(this?.sendWorkerList())
+      this.noValue = this.whoApplication.data.length == 0
+      this.closeColumnName = this.whoApplication.data.length == 0
+      // this.noValue = this.sendWorkerList().filter(p => p.inActiveDate != null).length == 0
+      // this.closeColumnName = this.sendWorkerList().filter(p => p.inActiveDate != null).length == 0
     } else {
       this.$router.push("/");
     }

@@ -605,23 +605,6 @@ export default {
       console.log(this.whoApplication.data.whoApplicationList.length == 0)
       console.log(this.whoApplication.data.whoApplicationList.filter((s) => (s.idStatusAdmin == 28)))
 
-      // if(this.whoApplication.data.whoApplicationList.length == 0 && this.whoApplication.data.whoApplicationList.filter((s) => (s.idStatusAdmin == 0))){
-      //   if (confirm("ต้องการปิดประกาศรับสมัครใช่หรือไม่")) {
-      //     // this.showToast1 = true;
-      //   console.log("Inactive Post");
-      //   await axios.put(
-      //     `${process.env.VUE_APP_ROOT_API}emp/inActivePosting?idPosting=${this.idPosting}`
-      //   ).data;
-      //   OnorOff = ''
-      // this.getInactivePost = await this.fetch(
-      //   `${process.env.VUE_APP_ROOT_API}main/getPostingInActiveByIdEmployer?idEmployer=` +
-      //     this.empId);
-      // this.$store.commit("setPosting", this.getInactivePost);
-      //   this.$router.push("/posting");
-      // }         
-      // }else if()
-
-
       if(OnorOff == 'Off' && this.canClosePost == false){
         if (confirm("ต้องการปิดประกาศรับสมัครใช่หรือไม่")) {
           // this.showToast1 = true;
