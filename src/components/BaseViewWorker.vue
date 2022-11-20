@@ -1,11 +1,12 @@
 <template>
   <div class="bg-gray-2 font-sans-thai h-full">
       <!-- <div v-if="!acceptPage" class="overflow-x-auto w-10/12 mx-auto font-sans-thai"> -->
-<div class="2xl:flex 2xl:flex-row md:flex md:flex-row flex flex-col w-full">
+<div class="2xl:flex 2xl:flex-row md:flex md:flex-col flex flex-col w-full">
       <div class="flex w-full justify-start">
         <div v-if="$route.query.history !== 'yes'" class="w-full">
         <p
         class="
+        text-left
           2xl:text-2xl
           md:text-xl
           sm:text-lg
@@ -22,7 +23,7 @@
           w-full
           tooltip
         "
-        data-tip="หมายเหตุ: ต้องปิดประกาศรับสมัครครั้งนี้ก่อน จากนั้นแอดมินจะดำเนินการส่งแรงงานให้"
+        data-tip="หมายเหตุ: แอดมินจะดำเนินการส่งแรงงานให้ หลังจากที่นายจ้างรับแรงงานบนหน้าเว็บแล้ว และเมื่อแอดมินส่งแรงงานให้แล้ว จะมีชื่อของแรงงานปรากฎอยู่บนแท็บ 'ยืนยันรับการรับเข้าทำงาน'"
       >
         {{ topic }} 
         <span class="text-orange-1">{{ " ตำแหน่ง: " + namePost }}</span>
@@ -49,7 +50,7 @@
           </select>
         </div>
       </div>
-      <div v-if="$route.query.history != 'yes'" class="2xl:mx-40 xl:mx-16 lg:mx-0 md:mx-0 mx-3.5 2xl:flex md:flex flex 2xl:p-0 md:p-10 p-5 2xl:mt-0 md:mt-0 mt-11 w-full 2xl:justify-end md:justify-end justify-start">
+      <div v-if="$route.query.history != 'yes'" class="2xl:mx-40 xl:mx-0 lg:mx-0 md:mx-0 mx-3.5 2xl:flex md:flex flex 2xl:p-0 md:p-10 p-5 2xl:mt-0 md:mt-0 mt-11 w-full 2xl:justify-end md:justify-end justify-start">
         <button
           @click="historyPage()"
           class="
@@ -765,6 +766,9 @@
       v-if="toggleModal"
       class="absolute inset-0 z-40 opacity-25 bg-black"
     ></div>
+    <div
+      v-if="loading"
+    ><base-spinner></base-spinner></div>
     <!-- <div v-else>
       <เรียก acceptWorker component มา></>
     </div> -->
@@ -773,6 +777,7 @@
 
 <script>
 import axios from "axios";
+import BaseSpinner from './BaseSpinner.vue';
 const workerType = Object.freeze({
   Migrant: "แรงงานต่างด้าว",
   Thai: "แรงงานไทย",
@@ -789,6 +794,7 @@ const sexFreeze = Object.freeze({
 });
 export default {
   props: ["idPost", "idStatus", "idStatus2", "idStatus3", "idStatus4"],
+  components:{BaseSpinner},
   // props: ["idPost", "idStatus", "idStatus2", "refreshData"],
   data() {
     return {
@@ -841,6 +847,7 @@ export default {
       openComment: false,
       rateInDetail: 0,
       justEnd : false,
+      loading: false,
     };
   },
   methods: {
@@ -984,12 +991,14 @@ export default {
       const vm = this
       console.log("idApplication = " + this.idApplication);
       if (confirm("ต้องการรับบุคคลนี้เข้าทำงานหรือไม่")) {
+        this.loading = true;
         try {
           await axios.put(
             `${process.env.VUE_APP_ROOT_API}emp/employerAcceptOnWeb?idApplication=${this.idApplication}`
           ).then(function (response) {
             console.log(response);
             vm.toggleModal = false
+            vm.loading = false;
             vm.callData()
         })
           this.callData()
