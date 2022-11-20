@@ -6,7 +6,7 @@
         @click="$router.push('/sendWorker')"
         class="btn btn-ghost font-sans-thai flex justify-start ml-2.5"
       >
-        <i class="material-icons"> arrow_back_ios </i>รายการการส่งคนงาน
+        <i class="material-icons"> arrow_back_ios </i>รายการส่งคนงาน
       </button>
     </div>
 <div class="2xl:flex 2xl:flex-row md:flex md:flex-row flex flex-col w-full">
@@ -28,7 +28,7 @@
           w-full
         "
       >
-        ประวัติรายการการส่งคนงาน
+        ประวัติรายการส่งคนงาน
       </p>
       <!-- <div class="2xl:mx-20 xl:mx-20 2xl:flex md:flex flex 2xl:p-0 md:p-10 p-5 2xl:mt-0 md:mt-0 mt-11 w-full 2xl:justify-end md:justify-end justify-center">
         <button
@@ -71,7 +71,7 @@
             "
           >
             <option class="" :value="''" disabled selected>
-              กรุเลือกบริษัทที่ต้องการค้นหา
+              กรุณาเลือกบริษัทที่ต้องการค้นหา
             </option>
             <option v-for="e in employerList" :key="e.idEmployer" class="text-black" :value="e.idEmployer" selected = "selected">{{'บริษัท' + ' ' + e.establishmentName}}</option>
           </select>

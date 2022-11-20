@@ -118,7 +118,7 @@
                 </li>
                 <li class="hover:text-orange-1">
                   <router-link to="/sendWorker"
-                    >รายการการส่งคนงาน</router-link
+                    >รายการส่งคนงาน</router-link
                   >
                 </li>
                 <li class="hover:text-orange-1">

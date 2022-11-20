@@ -95,7 +95,7 @@
           </select>
         </div>
 
-        <div class="w-full 2xl:pt-4 xl:pt-3 lg:pt-3 md:pt-5 pt-8 2xl:ml-0 xl:ml-0 lg:ml-0 md:ml-0 ml-0 2xl:-mt-0 md:-mt-0 -mt-3">
+        <!-- <div class="w-full 2xl:pt-4 xl:pt-3 lg:pt-3 md:pt-5 pt-8 2xl:ml-0 xl:ml-0 lg:ml-0 md:ml-0 ml-0 2xl:-mt-0 md:-mt-0 -mt-3">
           <select
           @click="callData()"
             v-model.trim="roundHistory"
@@ -113,7 +113,7 @@
           >
             <option v-for="index in maxRound" :key="index" class="text-black" :value="index" selected = "selected">{{'ครั้งที่' + ' ' + index}}</option>
           </select>
-        </div>
+        </div> -->
 
         </div>
 
@@ -211,7 +211,7 @@
                 <i class="material-icons text-green-600 tooltip" data-tip="ส่งคนงาน"> done </i>
               </button>
               <button @click="cancelSend(a)" class="btn btn-ghost btn-xs">
-                <i class="material-icons text-red-600" data-tip="ปฏิเสธการส่งคนงาน"> close </i>
+                <i class="material-icons text-red-600 tooltip" data-tip="ปฏิเสธการส่งคนงาน"> close </i>
               </button>
               <button
                 @click="openPopUp(a), getPic(a), (toggleModal = !toggleModal)"
