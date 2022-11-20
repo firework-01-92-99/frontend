@@ -211,7 +211,7 @@
                 <i class="material-icons text-green-600 tooltip" data-tip="ส่งคนงาน"> done </i>
               </button>
               <button @click="cancelSend(a)" class="btn btn-ghost btn-xs">
-                <i class="material-icons text-red-600"> close </i>
+                <i class="material-icons text-red-600" data-tip="ปฏิเสธการส่งคนงาน"> close </i>
               </button>
               <button
                 @click="openPopUp(a), getPic(a), (toggleModal = !toggleModal)"
@@ -633,7 +633,7 @@
                             value="sent"
                           />
                           <span class="label-text 2xl:pr-0 md:pl-5 pl-5"
-                            >อนุมัติ</span
+                            >ส่งคนงาน</span
                           >
                         </label>
                       </div>
@@ -648,7 +648,7 @@
                             value="notSent"
                           />
                           <span class="label-text 2xl:pr-0 md:pl-5 pl-5"
-                            >ไม่อนุมัติ</span
+                            >ปฏิเสธการส่งคนงาน</span
                           >
                         </label>
                       </div>
@@ -663,7 +663,7 @@
                       v-if="openComment == true"
                       v-model="note"
                       class="textarea textarea-bordered w-full h-36"
-                      placeholder="หมายเหตุที่ไม่อนุมัติ"
+                      placeholder="หมายเหตุที่ปฏิเสธการส่งคนงาน"
                     ></textarea>
                   </div>
 
