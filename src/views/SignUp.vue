@@ -1,6 +1,6 @@
 <template>
   <div class="SignUp">
-    <div class="font-sans-thai bg-gray-2 h-full mx-auto 2xl:pt-16 xl:pt-10 lg:pt-11 md:pt-16">
+    <div class="font-sans-thai bg-gray-2 h-full mx-auto 2xl:pt-16 xl:pt-10 lg:pt-11 md:pt-16 pt-16">
       <!-- toast -->
       <transition name="toast">
         <div v-if="showToast" class="flex justify-center">

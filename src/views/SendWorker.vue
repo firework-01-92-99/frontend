@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-2 font-sans-thai w-screen h-full py-16 2xl:px-0 xl:px-0 lg:px-0 md:px-0 px-5">
+  <div class="bg-gray-2 font-sans-thai w-screen h-full py-16">
       <!-- <div v-if="!acceptPage" class="overflow-x-auto w-10/12 mx-auto font-sans-thai"> -->
       <div
       class="hero 2xl:h-64 xl:h-64 lg:h-64 md:h-64 h-32"
@@ -27,7 +27,7 @@
         </div>
       </div>
     </div>
-<div class="2xl:flex 2xl:flex-row md:flex md:flex-row flex flex-col w-full">
+<div class="2xl:flex 2xl:flex-row md:flex md:flex-row flex flex-col w-full px-5">
       <div class="w-full justify-start">
 
         <div class="flex w-full">
