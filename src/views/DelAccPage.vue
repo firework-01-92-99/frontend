@@ -14,7 +14,7 @@
               </p>
             </div>
             <div class="flex-none">
-              <button class="btn btn-sm btn-ghost px-5">ไม่</button>
+              <button @click="showToast = false" class="btn btn-sm btn-ghost px-5">ไม่</button>
               <button @click="delWorker()" class="btn btn-sm bg-orange-1 border-orange-1 hover:bg-orange-2 hover:border-orange-2 px-5">ใช่</button>
             </div>
           </div>

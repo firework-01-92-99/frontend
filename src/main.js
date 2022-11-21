@@ -10,7 +10,7 @@ import './store/subscriber'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import CKEditor from '@ckeditor/ckeditor5-vue2';
 import VueOtp2 from 'vue-otp-2';
-
+import { Translator } from 'vue-google-translate';
 Vue.config.productionTip = false
 
 store.dispatch('auth/attempt', localStorage.getItem('token')).then(() => {
@@ -29,3 +29,4 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use( CKEditor )
 Vue.use(VueOtp2)
+Vue.use(Translator)

@@ -17,7 +17,7 @@
               </p>              
             </div>
             <div class="flex-none">
-              <button v-if="delToast" class="btn btn-sm btn-ghost px-5">ไม่</button>
+              <button v-if="delToast" @click="showToast = false" class="btn btn-sm btn-ghost px-5">ไม่</button>
               <button v-if="delToast" @click="sendDelete()" class="btn btn-sm btn-primary px-5">ใช่</button>
               <button v-if="passToast" @click="signOut()" class="btn btn-sm btn-primary px-5">ตกลง</button>
             </div>
