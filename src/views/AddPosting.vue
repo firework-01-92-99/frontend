@@ -127,7 +127,7 @@
                 class="2xl:text-base md:text-base text-sm font-medium px-1"
                 >กรุณาเลือกตำแหน่ง</label
               >
-              <div class="flex w-1/2">
+              <div class="flex 2xl:w-1/2 xl:w-1/2 lg:w-1/2 md:w-1/2 w-10/12">
                 <div
                   class="
                     w-10
@@ -191,7 +191,7 @@
                 </select>
               </div>
               <p v-if="positionInput" class="text-sm text-red-600">
-                กรุณากรอกชื่อตำแหน่ง
+                กรุณาเลือกตำแหน่งงาน
               </p>
             </div>
           </div>
