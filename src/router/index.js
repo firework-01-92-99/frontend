@@ -7,7 +7,7 @@ import SignIn from '../views/SignIn.vue'
 import ProfilePage from '../views/ProfilePage.vue'
 import SignUp from '../views/SignUp.vue'
 import ApproveAccPage from '../views/ApproveAccPage.vue'
-import ConfirmPage from '../views/ConfirmPage.vue'
+// import ConfirmPage from '../views/ConfirmPage.vue'
 import DelAccPage from '../views/DelAccPage.vue'
 import EditAccPage from '../views/EditAccPage.vue'
 import PostingPage from '../views/PostingPage.vue'
@@ -100,11 +100,11 @@ const routes = [
     name: 'EditAccPage',
     component: EditAccPage
   },
-  {
-    path: '/confirm',
-    name: 'ConfirmPage',
-    component: ConfirmPage
-  },
+  // {
+  //   path: '/confirm',
+  //   name: 'ConfirmPage',
+  //   component: ConfirmPage
+  // },
   {
     path: '/posting',
     name: 'PostingPage',

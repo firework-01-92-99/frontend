@@ -5,7 +5,7 @@
       <transition name="toast">
         <div v-if="showToast" class="flex justify-center font-sans-thai">
           <div
-            class="absolute z-10 2xl:w-2/5 w-full alert shadow-lg"
+            class="absolute z-10 2xl:w-2/5 w-full alert bg-cyan-200 shadow-lg"
           >
             <div>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -14,8 +14,24 @@
               </p>
             </div>
             <div class="flex-none">
-              <button class="btn btn-sm btn-ghost px-5">ไม่</button>
-              <button class="btn btn-sm bg-orange-1 border-orange-1 hover:bg-orange-2 hover:border-orange-2 px-5">ใช่</button>
+              <button @click="showToast = false" class="btn btn-sm btn-ghost px-5">ไม่</button>
+              <button @click="sendEdit()" class="btn btn-sm bg-orange-1 border-orange-1 hover:bg-orange-2 hover:border-orange-2 px-5">ใช่</button>
+            </div>
+          </div>
+        </div>
+      </transition>
+
+<!-- toast already send form -->
+      <transition name="toast">
+        <div v-if="accountWaitEdit" class="flex justify-center font-sans-thai">
+          <div
+            class="absolute z-10 2xl:w-2/5 w-full alert bg-cyan-200 shadow-lg"
+          >
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <p class="">
+                คุณได้<span class="font-medium">ส่งคำขอการแก้ไขไปให้แอดมินแล้ว</span>โปรดรอแอดมินดำเนินการ ภายใน 1-3 วัน
+              </p>
             </div>
           </div>
         </div>
@@ -1181,7 +1197,7 @@
                   </div>
                   <div class="w-full flex space-x-5 justify-center font-sans-thai">
           <button
-            @click="sendEdit()"
+            @click.prevent="openToast()"
             type="submit"
             class="
               btn
@@ -1270,22 +1286,24 @@ export default {
       isEditSubDistrict: false,
       picture: null,
       secPassInput: false,
-      // showToast: false,             
+      showToast: false,  
+      accountWaitEdit: false,           
     };
   },
   methods: {  
+    openToast(){
+    this.showToast = true;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  },
     async sendEdit() {
-      console.log("เข้า 1")
       this.check();
-      if(confirm('ต้องการจะส่งคำขอการแก้ไขไปให้แอดมินหรือไม่')){
-        console.log("เข้า 2")
+      
       if (
         !this.UpPic &&
         !this.firstnameInput &&
         !this.lastnameInput &&
         !this.phoneInput
       ) {
-        console.log("เข้า 3")
         // this.worker.verifyPic = `${process.env.VUE_APP_ROOT_API}main/image/` + this.worker.verifyPic
         console.log(this.worker.verifyPic)
         //ส่งแบบ requestBody
@@ -1307,14 +1325,40 @@ export default {
         if(this.imgFile != undefined){
       formData.append('image', this.imgFile)    
         await axios.post(
-          `${process.env.VUE_APP_ROOT_API}worker/editMyWorker`, formData);
+          `${process.env.VUE_APP_ROOT_API}worker/editMyWorker`, formData)
+           .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+          if(error.response.data.errorCode == "STATUS_ACCOUNT_WAIT_EDIT"){
+            this.showToast = false;
+            this.accountWaitEdit = true;
+            setTimeout(() => (this.accountWaitEdit = false), 3000);
+          }else{
+            this.showError = true;
+          }
+        }); 
         }else{
           //ส่งแต่ข้อมูลที่แก้ไข
           await axios.post(
-          `${process.env.VUE_APP_ROOT_API}worker/editMyWorkerWithOutImage`, formData);
+          `${process.env.VUE_APP_ROOT_API}worker/editMyWorkerWithOutImage`, formData)
+           .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+          if(error.response.data.errorCode == "STATUS_ACCOUNT_WAIT_EDIT"){
+            this.showToast = false;
+            this.accountWaitEdit = true;
+            setTimeout(() => (this.accountWaitEdit = false), 3000);
+          }else{
+            this.showError = true;
+          }
+        }); 
         }
     }
-      }
+     
     },
     check() {
       this.UpPic =

@@ -748,10 +748,6 @@ export default {
     //       console.log(error);
     //     }
     // },      
-    async confirmSendWorker(a) {
-      console.log(a);
-          this.tickSendWorker();
-    },
 
     async openPopUp(object) {
       // setInterval(this.getNow, 1000)
@@ -771,21 +767,6 @@ export default {
         });
         console.log(this.whatWorker.verifyPic)
     },
-    async tickSendWorker() {
-      console.log(this.dataProfile)
-      // const vm = this;
-      if (confirm("ท่านได้ส่งบุคคลนี้ให้กับนายจ้างแล้วใช่หรือไม่")) {
-        try {
-          await axios.put(
-            `${process.env.VUE_APP_ROOT_API}admin/adminSendWorkerToEmployer?idApplication=${this.dataProfile.applicationId}`
-          ).data;
-          this.toggleModal = false
-          this.callData()
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    }, 
     async getPic(a) {
       console.log(a.verifyPic);
       this.image = `${process.env.VUE_APP_ROOT_API}main/image/` + a.verifyPic;

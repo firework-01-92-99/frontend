@@ -1,6 +1,27 @@
 <template>
   <div class="bg-gray-2 font-sans-thai w-screen h-full py-16">
       <!-- <div v-if="!acceptPage" class="overflow-x-auto w-10/12 mx-auto font-sans-thai"> -->
+
+<!-- toast send form -->
+      <transition name="toast">
+        <div v-if="showToast" class="flex justify-center font-sans-thai">
+          <div
+            class="absolute z-10 2xl:w-2/5 w-full alert bg-cyan-200 shadow-lg"
+          >
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <p class="">
+                คุณได้<span class="font-medium">ส่งบุคคลนี้ให้กับนายจ้างแล้ว</span>ใช่หรือไม่
+              </p>
+            </div>
+            <div class="flex-none">
+              <button @click="showToast = false" class="btn btn-sm btn-ghost px-5">ไม่</button>
+              <button @click="confirmSendWorker()" class="btn btn-sm bg-orange-1 border-orange-1 hover:bg-orange-2 hover:border-orange-2 px-5">ใช่</button>
+            </div>
+          </div>
+        </div>
+      </transition>
+
       <div
       class="hero 2xl:h-64 xl:h-64 lg:h-64 md:h-64 h-32"
       style="
@@ -669,7 +690,7 @@
 
             <div class="flex justify-between">
               <button
-                @click="confirmSendWorker()"
+                @click="(toggleModal = false), openToast()"
                 class="btn w-2/5 bg-orange-1 hover:bg-orange-2 border-orange-1 hover:border-orange-1"
               >
                 ยืนยัน
@@ -716,6 +737,7 @@ const sexFreeze = Object.freeze({
 export default {
   data() {
     return {
+      showToast: false,
       myAcc: [],
       value:'',
       showCommentWhenReject: '',
@@ -757,6 +779,10 @@ export default {
     };
   },
   methods: {
+    openToast(){
+      this.showToast = true;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
     sendWorkerList(){
       let workerList = []
       for (let i = 0; i < this.whoApplication.data.length; i++) {
@@ -833,7 +859,7 @@ export default {
     async tickSendWorker() {
       console.log(this.dataProfile)
       // const vm = this;
-      if (confirm("ท่านได้ส่งบุคคลนี้ให้กับนายจ้างแล้วใช่หรือไม่")) {
+      // if (confirm("ท่านได้ส่งบุคคลนี้ให้กับนายจ้างแล้วใช่หรือไม่")) {
         try {
           await axios.put(
             `${process.env.VUE_APP_ROOT_API}admin/adminSendWorkerToEmployer?idApplication=${this.dataProfile.applicationId}`
@@ -846,7 +872,7 @@ export default {
         } catch (error) {
           console.log(error);
         }
-      }
+      // }
     }, 
     async getPic(a) {
       console.log(a.verifyPic);

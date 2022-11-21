@@ -1,5 +1,6 @@
 <template>
   <div v-if="$store.state.auth.user" class="bg-gray-2 h-full font-sans-thai py-16">
+
         <div v-if="showToast" class="flex justify-center pt-2">
           <div
             class="absolute z-10 2xl:w-2/5 w-full alert bg-cyan-200 shadow-lg"
@@ -12,6 +13,26 @@
             </div>
           </div>
         </div>    
+
+<transition name="toast">
+        <div v-if="delPosition" class="flex justify-center font-sans-thai">
+          <div
+            class="absolute z-10 2xl:w-2/5 w-full alert bg-cyan-200 shadow-lg"
+          >
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <p class="">
+                คุณต้องการจะ<span class="font-medium">ลบตำแหน่งนี้</span>ใช่หรือไม่
+              </p>
+            </div>
+            <div class="flex-none">
+              <button @click="delPosition = false" class="btn btn-sm btn-ghost px-5">ไม่</button>
+              <button @click="deletePosition(object.idposition)" class="btn btn-sm bg-orange-1 border-orange-1 hover:bg-orange-2 hover:border-orange-2 px-5">ใช่</button>
+            </div>
+          </div>
+        </div>
+      </transition>
+
     <div
       class="hero 2xl:h-64 xl:h-64 lg:h-64 md:h-64 h-32"
       style="
@@ -214,7 +235,7 @@
               <button @click="callDataEditPosition(active), popUp = true" class="btn btn-ghost btn-xs">
                 <i class="material-icons"> edit </i>
               </button>
-              <button @click="deletePosition(active.idposition)" class="btn btn-ghost btn-xs">
+              <button @click="opendelPosition(active)" class="btn btn-ghost btn-xs">
                 <i class="material-icons text-red-800"> delete </i>
               </button>
               <button @click="activeAndInactivePosition(active.idposition)" class="btn btn-ghost btn-xs"> {{inOrAct == 'Active' ? 'ปิดการใช้งาน' : 'เปิดการใช้งาน'}}</button>
@@ -466,9 +487,16 @@ export default {
       wantToEdit: false,
       popUp: false,
       showToast: false,
+      delPosition: false,
+      object:{}
     };
   },
   methods: {
+    opendelPosition(active){
+      this.object = active
+      this.delPosition = true
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
     async callDataEditPosition(position){
       this.position.idposition = position.idposition
       this.position.positionName = position.positionName
@@ -484,29 +512,32 @@ export default {
       this.popUp = false;
       this.callDataActive()
     },
+
     async deletePosition(id){
       const vm = this
-      if(confirm("คุณต้องการจะลบตำแหน่งนี้ใช่หรือไม่")){
+     
         await axios.delete(`${process.env.VUE_APP_ROOT_API}admin/adminDeletePosition?idPosition=` + id ).then(function (response) {
     console.log(response);
   })
   .catch(function (error) {
     console.log(error);
     if(error.response.data.errorMessage == "This position used,You can't Delete."){
+      vm.delPosition = false;
       console.log("เข้าไหม")
       vm.showToast = true
       window.scrollTo({ top: 0, behavior: 'smooth' });
       setTimeout(() => (vm.showToast = false), 4000);
     }
   });
-      }
+      
       this.callDataActive()
     },
     async activeAndInactivePosition(id){
       if(this.inOrAct == 'Active'){
-      if(confirm("ต้องการจะปิดใช้งานตำแหน่งใช่หรือไม่")){
+      // if(confirm("ต้องการจะปิดใช้งานตำแหน่งใช่หรือไม่")){
+        
         await axios.put(`${process.env.VUE_APP_ROOT_API}admin/adminInactivePosition?idPosition=` + id );
-      }
+      // }
       }else{
        if(this.inOrAct == 'Inactive'){
       // if(confirm("ต้องการจะเปิดใช้งานตำแหน่งใช่หรือไม่")){

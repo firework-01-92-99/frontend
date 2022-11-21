@@ -293,7 +293,7 @@ export default {
     async applyPosition(position) {
       let vm = this;
       let waitingPosition
-      if (confirm("ต้องการจะอนุมัติคำขอนี้หรือไม่")) {
+      // if (confirm("ต้องการจะอนุมัติคำขอนี้หรือไม่")) {
         await axios
           .put(
             `${process.env.VUE_APP_ROOT_API}admin/adminActivePosition?idPosition=` +
@@ -311,12 +311,12 @@ export default {
           .catch(function (error) {
             console.log(error);
           });
-      }
+      // }
     },
     async rejectPosition(position) {
       let vm = this;
       let waitingPosition      
-      if (confirm("ต้องการจะปฏิเสธคำขอนี้หรือไม่")) {
+      // if (confirm("ต้องการจะปฏิเสธคำขอนี้หรือไม่")) {
         axios.delete(
           `${process.env.VUE_APP_ROOT_API}admin/rejectEmpRequest?idPosition=` +
             position.idposition
@@ -329,7 +329,7 @@ export default {
               vm.waitingPosition = waitingPosition.data;
             }
           })
-      }
+      // }
     },
   },
   async created() {

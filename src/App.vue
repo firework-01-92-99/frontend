@@ -121,11 +121,11 @@
                     >รายการส่งคนงาน</router-link
                   >
                 </li>
-                <li class="hover:text-orange-1">
+                <!-- <li class="hover:text-orange-1">
                   <router-link to="/confirm"
                     >ยืนยันการรับแรงงานของนายจ้าง</router-link
                   >
-                </li>
+                </li> -->
                 <li class="hover:text-orange-1">
                   <router-link to="/reqPosition"
                     >การจัดการตำแหน่ง</router-link

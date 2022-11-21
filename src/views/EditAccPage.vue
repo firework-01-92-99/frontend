@@ -2,7 +2,7 @@
   <div v-if="$store.state.auth.user" class="bg-gray-2 h-screen font-sans-thai py-16">
 
 <!-- toast send form -->
-      <transition name="toast">
+      <!-- <transition name="toast">
         <div v-if="showToast" class="flex justify-center font-sans-thai">
           <div
             class="absolute z-10 2xl:w-2/5 w-full alert shadow-lg"
@@ -19,7 +19,7 @@
             </div>
           </div>
         </div>
-      </transition>
+      </transition> -->
 
     <div
       class="hero 2xl:h-64 xl:h-64 lg:h-64 md:h-64 h-32"
@@ -1039,7 +1039,7 @@ export default {
       lastEditEmp:{},
       idWorker: 0,
       idEmp: 0,
-      showToast:false,
+      // showToast:false,
       noValue: false,
     };
   },
@@ -1102,18 +1102,18 @@ export default {
     async approveEdit(){
       if(this.statusId != ''){
       if(this.statusId == 4 && this.iAm == 'Worker'){
-        if(confirm("ต้องการจะอนุมัติการแก้ไขข้อมูลบัญชีนี้หรือไม่")){
+        // if(confirm("ต้องการจะอนุมัติการแก้ไขข้อมูลบัญชีนี้หรือไม่")){
           await axios.put(`${process.env.VUE_APP_ROOT_API}admin/youCanEditWorker?idWorker=${this.idWorker}`)
           this.toggleModal = false          
-        }
+        // }
       }else if(this.statusId == 5 && this.iAm == 'Worker'){
           await axios.delete(`${process.env.VUE_APP_ROOT_API}admin/youCanNotEditWorker?idWorker=${this.idWorker}`)
           this.toggleModal = false           
       }else if(this.statusId == 4 && this.iAm == 'Employer'){
-        if(confirm("ต้องการจะอนุมัติการแก้ไขข้อมูลบัญชีนี้หรือไม่")){
+        // if(confirm("ต้องการจะอนุมัติการแก้ไขข้อมูลบัญชีนี้หรือไม่")){
           await axios.put(`${process.env.VUE_APP_ROOT_API}admin/youCanEditEmployer?idEmployer=${this.idEmp}`)
           this.toggleModal = false          
-        }
+        // }
       }else if(this.statusId == 5 && this.iAm == 'Employer'){
           await axios.delete(`${process.env.VUE_APP_ROOT_API}admin/youCanNotEditEmployer?idEmployer=${this.idEmp}`)
           this.toggleModal = false          

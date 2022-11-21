@@ -2,7 +2,7 @@
   <div v-if="$store.state.auth.user" class="bg-gray-2 h-screen font-sans-thai py-16">
 
     <!-- toast send form -->
-      <transition name="toast">
+      <!-- <transition name="toast">
         <div v-if="showToast" class="flex justify-center font-sans-thai">
           <div
             class="absolute z-10 2xl:w-2/5 w-full alert shadow-lg"
@@ -19,7 +19,7 @@
             </div>
           </div>
         </div>
-      </transition>
+      </transition> -->
 
     <div
       class="hero 2xl:h-64 xl:h-64 lg:h-64 md:h-64 h-32"
@@ -1120,7 +1120,7 @@ export default {
     async sendApprove(idApprove) {
       if (this.statusId != "") {
         // this.showToast = true;
-        if (confirm("ต้องการจะส่งฟอร์มอนุมัติบัญชีหรือไม่")) {
+        // if (confirm("ต้องการจะส่งฟอร์มอนุมัติบัญชีหรือไม่")) {
           try {
             await axios.put(
               `${process.env.VUE_APP_ROOT_API}admin/approveAccount?idApprove=${idApprove}&idAdmin=${this.idAdmin}&idStatus=${this.statusId}`
@@ -1132,7 +1132,7 @@ export default {
           } catch (error) {
             console.log(error);
           }
-        }
+        // }
       } else {
         this.confirmInput = true;
         console.log("เลือกก่อนว่าอนุมัติไม่อนุมัติ");

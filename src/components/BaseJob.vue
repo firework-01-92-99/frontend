@@ -1,25 +1,5 @@
 <template>
 <div v-if="!noValue">
-   <!-- toast delete posting -->
-      <transition name="toast">
-        <div v-if="showToast" class="flex justify-center font-sans-thai">
-          <div
-            class="absolute z-10 2xl:w-2/5 w-full alert shadow-lg"
-          >
-            <div>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-              <p class="">
-                คุณต้องการ<span class="font-medium">ลบประกาศรับสมัคร</span>ใช่หรือไม่
-              </p>
-            </div>
-            <div class="flex-none">
-              <button class="btn btn-sm btn-ghost px-5">ไม่</button>
-              <button class="btn btn-sm bg-orange-1 border-orange-1 hover:bg-orange-2 hover:border-orange-2 px-5">ใช่</button>
-            </div>
-          </div>
-        </div>
-      </transition>
-
   <!-- job card -->
   <div class="flex flex-wrap justify-center p-6 -mt-12">
     <div
@@ -296,14 +276,12 @@ export default {
       noValue: false,
       ImageOfEmp: '',
       // canClosePost: false,
-      // showToast: false,
     };
   },
   methods: {
     async babyBin(idPost) {
       const vm = this;
-      if (confirm("ยืนยันที่จะลบประกาศรับสมัครหรือไม่")) {
-        // this.showToast = true;
+      // if (confirm("ยืนยันที่จะลบประกาศรับสมัครหรือไม่")) {
         await axios.put(
           `${process.env.VUE_APP_ROOT_API}emp/deletePosting?idPosting=${idPost}`
         );
@@ -314,7 +292,7 @@ export default {
           );
           this.$store.commit("setPosting", this.getInactivePost);
         }
-      }
+      // }
     },
     linkTo(idPost, idEmp) {
       if (
